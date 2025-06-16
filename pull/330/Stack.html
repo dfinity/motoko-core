@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html><head title="Doc"><meta charset="UTF-8"/><link href="styles.css" rel="stylesheet"/></head><body><nav class="sidebar"><h3>Modules</h3><ul><li><li><a href="Array.html">Array</a></li></li><li><li><a href="Blob.html">Blob</a></li></li><li><li><a href="Bool.html">Bool</a></li></li><li><li><a href="CertifiedData.html">CertifiedData</a></li></li><li><li><a href="Char.html">Char</a></li></li><li><li><a href="Cycles.html">Cycles</a></li></li><li><li><a href="Debug.html">Debug</a></li></li><li><li><a href="Error.html">Error</a></li></li><li><li><a href="Float.html">Float</a></li></li><li><li><a href="Func.html">Func</a></li></li><li><li><a href="Int.html">Int</a></li></li><li><li><a href="Int16.html">Int16</a></li></li><li><li><a href="Int32.html">Int32</a></li></li><li><li><a href="Int64.html">Int64</a></li></li><li><li><a href="Int8.html">Int8</a></li></li><li><li><a href="InternetComputer.html">InternetComputer</a></li></li><li><li><a href="Iter.html">Iter</a></li></li><li><li><a href="List.html">List</a></li></li><li><li><a href="Map.html">Map</a></li></li><li><li><a href="Nat.html">Nat</a></li></li><li><li><a href="Nat16.html">Nat16</a></li></li><li><li><a href="Nat32.html">Nat32</a></li></li><li><li><a href="Nat64.html">Nat64</a></li></li><li><li><a href="Nat8.html">Nat8</a></li></li><li><li><a href="Option.html">Option</a></li></li><li><li><a href="Order.html">Order</a></li></li><li><li><a href="Principal.html">Principal</a></li></li><li><li><a href="Queue.html">Queue</a></li></li><li><li><a href="Random.html">Random</a></li></li><li><li><a href="Region.html">Region</a></li></li><li><li><a href="Result.html">Result</a></li></li><li><li><a href="Runtime.html">Runtime</a></li></li><li><li><a href="Set.html">Set</a></li></li><li><li><a href="Stack.html">Stack</a></li></li><li><li><a href="Text.html">Text</a></li></li><li><li><a href="Time.html">Time</a></li></li><li><li><a href="Timer.html">Timer</a></li></li><li><li><a href="Tuples.html">Tuples</a></li></li><li><li><a href="Types.html">Types</a></li></li><li><li><a href="VarArray.html">VarArray</a></li></li><li><li><a href="internal/BTreeHelper.html">internal/BTreeHelper</a></li></li><li><li><a href="internal/PRNG.html">internal/PRNG</a></li></li><li><li><a href="pure/List.html">pure/List</a></li></li><li><li><a href="pure/Map.html">pure/Map</a></li></li><li><li><a href="pure/Queue.html">pure/Queue</a></li></li><li><li><a href="pure/RealTimeQueue.html">pure/RealTimeQueue</a></li></li><li><li><a href="pure/Set.html">pure/Set</a></li></li></ul><h3>Declarations</h3><ul><li><li><a href="#type.Stack">Stack</a></li></li><li><li><a href="#toPure">toPure</a></li></li><li><li><a href="#fromPure">fromPure</a></li></li><li><li><a href="#empty">empty</a></li></li><li><li><a href="#tabulate">tabulate</a></li></li><li><li><a href="#singleton">singleton</a></li></li><li><li><a href="#clear">clear</a></li></li><li><li><a href="#clone">clone</a></li></li><li><li><a href="#isEmpty">isEmpty</a></li></li><li><li><a href="#size">size</a></li></li><li><li><a href="#contains">contains</a></li></li><li><li><a href="#push">push</a></li></li><li><li><a href="#peek">peek</a></li></li><li><li><a href="#pop">pop</a></li></li><li><li><a href="#get">get</a></li></li><li><li><a href="#reverse">reverse</a></li></li><li><li><a href="#values">values</a></li></li><li><li><a href="#all">all</a></li></li><li><li><a href="#any">any</a></li></li><li><li><a href="#forEach">forEach</a></li></li><li><li><a href="#map">map</a></li></li><li><li><a href="#filter">filter</a></li></li><li><li><a href="#filterMap">filterMap</a></li></li><li><li><a href="#equal">equal</a></li></li><li><li><a href="#fromIter">fromIter</a></li></li><li><li><a href="#toText">toText</a></li></li><li><li><a href="#compare">compare</a></li></li></ul></nav><div class="documentation"><h1>Stack</h1><p>A mutable stack data structure.
+Elements can be pushed on top of the stack
+and removed from top of the stack (LIFO).</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import Debug &quot;mo:core/Debug&quot;;
+
+persistent actor {
+  let levels = Stack.empty&lt;Text&gt;();
+  Stack.push(levels, &quot;Inner&quot;);
+  Stack.push(levels, &quot;Middle&quot;);
+  Stack.push(levels, &quot;Outer&quot;);
+  assert Stack.pop(levels) == ?&quot;Outer&quot;;
+  assert Stack.pop(levels) == ?&quot;Middle&quot;;
+  assert Stack.pop(levels) == ?&quot;Inner&quot;;
+  assert Stack.pop(levels) == null;
+}</code></pre>
+
+<p>The internal implementation is a singly-linked list.</p>
+<p>Performance:</p>
+<ul><li>Runtime: <code>O(1)</code> for push, pop, and peek operation.</li><li>Space: <code>O(n)</code>.
+<code>n</code> denotes the number of elements stored on the stack.</li></ul><div class="declaration"><h4 class="type-declaration" id="type.Stack"><span class="keyword">type </span><span class="type">Stack</span>&lt;<span class="type">T</span>&gt; = <a href="Types.html#type.Stack"><span class="type">Types.Stack</span></a>&lt;<span class="type">T</span>&gt;</h4><p></p></div><div class="declaration"><h4 class="function" id="toPure"><code><span class="keyword">public func </span><span class="fnname">toPure</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;) : <a href="pure/List.html#type.List"><span class="type">PureList.List</span></a>&lt;<span class="type">T</span>&gt;</code></h4><p><p>Convert a mutable stack to an immutable, purely functional list.
+Please note that functional lists are ordered like stacks (FIFO).</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import PureList &quot;mo:core/pure/List&quot;;
+import Iter &quot;mo:core/Iter&quot;;
+
+persistent actor {
+  let mutableStack = Stack.empty&lt;Nat&gt;();
+  Stack.push(mutableStack, 3);
+  Stack.push(mutableStack, 2);
+  Stack.push(mutableStack, 1);
+  let immutableList = Stack.toPure(mutableStack);
+  assert Iter.toArray(PureList.values(immutableList)) == [1, 2, 3];
+}</code></pre>
+
+<p>Runtime: <code>O(1)</code>.
+Space: <code>O(1)</code>.
+where <code>n</code> denotes the number of elements stored in the stack.</p>
+</p></div><div class="declaration"><h4 class="function" id="fromPure"><code><span class="keyword">public func </span><span class="fnname">fromPure</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="pure/List.html#type.List"><span class="type">PureList.List</span></a>&lt;<span class="type">T</span>&gt;) : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;</code></h4><p><p>Convert an immutable, purely functional list to a mutable stack.
+Please note that functional lists are ordered like stacks (FIFO).</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import PureList &quot;mo:core/pure/List&quot;;
+import Iter &quot;mo:core/Iter&quot;;
+
+persistent actor {
+  let immutableList = PureList.fromIter&lt;Nat&gt;([1, 2, 3].values());
+  let mutableStack = Stack.fromPure&lt;Nat&gt;(immutableList);
+  assert Iter.toArray(Stack.values(mutableStack)) == [1, 2, 3];
+}</code></pre>
+
+<p>Runtime: <code>O(n)</code>.
+Space: <code>O(n)</code>.
+where <code>n</code> denotes the number of elements stored in the queue.</p>
+</p></div><div class="declaration"><h4 class="function" id="empty"><code><span class="keyword">public func </span><span class="fnname">empty</span>&lt;<span class="type">T</span>&gt;() : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;</code></h4><p><p>Create a new empty mutable stack.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import Nat &quot;mo:core/Nat&quot;;
+
+persistent actor {
+  let stack = Stack.empty&lt;Text&gt;();
+  assert Stack.size(stack) == 0;
+}</code></pre>
+
+<p>Runtime: <code>O(1)</code>.
+Space: <code>O(1)</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="tabulate"><code><span class="keyword">public func </span><span class="fnname">tabulate</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">size</span> : <span class="type">Nat</span>, <span class="parameter">generator</span> : <span class="type">Nat</span> -&gt; <span class="type">T</span>) : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;</code></h4><p><p>Creates a new stack with <code>size</code> elements by applying the <code>generator</code> function to indices <code>[0..size-1]</code>.
+Elements are pushed in ascending index order.
+Which means that the generated element with the index <code>0</code> will be at the bottom of the stack.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import Iter &quot;mo:core/Iter&quot;;
+
+persistent actor {
+  let stack = Stack.tabulate&lt;Nat&gt;(3, func(i) { 2 * i });
+  assert Iter.toArray(Stack.values(stack)) == [4, 2, 0];
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(n)
+where <code>n</code> denotes the number of elements stored on the stack and
+assuming that <code>generator</code> has O(1) costs.</p>
+</p></div><div class="declaration"><h4 class="function" id="singleton"><code><span class="keyword">public func </span><span class="fnname">singleton</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">element</span> : <span class="type">T</span>) : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;</code></h4><p><p>Creates a new stack containing a single element.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+
+persistent actor {
+  let stack = Stack.singleton&lt;Text&gt;(&quot;motoko&quot;);
+  assert Stack.peek(stack) == ?&quot;motoko&quot;;
+}</code></pre>
+
+<p>Runtime: O(1)
+Space: O(1)</p>
+</p></div><div class="declaration"><h4 class="function" id="clear"><code><span class="keyword">public func </span><span class="fnname">clear</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;)</code></h4><p><p>Removes all elements from the stack.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+
+persistent actor {
+  let stack = Stack.fromIter&lt;Nat&gt;([3, 2, 1].values());
+  Stack.clear(stack);
+  assert Stack.isEmpty(stack);
+}</code></pre>
+
+<p>Runtime: O(1)
+Space: O(1)</p>
+</p></div><div class="declaration"><h4 class="function" id="clone"><code><span class="keyword">public func </span><span class="fnname">clone</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;) : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;</code></h4><p><p>Creates a deep copy of the stack with the same elements in the same order.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import Nat &quot;mo:core/Nat&quot;;
+
+persistent actor {
+  let original = Stack.fromIter&lt;Nat&gt;([3, 2, 1].values());
+  let copy = Stack.clone(original);
+  assert Stack.equal(copy, original, Nat.equal);
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(n)
+where <code>n</code> denotes the number of elements stored on the stack.</p>
+</p></div><div class="declaration"><h4 class="function" id="isEmpty"><code><span class="keyword">public func </span><span class="fnname">isEmpty</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;) : <span class="type">Bool</span></code></h4><p><p>Returns true if the stack contains no elements.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+
+persistent actor {
+  let stack = Stack.empty&lt;Nat&gt;();
+  assert Stack.isEmpty(stack);
+}</code></pre>
+
+<p>Runtime: O(1)
+Space: O(1)</p>
+</p></div><div class="declaration"><h4 class="function" id="size"><code><span class="keyword">public func </span><span class="fnname">size</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;) : <span class="type">Nat</span></code></h4><p><p>Returns the number of elements on the stack.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+
+persistent actor {
+  let stack = Stack.fromIter&lt;Nat&gt;([3, 2, 1].values());
+  assert Stack.size(stack) == 3;
+}</code></pre>
+
+<p>Runtime: O(1)
+Space: O(1)</p>
+</p></div><div class="declaration"><h4 class="function" id="contains"><code><span class="keyword">public func </span><span class="fnname">contains</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">element</span> : <span class="type">T</span>, <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Returns true if the stack contains the specified element.
+Uses the provided equality function to compare elements.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import Nat &quot;mo:core/Nat&quot;;
+
+persistent actor {
+  let stack = Stack.fromIter&lt;Nat&gt;([3, 2, 1].values());
+  assert Stack.contains(stack, 2, Nat.equal);
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(1)
+where <code>n</code> denotes the number of elements stored on the stack and assuming
+that <code>equal</code> has O(1) costs.</p>
+</p></div><div class="declaration"><h4 class="function" id="push"><code><span class="keyword">public func </span><span class="fnname">push</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">value</span> : <span class="type">T</span>)</code></h4><p><p>Pushes a new element onto the top of the stack.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+
+persistent actor {
+  let stack = Stack.empty&lt;Nat&gt;();
+  Stack.push(stack, 42);
+  assert Stack.peek(stack) == ?42;
+}</code></pre>
+
+<p>Runtime: O(1)
+Space: O(1)</p>
+</p></div><div class="declaration"><h4 class="function" id="peek"><code><span class="keyword">public func </span><span class="fnname">peek</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;) : ?<span class="type">T</span></code></h4><p><p>Returns the top element of the stack without removing it.
+Returns null if the stack is empty.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+
+persistent actor {
+  let stack = Stack.empty&lt;Nat&gt;();
+  Stack.push(stack, 3);
+  Stack.push(stack, 2);
+  Stack.push(stack, 1);
+  assert Stack.peek(stack) == ?1;
+}</code></pre>
+
+<p>Runtime: O(1)
+Space: O(1)</p>
+</p></div><div class="declaration"><h4 class="function" id="pop"><code><span class="keyword">public func </span><span class="fnname">pop</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;) : ?<span class="type">T</span></code></h4><p><p>Removes and returns the top element of the stack.
+Returns null if the stack is empty.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+
+persistent actor {
+  let stack = Stack.empty&lt;Nat&gt;();
+  Stack.push(stack, 3);
+  Stack.push(stack, 2);
+  Stack.push(stack, 1);
+  assert Stack.pop(stack) == ?1;
+  assert Stack.pop(stack) == ?2;
+  assert Stack.pop(stack) == ?3;
+  assert Stack.pop(stack) == null;
+}</code></pre>
+
+<p>Runtime: O(1)
+Space: O(1)</p>
+</p></div><div class="declaration"><h4 class="function" id="get"><code><span class="keyword">public func </span><span class="fnname">get</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">position</span> : <span class="type">Nat</span>) : ?<span class="type">T</span></code></h4><p><p>Returns the element at the specified position from the top of the stack.
+Returns null if position is out of bounds.
+Position 0 is the top of the stack.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+
+persistent actor {
+  let stack = Stack.empty&lt;Char&gt;();
+  Stack.push(stack, 'c');
+  Stack.push(stack, 'b');
+  Stack.push(stack, 'a');
+  assert Stack.get(stack, 0) == ?'a';
+  assert Stack.get(stack, 1) == ?'b';
+  assert Stack.get(stack, 2) == ?'c';
+  assert Stack.get(stack, 3) == null;
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(1)
+where <code>n</code> denotes the number of elements stored on the stack.</p>
+</p></div><div class="declaration"><h4 class="function" id="reverse"><code><span class="keyword">public func </span><span class="fnname">reverse</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;)</code></h4><p><p>Reverses the order of elements in the stack.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+
+persistent actor {
+  let stack = Stack.empty&lt;Nat&gt;();
+  Stack.push(stack, 3);
+  Stack.push(stack, 2);
+  Stack.push(stack, 1);
+  Stack.reverse(stack);
+  assert Stack.pop(stack) == ?3;
+  assert Stack.pop(stack) == ?2;
+  assert Stack.pop(stack) == ?1;
+  assert Stack.pop(stack) == null;
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(n)
+where <code>n</code> denotes the number of elements stored on the stack.</p>
+</p></div><div class="declaration"><h4 class="function" id="values"><code><span class="keyword">public func </span><span class="fnname">values</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;) : <a href="Types.html#type.Iter"><span class="type">Types.Iter</span></a>&lt;<span class="type">T</span>&gt;</code></h4><p><p>Returns an iterator over the elements in the stack, from top to bottom.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import Nat &quot;mo:core/Nat&quot;;
+import Iter &quot;mo:core/Iter&quot;;
+
+persistent actor {
+  let stack = Stack.empty&lt;Nat&gt;();
+  Stack.push(stack, 3);
+  Stack.push(stack, 2);
+  Stack.push(stack, 1);
+  assert Iter.toArray(Stack.values(stack)) == [1, 2, 3];
+}</code></pre>
+
+<p>Runtime: O(1) for iterator creation, O(n) for full traversal
+Space: O(1)
+where <code>n</code> denotes the number of elements stored on the stack.</p>
+</p></div><div class="declaration"><h4 class="function" id="all"><code><span class="keyword">public func </span><span class="fnname">all</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">predicate</span> : <span class="type">T</span> -&gt; <span class="type">Bool</span>) : <span class="type">Bool</span></code></h4><p><p>Returns true if all elements in the stack satisfy the predicate.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+
+persistent actor {
+  let stack = Stack.fromIter&lt;Nat&gt;([2, 4, 6].values());
+  assert Stack.all&lt;Nat&gt;(stack, func(n) = n % 2 == 0);
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(1)
+where <code>n</code> denotes the number of elements stored on the stack and
+assuming that <code>predicate</code> has O(1) costs.</p>
+</p></div><div class="declaration"><h4 class="function" id="any"><code><span class="keyword">public func </span><span class="fnname">any</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">predicate</span> : <span class="type">T</span> -&gt; <span class="type">Bool</span>) : <span class="type">Bool</span></code></h4><p><p>Returns true if any element in the stack satisfies the predicate.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+
+persistent actor {
+  let stack = Stack.fromIter&lt;Nat&gt;([3, 2, 1].values());
+  assert Stack.any&lt;Nat&gt;(stack, func(n) = n == 2);
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(1)
+where <code>n</code> denotes the number of elements stored on the stack and
+assuming <code>predicate</code> has O(1) costs.</p>
+</p></div><div class="declaration"><h4 class="function" id="forEach"><code><span class="keyword">public func </span><span class="fnname">forEach</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">operation</span> : <span class="type">T</span> -&gt; ())</code></h4><p><p>Applies the operation to each element in the stack, from top to bottom.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import Nat &quot;mo:core/Nat&quot;;
+import Debug &quot;mo:core/Debug&quot;;
+
+persistent actor {
+  let stack = Stack.empty&lt;Nat&gt;();
+  Stack.push(stack, 3);
+  Stack.push(stack, 2);
+  Stack.push(stack, 1);
+  var text = &quot;&quot;;
+  Stack.forEach&lt;Nat&gt;(stack, func(n) = text #= Nat.toText(n));
+  assert text == &quot;123&quot;;
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(1)
+where <code>n</code> denotes the number of elements stored on the stack and
+assuming that <code>operation</code> has O(1) costs.</p>
+</p></div><div class="declaration"><h4 class="function" id="map"><code><span class="keyword">public func </span><span class="fnname">map</span>&lt;<span class="type">T</span>, <span class="type">U</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">project</span> : <span class="type">T</span> -&gt; <span class="type">U</span>) : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">U</span>&gt;</code></h4><p><p>Creates a new stack by applying the projection function to each element.
+Maintains the original order of elements.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import Iter &quot;mo:core/Iter&quot;;
+
+persistent actor {
+  let stack = Stack.empty&lt;Nat&gt;();
+  Stack.push(stack, 3);
+  Stack.push(stack, 2);
+  Stack.push(stack, 1);
+  let doubled = Stack.map&lt;Nat, Nat&gt;(stack, func(n) { 2 * n });
+  assert Stack.get(doubled, 0) == ?2;
+  assert Stack.get(doubled, 1) == ?4;
+  assert Stack.get(doubled, 2) == ?6;
+  assert Stack.get(doubled, 3) == null;
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(n)
+where <code>n</code> denotes the number of elements stored on the stack and
+assuming that <code>project</code> has O(1) costs.</p>
+</p></div><div class="declaration"><h4 class="function" id="filter"><code><span class="keyword">public func </span><span class="fnname">filter</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">predicate</span> : <span class="type">T</span> -&gt; <span class="type">Bool</span>) : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;</code></h4><p><p>Creates a new stack containing only elements that satisfy the predicate.
+Maintains the relative order of elements.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+
+persistent actor {
+  let stack = Stack.empty&lt;Nat&gt;();
+  Stack.push(stack, 4);
+  Stack.push(stack, 3);
+  Stack.push(stack, 2);
+  Stack.push(stack, 1);
+  let evens = Stack.filter&lt;Nat&gt;(stack, func(n) { n % 2 == 0 });
+  assert Stack.pop(evens) == ?2;
+  assert Stack.pop(evens) == ?4;
+  assert Stack.pop(evens) == null;
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(n)
+where <code>n</code> denotes the number of elements stored on the stack and
+assuming <code>predicate</code> has O(1) costs.</p>
+</p></div><div class="declaration"><h4 class="function" id="filterMap"><code><span class="keyword">public func </span><span class="fnname">filterMap</span>&lt;<span class="type">T</span>, <span class="type">U</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">project</span> : <span class="type">T</span> -&gt; ?<span class="type">U</span>) : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">U</span>&gt;</code></h4><p><p>Creates a new stack by applying the projection function to each element
+and keeping only the successful results (where project returns ?value).
+Maintains the relative order of elements.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+
+persistent actor {
+  let stack = Stack.empty&lt;Nat&gt;();
+  Stack.push(stack, 4);
+  Stack.push(stack, 3);
+  Stack.push(stack, 2);
+  Stack.push(stack, 1);
+  let evenDoubled = Stack.filterMap&lt;Nat, Nat&gt;(stack, func(n) {
+    if (n % 2 == 0) {
+      ?(n * 2)
+    } else {
+      null
+    }
+  });
+  assert Stack.pop(evenDoubled) == ?4;
+  assert Stack.pop(evenDoubled) == ?8;
+  assert Stack.pop(evenDoubled) == null;
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(n)
+where <code>n</code> denotes the number of elements stored on the stack and
+assuming that <code>project</code> has O(1) costs.</p>
+</p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">stack1</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">stack2</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Compares two stacks for equality using the provided equality function.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import Nat &quot;mo:core/Nat&quot;;
+
+persistent actor {
+  let stack1 = Stack.fromIter&lt;Nat&gt;([3, 2, 1].values());
+  let stack2 = Stack.fromIter&lt;Nat&gt;([3, 2, 1].values());
+  assert Stack.equal(stack1, stack2, Nat.equal);
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(1)
+where <code>n</code> denotes the number of elements stored on the stack and
+assuming that <code>equal</code> has O(1) costs.</p>
+</p></div><div class="declaration"><h4 class="function" id="fromIter"><code><span class="keyword">public func </span><span class="fnname">fromIter</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">iter</span> : <a href="Types.html#type.Iter"><span class="type">Types.Iter</span></a>&lt;<span class="type">T</span>&gt;) : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;</code></h4><p><p>Creates a new stack from an iterator.
+Elements are pushed in iteration order. Which means that the last element
+of the iterator will be the first element on top of the stack.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import Iter &quot;mo:core/Iter&quot;;
+
+persistent actor {
+  let stack = Stack.fromIter&lt;Nat&gt;([3, 2, 1].values());
+  assert Iter.toArray(Stack.values(stack)) == [1, 2, 3];
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(n)
+where <code>n</code> denotes the number of iterated elements.</p>
+</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">format</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>) : <span class="type">Text</span></code></h4><p><p>Converts the stack to its string representation using the provided
+element formatting function.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import Nat &quot;mo:core/Nat&quot;;
+
+persistent actor {
+  let stack = Stack.fromIter&lt;Nat&gt;([3, 2, 1].values());
+  assert Stack.toText(stack, Nat.toText) == &quot;Stack[1, 2, 3]&quot;;
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(n)
+where <code>n</code> denotes the number of elements stored on the stack and
+assuming that <code>format</code> has O(1) costs.</p>
+</p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">stack1</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">stack2</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">compare</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a><br/>) : <a href="Order.html#type.Order"><span class="type">Order.Order</span></a></code></h4><p><p>Compares two stacks lexicographically using the provided comparison function.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
+import Nat &quot;mo:core/Nat&quot;;
+
+persistent actor {
+  let stack1 = Stack.fromIter&lt;Nat&gt;([2, 1].values());
+  let stack2 = Stack.fromIter&lt;Nat&gt;([3, 2, 1].values());
+  assert Stack.compare(stack1, stack2, Nat.compare) == #less;
+}</code></pre>
+
+<p>Runtime: O(n)
+Space: O(1)
+where <code>n</code> denotes the number of elements stored on the stack and
+assuming that <code>compare</code> has O(1) costs.</p>
+</p></div></div></body></html>
