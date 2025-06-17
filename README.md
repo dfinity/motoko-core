@@ -12,7 +12,7 @@ The original standard library (known as "base") is available [here](https://gith
 
 ## Quick Start
 
-A preview of the core library is available via the [`new-base`](https://mops.one/new-base) Mops package.
+A preview of the core library is available via the [`core`](https://mops.one/core) Mops package.
 
 You can quickly try out the core library by making the following change to your `mops.toml` config file:
 

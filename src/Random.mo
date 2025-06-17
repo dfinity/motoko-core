@@ -16,20 +16,23 @@ import Runtime "Runtime";
 
 module {
 
-  public type State<T> = {
+  public type State = {
     var bytes : [Nat8];
     var index : Nat;
     var bits : Nat8;
-    var bitMask : Nat8;
-    inner : T
+    var bitMask : Nat8
   };
 
-  public func emptyState<T>(inner : T) : State<T> = {
+  public type SeedState = {
+    random : State;
+    prng : PRNG.State
+  };
+
+  public func emptyState() : State = {
     var bytes = [];
     var index = 0;
     var bits = 0x00;
-    var bitMask = 0x00;
-    inner
+    var bitMask = 0x00
   };
 
   let rawRand = (actor "aaaaa-aa" : actor { raw_rand : () -> async Blob }).raw_rand;
@@ -45,7 +48,7 @@ module {
   /// let random = Random.seed(123);
   /// let coin = random.bool(); // true or false
   /// ```
-  public func seed(seed : Nat64) : Random<PRNG.State> {
+  public func seed(seed : Nat64) : Random {
     seedFromState(seedState(seed))
   };
 
@@ -65,8 +68,9 @@ module {
   ///   }
   /// }
   /// ```
-  public func seedState(seed : Nat64) : State<PRNG.State> {
-    emptyState(PRNG.init(seed))
+  public func seedState(seed : Nat64) : SeedState = {
+    random = emptyState();
+    prng = PRNG.init(seed)
   };
 
   /// Creates a pseudo-random number generator with the given state.
@@ -86,12 +90,12 @@ module {
   ///   }
   /// }
   /// ```
-  public func seedFromState(state : State<PRNG.State>) : Random<PRNG.State> {
+  public func seedFromState(state : SeedState) : Random {
     Random(
-      state,
+      state.random,
       func() : Blob {
         // Generate 8 bytes directly from a single 64-bit number
-        let n = PRNG.next(state.inner);
+        let n = PRNG.next(state.prng);
         // TODO: optimize using Array.tabulate or even better: a new primitive
         let bytes = VarArray.repeat<Nat8>(0, 8);
         bytes[0] := Nat8.fromNat(Nat64.toNat(n & 0xFF));
@@ -121,7 +125,7 @@ module {
   ///   }
   /// }
   /// ```
-  public func crypto() : AsyncRandom<()> {
+  public func crypto() : AsyncRandom {
     cryptoFromState(cryptoState())
   };
 
@@ -142,8 +146,8 @@ module {
   ///   }
   /// }
   /// ```
-  public func cryptoState() : State<()> {
-    emptyState(())
+  public func cryptoState() : State {
+    emptyState()
   };
 
   /// Creates a random number generator suitable for cryptography
@@ -164,11 +168,11 @@ module {
   ///   }
   /// }
   /// ```
-  public func cryptoFromState(state : State<()>) : AsyncRandom<()> {
+  public func cryptoFromState(state : State) : AsyncRandom {
     AsyncRandom(state, func() : async* Blob { await rawRand() })
   };
 
-  public class Random<T>(state : State<T>, generator : () -> Blob) {
+  public class Random(state : State, generator : () -> Blob) {
 
     func nextBit() : Bool {
       if (0 : Nat8 == state.bitMask) {
@@ -294,7 +298,7 @@ module {
 
   };
 
-  public class AsyncRandom<T>(state : State<T>, generator : () -> async* Blob) {
+  public class AsyncRandom(state : State, generator : () -> async* Blob) {
 
     func nextBit() : async* Bool {
       if (0 : Nat8 == state.bitMask) {
