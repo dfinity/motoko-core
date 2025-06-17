@@ -230,10 +230,10 @@ suite(
         ignore Random.seedFromState(state2).nat8();
 
         // States should have the same inner PRNG state
-        assert state1.inner.a == state2.inner.a;
-        assert state1.inner.b == state2.inner.b;
-        assert state1.inner.c == state2.inner.c;
-        assert state1.inner.d == state2.inner.d
+        assert state1.prng.a == state2.prng.a;
+        assert state1.prng.b == state2.prng.b;
+        assert state1.prng.c == state2.prng.c;
+        assert state1.prng.d == state2.prng.d
       }
     );
     test(
@@ -287,15 +287,15 @@ suite(
         let random = Random.seedFromState(state);
 
         // Check initial state
-        let initialIndex = state.index;
-        let initialBytesSize = state.bytes.size();
+        let initialIndex = state.random.index;
+        let initialBytesSize = state.random.bytes.size();
 
         // Generate a byte, which should populate the bytes array
         let _ = random.nat8();
 
         // State should have been mutated
-        assert state.bytes.size() > initialBytesSize;
-        assert state.index > initialIndex
+        assert state.random.bytes.size() > initialBytesSize;
+        assert state.random.index > initialIndex
       }
     )
   }
