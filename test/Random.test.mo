@@ -9,12 +9,12 @@ import Array "../src/Array";
 import { suite; test; expect } = "mo:test";
 
 suite(
-  "Random.fast()",
+  "Random.seed()",
   func() {
     test(
       "bool(), seed = 0",
       func() {
-        let random = Random.fast(0);
+        let random = Random.seed(0);
         let expected = [false, false, false, true, true, false, true, true, false, false];
         expect.array(Array.tabulate<Bool>(10, func _ = random.bool()), Bool.toText, Bool.equal).equal(expected)
       }
@@ -22,7 +22,7 @@ suite(
     test(
       "bool(), seed = 123456789",
       func() {
-        let random = Random.fast(123456789);
+        let random = Random.seed(123456789);
         let expected = [false, false, true, false, true, false, false, true, true, false];
         expect.array(Array.tabulate<Bool>(10, func _ = random.bool()), Bool.toText, Bool.equal).equal(expected)
       }
@@ -30,7 +30,7 @@ suite(
     test(
       "bool() has approximately uniform distribution",
       func() {
-        let random = Random.fast(0);
+        let random = Random.seed(0);
         var trueCount = 0;
         let trials = 10000;
         for (_ in Nat.range(0, trials)) {
@@ -43,7 +43,7 @@ suite(
     test(
       "nat8(), seed = 0",
       func() {
-        let random = Random.fast(0);
+        let random = Random.seed(0);
         let expected : [Nat8] = [27, 58, 135, 48, 175, 107, 232, 146, 65, 96];
         expect.array(Array.tabulate<Nat8>(10, func _ = random.nat8()), Nat8.toText, Nat8.equal).equal(expected)
       }
@@ -51,7 +51,7 @@ suite(
     test(
       "nat8(), seed = 123456789",
       func() {
-        let random = Random.fast(123456789);
+        let random = Random.seed(123456789);
         let expected : [Nat8] = [41, 152, 30, 100, 244, 79, 22, 249, 53, 2];
         expect.array(Array.tabulate<Nat8>(10, func _ = random.nat8()), Nat8.toText, Nat8.equal).equal(expected)
       }
@@ -59,7 +59,7 @@ suite(
     test(
       "nat64(), seed = 0",
       func() {
-        let random = Random.fast(0);
+        let random = Random.seed(0);
         let expected : [Nat64] = [
           1962029230844536978,
           4710990486257585978,
@@ -73,7 +73,7 @@ suite(
     test(
       "nat64(), seed = 123456789",
       func() {
-        let random = Random.fast(123456789);
+        let random = Random.seed(123456789);
         let expected : [Nat64] = [
           2997178970959451897,
           3819629392862388853,
@@ -87,7 +87,7 @@ suite(
     test(
       "nat64() has approximately uniform distribution",
       func() {
-        let random = Random.fast(0);
+        let random = Random.seed(0);
         let trials = 10000;
         var sum = 0;
         for (_ in Nat.range(0, trials)) {
@@ -101,7 +101,7 @@ suite(
     test(
       "nat64Range() returns values within range",
       func() {
-        let random = Random.fast(0);
+        let random = Random.seed(0);
         let from : Nat64 = 10;
         let toExclusive : Nat64 = 20;
         for (_ in Nat.range(0, 1000)) {
@@ -113,7 +113,7 @@ suite(
     test(
       "natRange() has approximately uniform distribution",
       func() {
-        let random = Random.fast(0);
+        let random = Random.seed(0);
         let from = 1000;
         let toExclusive = 2000;
         let trials = 10000;
@@ -129,7 +129,7 @@ suite(
     test(
       "natRange() returns values within range",
       func() {
-        let random = Random.fast(0);
+        let random = Random.seed(0);
         let from = 10;
         let toExclusive = 20;
         for (_ in Nat.range(0, 1000)) {
@@ -141,7 +141,7 @@ suite(
     test(
       "intRange() has approximately uniform distribution",
       func() {
-        let random = Random.fast(0);
+        let random = Random.seed(0);
         let from = -1000;
         let toExclusive = +1000;
         let trials = 10000;
@@ -157,7 +157,7 @@ suite(
     test(
       "intRange() returns values within range",
       func() {
-        let random = Random.fast(0);
+        let random = Random.seed(0);
         let from = -10;
         let toExclusive = 10;
         for (_ in Nat.range(0, 1000)) {
@@ -169,7 +169,7 @@ suite(
     test(
       "*range()",
       func() {
-        let random = Random.fast(0);
+        let random = Random.seed(0);
 
         let rangeFunctions : [(Nat, Nat) -> Int] = [
           func(a, b) = Nat64.toNat(random.nat64Range(Nat64.fromNat(a), Nat64.fromNat(b))),
@@ -226,23 +226,23 @@ suite(
         let seed : Nat64 = 42;
         let state1 = Random.seedState(seed);
         let state2 = Random.seedState(seed);
-        ignore Random.fastFromState(state1).nat8();
-        ignore Random.fastFromState(state2).nat8();
+        ignore Random.seedFromState(state1).nat8();
+        ignore Random.seedFromState(state2).nat8();
 
         // States should have the same inner PRNG state
-        assert state1.inner.a == state2.inner.a;
-        assert state1.inner.b == state2.inner.b;
-        assert state1.inner.c == state2.inner.c;
-        assert state1.inner.d == state2.inner.d
+        assert state1.prng.a == state2.prng.a;
+        assert state1.prng.b == state2.prng.b;
+        assert state1.prng.c == state2.prng.c;
+        assert state1.prng.d == state2.prng.d
       }
     );
     test(
-      "fastFromState() produces same sequence as fast() with same seed",
+      "seedFromState() produces same sequence as seed() with same seed",
       func() {
         let seed : Nat64 = 123456789;
         let state = Random.seedState(seed);
-        let random1 = Random.fast(seed);
-        let random2 = Random.fastFromState(state);
+        let random1 = Random.seed(seed);
+        let random2 = Random.seedFromState(state);
 
         // Should produce identical sequences
         for (_ in Nat.range(0, 10)) {
@@ -251,8 +251,8 @@ suite(
 
         // Reset and test again with bool()
         let state2 = Random.seedState(seed);
-        let random3 = Random.fast(seed);
-        let random4 = Random.fastFromState(state2);
+        let random3 = Random.seed(seed);
+        let random4 = Random.seedFromState(state2);
 
         for (_ in Nat.range(0, 10)) {
           assert random3.bool() == random4.bool()
@@ -260,18 +260,18 @@ suite(
       }
     );
     test(
-      "fastFromState() allows state reuse",
+      "seedFromState() allows state reuse",
       func() {
         let seed : Nat64 = 987654321;
         let state = Random.seedState(seed);
-        let random1 = Random.fastFromState(state);
+        let random1 = Random.seedFromState(state);
 
         // Generate some numbers to advance the state
         let val1 = random1.nat64();
         let val2 = random1.nat64();
 
         // Create new Random with same state (should continue from where we left off)
-        let random2 = Random.fastFromState(state);
+        let random2 = Random.seedFromState(state);
         let val3 = random2.nat64();
 
         // Should be different from the first values since state has advanced
@@ -284,18 +284,18 @@ suite(
       func() {
         let seed : Nat64 = 555;
         let state = Random.seedState(seed);
-        let random = Random.fastFromState(state);
+        let random = Random.seedFromState(state);
 
         // Check initial state
-        let initialIndex = state.index;
-        let initialBytesSize = state.bytes.size();
+        let initialIndex = state.random.index;
+        let initialBytesSize = state.random.bytes.size();
 
         // Generate a byte, which should populate the bytes array
         let _ = random.nat8();
 
         // State should have been mutated
-        assert state.bytes.size() > initialBytesSize;
-        assert state.index > initialIndex
+        assert state.random.bytes.size() > initialBytesSize;
+        assert state.random.index > initialIndex
       }
     )
   }

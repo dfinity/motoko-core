@@ -937,9 +937,9 @@
       "public func cryptoFromState(state : State) : AsyncRandom",
       "public func cryptoState() : State",
       "public func emptyState() : State",
-      "public func fast(seed : Nat64) : Random",
-      "public func fastFromState(state : SeedState) : Random",
       "public class Random(state : State, generator : () -> Blob)",
+      "public func seed(seed : Nat64) : Random",
+      "public func seedFromState(state : SeedState) : Random",
       "public func seedState(seed : Nat64) : SeedState",
       "public type SeedState",
       "public type State"
