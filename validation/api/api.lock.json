@@ -931,17 +931,18 @@
   {
     "name": "Random",
     "exports": [
-      "public class AsyncRandom<T>(state : State<T>, generator : () -> async* Blob)",
+      "public class AsyncRandom(state : State, generator : () -> async* Blob)",
       "public let blob : shared () -> async Blob",
-      "public func crypto() : AsyncRandom<()>",
-      "public func cryptoFromState(state : State<()>) : AsyncRandom<()>",
-      "public func cryptoState() : State<()>",
-      "public func emptyState<T>(inner : T) : State<T>",
-      "public func fast(seed : Nat64) : Random<PRNG.State>",
-      "public func fastFromState(state : State<PRNG.State>) : Random<PRNG.State>",
-      "public class Random<T>(state : State<T>, generator : () -> Blob)",
-      "public func seedState(seed : Nat64) : State<PRNG.State>",
-      "public type State<T>"
+      "public func crypto() : AsyncRandom",
+      "public func cryptoFromState(state : State) : AsyncRandom",
+      "public func cryptoState() : State",
+      "public func emptyState() : State",
+      "public func fast(seed : Nat64) : Random",
+      "public func fastFromState(state : SeedState) : Random",
+      "public class Random(state : State, generator : () -> Blob)",
+      "public func seedState(seed : Nat64) : SeedState",
+      "public type SeedState",
+      "public type State"
     ]
   },
   {
