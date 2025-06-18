@@ -62,7 +62,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func clone<T>(array : [var T]) : [var T] = Prim.Array_tabulateVar<X>(array.size(), func i = array[i]);
+  public func clone<T>(array : [var T]) : [var T] = Prim.Array_tabulateVar<T>(array.size(), func i = array[i]);
 
   /// Creates a mutable array of size `size`. Each element at index i
   /// is created by applying `generator` to i.
