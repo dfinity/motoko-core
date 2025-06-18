@@ -1,5 +1,9 @@
 # Changelog
 
+## Next
+
+* Perf: Uses the new Array_tabulateVar primitive to speed up various function in VarArray (#334)
+
 ## 0.5.0
 
 * **Breaking:** Adjust `List` and `pure/List` APIs for consistency (#322).
