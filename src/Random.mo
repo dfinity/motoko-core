@@ -32,8 +32,6 @@ module {
 
   public let blob : shared () -> async Blob = rawRand;
 
-
-
   /// Initializes a random number generator state. This is used
   /// to create a `Random` or `AsyncRandom` instance with a specific state.
   /// The state is empty, but it can be reused after upgrading the canister.
