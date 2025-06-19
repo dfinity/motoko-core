@@ -68,7 +68,7 @@ module {
   ///
   /// persistent actor {
   ///   let state = Random.seedState(123);
-  ///   transient let random = Random.fastFromState(state);
+  ///   transient let random = Random.seedFromState(state);
   ///
   ///   public func main() : async () {
   ///     let coin = random.bool(); // true or false
@@ -103,7 +103,7 @@ module {
   ///
   /// persistent actor {
   ///   let state = Random.seedState(123);
-  ///   transient let random = Random.fastFromState(state);
+  ///   transient let random = Random.seedFromState(state);
   ///
   ///   public func main() : async () {
   ///     let coin = random.bool(); // true or false
