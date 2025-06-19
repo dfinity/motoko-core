@@ -935,7 +935,6 @@
       "public let blob : shared () -> async Blob",
       "public func crypto() : AsyncRandom",
       "public func cryptoFromState(state : State) : AsyncRandom",
-      "public func cryptoState() : State",
       "public func emptyState() : State",
       "public class Random(state : State, generator : () -> Blob)",
       "public func seed(seed : Nat64) : Random",
