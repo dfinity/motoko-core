@@ -62,8 +62,9 @@ module {
   ///
   /// persistent actor {
   ///   let state = Random.seedState(123);
+  ///   transient let random = Random.fastFromState(state);
+  ///
   ///   public func main() : async () {
-  ///     let random = Random.fastFromState(state);
   ///     let coin = random.bool(); // true or false
   ///   }
   /// }
@@ -83,9 +84,9 @@ module {
   ///
   /// persistent actor {
   ///   let state = Random.seedState(123);
+  ///   transient let random = Random.fastFromState(state);
   ///
   ///   public func main() : async () {
-  ///     let random = Random.fastFromState(state);
   ///     let coin = random.bool(); // true or false
   ///   }
   /// }
@@ -119,8 +120,9 @@ module {
   /// import Random "mo:core/Random";
   ///
   /// persistent actor {
+  ///   transient let random = Random.crypto();
+  ///
   ///   public func main() : async () {
-  ///     let random = Random.crypto();
   ///     let coin = await* random.bool(); // true or false
   ///   }
   /// }
@@ -139,9 +141,9 @@ module {
   ///
   /// persistent actor {
   ///   let state = Random.cryptoState();
+  ///   transient let random = Random.cryptoFromState(state);
   ///
   ///   public func main() : async () {
-  ///     let random = Random.cryptoFromState(state);
   ///     let coin = await* random.bool(); // true or false
   ///   }
   /// }
@@ -161,9 +163,9 @@ module {
   ///
   /// persistent actor {
   ///   let state = Random.cryptoState();
+  ///   transient let random = Random.cryptoFromState(state);
   ///
   ///   func example() : async () {
-  ///     let random = Random.cryptoFromState(state);
   ///     let coin = await* random.bool(); // true or false
   ///   }
   /// }
