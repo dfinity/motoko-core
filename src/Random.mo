@@ -28,28 +28,34 @@ module {
     prng : PRNG.State
   };
 
+  let rawRand = (actor "aaaaa-aa" : actor { raw_rand : () -> async Blob }).raw_rand;
+
+  public let blob : shared () -> async Blob = rawRand;
+
+
+
+  /// Initializes a random number generator state. This is used
+  /// to create a `Random` or `AsyncRandom` instance with a specific state.
+  /// The state is empty, but it can be reused after upgrading the canister.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import Random "mo:core/Random";
+  ///
+  /// persistent actor {
+  ///   let state = Random.emptyState();
+  ///   transient let random = Random.cryptoFromState(state);
+  ///
+  ///   public func main() : async () {
+  ///     let coin = await* random.bool(); // true or false
+  ///   }
+  /// }
+  /// ```
   public func emptyState() : State = {
     var bytes = [];
     var index = 0;
     var bits = 0x00;
     var bitMask = 0x00
-  };
-
-  let rawRand = (actor "aaaaa-aa" : actor { raw_rand : () -> async Blob }).raw_rand;
-
-  public let blob : shared () -> async Blob = rawRand;
-
-  /// Creates a pseudo-random number generator from a 64-bit seed.
-  /// The seed is used to initialize the PRNG state.
-  /// This is suitable for simulations and testing, but not for cryptographic purposes.
-  ///
-  /// Example:
-  /// ```motoko include=import
-  /// let random = Random.seed(123);
-  /// let coin = random.bool(); // true or false
-  /// ```
-  public func seed(seed : Nat64) : Random {
-    seedFromState(seedState(seed))
   };
 
   /// Initializes a pseudo-random number generator state with a 64-bit seed.
@@ -72,6 +78,19 @@ module {
   public func seedState(seed : Nat64) : SeedState = {
     random = emptyState();
     prng = PRNG.init(seed)
+  };
+
+  /// Creates a pseudo-random number generator from a 64-bit seed.
+  /// The seed is used to initialize the PRNG state.
+  /// This is suitable for simulations and testing, but not for cryptographic purposes.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let random = Random.seed(123);
+  /// let coin = random.bool(); // true or false
+  /// ```
+  public func seed(seed : Nat64) : Random {
+    seedFromState(seedState(seed))
   };
 
   /// Creates a pseudo-random number generator with the given state.
@@ -128,28 +147,7 @@ module {
   /// }
   /// ```
   public func crypto() : AsyncRandom {
-    cryptoFromState(cryptoState())
-  };
-
-  /// Initializes a cryptographic random number generator state.
-  /// This is used to create an `AsyncRandom` instance with a specific state.
-  /// The state is empty, but it can be reused after upgrading the canister.
-  ///
-  /// Example:
-  /// ```motoko
-  /// import Random "mo:core/Random";
-  ///
-  /// persistent actor {
-  ///   let state = Random.cryptoState();
-  ///   transient let random = Random.cryptoFromState(state);
-  ///
-  ///   public func main() : async () {
-  ///     let coin = await* random.bool(); // true or false
-  ///   }
-  /// }
-  /// ```
-  public func cryptoState() : State {
-    emptyState()
+    cryptoFromState(emptyState())
   };
 
   /// Creates a random number generator suitable for cryptography
@@ -162,7 +160,7 @@ module {
   /// import Random "mo:core/Random";
   ///
   /// persistent actor {
-  ///   let state = Random.cryptoState();
+  ///   let state = Random.emptyState();
   ///   transient let random = Random.cryptoFromState(state);
   ///
   ///   func example() : async () {
