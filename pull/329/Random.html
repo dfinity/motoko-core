@@ -23,7 +23,7 @@ The seed is used to initialize the PRNG state.</p>
 
 persistent actor {
   let state = Random.seedState(123);
-  transient let random = Random.fastFromState(state);
+  transient let random = Random.seedFromState(state);
 
   public func main() : async () {
     let coin = random.bool(); // true or false
@@ -42,7 +42,7 @@ but should not be used for cryptographic purposes.</p>
 
 persistent actor {
   let state = Random.seedState(123);
-  transient let random = Random.fastFromState(state);
+  transient let random = Random.seedFromState(state);
 
   public func main() : async () {
     let coin = random.bool(); // true or false
