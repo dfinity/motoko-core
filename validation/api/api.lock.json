@@ -931,13 +931,17 @@
   {
     "name": "Random",
     "exports": [
-      "public class AsyncRandom(",
+      "public class AsyncRandom(state : State, generator : () -> async* Blob)",
       "public let blob : shared () -> async Blob",
       "public func crypto() : AsyncRandom",
-      "public func fast(seed : Nat64) : Random",
-      "public func fromAsyncGenerator(generator : () -> async* Blob) : AsyncRandom",
-      "public func fromGenerator(generator : () -> Blob) : Random",
-      "public class Random("
+      "public func cryptoFromState(state : State) : AsyncRandom",
+      "public func emptyState() : State",
+      "public class Random(state : State, generator : () -> Blob)",
+      "public func seed(seed : Nat64) : Random",
+      "public func seedFromState(state : SeedState) : Random",
+      "public func seedState(seed : Nat64) : SeedState",
+      "public type SeedState",
+      "public type State"
     ]
   },
   {
