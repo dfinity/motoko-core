@@ -1,5 +1,9 @@
 # Changelog
 
+## Next
+
+* **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
+
 ## 0.5.0
 
 * **Breaking:** Adjust `List` and `pure/List` APIs for consistency (#322).
