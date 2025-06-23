@@ -1287,14 +1287,13 @@ module {
   /// Space: `O(1)`
   public func last<T>(list : List<T>) : ?T {
     let e = list.elementIndex;
-    if (e > 0) {
-      switch (list.blocks[list.blockIndex][e - 1]) {
-        case null { Prim.trap(INTERNAL_ERROR) };
-        case e { return e }
-      }
-    };
-    let b = list.blockIndex;
-    if (b == 1) null else list.blocks[b - 1][0]
+    if (e > 0) return list.blocks[list.blockIndex][e - 1];
+
+    let b = list.blockIndex - 1 : Nat;
+    if (b == 0) null else {
+      let block = list.blocks[b];
+      block[block.size() - 1]
+    }
   };
 
   /// Applies `f` to each element in `list`.
