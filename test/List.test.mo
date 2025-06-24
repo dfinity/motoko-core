@@ -14,6 +14,7 @@ import Runtime "../src/Runtime";
 import Int "../src/Int";
 import Debug "../src/Debug";
 import { Tuple2 } "../src/Tuples";
+import PureList "../src/pure/List";
 
 let { run; test; suite } = Suite;
 
@@ -1210,6 +1211,24 @@ func testFilterMap(n : Nat) : Bool {
   true
 };
 
+func testPure(n : Nat) : Bool {
+  let idArray = Array.tabulate<Nat>(n, func(i) = i);
+  let vec = List.fromArray<Nat>(idArray);
+  let pureList = List.toPure<Nat>(vec);
+  let newVec = List.fromPure<Nat>(pureList);
+
+  if (not PureList.equal<Nat>(pureList, PureList.fromArray<Nat>(idArray), Nat.equal)) {
+    Debug.print("PureList conversion failed");
+    return false
+  };
+  if (not List.equal<Nat>(newVec, vec, Nat.equal)) {
+    Debug.print("List conversion from PureList failed");
+    return false
+  };
+
+  true
+};
+
 // Run all tests
 func runAllTests() {
   runTest("testNew", testNew);
@@ -1233,7 +1252,8 @@ func runAllTests() {
   runTest("testFoldLeft", testFoldLeft);
   runTest("testFoldRight", testFoldRight);
   runTest("testFilter", testFilter);
-  runTest("testFilterMap", testFilterMap)
+  runTest("testFilterMap", testFilterMap);
+  runTest("testPure", testPure)
 };
 
 // Run all tests

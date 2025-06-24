@@ -3,7 +3,8 @@
 ## Next
 
 * **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
-* Fix a bug in `List.last<T>` (#336). 
+* Fix a bug in `List.last<T>` (#336).
+* Optimize methods in `List<T>` (#337).
 
 ## 0.5.0
 
