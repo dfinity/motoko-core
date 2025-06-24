@@ -36,7 +36,7 @@ assert VarArray.equal(array2, [var 0, 2, 3], Nat.equal);</code></pre>
 
 <p>Runtime: O(size)</p>
 <p>Space: O(size)</p>
-</p></div><div class="declaration"><h4 class="function" id="tabulate"><code><span class="keyword">public func </span><span class="fnname">tabulate</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">size</span> : <span class="type">Nat</span>, <span class="parameter">generator</span> : <span class="type">Nat</span> -&gt; <span class="type">T</span>) : [<span class="keyword">var </span><span class="type">T</span>]</code></h4><p><p>Creates an immutable array of size <code>size</code>. Each element at index i
+</p></div><div class="declaration"><h4 class="function" id="tabulate"><code><span class="keyword">public func </span><span class="fnname">tabulate</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">size</span> : <span class="type">Nat</span>, <span class="parameter">generator</span> : <span class="type">Nat</span> -&gt; <span class="type">T</span>) : [<span class="keyword">var </span><span class="type">T</span>]</code></h4><p><p>Creates a mutable array of size <code>size</code>. Each element at index i
 is created by applying <code>generator</code> to i.</p>
 <pre><code>motoko include=import
 import Nat &quot;mo:core/Nat&quot;;
