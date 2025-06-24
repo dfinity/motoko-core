@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html><head title="Doc"><meta charset="UTF-8"/><link href="styles.css" rel="stylesheet"/></head><body><nav class="sidebar"><h3>Modules</h3><ul><li><li><a href="Array.html">Array</a></li></li><li><li><a href="Blob.html">Blob</a></li></li><li><li><a href="Bool.html">Bool</a></li></li><li><li><a href="CertifiedData.html">CertifiedData</a></li></li><li><li><a href="Char.html">Char</a></li></li><li><li><a href="Cycles.html">Cycles</a></li></li><li><li><a href="Debug.html">Debug</a></li></li><li><li><a href="Error.html">Error</a></li></li><li><li><a href="Float.html">Float</a></li></li><li><li><a href="Func.html">Func</a></li></li><li><li><a href="Int.html">Int</a></li></li><li><li><a href="Int16.html">Int16</a></li></li><li><li><a href="Int32.html">Int32</a></li></li><li><li><a href="Int64.html">Int64</a></li></li><li><li><a href="Int8.html">Int8</a></li></li><li><li><a href="InternetComputer.html">InternetComputer</a></li></li><li><li><a href="Iter.html">Iter</a></li></li><li><li><a href="List.html">List</a></li></li><li><li><a href="Map.html">Map</a></li></li><li><li><a href="Nat.html">Nat</a></li></li><li><li><a href="Nat16.html">Nat16</a></li></li><li><li><a href="Nat32.html">Nat32</a></li></li><li><li><a href="Nat64.html">Nat64</a></li></li><li><li><a href="Nat8.html">Nat8</a></li></li><li><li><a href="Option.html">Option</a></li></li><li><li><a href="Order.html">Order</a></li></li><li><li><a href="Principal.html">Principal</a></li></li><li><li><a href="Queue.html">Queue</a></li></li><li><li><a href="Random.html">Random</a></li></li><li><li><a href="Region.html">Region</a></li></li><li><li><a href="Result.html">Result</a></li></li><li><li><a href="Runtime.html">Runtime</a></li></li><li><li><a href="Set.html">Set</a></li></li><li><li><a href="Stack.html">Stack</a></li></li><li><li><a href="Text.html">Text</a></li></li><li><li><a href="Time.html">Time</a></li></li><li><li><a href="Timer.html">Timer</a></li></li><li><li><a href="Tuples.html">Tuples</a></li></li><li><li><a href="Types.html">Types</a></li></li><li><li><a href="VarArray.html">VarArray</a></li></li><li><li><a href="internal/BTreeHelper.html">internal/BTreeHelper</a></li></li><li><li><a href="internal/PRNG.html">internal/PRNG</a></li></li><li><li><a href="pure/List.html">pure/List</a></li></li><li><li><a href="pure/Map.html">pure/Map</a></li></li><li><li><a href="pure/Queue.html">pure/Queue</a></li></li><li><li><a href="pure/RealTimeQueue.html">pure/RealTimeQueue</a></li></li><li><li><a href="pure/Set.html">pure/Set</a></li></li></ul><h3>Declarations</h3><ul><li><li><a href="#type.Bool">Bool</a></li></li><li><li><a href="#logicalAnd">logicalAnd</a></li></li><li><li><a href="#logicalOr">logicalOr</a></li></li><li><li><a href="#logicalXor">logicalXor</a></li></li><li><li><a href="#logicalNot">logicalNot</a></li></li><li><li><a href="#equal">equal</a></li></li><li><li><a href="#compare">compare</a></li></li><li><li><a href="#toText">toText</a></li></li><li><li><a href="#allValues">allValues</a></li></li></ul></nav><div class="documentation"><h1>Bool</h1><p>Boolean type and operations.</p>
+<p>Import from the core library to use this module.</p>
+<pre><code>motoko name=import
+import Bool &quot;mo:core/Bool&quot;;</code></pre>
+
+<p>While boolean operators <code>_ and _</code> and <code>_ or _</code> are short-circuiting,
+avoiding computation of the right argument when possible, the functions
+<code>logand(_, _)</code> and <code>logor(_, _)</code> are <em>strict</em> and will always evaluate <em>both</em>
+of their arguments.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+let t = true;
+let f = false;
+
+// Short-circuiting AND
+assert not (t and f);
+
+// Short-circuiting OR
+assert t or f;</code></pre><div class="declaration"><h4 class="type-declaration" id="type.Bool"><span class="keyword">type </span><span class="type">Bool</span> = <span class="type">Prim.Types.Bool</span></h4><p><p>Booleans with constants <code>true</code> and <code>false</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="logicalAnd"><code><span class="keyword">public func </span><span class="fnname">logicalAnd</span>(<span class="parameter">a</span> : <a href="#type.Bool"><span class="type">Bool</span></a>, <span class="parameter">b</span> : <a href="#type.Bool"><span class="type">Bool</span></a>) : <a href="#type.Bool"><span class="type">Bool</span></a></code></h4><p><p>Returns <code>a and b</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert not Bool.logicalAnd(true, false);
+assert Bool.logicalAnd(true, true);</code></pre></p></div><div class="declaration"><h4 class="function" id="logicalOr"><code><span class="keyword">public func </span><span class="fnname">logicalOr</span>(<span class="parameter">a</span> : <a href="#type.Bool"><span class="type">Bool</span></a>, <span class="parameter">b</span> : <a href="#type.Bool"><span class="type">Bool</span></a>) : <a href="#type.Bool"><span class="type">Bool</span></a></code></h4><p><p>Returns <code>a or b</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Bool.logicalOr(true, false);
+assert Bool.logicalOr(false, true);</code></pre></p></div><div class="declaration"><h4 class="function" id="logicalXor"><code><span class="keyword">public func </span><span class="fnname">logicalXor</span>(<span class="parameter">a</span> : <a href="#type.Bool"><span class="type">Bool</span></a>, <span class="parameter">b</span> : <a href="#type.Bool"><span class="type">Bool</span></a>) : <a href="#type.Bool"><span class="type">Bool</span></a></code></h4><p><p>Returns exclusive or of <code>a</code> and <code>b</code>, <code>a != b</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Bool.logicalXor(true, false);
+assert not Bool.logicalXor(true, true);
+assert not Bool.logicalXor(false, false);</code></pre></p></div><div class="declaration"><h4 class="function" id="logicalNot"><code><span class="keyword">public func </span><span class="fnname">logicalNot</span>(<span class="parameter">bool</span> : <a href="#type.Bool"><span class="type">Bool</span></a>) : <a href="#type.Bool"><span class="type">Bool</span></a></code></h4><p><p>Returns <code>not bool</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Bool.logicalNot(false);
+assert not Bool.logicalNot(true);</code></pre></p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>(<span class="parameter">a</span> : <a href="#type.Bool"><span class="type">Bool</span></a>, <span class="parameter">b</span> : <a href="#type.Bool"><span class="type">Bool</span></a>) : <a href="#type.Bool"><span class="type">Bool</span></a></code></h4><p><p>Returns <code>a == b</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Bool.equal(true, true);
+assert not Bool.equal(true, false);</code></pre></p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>(<span class="parameter">a</span> : <a href="#type.Bool"><span class="type">Bool</span></a>, <span class="parameter">b</span> : <a href="#type.Bool"><span class="type">Bool</span></a>) : <a href="Order.html#type.Order"><span class="type">Order.Order</span></a></code></h4><p><p>Returns the ordering of <code>a</code> compared to <code>b</code>.
+Returns <code>#less</code> if <code>a</code> is <code>false</code> and <code>b</code> is <code>true</code>,
+<code>#equal</code> if <code>a</code> equals <code>b</code>,
+and <code>#greater</code> if <code>a</code> is <code>true</code> and <code>b</code> is <code>false</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Bool.compare(true, false) == #greater;
+assert Bool.compare(true, true) == #equal;
+assert Bool.compare(false, true) == #less;</code></pre></p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>(<span class="parameter">bool</span> : <a href="#type.Bool"><span class="type">Bool</span></a>) : <span class="type">Text</span></code></h4><p><p>Returns a text value which is either <code>&quot;true&quot;</code> or <code>&quot;false&quot;</code> depending on the input value.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Bool.toText(true) == &quot;true&quot;;
+assert Bool.toText(false) == &quot;false&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="allValues"><code><span class="keyword">public func </span><span class="fnname">allValues</span>() : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Bool"><span class="type">Bool</span></a>&gt;</code></h4><p><p>Returns an iterator over all possible boolean values (<code>true</code> and <code>false</code>).</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+let iter = Bool.allValues();
+assert iter.next() == ?true;
+assert iter.next() == ?false;
+assert iter.next() == null;</code></pre></p></div></div></body></html>
