@@ -102,8 +102,10 @@
       "public func less(a : Char, b : Char) : Bool",
       "public func lessOrEqual(a : Char, b : Char) : Bool",
       "public func notEqual(a : Char, b : Char) : Bool",
+      "public let toLower : (char : Char) -> Char",
       "public let toNat32 : (char : Char) -> Nat32",
-      "public let toText : (char : Char) -> Text"
+      "public let toText : (char : Char) -> Text",
+      "public let toUpper : (char : Char) -> Char"
     ]
   },
   {
