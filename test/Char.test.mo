@@ -10,7 +10,8 @@ suite(
       func() {
         expect.char(Char.toUpper('a')).equal('A');
         expect.char(Char.toUpper('ö')).equal('Ö');
-        expect.char(Char.toUpper('σ')).equal('Σ')
+        expect.char(Char.toUpper('ë')).equal('Ë');
+        expect.char(Char.toUpper('σ')).equal('Σ');
       }
     );
 
@@ -18,7 +19,8 @@ suite(
       "preserves non-letter chars",
       func() {
         expect.char(Char.toUpper('💩')).equal('💩');
-        expect.char(Char.toLower('1')).equal('1')
+        expect.char(Char.toLower('1')).equal('1');
+        expect.char(Char.toUpper('ख़')).equal('ख़');
       }
     )
   }
@@ -32,7 +34,8 @@ suite(
       func() {
         expect.char(Char.toLower('A')).equal('a');
         expect.char(Char.toLower('Ö')).equal('ö');
-        expect.char(Char.toLower('Σ')).equal('σ')
+        expect.char(Char.toLower('Ë')).equal('ë');
+        expect.char(Char.toLower('Σ')).equal('σ');
       }
     );
 
@@ -40,7 +43,8 @@ suite(
       "preserves non-letter chars",
       func() {
         expect.char(Char.toLower('💩')).equal('💩');
-        expect.char(Char.toLower('1')).equal('1')
+        expect.char(Char.toLower('1')).equal('1');
+        expect.char(Char.toUpper('ख़')).equal('ख़');
       }
     )
   }
