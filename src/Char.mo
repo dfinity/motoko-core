@@ -64,10 +64,10 @@ module {
   public let toText : (char : Char) -> Text = Prim.charToText;
 
   // Not exposed pending multi-char implementation.
-  private let _toUpper : (char : Char) -> Char = Prim.charToUpper;
+  public let toUpper : (char : Char) -> Char = Prim.charToUpper;
 
   // Not exposed pending multi-char implementation.
-  private let _toLower : (char : Char) -> Char = Prim.charToLower;
+  public let toLower : (char : Char) -> Char = Prim.charToLower;
 
   /// Returns `true` when `char` is a decimal digit between `0` and `9`, otherwise `false`.
   ///
