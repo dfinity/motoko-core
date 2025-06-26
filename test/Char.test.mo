@@ -17,7 +17,8 @@ suite(
     test(
       "preserves non-letter chars",
       func() {
-        expect.char(Char.toUpper('💩')).equal('💩')
+        expect.char(Char.toUpper('💩')).equal('💩');
+        expect.char(Char.toLower('1')).equal('1')
       }
     )
   }
@@ -38,7 +39,8 @@ suite(
     test(
       "preserves non-letter chars",
       func() {
-        expect.char(Char.toLower('💩')).equal('💩')
+        expect.char(Char.toLower('💩')).equal('💩');
+        expect.char(Char.toLower('1')).equal('1')
       }
     )
   }
