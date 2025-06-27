@@ -217,7 +217,7 @@ Space: <code>O(log(n))</code>.
 where <code>n</code> denotes the number of elements stored in the set and
 assuming that the <code>compare</code> function implements an <code>O(1)</code> comparison.</p>
 </p></div><div class="declaration"><h4 class="function" id="remove"><code><span class="keyword">public func </span><span class="fnname">remove</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">set</span> : <a href="#type.Set"><span class="type">Set</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">compare</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>, <br/>  <span class="parameter">element</span> : <span class="type">T</span><br/>) : ()</code></h4><p><p>Deletes an element from a set.
-Returns <code>true</code> if the element was contained in the set, <code>false</code> if not.</p>
+No effect if the element is not contained in the set.</p>
 <pre class="motoko"><code class="motoko">import Set &quot;mo:core/Set&quot;;
 import Nat &quot;mo:core/Nat&quot;;
 import Iter &quot;mo:core/Iter&quot;;
@@ -240,8 +240,6 @@ where <code>n</code> denotes the number of elements stored in the set and
 assuming that the <code>compare</code> function implements an <code>O(1)</code> comparison.</p>
 <p>Note: Creates <code>O(log(n))</code> objects that will be collected as garbage.</p>
 </p></div><div class="declaration"><h4 class="function" id="delete"><code><span class="keyword">public func </span><span class="fnname">delete</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">set</span> : <a href="#type.Set"><span class="type">Set</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">compare</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>, <br/>  <span class="parameter">element</span> : <span class="type">T</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Deletes an element from a set.
-Returns true if the element was contained in the set, false if not.
-Deletes an element from a set.
 Returns true if the element was contained in the set, false if not.</p>
 <pre class="motoko"><code class="motoko">import Set &quot;mo:core/Set&quot;;
 import Nat &quot;mo:core/Nat&quot;;
