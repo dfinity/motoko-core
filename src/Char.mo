@@ -71,7 +71,7 @@ module {
   /// ```
   public let toUpper : (char : Char) -> Char = Prim.charToUpper;
 
-  /// Returns the char argument in uppercase. Unicode compliant.
+  /// Returns the char argument in lowercase. Unicode compliant.
   ///
   /// ```motoko include=import
   /// let char = Char.toLower("A");
