@@ -66,16 +66,16 @@ module {
   /// Returns the char argument in uppercase. Unicode compliant.
   ///
   /// ```motoko include=import
-  /// let char = Char.toUpper("a");
-  /// assert char == "A";
+  /// let char = Char.toUpper('a');
+  /// assert char == 'A';
   /// ```
   public let toUpper : (char : Char) -> Char = Prim.charToUpper;
 
   /// Returns the char argument in lowercase. Unicode compliant.
   ///
   /// ```motoko include=import
-  /// let char = Char.toLower("A");
-  /// assert char == "a";
+  /// let char = Char.toLower('A');
+  /// assert char == 'a';
   /// ```
   public let toLower : (char : Char) -> Char = Prim.charToLower;
 
