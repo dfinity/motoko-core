@@ -63,8 +63,20 @@ module {
   /// ```
   public let toText : (char : Char) -> Text = Prim.charToText;
 
+  /// Returns the char argument in uppercase. Unicode compliant.
+  ///
+  /// ```motoko include=import
+  /// let char = Char.toUpper("a");
+  /// assert char == "A";
+  /// ```
   public let toUpper : (char : Char) -> Char = Prim.charToUpper;
 
+  /// Returns the char argument in uppercase. Unicode compliant.
+  ///
+  /// ```motoko include=import
+  /// let char = Char.toUpper("A");
+  /// assert char == "a";
+  /// ```
   public let toLower : (char : Char) -> Char = Prim.charToLower;
 
   /// Returns `true` when `char` is a decimal digit between `0` and `9`, otherwise `false`.
