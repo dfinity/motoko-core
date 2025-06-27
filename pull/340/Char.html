@@ -34,7 +34,13 @@ assert char == 'A';</code></pre></p></div><div class="declaration"><h4 class="fu
 <pre><code>motoko include=import
 let char = '漢';
 let text = Char.toText(char);
-assert text == &quot;漢&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="toUpper"><code><span class="keyword">public func </span><span class="fnname">toUpper</span>(<span class="parameter">char</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <a href="#type.Char"><span class="type">Char</span></a></code></h4><p></p></div><div class="declaration"><h4 class="function" id="toLower"><code><span class="keyword">public func </span><span class="fnname">toLower</span>(<span class="parameter">char</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <a href="#type.Char"><span class="type">Char</span></a></code></h4><p></p></div><div class="declaration"><h4 class="function" id="isDigit"><code><span class="keyword">public func </span><span class="fnname">isDigit</span>(<span class="parameter">char</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>true</code> when <code>char</code> is a decimal digit between <code>0</code> and <code>9</code>, otherwise <code>false</code>.</p>
+assert text == &quot;漢&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="toUpper"><code><span class="keyword">public func </span><span class="fnname">toUpper</span>(<span class="parameter">char</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <a href="#type.Char"><span class="type">Char</span></a></code></h4><p><p>Returns the char argument in uppercase. Unicode compliant.</p>
+<pre><code>motoko include=import
+let char = Char.toUpper(&quot;a&quot;);
+assert char == &quot;A&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="toLower"><code><span class="keyword">public func </span><span class="fnname">toLower</span>(<span class="parameter">char</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <a href="#type.Char"><span class="type">Char</span></a></code></h4><p><p>Returns the char argument in uppercase. Unicode compliant.</p>
+<pre><code>motoko include=import
+let char = Char.toUpper(&quot;A&quot;);
+assert char == &quot;a&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="isDigit"><code><span class="keyword">public func </span><span class="fnname">isDigit</span>(<span class="parameter">char</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>true</code> when <code>char</code> is a decimal digit between <code>0</code> and <code>9</code>, otherwise <code>false</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Char.isDigit('5');
