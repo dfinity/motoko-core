@@ -512,6 +512,8 @@
       "public func clear<T>(list : List<T>)",
       "public func clone<T>(list : List<T>) : List<T>",
       "public func compare<T>(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Order.Order) : Order.Order",
+      "public func concat<T>(lists : [List<T>]) : List<T>",
+      "public func concatSlices<T>(slices : [(List<T>, fromInclusive : Nat, toExclusive : Nat)]) : List<T>",
       "public func contains<T>(list : List<T>, equal : (T, T) -> Bool, element : T) : Bool",
       "public func empty<T>() : List<T>",
       "public func enumerate<T>(list : List<T>) : Iter.Iter<(Nat, T)>",

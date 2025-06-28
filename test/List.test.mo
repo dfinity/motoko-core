@@ -14,6 +14,7 @@ import Runtime "../src/Runtime";
 import Int "../src/Int";
 import Debug "../src/Debug";
 import { Tuple2 } "../src/Tuples";
+import PureList "../src/pure/List";
 
 let { run; test; suite } = Suite;
 
@@ -1144,6 +1145,21 @@ func testToArray(n : Nat) : Bool {
   Array.equal(List.toArray(vec), Array.tabulate<Nat>(n, func(i) = i), Nat.equal)
 };
 
+func testForEachRange(n : Nat) : Bool {
+  let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
+
+  var sum = 0;
+  List.forEachRange<Nat>(vec, func(x) = sum += x, 0, n);
+
+  var checkSum = 0;
+  List.forEach<Nat>(vec, func(x) = checkSum += x);
+  if (sum != checkSum) {
+    Debug.print("ForEachRange failed: expected " # Nat.toText(checkSum) # ", got " # Nat.toText(sum));
+    return false
+  };
+  true
+};
+
 func testFromIter(n : Nat) : Bool {
   let iter = Nat.range(1, n + 1);
   let vec = List.fromIter<Nat>(iter);
@@ -1210,6 +1226,24 @@ func testFilterMap(n : Nat) : Bool {
   true
 };
 
+func testPure(n : Nat) : Bool {
+  let idArray = Array.tabulate<Nat>(n, func(i) = i);
+  let vec = List.fromArray<Nat>(idArray);
+  let pureList = List.toPure<Nat>(vec);
+  let newVec = List.fromPure<Nat>(pureList);
+
+  if (not PureList.equal<Nat>(pureList, PureList.fromArray<Nat>(idArray), Nat.equal)) {
+    Debug.print("PureList conversion failed");
+    return false
+  };
+  if (not List.equal<Nat>(newVec, vec, Nat.equal)) {
+    Debug.print("List conversion from PureList failed");
+    return false
+  };
+
+  true
+};
+
 // Run all tests
 func runAllTests() {
   runTest("testNew", testNew);
@@ -1230,10 +1264,12 @@ func runAllTests() {
   runTest("testSort", testSort);
   runTest("testToArray", testToArray);
   runTest("testFromIter", testFromIter);
+  runTest("testForEachRange", testForEachRange);
   runTest("testFoldLeft", testFoldLeft);
   runTest("testFoldRight", testFoldRight);
   runTest("testFilter", testFilter);
-  runTest("testFilterMap", testFilterMap)
+  runTest("testFilterMap", testFilterMap);
+  runTest("testPure", testPure)
 };
 
 // Run all tests
@@ -1345,4 +1381,154 @@ Test.suite(
       }
     )
   }
+);
+
+run(
+  suite(
+    "concat slices",
+    [
+      test(
+        "concat with valid slices",
+        do {
+          let list1 = List.fromArray<Nat>([1, 2, 3]);
+          let list2 = List.fromArray<Nat>([4, 5, 6]);
+          let slice1 = (list1, 0, 2); // [1, 2]
+          let slice2 = (list2, 1, 3); // [5, 6]
+          let result = List.concatSlices<Nat>([slice1, slice2]);
+          List.toArray(result)
+        },
+        M.equals(T.array(T.natTestable, [1, 2, 5, 6]))
+      ),
+      test(
+        "concat with empty slices",
+        do {
+          let list1 = List.fromArray<Nat>([1, 2, 3]);
+          let slice1 = (list1, 1, 1); // []
+          let result = List.concatSlices<Nat>([slice1]);
+          List.toArray(result)
+        },
+        M.equals(T.array(T.natTestable, [] : [Nat]))
+      ),
+      test(
+        "concat with overlapping slices",
+        do {
+          let list1 = List.fromArray<Nat>([1, 2, 3, 4]);
+          let slice1 = (list1, 0, 2); // [1, 2]
+          let slice2 = (list1, 1, 4); // [2, 3, 4]
+          let result = List.concatSlices<Nat>([slice1, slice2]);
+          List.toArray(result)
+        },
+        M.equals(T.array(T.natTestable, [1, 2, 2, 3, 4]))
+      )
+    ]
+  )
+);
+
+run(
+  suite(
+    "concat slices (complicated cases)",
+    [
+      test(
+        "concat with many slices from different lists",
+        do {
+          let l1 = List.fromArray<Nat>([10, 11, 12, 13]);
+          let l2 = List.fromArray<Nat>([20, 21]);
+          let l3 = List.fromArray<Nat>([30, 31, 32]);
+          let slices = [
+            (l1, 1, 3), // [11, 12]
+            (l2, 0, 2), // [20, 21]
+            (l3, 1, 3) // [31, 32]
+          ];
+          let result = List.concatSlices<Nat>(slices);
+          List.toArray(result)
+        },
+        M.equals(T.array(T.natTestable, [11, 12, 20, 21, 31, 32]))
+      ),
+      test(
+        "concat with all slices empty",
+        do {
+          let l1 = List.fromArray<Nat>([1, 2]);
+          let l2 = List.fromArray<Nat>([3, 4]);
+          let slices = [
+            (l1, 0, 0), // []
+            (l2, 1, 1) // []
+          ];
+          let result = List.concatSlices<Nat>(slices);
+          List.toArray(result)
+        },
+        M.equals(T.array(T.natTestable, [] : [Nat]))
+      ),
+      test(
+        "concat with single element slices",
+        do {
+          let l1 = List.fromArray<Nat>([1, 2, 3]);
+          let l2 = List.fromArray<Nat>([4, 5, 6]);
+          let slices = [
+            (l1, 0, 1), // [1]
+            (l1, 1, 2), // [2]
+            (l2, 2, 3) // [6]
+          ];
+          let result = List.concatSlices<Nat>(slices);
+          List.toArray(result)
+        },
+        M.equals(T.array(T.natTestable, [1, 2, 6]))
+      ),
+      test(
+        "concat with slices covering full and partial lists",
+        do {
+          let l1 = List.fromArray<Nat>([1, 2, 3]);
+          let l2 = List.fromArray<Nat>([4, 5, 6, 7]);
+          let slices = [
+            (l1, 0, 3), // [1,2,3]
+            (l2, 1, 3) // [5,6]
+          ];
+          let result = List.concatSlices<Nat>(slices);
+          List.toArray(result)
+        },
+        M.equals(T.array(T.natTestable, [1, 2, 3, 5, 6]))
+      ),
+      test(
+        "concat with repeated slices from the same list",
+        do {
+          let l = List.fromArray<Nat>([9, 8, 7, 6]);
+          let slices = [
+            (l, 0, 2), // [9,8]
+            (l, 2, 4), // [7,6]
+            (l, 1, 3) // [8,7]
+          ];
+          let result = List.concatSlices<Nat>(slices);
+          List.toArray(result)
+        },
+        M.equals(T.array(T.natTestable, [9, 8, 7, 6, 8, 7]))
+      ),
+      test(
+        "concat with a large number of small slices",
+        do {
+          let l = List.fromArray<Nat>(Array.tabulate<Nat>(20, func(i) = i));
+          let slices = Array.tabulate<(List.List<Nat>, Nat, Nat)>(20, func(i) = (l, i, i + 1));
+          let result = List.concatSlices<Nat>(slices);
+          List.toArray(result)
+        },
+        M.equals(T.array(T.natTestable, Array.tabulate<Nat>(20, func(i) = i)))
+      )
+    ]
+  )
+);
+
+run(
+  suite(
+    "concat",
+    [
+      test(
+        "concat two lists",
+        do {
+          let list1 = List.fromArray<Nat>([1, 2, 3]);
+          let list2 = List.fromArray<Nat>([4, 5, 6]);
+          let result = List.concat<Nat>([list1, list2]);
+          List.toArray(result)
+        },
+        M.equals(T.array(T.natTestable, [1, 2, 3, 4, 5, 6]))
+      )
+    ]
+  )
 )

@@ -18,6 +18,10 @@
 * Update code examples in doc comments (#224, #282, #303, #315).
 * Add `findIndex()` function to modules with `find()` (#321).
 
+## 0.5.0
+
+* Add `concat` of slices function.
+
 ## 0.4.0
 
 * Add `isReplicated : () -> Bool` to `InternetComputer` (#213).
