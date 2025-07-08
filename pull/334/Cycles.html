@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html><head title="Doc"><meta charset="UTF-8"/><link href="styles.css" rel="stylesheet"/></head><body><nav class="sidebar"><h3>Modules</h3><ul><li><li><a href="Array.html">Array</a></li></li><li><li><a href="Blob.html">Blob</a></li></li><li><li><a href="Bool.html">Bool</a></li></li><li><li><a href="CertifiedData.html">CertifiedData</a></li></li><li><li><a href="Char.html">Char</a></li></li><li><li><a href="Cycles.html">Cycles</a></li></li><li><li><a href="Debug.html">Debug</a></li></li><li><li><a href="Error.html">Error</a></li></li><li><li><a href="Float.html">Float</a></li></li><li><li><a href="Func.html">Func</a></li></li><li><li><a href="Int.html">Int</a></li></li><li><li><a href="Int16.html">Int16</a></li></li><li><li><a href="Int32.html">Int32</a></li></li><li><li><a href="Int64.html">Int64</a></li></li><li><li><a href="Int8.html">Int8</a></li></li><li><li><a href="InternetComputer.html">InternetComputer</a></li></li><li><li><a href="Iter.html">Iter</a></li></li><li><li><a href="List.html">List</a></li></li><li><li><a href="Map.html">Map</a></li></li><li><li><a href="Nat.html">Nat</a></li></li><li><li><a href="Nat16.html">Nat16</a></li></li><li><li><a href="Nat32.html">Nat32</a></li></li><li><li><a href="Nat64.html">Nat64</a></li></li><li><li><a href="Nat8.html">Nat8</a></li></li><li><li><a href="Option.html">Option</a></li></li><li><li><a href="Order.html">Order</a></li></li><li><li><a href="Principal.html">Principal</a></li></li><li><li><a href="Queue.html">Queue</a></li></li><li><li><a href="Random.html">Random</a></li></li><li><li><a href="Region.html">Region</a></li></li><li><li><a href="Result.html">Result</a></li></li><li><li><a href="Runtime.html">Runtime</a></li></li><li><li><a href="Set.html">Set</a></li></li><li><li><a href="Stack.html">Stack</a></li></li><li><li><a href="Text.html">Text</a></li></li><li><li><a href="Time.html">Time</a></li></li><li><li><a href="Timer.html">Timer</a></li></li><li><li><a href="Tuples.html">Tuples</a></li></li><li><li><a href="Types.html">Types</a></li></li><li><li><a href="VarArray.html">VarArray</a></li></li><li><li><a href="internal/BTreeHelper.html">internal/BTreeHelper</a></li></li><li><li><a href="internal/PRNG.html">internal/PRNG</a></li></li><li><li><a href="pure/List.html">pure/List</a></li></li><li><li><a href="pure/Map.html">pure/Map</a></li></li><li><li><a href="pure/Queue.html">pure/Queue</a></li></li><li><li><a href="pure/RealTimeQueue.html">pure/RealTimeQueue</a></li></li><li><li><a href="pure/Set.html">pure/Set</a></li></li></ul><h3>Declarations</h3><ul><li><li><a href="#balance">balance</a></li></li><li><li><a href="#available">available</a></li></li><li><li><a href="#accept">accept</a></li></li><li><li><a href="#refunded">refunded</a></li></li><li><li><a href="#burn">burn</a></li></li></ul></nav><div class="documentation"><h1>Cycles</h1><p>Managing cycles within actors in the Internet Computer Protocol (ICP).</p>
+<p>The usage of the Internet Computer is measured, and paid for, in <em>cycles</em>.
+This library provides imperative operations for observing cycles, transferring cycles, and
+observing refunds of cycles.</p>
+<p><strong>NOTE:</strong> Since cycles measure computational resources, the value of  <code>balance()</code> can change from one call to the next.</p>
+<p>Cycles can be transferred from the current actor to another actor with the evaluation of certain forms of expression.
+In particular, the expression must be a call to a shared function, a call to a local function with an <code>async</code> return type, or a simple <code>async</code> expression.
+To attach an amount of cycles to an expression <code>&lt;exp&gt;</code>, simply prefix the expression with <code>(with cycles = &lt;amount&gt;)</code>, that is, <code>(with cycles = &lt;amount&gt;) &lt;exp&gt;</code>.</p>
+<p><strong>NOTE:</strong> Attaching cycles will trap if the amount specified exceeds <code>2 ** 128</code> cycles.</p>
+<p>Upon the call, but not before, the amount of cycles is deducted from <code>balance()</code>.
+If this total exceeds <code>balance()</code>, the caller traps, aborting the call without consuming the cycles.
+Note that attaching cycles to a call to a local function call or <code>async</code> expression just transfers cycles from the current actor to itself.</p>
+<p>Example for use on the ICP:</p>
+<pre><code>motoko no-repl
+import Cycles &quot;mo:core/Cycles&quot;;
+
+persistent actor {
+  public func main() : async () {
+    let initialBalance = Cycles.balance();
+    await (with cycles = 15_000_000) operation(); // accepts 10_000_000 cycles
+    assert Cycles.refunded() == 5_000_000;
+    assert Cycles.balance() &lt; initialBalance; // decreased by around 10_000_000
+  };
+
+  func operation() : async () {
+    let initialBalance = Cycles.balance();
+    let initialAvailable = Cycles.available();
+    let obtained = Cycles.accept&lt;system&gt;(10_000_000);
+    assert obtained == 10_000_000;
+    assert Cycles.balance() == initialBalance + 10_000_000;
+    assert Cycles.available() == initialAvailable - 10_000_000;
+  }
+}</code></pre><div class="declaration"><h4 class="function" id="balance"><code><span class="keyword">public func </span><span class="fnname">balance</span>() : (<span class="parameter">amount</span> : <span class="type">Nat</span>)</code></h4><p><p>Returns the actor's current balance of cycles as <code>amount</code>.</p>
+<p>Example for use on the ICP:</p>
+<pre><code>motoko no-repl
+import Cycles &quot;mo:core/Cycles&quot;;
+
+persistent actor {
+  public func main() : async() {
+    let balance = Cycles.balance();
+    assert balance &gt; 0;
+  }
+}</code></pre></p></div><div class="declaration"><h4 class="function" id="available"><code><span class="keyword">public func </span><span class="fnname">available</span>() : (<span class="parameter">amount</span> : <span class="type">Nat</span>)</code></h4><p><p>Returns the currently available <code>amount</code> of cycles.
+The amount available is the amount received in the current call,
+minus the cumulative amount <code>accept</code>ed by this call.
+On exit from the current shared function or async expression via <code>return</code> or <code>throw</code>,
+any remaining available amount is automatically refunded to the caller/context.</p>
+<p>Example for use on the ICP:</p>
+<pre><code>motoko no-repl
+import Cycles &quot;mo:core/Cycles&quot;;
+
+persistent actor {
+  public func main() : async() {
+    let available = Cycles.available();
+    assert available &gt;= 0;
+  }
+}</code></pre></p></div><div class="declaration"><h4 class="function" id="accept"><code><span class="keyword">public func </span><span class="fnname">accept</span>(<span class="parameter">amount</span> : <span class="type">Nat</span>) : (<span class="parameter">accepted</span> : <span class="type">Nat</span>)</code></h4><p><p>Transfers up to <code>amount</code> from <code>available()</code> to <code>balance()</code>.
+Returns the amount actually transferred, which may be less than
+requested, for example, if less is available, or if canister balance limits are reached.</p>
+<p>Example for use on the ICP (for simplicity, only transferring cycles to itself):</p>
+<pre><code>motoko no-repl
+import Cycles &quot;mo:core/Cycles&quot;;
+
+persistent actor {
+  public func main() : async() {
+    await (with cycles = 15_000_000) operation(); // accepts 10_000_000 cycles
+  };
+
+  func operation() : async() {
+    let obtained = Cycles.accept&lt;system&gt;(10_000_000);
+    assert obtained == 10_000_000;
+  }
+}</code></pre></p></div><div class="declaration"><h4 class="function" id="refunded"><code><span class="keyword">public func </span><span class="fnname">refunded</span>() : (<span class="parameter">amount</span> : <span class="type">Nat</span>)</code></h4><p><p>Reports <code>amount</code> of cycles refunded in the last <code>await</code> of the current
+context, or zero if no await has occurred yet.
+Calling <code>refunded()</code> is solely informational and does not affect <code>balance()</code>.
+Instead, refunds are automatically added to the current balance,
+whether or not <code>refunded</code> is used to observe them.</p>
+<p>Example for use on the ICP (for simplicity, only transferring cycles to itself):</p>
+<pre><code>motoko no-repl
+import Cycles &quot;mo:core/Cycles&quot;;
+
+persistent actor {
+  func operation() : async() {
+    ignore Cycles.accept&lt;system&gt;(10_000_000);
+  };
+
+  public func main() : async() {
+    await (with cycles = 15_000_000) operation(); // accepts 10_000_000 cycles
+    assert Cycles.refunded() == 5_000_000;
+  }
+}</code></pre></p></div><div class="declaration"><h4 class="function" id="burn"><code><span class="keyword">public func </span><span class="fnname">burn</span>(<span class="parameter">amount</span> : <span class="type">Nat</span>) : (<span class="parameter">burned</span> : <span class="type">Nat</span>)</code></h4><p><p>Attempts to burn <code>amount</code> of cycles, deducting <code>burned</code> from the canister's
+cycle balance. The burned cycles are irrevocably lost and not available to any
+other principal either.</p>
+<p>Example for use on the IC:</p>
+<pre><code>motoko no-repl
+import Cycles &quot;mo:core/Cycles&quot;;
+
+actor {
+  public func main() : async() {
+    let burnt = Cycles.burn&lt;system&gt;(10_000_000);
+    assert burnt == 10_000_000;
+  }
+}</code></pre></p></div></div></body></html>
