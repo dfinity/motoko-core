@@ -20,7 +20,7 @@ runs:
       with:
         node-version: 20
         cache: npm
-        
+
     - name: Cache mops packages before installing dependencies
       if: ${{ inputs.setup-mops }}
       id: mops-cache
@@ -32,22 +32,22 @@ runs:
           mops-packages-
         path: |
           ~/.cache/mops
-    
+
     - name: Install dependencies
       if: ${{ inputs.setup-mops }}
       shell: bash
       run: npm ci
-    
+
     - name: Init Mops Toolchain
       if: ${{ inputs.setup-mops }}
       shell: bash
       run: npx mops toolchain init
-    
+
     - name: Setup dfx
       if: ${{ inputs.setup-dfx }}
       uses: dfinity/setup-dfx@main
-    
+
     - name: Install dfx cache
       if: ${{ inputs.setup-dfx }}
       shell: bash
-      run: dfx cache install 
+      run: dfx cache install
