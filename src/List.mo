@@ -162,7 +162,7 @@ module {
     var cnt = count;
     while (cnt > 0) {
       let db_size = data_block_size(list.blockIndex);
-      if (list.elementIndex == 0 and db_size <= cnt) {
+      if (list.elementIndex == 0 and db_size <= cnt and list.blocks[list.blockIndex].size() == 0) {
         list.blocks[list.blockIndex] := VarArray.repeat<?T>(?initValue, db_size);
         cnt -= db_size;
         list.blockIndex += 1
@@ -470,7 +470,7 @@ module {
 
       // Keep one totally empty block when removing
       if (blockIndex + 2 < list.blocks.size()) {
-        if (list.blocks[blockIndex + 2].size() == 0) {
+        if (list.blocks[blockIndex + 2].size() > 0) {
           list.blocks[blockIndex + 2] := [var]
         }
       };
