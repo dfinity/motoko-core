@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html><head title="Doc"><meta charset="UTF-8"/><link href="../styles.css" rel="stylesheet"/></head><body><nav class="sidebar"><h3>Modules</h3><ul><li><li><a href="../Array.html">Array</a></li></li><li><li><a href="../Blob.html">Blob</a></li></li><li><li><a href="../Bool.html">Bool</a></li></li><li><li><a href="../CertifiedData.html">CertifiedData</a></li></li><li><li><a href="../Char.html">Char</a></li></li><li><li><a href="../Cycles.html">Cycles</a></li></li><li><li><a href="../Debug.html">Debug</a></li></li><li><li><a href="../Error.html">Error</a></li></li><li><li><a href="../Float.html">Float</a></li></li><li><li><a href="../Func.html">Func</a></li></li><li><li><a href="../Int.html">Int</a></li></li><li><li><a href="../Int16.html">Int16</a></li></li><li><li><a href="../Int32.html">Int32</a></li></li><li><li><a href="../Int64.html">Int64</a></li></li><li><li><a href="../Int8.html">Int8</a></li></li><li><li><a href="../InternetComputer.html">InternetComputer</a></li></li><li><li><a href="../Iter.html">Iter</a></li></li><li><li><a href="../List.html">List</a></li></li><li><li><a href="../Map.html">Map</a></li></li><li><li><a href="../Nat.html">Nat</a></li></li><li><li><a href="../Nat16.html">Nat16</a></li></li><li><li><a href="../Nat32.html">Nat32</a></li></li><li><li><a href="../Nat64.html">Nat64</a></li></li><li><li><a href="../Nat8.html">Nat8</a></li></li><li><li><a href="../Option.html">Option</a></li></li><li><li><a href="../Order.html">Order</a></li></li><li><li><a href="../Principal.html">Principal</a></li></li><li><li><a href="../Queue.html">Queue</a></li></li><li><li><a href="../Random.html">Random</a></li></li><li><li><a href="../Region.html">Region</a></li></li><li><li><a href="../Result.html">Result</a></li></li><li><li><a href="../Runtime.html">Runtime</a></li></li><li><li><a href="../Set.html">Set</a></li></li><li><li><a href="../Stack.html">Stack</a></li></li><li><li><a href="../Text.html">Text</a></li></li><li><li><a href="../Time.html">Time</a></li></li><li><li><a href="../Timer.html">Timer</a></li></li><li><li><a href="../Tuples.html">Tuples</a></li></li><li><li><a href="../Types.html">Types</a></li></li><li><li><a href="../VarArray.html">VarArray</a></li></li><li><li><a href="../internal/BTreeHelper.html">internal/BTreeHelper</a></li></li><li><li><a href="../internal/PRNG.html">internal/PRNG</a></li></li><li><li><a href="../pure/List.html">pure/List</a></li></li><li><li><a href="../pure/Map.html">pure/Map</a></li></li><li><li><a href="../pure/Queue.html">pure/Queue</a></li></li><li><li><a href="../pure/RealTimeQueue.html">pure/RealTimeQueue</a></li></li><li><li><a href="../pure/Set.html">pure/Set</a></li></li></ul><h3>Declarations</h3><ul><li><li><a href="#type.SFC64">SFC64</a></li></li><li><li><a href="#sfc64a">sfc64a</a></li></li></ul></nav><div class="documentation"><h1>internal/PRNG</h1><p>Collection of pseudo-random number generators</p>
+<p>The algorithms deliver deterministic statistical randomness,
+not cryptographic randomness.</p>
+<p>Algorithm 1: 128-bit Seiran PRNG
+See: https://github.com/andanteyk/prng-seiran</p>
+<p>Algorithm 2: SFC64 and SFC32 (Chris Doty-Humphrey’s Small Fast Chaotic PRNG)
+See: https://numpy.org/doc/stable/reference/random/bit_generators/sfc64.html</p>
+<p>Copyright: 2023 MR Research AG
+Main author: react0r-com
+Contributors: Timo Hanke (timohanke)</p>
+<div class="declaration"><h4 class="class-declaration" id="type.SFC64"><span class="keyword">class </span><span class="classname">SFC64</span>(<br/>  <span class="parameter">p</span> : <span class="type">Nat64</span>, <br/>  <span class="parameter">q</span> : <span class="type">Nat64</span>, <br/>  <span class="parameter">r</span> : <span class="type">Nat64</span><br/>)</h4><div class="declaration"><h4 class="function" id="SFC64.init"><code><span class="keyword">public func </span><span class="fnname">init</span>(<span class="parameter">seed</span> : <span class="type">Nat64</span>)</code></h4><p><p>Initializes the PRNG state with a particular seed</p>
+<p>Example:
+```motoko</p>
+</p></div><div class="declaration"><h4 class="function" id="SFC64.initPre"><code><span class="keyword">public func </span><span class="fnname">initPre</span>()</code></h4><p><p>Initializes the PRNG state with a hardcoded seed.
+No argument is required.</p>
+<p>Example:</p>
+</p></div><div class="declaration"><h4 class="function" id="SFC64.init3"><code><span class="keyword">public func </span><span class="fnname">init3</span>(<br/>  <span class="parameter">seed1</span> : <span class="type">Nat64</span>, <br/>  <span class="parameter">seed2</span> : <span class="type">Nat64</span>, <br/>  <span class="parameter">seed3</span> : <span class="type">Nat64</span><br/>)</code></h4><p><p>Initializes the PRNG state with three state variables</p>
+<p>Example:</p>
+</p></div><div class="declaration"><h4 class="function" id="SFC64.next"><code><span class="keyword">public func </span><span class="fnname">next</span>() : <span class="type">Nat64</span></code></h4><p><p>Returns one output and advances the PRNG's state</p>
+<p>Example:</p>
+</p></div><p><p>Constructs an SFC 64-bit generator.
+The recommended constructor arguments are: 24, 11, 3.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import PRNG &quot;mo:core/internal/PRNG&quot;;
+
+let rng = PRNG.SFC64(24, 11, 3);</code></pre><p>For convenience, the function <code>SFC64a()</code> returns a generator constructed
+with the recommended parameter set (24, 11, 3).</p>
+</p></div><div class="declaration"><h4 class="function" id="sfc64a"><code><span class="keyword">public func </span><span class="fnname">sfc64a</span>() : <a href="#type.SFC64"><span class="type">SFC64</span></a></code></h4><p><p>SFC64a is the same as numpy.
+See: <a href="https:///github.com/numpy/numpy/blob/b6d372c25fab5033b828dd9de551eb0b7fa55800/numpy/random/src/sfc64/sfc64.h#L28">sfc64_next()</a></p>
+</p></div></div></body></html>
