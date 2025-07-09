@@ -165,7 +165,7 @@ module {
       if (list.elementIndex == 0 and db_size <= cnt) {
         var block = list.blocks[list.blockIndex];
         if (block.size() == 0) {
-          list.blocks[blockIndex] := VarArray.repeat<?T>(?initValue, db_size)
+          list.blocks[list.blockIndex] := VarArray.repeat<?T>(?initValue, db_size)
         } else {
           var i = 0;
           while (i < db_size) {

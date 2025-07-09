@@ -5,6 +5,7 @@
 * **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
 * Fix a bug in `List.last<T>` (#336). 
 * Fix a typo in the `VarArray` documentation (#338).
+* Fix memory leak bugs in `List.addRepeat<T>` and `List.removeLast<T>` (#343).
 
 ## 0.5.0
 
