@@ -162,17 +162,8 @@ module {
     var cnt = count;
     while (cnt > 0) {
       let db_size = data_block_size(list.blockIndex);
-      if (list.elementIndex == 0 and db_size <= cnt) {
-        var block = list.blocks[list.blockIndex];
-        if (block.size() == 0) {
-          list.blocks[list.blockIndex] := VarArray.repeat<?T>(?initValue, db_size)
-        } else {
-          var i = 0;
-          while (i < db_size) {
-            block[i] := ?initValue;
-            i += 1
-          }
-        };
+      if (list.elementIndex == 0 and db_size <= cnt and list.blocks[list.blockIndex].size() == 0) {
+        list.blocks[list.blockIndex] := VarArray.repeat<?T>(?initValue, db_size);
         cnt -= db_size;
         list.blockIndex += 1
       } else {
