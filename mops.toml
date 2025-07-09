@@ -20,5 +20,5 @@ matchers = "https://github.com/kritzcreek/motoko-matchers#v1.3.1@5ba5f52bd9a5649
 base-0-14-8 = "https://github.com/dfinity/motoko-base#moc-0.14.8@9e6010595cb9bad5b637ab7438fd11dc79a21a06"
 
 [toolchain]
-moc = "0.14.8"
+moc = "0.14.14"
 wasmtime = "21.0.0"

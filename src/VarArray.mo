@@ -76,7 +76,7 @@ module {
     newArray
   };
 
-  /// Creates an immutable array of size `size`. Each element at index i
+  /// Creates a mutable array of size `size`. Each element at index i
   /// is created by applying `generator` to i.
   ///
   /// ```motoko include=import
