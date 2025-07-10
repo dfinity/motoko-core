@@ -416,43 +416,43 @@ let suite = Suite.suite(
       M.equals(T.nat(0))
     ),
     Suite.test(
-      "sliceToArray if including entire array",
-      Array.sliceToArray<Nat>([2, 4, 6, 8, 10], 0, 5),
+      "subArray if including entire array",
+      Array.subArray<Nat>([2, 4, 6, 8, 10], 0, 5),
       M.equals(T.array(T.natTestable, [2, 4, 6, 8, 10]))
     ),
     Suite.test(
-      "sliceToArray if including all but last index",
-      Array.sliceToArray<Nat>([2, 4, 6, 8, 10], 0, -1),
+      "subArray if including all but last index",
+      Array.subArray<Nat>([2, 4, 6, 8, 10], 0, -1),
       M.equals(T.array(T.natTestable, [2, 4, 6, 8]))
     ),
     Suite.test(
-      "sliceToArray if including all but first index",
-      Array.sliceToArray<Nat>([2, 4, 6, 8, 10], 1, 5),
+      "subArray if including all but first index",
+      Array.subArray<Nat>([2, 4, 6, 8, 10], 1, 5),
       M.equals(T.array(T.natTestable, [4, 6, 8, 10]))
     ),
     Suite.test(
-      "sliceToArray if including middle of array",
-      Array.sliceToArray<Nat>([2, 4, 6, 8, 10], 1, 4),
+      "subArray if including middle of array",
+      Array.subArray<Nat>([2, 4, 6, 8, 10], 1, 4),
       M.equals(T.array(T.natTestable, [4, 6, 8]))
     ),
     Suite.test(
-      "sliceToArray if including middle of array (negative indices)",
-      Array.sliceToArray<Nat>([2, 4, 6, 8, 10], -4, -1),
+      "subArray if including middle of array (negative indices)",
+      Array.subArray<Nat>([2, 4, 6, 8, 10], -4, -1),
       M.equals(T.array(T.natTestable, [4, 6, 8]))
     ),
     Suite.test(
-      "sliceToArray if including start, but not end of array",
-      Array.sliceToArray<Nat>([2, 4, 6, 8, 10], 0, -2),
+      "subArray if including start, but not end of array",
+      Array.subArray<Nat>([2, 4, 6, 8, 10], 0, -2),
       M.equals(T.array(T.natTestable, [2, 4, 6]))
     ),
     Suite.test(
-      "sliceToArray if including end, but not start of array",
-      Array.sliceToArray<Nat>([2, 4, 6, 8, 10], 2, 5),
+      "subArray if including end, but not start of array",
+      Array.subArray<Nat>([2, 4, 6, 8, 10], 2, 5),
       M.equals(T.array(T.natTestable, [6, 8, 10]))
     ),
     Suite.test(
-      "sliceToArray if including end, but not start of array (negative indices)",
-      Array.sliceToArray<Nat>([2, 4, 6, 8, 10], -3, 5),
+      "subArray if including end, but not start of array (negative indices)",
+      Array.subArray<Nat>([2, 4, 6, 8, 10], -3, 5),
       M.equals(T.array(T.natTestable, [6, 8, 10]))
     ),
     Suite.test(

@@ -939,17 +939,17 @@ module {
   /// ```motoko include=import
   /// let array = [1, 2, 3, 4, 5];
   ///
-  /// let slice1 = Array.sliceToArray<Nat>(array, 1, 4);
+  /// let slice1 = Array.subArray<Nat>(array, 1, 4);
   /// assert slice1 == [2, 3, 4];
   ///
-  /// let slice2 = Array.sliceToArray<Nat>(array, 1, -1);
+  /// let slice2 = Array.subArray<Nat>(array, 1, -1);
   /// assert slice2 == [2, 3, 4];
   /// ```
   ///
   /// Runtime: O(toExclusive - fromInclusive)
   ///
   /// Space: O(toExclusive - fromInclusive)
-  public func sliceToArray<T>(array : [T], fromInclusive : Int, toExclusive : Int) : [T] {
+  public func subArray<T>(array : [T], fromInclusive : Int, toExclusive : Int) : [T] {
     let size = array.size();
     // Convert negative indices to positive and handle bounds
     let startInt = if (fromInclusive < 0) {
