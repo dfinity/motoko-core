@@ -32,7 +32,6 @@ runs:
           ~/.cache/mops
 
     - name: Install dependencies
-      if: ${{ inputs.setup-mops == 'true' }}
       shell: bash
       run: npm ci
 
