@@ -21,12 +21,12 @@ Garbage Collection: ${\color{gray}0\\%}$
 
 |                  |    1000 |     100000 |     1000000 |
 | :--------------- | ------: | ---------: | ----------: |
-| List             | 612_011 | 53_730_969 | 531_478_624 |
-| Buffer           | 367_424 | 36_403_920 | 364_004_168 |
-| pure/List        | 318_496 | 31_604_567 | 316_062_532 |
-| VarArray ?T      | 201_911 | 19_903_407 | 199_003_655 |
-| VarArray T       | 178_245 | 17_503_741 | 175_003_989 |
-| Array (baseline) |  44_088 |  4_103_584 |  41_003_832 |
+| List             | 548_233 | 48_324_535 | 478_161_875 |
+| Buffer           | 342_005 | 33_903_435 | 339_003_650 |
+| pure/List        | 302_135 | 30_003_590 | 300_055_972 |
+| VarArray ?T      | 180_526 | 17_802_956 | 178_003_171 |
+| VarArray T       | 160_813 | 15_803_243 | 158_003_458 |
+| Array (baseline) |  42_695 |  4_003_125 |  40_003_340 |
 
 
 **Heap**
@@ -75,9 +75,9 @@ Garbage Collection: ${\color{gray}0\\%}$
 
 |                              |    100 |    10_000 |    100_000 |
 | :--------------------------- | -----: | --------: | ---------: |
-| Array.fromIter               | 53_373 | 5_152_334 | 51_503_949 |
-| List.fromIter                | 35_436 | 3_421_823 | 34_204_824 |
-| List.fromIter . Iter.reverse | 56_149 | 5_392_962 | 53_907_349 |
+| Array.fromIter               | 48_764 | 4_712_025 | 47_103_135 |
+| List.fromIter                | 31_698 | 3_061_541 | 30_603_553 |
+| List.fromIter . Iter.reverse | 50_297 | 4_832_522 | 48_305_436 |
 
 
 **Heap**
@@ -118,11 +118,11 @@ Garbage Collection: ${\color{gray}0\\%}$
 
 **Instructions**
 
-|           | 0 (baseline) |     1 |      5 |     10 | 100 (for loop) |
-| :-------- | -----------: | ----: | -----: | -----: | -------------: |
-| List      |        1_753 | 3_319 | 10_314 | 15_845 |         82_859 |
-| pure/List |        1_450 | 1_564 |  2_738 |  4_205 |         33_746 |
-| Buffer    |        2_378 | 2_539 |  3_905 |  5_612 |         39_474 |
+|           | 0 (baseline) |     1 |     5 |     10 | 100 (for loop) |
+| :-------- | -----------: | ----: | ----: | -----: | -------------: |
+| List      |        1_547 | 2_916 | 9_046 | 13_948 |         74_564 |
+| pure/List |        1_247 | 1_355 | 2_439 |  3_801 |         31_868 |
+| Buffer    |        2_119 | 2_271 | 3_518 |  5_085 |         36_640 |
 
 
 **Heap**
@@ -165,21 +165,21 @@ Garbage Collection: ${\color{gray}0\\%}$
 
 |                     |             |
 | :------------------ | ----------: |
-| pure/List.split     |  27_403_700 |
-| pure/List.all       |   9_301_156 |
-| pure/List.any       |   9_401_585 |
-| pure/List.map       |  26_005_117 |
-| pure/List.filter    |  24_305_592 |
-| pure/List.filterMap |  30_606_216 |
-| pure/List.partition |  24_706_539 |
-| pure/List.join      |  38_606_854 |
-| pure/List.flatten   |  29_607_262 |
-| pure/List.take      |  27_407_282 |
-| pure/List.drop      |  11_004_661 |
-| pure/List.foldRight |  21_806_962 |
-| pure/List.merge     |  36_411_001 |
-| pure/List.chunks    |  61_513_741 |
-| pure/Queue          | 161_571_999 |
+| pure/List.split     |  24_602_524 |
+| pure/List.all       |   7_901_014 |
+| pure/List.any       |   8_001_390 |
+| pure/List.map       |  23_103_767 |
+| pure/List.filter    |  21_104_188 |
+| pure/List.filterMap |  27_404_742 |
+| pure/List.partition |  21_304_994 |
+| pure/List.join      |  33_105_326 |
+| pure/List.flatten   |  24_805_667 |
+| pure/List.take      |  24_605_664 |
+| pure/List.drop      |   9_904_119 |
+| pure/List.foldRight |  19_105_768 |
+| pure/List.merge     |  31_808_584 |
+| pure/List.chunks    |  51_510_344 |
+| pure/Queue          | 140_562_492 |
 
 
 **Heap**
@@ -255,10 +255,10 @@ Garbage Collection: ${\color{gray}0\\%}$
 
 |                            | pure/Queue | pure/RealTimeQueue | mutable Queue |
 | :------------------------- | ---------: | -----------------: | ------------: |
-| Initialize with 2 elements |      3_571 |              2_592 |         3_401 |
-| Push 500 elements          |    103_492 |            867_120 |       243_585 |
-| Pop front 2 elements       |     98_792 |              5_009 |         4_326 |
-| Pop 150 front&back         |    106_545 |            350_417 |       140_211 |
+| Initialize with 2 elements |      3_092 |              2_304 |         3_040 |
+| Push 500 elements          |     90_713 |            744_219 |       219_284 |
+| Pop front 2 elements       |     86_966 |              4_446 |         3_847 |
+| Pop 150 front&back         |     92_074 |            304_887 |       124_560 |
 
 
 **Heap**
