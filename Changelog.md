@@ -3,6 +3,7 @@
 ## Next
 
 * **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
+* Added `explode` to `Int16`/`32`/`64`, `Nat16`/`32`/`64`, slicing fixed-length numbers into constituent bytes (#346).
 * Fix a bug in `List.last<T>` (#336). 
 * Fix a typo in the `VarArray` documentation (#338).
 
