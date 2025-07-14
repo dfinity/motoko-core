@@ -62,19 +62,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func clone<T>(array : [var T]) : [var T] {
-    let size = array.size();
-    if (size == 0) {
-      return [var]
-    };
-    let newArray = Prim.Array_init<T>(size, array[0]);
-    var i = 0;
-    while (i < size) {
-      newArray[i] := array[i];
-      i += 1
-    };
-    newArray
-  };
+  public func clone<T>(array : [var T]) : [var T] = Prim.Array_tabulateVar<T>(array.size(), func i = array[i]);
 
   /// Creates a mutable array of size `size`. Each element at index i
   /// is created by applying `generator` to i.
@@ -91,20 +79,7 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `generator` runs in O(1) time and space.
-  public func tabulate<T>(size : Nat, generator : Nat -> T) : [var T] {
-    if (size == 0) {
-      return [var]
-    };
-    let first = generator(0);
-    let array = Prim.Array_init<T>(size, first);
-    array[0] := first;
-    var index = 1;
-    while (index < size) {
-      array[index] := generator(index);
-      index += 1
-    };
-    array
-  };
+  public func tabulate<T>(size : Nat, generator : Nat -> T) : [var T] = Prim.Array_tabulateVar(size, generator);
 
   /// Tests if two arrays contain equal values (i.e. they represent the same
   /// list of elements). Uses `equal` to compare elements in the arrays.
