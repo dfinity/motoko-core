@@ -245,6 +245,7 @@
       "public func compare(x : Int16, y : Int16) : Order.Order",
       "public func div(x : Int16, y : Int16) : Int16",
       "public func equal(x : Int16, y : Int16) : Bool",
+      "public let explode : (x : Int16) -> (msb : Nat8, lsb : Nat8)",
       "public let fromInt : Int -> Int16",
       "public let fromInt32 : Int32 -> Int16",
       "public let fromInt8 : Int8 -> Int16",
