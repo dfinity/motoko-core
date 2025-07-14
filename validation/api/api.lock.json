@@ -303,6 +303,7 @@
       "public func compare(x : Int32, y : Int32) : Order.Order",
       "public func div(x : Int32, y : Int32) : Int32",
       "public func equal(x : Int32, y : Int32) : Bool",
+      "public let explode : (x : Int32) -> (msb : Nat8, Nat8, Nat8, lsb : Nat8)",
       "public let fromInt : Int -> Int32",
       "public let fromInt16 : Int16 -> Int32",
       "public let fromInt64 : Int64 -> Int32",
