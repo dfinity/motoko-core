@@ -361,6 +361,7 @@
       "public func compare(x : Int64, y : Int64) : Order.Order",
       "public func div(x : Int64, y : Int64) : Int64",
       "public func equal(x : Int64, y : Int64) : Bool",
+      "public let explode : (x : Int64) -> (msb : Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, lsb : Nat8)",
       "public let fromInt : Int -> Int64",
       "public let fromInt32 : Int32 -> Int64",
       "public let fromIntWrap : Int -> Int64",
