@@ -592,7 +592,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// Int32.explode 0x66885511 == (102, 136, 85, 17);
+  /// assert Int32.explode 0x66885511 == (102, 136, 85, 17);
   /// ```
   public let explode : (x : Int32) -> (msb : Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeInt32;
 

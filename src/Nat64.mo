@@ -510,7 +510,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// Nat64.explode 0xbb772266aa885511 == (187, 119, 34, 102, 170, 136, 85, 17);
+  /// assert Nat64.explode 0xbb772266aa885511 == (187, 119, 34, 102, 170, 136, 85, 17);
   /// ```
   public let explode : (x : Nat64) -> (msb : Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeNat64;
 
