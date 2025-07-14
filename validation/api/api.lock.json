@@ -661,6 +661,7 @@
       "public func compare(x : Nat16, y : Nat16) : Order.Order",
       "public func div(x : Nat16, y : Nat16) : Nat16",
       "public func equal(x : Nat16, y : Nat16) : Bool",
+      "public let explode : (x : Nat16) -> (msb : Nat8, lsb : Nat8)",
       "public let fromIntWrap : Int -> Nat16",
       "public let fromNat : Nat -> Nat16",
       "public func fromNat32(x : Nat32) : Nat16",
