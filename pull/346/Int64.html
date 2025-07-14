@@ -325,7 +325,7 @@ assert Int64.bitcountTrailingZero(0x0201_0000) == +16;</code></pre></p></div><di
 and in-between bytes of <code>x</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-Int64.explode 0x33772266aa885511 == (51, 119, 34, 102, 170, 136, 85, 17);</code></pre></p></div><div class="declaration"><h4 class="function" id="addWrap"><code><span class="keyword">public func </span><span class="fnname">addWrap</span>(<span class="parameter">x</span> : <a href="#type.Int64"><span class="type">Int64</span></a>, <span class="parameter">y</span> : <a href="#type.Int64"><span class="type">Int64</span></a>) : <a href="#type.Int64"><span class="type">Int64</span></a></code></h4><p><p>Returns the sum of <code>x</code> and <code>y</code>, <code>x +% y</code>.</p>
+assert Int64.explode 0x33772266aa885511 == (51, 119, 34, 102, 170, 136, 85, 17);</code></pre></p></div><div class="declaration"><h4 class="function" id="addWrap"><code><span class="keyword">public func </span><span class="fnname">addWrap</span>(<span class="parameter">x</span> : <a href="#type.Int64"><span class="type">Int64</span></a>, <span class="parameter">y</span> : <a href="#type.Int64"><span class="type">Int64</span></a>) : <a href="#type.Int64"><span class="type">Int64</span></a></code></h4><p><p>Returns the sum of <code>x</code> and <code>y</code>, <code>x +% y</code>.</p>
 <p>Wraps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import

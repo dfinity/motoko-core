@@ -295,7 +295,7 @@ assert Nat64.bitcountTrailingZero(16) == 4;</code></pre></p></div><div class="de
 and in-between bytes of <code>x</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-Nat64.explode 0xbb772266aa885511 == (187, 119, 34, 102, 170, 136, 85, 17);</code></pre></p></div><div class="declaration"><h4 class="function" id="addWrap"><code><span class="keyword">public func </span><span class="fnname">addWrap</span>(<span class="parameter">x</span> : <a href="#type.Nat64"><span class="type">Nat64</span></a>, <span class="parameter">y</span> : <a href="#type.Nat64"><span class="type">Nat64</span></a>) : <a href="#type.Nat64"><span class="type">Nat64</span></a></code></h4><p><p>Returns the sum of <code>x</code> and <code>y</code>, <code>x +% y</code>. Wraps on overflow.</p>
+assert Nat64.explode 0xbb772266aa885511 == (187, 119, 34, 102, 170, 136, 85, 17);</code></pre></p></div><div class="declaration"><h4 class="function" id="addWrap"><code><span class="keyword">public func </span><span class="fnname">addWrap</span>(<span class="parameter">x</span> : <a href="#type.Nat64"><span class="type">Nat64</span></a>, <span class="parameter">y</span> : <a href="#type.Nat64"><span class="type">Nat64</span></a>) : <a href="#type.Nat64"><span class="type">Nat64</span></a></code></h4><p><p>Returns the sum of <code>x</code> and <code>y</code>, <code>x +% y</code>. Wraps on overflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Nat64.addWrap(Nat64.maxValue, 1) == 0;
