@@ -239,8 +239,14 @@ run(
   )
 );
 
+// Test last and first
+assert List.last(list) == null;
+assert List.first(list) == null;
+
 for (i in Nat.rangeInclusive(0, n)) {
-  List.add(list, i)
+  List.add(list, i);
+  assert List.last(list) == ?i;
+  assert List.first(list) == ?0
 };
 
 run(
@@ -284,6 +290,11 @@ run(
         "last of len 1",
         List.last(List.repeat<Nat>(1, 1)),
         M.equals(T.optional(T.natTestable, ?1))
+      ),
+      test(
+        "last of 6",
+        List.last(List.fromArray<Nat>([0, 1, 2, 3, 4, 5])),
+        M.equals(T.optional(T.natTestable, ?5))
       ),
       test(
         "last empty",

@@ -2,9 +2,9 @@
 ///
 /// Note that most operations are available as built-in operators (e.g. `1 + 1`).
 ///
-/// Import from the base library to use this module.
+/// Import from the core library to use this module.
 /// ```motoko name=import
-/// import Int32 "mo:base/Int32";
+/// import Int32 "mo:core/Int32";
 /// ```
 import Int "Int";
 import Iter "Iter";
@@ -262,7 +262,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.sort([1, -2, -3] : [Int32], Int32.compare) == [-3, -2, 1];
   /// ```
   public func compare(x : Int32, y : Int32) : Order.Order {
@@ -300,7 +300,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int32, Int32>([1, -2, -3], 0, Int32.add) == -4;
   /// ```
   public func add(x : Int32, y : Int32) : Int32 { x + y };
@@ -321,7 +321,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int32, Int32>([1, -2, -3], 0, Int32.sub) == 4;
   /// ```
   public func sub(x : Int32, y : Int32) : Int32 { x - y };
@@ -342,7 +342,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int32, Int32>([1, -2, -3], 1, Int32.mul) == 6;
   /// ```
   public func mul(x : Int32, y : Int32) : Int32 { x * y };
@@ -650,7 +650,7 @@ module {
 
   /// Returns an iterator over `Int32` values from the first to second argument with an exclusive upper bound.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int32.range(1, 4);
   /// assert iter.next() == ?1;
@@ -661,7 +661,7 @@ module {
   ///
   /// If the first argument is greater than the second argument, the function returns an empty iterator.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int32.range(4, 1);
   /// assert iter.next() == null; // empty iterator
@@ -687,7 +687,7 @@ module {
 
   /// Returns an iterator over `Int32` values from the first to second argument, inclusive.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int32.rangeInclusive(1, 3);
   /// assert iter.next() == ?1;
@@ -698,7 +698,7 @@ module {
   ///
   /// If the first argument is greater than the second argument, the function returns an empty iterator.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int32.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
@@ -729,7 +729,7 @@ module {
 
   /// Returns an iterator over all Int32 values, from minValue to maxValue.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int32.allValues();
   /// assert iter.next() == ?-2_147_483_648;

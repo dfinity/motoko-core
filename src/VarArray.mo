@@ -8,9 +8,9 @@
 /// it is recommended you use `List` for those purposes.
 /// Arrays must be created with a fixed size.
 ///
-/// Import from the base library to use this module.
+/// Import from the core library to use this module.
 /// ```motoko name=import
-/// import VarArray "mo:base/VarArray";
+/// import VarArray "mo:core/VarArray";
 /// ```
 
 import Types "Types";
@@ -36,7 +36,7 @@ module {
   /// Creates a mutable array containing `item` repeated `size` times.
   ///
   /// ```motoko include=import
-  /// import Text "mo:base/Text";
+  /// import Text "mo:core/Text";
   ///
   /// let array = VarArray.repeat<Text>("Echo", 3);
   /// assert VarArray.equal(array, [var "Echo", "Echo", "Echo"], Text.equal);
@@ -50,7 +50,7 @@ module {
   /// Duplicates `array`, returning a shallow copy of the original.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array1 = [var 1, 2, 3];
   /// let array2 = VarArray.clone<Nat>(array1);
@@ -76,11 +76,11 @@ module {
     newArray
   };
 
-  /// Creates an immutable array of size `size`. Each element at index i
+  /// Creates a mutable array of size `size`. Each element at index i
   /// is created by applying `generator` to i.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array : [var Nat] = VarArray.tabulate<Nat>(4, func i = i * 2);
   /// assert VarArray.equal(array, [var 0, 2, 4, 6], Nat.equal);
@@ -111,7 +111,7 @@ module {
   ///
   /// ```motoko include=import
   /// // Use the equal function from the Nat module to compare Nats
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array1 = [var 0, 1, 2, 3];
   /// let array2 = [var 0, 1, 2, 3];
@@ -187,7 +187,7 @@ module {
   /// Note that `VarArray.concat` copies its arguments and has linear complexity.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array1 = [var 1, 2, 3];
   /// let array2 = [var 4, 5, 6];
@@ -216,7 +216,7 @@ module {
   /// Sort is deterministic and stable.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array = [var 4, 2, 6];
   /// let sorted = VarArray.sort(array, Nat.compare);
@@ -236,7 +236,7 @@ module {
   /// Sort is deterministic and stable. This modifies the original array.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array = [var 4, 2, 6];
   /// VarArray.sortInPlace(array, Nat.compare);
@@ -314,7 +314,7 @@ module {
   /// The original array is not modified.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array = [var 10, 11, 12];
   /// let reversed = VarArray.reverse(array);
@@ -333,7 +333,7 @@ module {
   /// This modifies the original array.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array = [var 10, 11, 12];
   /// VarArray.reverseInPlace(array);
@@ -387,7 +387,7 @@ module {
   /// Retains original ordering of elements.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array = [var 0, 1, 2, 3];
   /// let array2 = VarArray.map<Nat, Nat>(array, func x = x * 2);
@@ -413,7 +413,7 @@ module {
   /// This modifies the original array.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array = [var 0, 1, 2, 3];
   /// VarArray.mapInPlace<Nat>(array, func x = x * 3);
@@ -438,7 +438,7 @@ module {
   /// in `array`, retaining the elements for which `predicate` returns true.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array = [var 4, 2, 6, 1, 5];
   /// let evenElements = VarArray.filter<Nat>(array, func x = x % 2 == 0);
@@ -478,8 +478,8 @@ module {
   /// and keeping all non-null elements. The ordering is retained.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
-  /// import Text "mo:base/Text";
+  /// import Nat "mo:core/Nat";
+  /// import Text "mo:core/Text";
   ///
   /// let array = [var 4, 2, 0, 1];
   /// let newArray =
@@ -534,7 +534,7 @@ module {
   /// returns an `#ok` containing the new array.
   ///
   /// ```motoko include=import
-  /// import Result "mo:base/Result";
+  /// import Result "mo:core/Result";
   ///
   /// let array = [var 4, 3, 2, 1, 0];
   /// // divide 100 by every element in the array
@@ -607,7 +607,7 @@ module {
   /// Retains original ordering of elements.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array = [var 10, 10, 10, 10];
   /// let newArray = VarArray.mapEntries<Nat, Nat>(array, func (x, i) = i * x);
@@ -627,7 +627,7 @@ module {
   /// and concatenating the resulting arrays in order.
   ///
   /// ```motoko include=import
-  /// import Int "mo:base/Int"
+  /// import Int "mo:core/Int"
   ///
   /// let array = [var 1, 2, 3, 4];
   /// let newArray = VarArray.flatMap<Nat, Int>(array, func x = [x, -x].vals());
@@ -671,7 +671,7 @@ module {
   /// left to right.
   ///
   /// ```motoko include=import
-  /// import {add} "mo:base/Nat";
+  /// import {add} "mo:core/Nat";
   ///
   /// let array = [var 4, 2, 0, 1];
   /// let sum =
@@ -701,7 +701,7 @@ module {
   /// right to left.
   ///
   /// ```motoko include=import
-  /// import {toText} "mo:base/Nat";
+  /// import {toText} "mo:core/Nat";
   ///
   /// let array = [var 1, 9, 4, 8];
   /// let bookTitle = VarArray.foldRight<Nat, Text>(array, "", func(x, acc) = toText(x) # acc);
@@ -730,7 +730,7 @@ module {
   /// Consider using `VarArray.flatten()` for better performance.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let arrays : [[var Nat]] = [[var 0, 1, 2], [var 2, 3], [var], [var 4]];
   /// let joinedArray = VarArray.join<Nat>(arrays.vals());
@@ -750,7 +750,7 @@ module {
   /// This has better performance compared to `VarArray.join()`.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let arrays : [var [var Nat]] = [var [var 0, 1, 2], [var 2, 3], [var], [var 4]];
   /// let flatArray = VarArray.flatten<Nat>(arrays);
@@ -785,7 +785,7 @@ module {
   /// Create an array containing a single value.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array = VarArray.singleton<Nat>(2);
   /// assert VarArray.equal(array, [var 2], Nat.equal);
@@ -958,7 +958,7 @@ module {
   /// Returns the index of the first `element` in the `array`.
   ///
   /// ```motoko include=import
-  /// import Char "mo:base/Char";
+  /// import Char "mo:core/Char";
   ///
   /// let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
   /// assert VarArray.indexOf<Char>('c', array, Char.equal) == ?0;
@@ -974,7 +974,7 @@ module {
   /// Returns the index of the next occurence of `element` in the `array` starting from the `from` index (inclusive).
   ///
   /// ```motoko include=import
-  /// import Char "mo:base/Char";
+  /// import Char "mo:core/Char";
   ///
   /// let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
   /// assert VarArray.nextIndexOf<Char>('c', array, 0, Char.equal) == ?0;
@@ -1003,7 +1003,7 @@ module {
   /// Returns the index of the last `element` in the `array`.
   ///
   /// ```motoko include=import
-  /// import Char "mo:base/Char";
+  /// import Char "mo:core/Char";
   ///
   /// let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
   /// assert VarArray.lastIndexOf<Char>('c', array, Char.equal) == ?0;
@@ -1020,7 +1020,7 @@ module {
   /// Returns the index of the previous occurence of `element` in the `array` starting from the `from` index (exclusive).
   ///
   /// ```motoko include=import
-  /// import Char "mo:base/Char";
+  /// import Char "mo:core/Char";
   /// let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
   /// assert VarArray.prevIndexOf<Char>('c', array, array.size(), Char.equal) == ?0;
   /// assert VarArray.prevIndexOf<Char>('e', array, array.size(), Char.equal) == ?5;
@@ -1138,7 +1138,7 @@ module {
   /// Converts the mutable array to its textual representation using `f` to convert each element to `Text`.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array = [var 1, 2, 3];
   /// assert VarArray.toText<Nat>(array, Nat.toText) == "[var 1, 2, 3]";
@@ -1173,7 +1173,7 @@ module {
   /// the shorter array is considered #less than the longer array.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   /// let array1 = [var 1, 2, 3];
   /// let array2 = [var 1, 2, 4];
   /// assert VarArray.compare<Nat>(array1, array2, Nat.compare) == #less;

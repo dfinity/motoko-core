@@ -22,24 +22,18 @@ async function getMocVersion(): Promise<string> {
 }
 
 async function getReadmeVersions(): Promise<{
-  newBase: string;
-  base: string;
+  core: string;
 }> {
   const readmeContent = await readFile(
     join(rootDirectory, "README.md"),
     "utf-8"
   );
-  const newBaseMatch = readmeContent.match(/new-base\s*=\s*"(\d+\.\d+\.\d+)"/);
-  if (!newBaseMatch) {
-    throw new Error("Could not find 'new-base' version in README.md");
-  }
-  const baseMatch = readmeContent.match(/base\s*=\s*"(\d+\.\d+\.\d+)"/);
-  if (!baseMatch) {
-    throw new Error("Could not find 'base' version in README.md");
+  const coreMatch = readmeContent.match(/core\s*=\s*"(\d+\.\d+\.\d+)"/);
+  if (!coreMatch) {
+    throw new Error("Could not find 'core' version in README.md");
   }
   return {
-    newBase: newBaseMatch[1],
-    base: baseMatch[1],
+    core: coreMatch[1],
   };
 }
 
@@ -50,27 +44,14 @@ async function main() {
       getMocVersion(),
       getReadmeVersions(),
     ]);
-    if (mopsVersion !== readmeVersions.newBase) {
+    if (mopsVersion !== readmeVersions.core) {
       throw new Error(
-        `Version mismatch: mops.toml version (${mopsVersion}) does not match 'new-base' version in README.md (${readmeVersions.newBase})`
-      );
-    }
-    const baseVersionMajorMinor = readmeVersions.base
-      .split(".")
-      .slice(0, 2)
-      .join(".");
-    const mocVersionMajorMinor = mocVersion.split(".").slice(0, 2).join(".");
-    if (baseVersionMajorMinor !== mocVersionMajorMinor) {
-      throw new Error(
-        `Version mismatch: 'base' version in README.md (${readmeVersions.base}) is not compatible with 'moc' toolchain version (${mocVersion})`
+        `Version mismatch: mops.toml version (${mopsVersion}) does not match 'core' version in README.md (${readmeVersions.core})`
       );
     }
     console.log("✓ All version checks passed:");
     console.log(
-      `  • mops.toml version (${mopsVersion}) matches 'new-base' version in README.md`
-    );
-    console.log(
-      `  • 'base' version (${readmeVersions.base}) is compatible with 'moc' version (${mocVersion})`
+      `  • mops.toml version (${mopsVersion}) matches 'core' version in README.md`
     );
     process.exit(0);
   } catch (error) {

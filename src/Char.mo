@@ -4,9 +4,9 @@
 /// in the range 0 to 0x10FFFF, excluding the surrogate code points
 /// (0xD800 through 0xDFFF).
 ///
-/// Import from the base library to use this module.
+/// Import from the core library to use this module.
 /// ```motoko name=import
-/// import Char "mo:base/Char";
+/// import Char "mo:core/Char";
 /// ```
 ///
 /// Some built in features not listed in this module:

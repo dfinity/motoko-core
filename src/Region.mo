@@ -46,7 +46,7 @@
 ///
 /// Usage:
 /// ```motoko no-repl name=import
-/// import Region "mo:base/Region";
+/// import Region "mo:core/Region";
 /// ```
 
 import Prim "mo:⛔";
@@ -119,7 +119,7 @@ module {
   ///
   /// Example:
   /// ```motoko no-repl include=import
-  /// import Error "mo:base/Error";
+  /// import Error "mo:core/Error";
   ///
   /// persistent actor {
   ///   public func example() : async () {
@@ -446,7 +446,7 @@ module {
   ///
   /// Example:
   /// ```motoko no-repl include=import
-  /// import Blob "mo:base/Blob";
+  /// import Blob "mo:core/Blob";
   ///
   /// persistent actor {
   ///   public func example() : async () {
@@ -466,7 +466,7 @@ module {
   ///
   /// Example:
   /// ```motoko no-repl include=import
-  /// import Blob "mo:base/Blob";
+  /// import Blob "mo:core/Blob";
   ///
   /// persistent actor {
   ///   public func example() : async () {

@@ -20,8 +20,8 @@ module {
   ///
   /// Example:
   /// ```motoko no-repl
-  /// import CertifiedData "mo:base/CertifiedData";
-  /// import Blob "mo:base/Blob";
+  /// import CertifiedData "mo:core/CertifiedData";
+  /// import Blob "mo:core/Blob";
   ///
   /// // Must be in an update call
   ///
@@ -42,7 +42,7 @@ module {
   ///
   /// Example:
   /// ```motoko no-repl
-  /// import CertifiedData "mo:base/CertifiedData";
+  /// import CertifiedData "mo:core/CertifiedData";
   /// // Must be in a query call
   ///
   /// CertifiedData.getCertificate();

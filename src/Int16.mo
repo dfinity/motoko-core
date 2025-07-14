@@ -2,9 +2,9 @@
 ///
 /// Note that most operations are available as built-in operators (e.g. `1 + 1`).
 ///
-/// Import from the base library to use this module.
+/// Import from the core library to use this module.
 /// ```motoko name=import
-/// import Int16 "mo:base/Int16";
+/// import Int16 "mo:core/Int16";
 /// ```
 
 import Int "Int";
@@ -253,7 +253,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.sort([1, -2, -3] : [Int16], Int16.compare) == [-3, -2, 1];
   /// ```
   public func compare(x : Int16, y : Int16) : Order.Order {
@@ -291,7 +291,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int16, Int16>([1, -2, -3], 0, Int16.add) == -4;
   /// ```
   public func add(x : Int16, y : Int16) : Int16 { x + y };
@@ -312,7 +312,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int16, Int16>([1, -2, -3], 0, Int16.sub) == 4;
   /// ```
   public func sub(x : Int16, y : Int16) : Int16 { x - y };
@@ -333,7 +333,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int16, Int16>([1, -2, -3], 1, Int16.mul) == 6;
   /// ```
   public func mul(x : Int16, y : Int16) : Int16 { x * y };
@@ -640,7 +640,7 @@ module {
 
   /// Returns an iterator over `Int16` values from the first to second argument with an exclusive upper bound.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int16.range(1, 4);
   /// assert iter.next() == ?1;
@@ -651,7 +651,7 @@ module {
   ///
   /// If the first argument is greater than the second argument, the function returns an empty iterator.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int16.range(4, 1);
   /// assert iter.next() == null; // empty iterator
@@ -677,7 +677,7 @@ module {
 
   /// Returns an iterator over `Int16` values from the first to second argument, inclusive.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int16.rangeInclusive(1, 3);
   /// assert iter.next() == ?1;
@@ -688,7 +688,7 @@ module {
   ///
   /// If the first argument is greater than the second argument, the function returns an empty iterator.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int16.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
@@ -719,7 +719,7 @@ module {
 
   /// Returns an iterator over all Int16 values, from minValue to maxValue.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int16.allValues();
   /// assert iter.next() == ?-32_768;

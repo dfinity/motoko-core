@@ -1,4 +1,4 @@
-# Base library style guide
+# Core library style guide
 
 ## Source code
 
@@ -15,7 +15,7 @@ assert Nat.toInt(1234) == +1234;
 * Data structure modules (`Array`, `List`, `Map`, `Queue`, etc.) should use a `persistent actor` wrapper with transient keywords as needed:
 
 ```motoko
-import Map "mo:base/Map";
+import Map "mo:core/Map";
 
 persistent actor {
   let iter = Iter.fromArray([(0, "Zero"), (1, "One"), (2, "Two")]);
@@ -32,8 +32,8 @@ assert Principal.fromText("2vxsx-fae") == Principal.anonymous();
 ...or...
 
 ```motoko
-import IC "mo:base/InternetComputer";
-import Principal "mo:base/Principal";
+import IC "mo:core/InternetComputer";
+import Principal "mo:core/Principal";
 
 persistent actor {
   type OutputType = { decimals : Nat32 };
@@ -53,7 +53,7 @@ persistent actor {
 * For minimal code snippets with imports from other modules, include a space after the import. For a code example in the `Text`` module:
 
 ```motoko
-import Char "mo:base/Char";
+import Char "mo:core/Char";
 
 assert Text.compareWith("abc", "ABC", Char.compare) == #greater
 ```

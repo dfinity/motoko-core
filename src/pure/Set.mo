@@ -4,8 +4,8 @@
 ///
 /// Example:
 /// ```motoko
-/// import Set "mo:base/pure/Set";
-/// import Nat "mo:base/Nat";
+/// import Set "mo:core/pure/Set";
+/// import Nat "mo:core/Nat";
 ///
 /// persistent actor {
 ///   let set = Set.fromIter([3, 1, 2, 3].values(), Nat.compare);
@@ -58,9 +58,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let set = Set.fromIter([3, 1, 2, 1].values(), Nat.compare);
@@ -89,9 +89,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let set0 = Set.empty<Nat>();
@@ -121,9 +121,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let set0 = Set.empty();
@@ -153,9 +153,9 @@ module {
   /// Return the set unchanged if the element was absent.
   ///
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let set = Set.fromIter([1, 2, 3].values(), Nat.compare);
@@ -182,9 +182,9 @@ module {
   /// whether `element` was contained in `set`.
   ///
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let set = Set.fromIter([1, 2, 3].values(), Nat.compare);
@@ -214,9 +214,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Bool "mo:base/Bool";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Bool "mo:core/Bool";
   ///
   /// persistent actor {
   ///   let set = Set.fromIter([3, 1, 2].values(), Nat.compare);
@@ -236,8 +236,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let set1 = Set.fromIter<Nat>([0, 2, 1].values(), Nat.compare);
@@ -257,8 +257,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let set1 = Set.fromIter<Nat>([2, 0, 1].values(), Nat.compare);
@@ -280,9 +280,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let set1 = Set.fromIter([1, 2, 3].values(), Nat.compare);
@@ -311,9 +311,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let set1 = Set.fromIter([0, 1, 2].values(), Nat.compare);
@@ -358,9 +358,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let set1 = Set.fromIter([1, 2, 3].values(), Nat.compare);
@@ -407,10 +407,10 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Text "mo:base/Text";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Text "mo:core/Text";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let numbers = Set.fromIter([3, 1, 2].values(), Nat.compare);
@@ -434,8 +434,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let numbers = Set.fromIter([0, 3, 1, 2].values(), Nat.compare);
@@ -462,9 +462,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let numbers = Set.fromIter([0, 3, 1, 2].values(), Nat.compare);
@@ -497,10 +497,10 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Text "mo:base/Text";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Text "mo:core/Text";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let numbers = Set.fromIter([3, 0, 2, 1].values(), Nat.compare);
@@ -544,8 +544,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let set1 = Set.fromIter([1, 2].values(), Nat.compare);
@@ -570,8 +570,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let set1 = Set.fromIter([1, 2].values(), Nat.compare);
@@ -630,8 +630,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let set1 = Set.fromIter([0, 1].values(), Nat.compare);
@@ -673,8 +673,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let set = Set.fromIter([0, 2, 3, 1].values(), Nat.compare);
@@ -699,8 +699,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let set = Set.fromIter([0, 2, 3, 1].values(), Nat.compare);
@@ -724,9 +724,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let set = Set.empty<Nat>();
@@ -742,9 +742,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let set = Set.singleton(0);
@@ -765,8 +765,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let set = Set.fromIter([0, 3, 2, 1, 3].values(), Nat.compare);
@@ -784,8 +784,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let set = Set.fromIter([0, 3, 2, 1].values(), Nat.compare);
@@ -815,8 +815,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let set = Set.fromIter([0, 3, 2, 1].values(), Nat.compare);
@@ -845,8 +845,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let set1 = Set.empty<Nat>();
@@ -872,8 +872,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let set = Set.fromIter<Nat>([0, 3, 1, 2].values(), Nat.compare);
@@ -896,8 +896,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let set = Set.fromIter<Nat>([0, 3, 1, 2].values(), Nat.compare);
@@ -925,9 +925,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let set = Set.fromIter<Nat>([0, 3, 1, 2].values(), Nat.compare);
@@ -961,10 +961,10 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Order "mo:base/Order";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Order "mo:core/Order";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   func setCompare(first: Set.Set<Nat>, second: Set.Set<Nat>) : Order.Order {
@@ -1001,9 +1001,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Set "mo:base/pure/Set";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let set1 = Set.fromIter([1, 2, 3].values(), Nat.compare);

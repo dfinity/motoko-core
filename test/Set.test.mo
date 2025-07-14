@@ -1365,7 +1365,7 @@ run(
   )
 );
 
-// TODO: Use PRNG in new base library
+// TODO: Use PRNG in new core library
 class Random(seed : Nat) {
   var number = seed;
 

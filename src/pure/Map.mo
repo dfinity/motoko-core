@@ -9,8 +9,8 @@
 ///
 /// Example:
 /// ```motoko
-/// import Map "mo:base/pure/Map";
-/// import Nat "mo:base/Nat";
+/// import Map "mo:core/pure/Map";
+/// import Nat "mo:core/Nat";
 ///
 /// persistent actor {
 ///   // creation
@@ -68,8 +68,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let map = Map.empty<Nat, Text>();
@@ -87,8 +87,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let map0 = Map.empty<Nat, Text>();
@@ -109,8 +109,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
   ///
@@ -125,8 +125,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -146,8 +146,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -168,9 +168,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let map0 = Map.empty<Nat, Text>();
@@ -207,9 +207,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   var map = Map.empty<Nat, Text>();
@@ -240,9 +240,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let map0 = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -279,8 +279,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let singleton = Map.singleton(0, "Zero");
@@ -314,9 +314,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let map0 =
@@ -350,9 +350,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let map0 =
@@ -389,9 +389,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let map0 =  Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -427,8 +427,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -447,8 +447,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -469,9 +469,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -498,9 +498,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -527,9 +527,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -551,9 +551,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   /// let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -574,9 +574,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   transient let iter =
@@ -602,9 +602,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -629,8 +629,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -660,8 +660,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -689,8 +689,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "0"), (2, "2"), (1, "1")].values(), Nat.compare);
@@ -709,8 +709,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "0"), (2, "2"), (1, "1")].values(), Nat.compare);
@@ -729,8 +729,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let map = Map.singleton<Nat, Text>(0, "Zero");
@@ -752,8 +752,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -779,9 +779,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let numberNames = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -808,9 +808,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -841,8 +841,8 @@ module {
   /// Converts the `map` to its textual representation using `keyFormat` and `valueFormat` to convert each key and value to `Text`.
   ///
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let map = Map.fromIter([(0, "Zero"), (2, "Two"), (1, "One")].values(), Nat.compare);
@@ -870,9 +870,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Text "mo:base/Text";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Text "mo:core/Text";
   ///
   /// persistent actor {
   ///   let map1 = Map.fromIter([(0, "Zero"), (1, "One"), (2, "Two")].values(), Nat.compare);
@@ -926,9 +926,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Map "mo:base/pure/Map";
-  /// import Nat "mo:base/Nat";
-  /// import Text "mo:base/Text";
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Text "mo:core/Text";
   ///
   /// persistent actor {
   ///   let map1 = Map.fromIter([(0, "Zero"), (1, "One")].values(), Nat.compare);

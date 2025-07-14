@@ -38,7 +38,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Error "mo:base/Error";
+  /// import Error "mo:core/Error";
   ///
   /// Error.reject("Example error") // can be used as throw argument
   /// ```
@@ -48,7 +48,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Error "mo:base/Error";
+  /// import Error "mo:core/Error";
   ///
   /// let error = Error.reject("Example error");
   /// Error.code(error) // #canister_reject
@@ -59,7 +59,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Error "mo:base/Error";
+  /// import Error "mo:core/Error";
   ///
   /// let error = Error.reject("Example error");
   /// Error.message(error) // "Example error"
@@ -70,8 +70,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Error "mo:base/Error";
-  /// import Debug "mo:base/Debug";
+  /// import Error "mo:core/Error";
+  /// import Debug "mo:core/Debug";
   ///
   /// persistent actor {
   ///   type CallableActor = actor {

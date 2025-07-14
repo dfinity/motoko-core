@@ -2,7 +2,7 @@
 /// These functions were originally part of the `Debug` module.
 ///
 /// ```motoko name=import
-/// import Runtime "mo:base/Runtime";
+/// import Runtime "mo:core/Runtime";
 /// ```
 import Prim "mo:⛔";
 

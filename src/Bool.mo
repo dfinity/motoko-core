@@ -1,8 +1,8 @@
 /// Boolean type and operations.
 ///
-/// Import from the base library to use this module.
+/// Import from the core library to use this module.
 /// ```motoko name=import
-/// import Bool "mo:base/Bool";
+/// import Bool "mo:core/Bool";
 /// ```
 ///
 /// While boolean operators `_ and _` and `_ or _` are short-circuiting,

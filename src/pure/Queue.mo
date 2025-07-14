@@ -25,7 +25,7 @@
 /// The order is undefined to avoid allocations, making these operations more efficient.
 ///
 /// ```motoko name=import
-/// import Queue "mo:base/pure/Queue";
+/// import Queue "mo:core/pure/Queue";
 /// ```
 
 import Iter "../Iter";
@@ -110,7 +110,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter([1, 2, 3].values());
@@ -228,7 +228,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Runtime "mo:base/Runtime";
+  /// import Runtime "mo:core/Runtime";
   ///
   /// persistent actor {
   ///   let initial = Queue.pushBack(Queue.pushBack(Queue.empty(), 1), 2);
@@ -263,7 +263,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Runtime "mo:base/Runtime";
+  /// import Runtime "mo:core/Runtime";
   ///
   /// persistent actor {
   ///   let initial = Queue.pushBack(Queue.pushBack(Queue.empty(), 1), 2);
@@ -315,7 +315,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter([1, 2, 3].values());
@@ -332,7 +332,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let queue1 = Queue.fromIter([1, 2].values());
@@ -433,8 +433,8 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
-  /// import Nat "mo:base/Nat";
+  /// import Iter "mo:core/Iter";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter([0, 1, 2].values());
@@ -513,7 +513,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter([1, 2, 3].values());
@@ -539,7 +539,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let queue1 = Queue.fromIter([1, 2].values());

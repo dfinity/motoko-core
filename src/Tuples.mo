@@ -3,9 +3,9 @@
 /// Usage example:
 ///
 /// ```motoko
-/// import { Tuple2; Tuple3 } "mo:base/Tuples";
-/// import Bool "mo:base/Bool";
-/// import Nat "mo:base/Nat";
+/// import { Tuple2; Tuple3 } "mo:core/Tuples";
+/// import Bool "mo:core/Bool";
+/// import Nat "mo:core/Nat";
 ///
 /// let swapped = Tuple2.swap((1, "hello"));
 /// assert swapped == ("hello", 1);
@@ -21,7 +21,7 @@ module {
     /// Swaps the elements of a tuple.
     ///
     /// ```motoko
-    /// import { Tuple2 } "mo:base/Tuples";
+    /// import { Tuple2 } "mo:core/Tuples";
     ///
     /// assert Tuple2.swap((1, "hello")) == ("hello", 1);
     /// ```
@@ -30,9 +30,9 @@ module {
     /// Creates a textual representation of a tuple for debugging purposes.
     ///
     /// ```motoko
-    /// import { Tuple2 } "mo:base/Tuples";
+    /// import { Tuple2 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
+    /// import Nat "mo:core/Nat";
     /// assert Tuple2.toText((1, "hello"), Nat.toText, func (x: Text): Text = x) == "(1, hello)";
     /// ```
     public func toText<A, B>(t : (A, B), toTextA : A -> Text, toTextB : B -> Text) : Text = "(" # toTextA(t.0) # ", " # toTextB(t.1) # ")";
@@ -40,10 +40,10 @@ module {
     /// Compares two tuples for equality.
     ///
     /// ```motoko
-    /// import { Tuple2 } "mo:base/Tuples";
+    /// import { Tuple2 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
-    /// import Text "mo:base/Text";
+    /// import Nat "mo:core/Nat";
+    /// import Text "mo:core/Text";
     /// assert Tuple2.equal((1, "hello"), (1, "hello"), Nat.equal, Text.equal);
     /// ```
     public func equal<A, B>(t1 : (A, B), t2 : (A, B), aEqual : (A, A) -> Bool, bEqual : (B, B) -> Bool) : Bool = aEqual(t1.0, t2.0) and bEqual(t1.1, t2.1);
@@ -51,10 +51,10 @@ module {
     /// Compares two tuples lexicographically.
     ///
     /// ```motoko
-    /// import { Tuple2 } "mo:base/Tuples";
+    /// import { Tuple2 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
-    /// import Text "mo:base/Text";
+    /// import Nat "mo:core/Nat";
+    /// import Text "mo:core/Text";
     /// assert Tuple2.compare((1, "hello"), (1, "world"), Nat.compare, Text.compare) == #less;
     /// assert Tuple2.compare((1, "hello"), (2, "hello"), Nat.compare, Text.compare) == #less;
     /// assert Tuple2.compare((1, "hello"), (1, "hello"), Nat.compare, Text.compare) == #equal;
@@ -70,8 +70,8 @@ module {
     /// This is useful when you need to reuse the same toText conversion multiple times.
     ///
     /// ```motoko
-    /// import { Tuple2 } "mo:base/Tuples";
-    /// import Nat "mo:base/Nat";
+    /// import { Tuple2 } "mo:core/Tuples";
+    /// import Nat "mo:core/Nat";
     ///
     /// let tupleToText = Tuple2.makeToText<Nat, Text>(Nat.toText, func x = x);
     /// assert tupleToText((1, "hello")) == "(1, hello)";
@@ -82,9 +82,9 @@ module {
     /// This is useful when you need to reuse the same equality comparison multiple times.
     ///
     /// ```motoko
-    /// import { Tuple2 } "mo:base/Tuples";
-    /// import Nat "mo:base/Nat";
-    /// import Text "mo:base/Text";
+    /// import { Tuple2 } "mo:core/Tuples";
+    /// import Nat "mo:core/Nat";
+    /// import Text "mo:core/Text";
     ///
     /// let tupleEqual = Tuple2.makeEqual(Nat.equal, Text.equal);
     /// assert tupleEqual((1, "hello"), (1, "hello"));
@@ -95,9 +95,9 @@ module {
     /// This is useful when you need to reuse the same comparison multiple times.
     ///
     /// ```motoko
-    /// import { Tuple2 } "mo:base/Tuples";
-    /// import Nat "mo:base/Nat";
-    /// import Text "mo:base/Text";
+    /// import { Tuple2 } "mo:core/Tuples";
+    /// import Nat "mo:core/Nat";
+    /// import Text "mo:core/Text";
     ///
     /// let tupleCompare = Tuple2.makeCompare(Nat.compare, Text.compare);
     /// assert tupleCompare((1, "hello"), (1, "world")) == #less;
@@ -109,9 +109,9 @@ module {
     /// Creates a textual representation of a 3-tuple for debugging purposes.
     ///
     /// ```motoko
-    /// import { Tuple3 } "mo:base/Tuples";
+    /// import { Tuple3 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
+    /// import Nat "mo:core/Nat";
     /// assert Tuple3.toText((1, "hello", 2), Nat.toText, func (x: Text): Text = x, Nat.toText) == "(1, hello, 2)";
     /// ```
     public func toText<A, B, C>(t : (A, B, C), toTextA : A -> Text, toTextB : B -> Text, toTextC : C -> Text) : Text = "(" # toTextA(t.0) # ", " # toTextB(t.1) # ", " # toTextC(t.2) # ")";
@@ -119,10 +119,10 @@ module {
     /// Compares two 3-tuples for equality.
     ///
     /// ```motoko
-    /// import { Tuple3 } "mo:base/Tuples";
+    /// import { Tuple3 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
-    /// import Text "mo:base/Text";
+    /// import Nat "mo:core/Nat";
+    /// import Text "mo:core/Text";
     /// assert Tuple3.equal((1, "hello", 2), (1, "hello", 2), Nat.equal, Text.equal, Nat.equal);
     /// ```
     public func equal<A, B, C>(t1 : (A, B, C), t2 : (A, B, C), aEqual : (A, A) -> Bool, bEqual : (B, B) -> Bool, cEqual : (C, C) -> Bool) : Bool = aEqual(t1.0, t2.0) and bEqual(t1.1, t2.1) and cEqual(t1.2, t2.2);
@@ -130,10 +130,10 @@ module {
     /// Compares two 3-tuples lexicographically.
     ///
     /// ```motoko
-    /// import { Tuple3 } "mo:base/Tuples";
+    /// import { Tuple3 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
-    /// import Text "mo:base/Text";
+    /// import Nat "mo:core/Nat";
+    /// import Text "mo:core/Text";
     /// assert Tuple3.compare((1, "hello", 2), (1, "world", 1), Nat.compare, Text.compare, Nat.compare) == #less;
     /// assert Tuple3.compare((1, "hello", 2), (2, "hello", 2), Nat.compare, Text.compare, Nat.compare) == #less;
     /// assert Tuple3.compare((1, "hello", 2), (1, "hello", 2), Nat.compare, Text.compare, Nat.compare) == #equal;
@@ -153,9 +153,9 @@ module {
     /// This is useful when you need to reuse the same toText conversion multiple times.
     ///
     /// ```motoko
-    /// import { Tuple3 } "mo:base/Tuples";
+    /// import { Tuple3 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
+    /// import Nat "mo:core/Nat";
     /// let toText = Tuple3.makeToText<Nat, Text, Nat>(Nat.toText, func x = x, Nat.toText);
     /// assert toText((1, "hello", 2)) == "(1, hello, 2)";
     /// ```
@@ -165,10 +165,10 @@ module {
     /// This is useful when you need to reuse the same equality comparison multiple times.
     ///
     /// ```motoko
-    /// import { Tuple3 } "mo:base/Tuples";
+    /// import { Tuple3 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
-    /// import Text "mo:base/Text";
+    /// import Nat "mo:core/Nat";
+    /// import Text "mo:core/Text";
     /// let equal = Tuple3.makeEqual(Nat.equal, Text.equal, Nat.equal);
     /// assert equal((1, "hello", 2), (1, "hello", 2));
     /// ```
@@ -178,10 +178,10 @@ module {
     /// This is useful when you need to reuse the same comparison multiple times.
     ///
     /// ```motoko
-    /// import { Tuple3 } "mo:base/Tuples";
+    /// import { Tuple3 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
-    /// import Text "mo:base/Text";
+    /// import Nat "mo:core/Nat";
+    /// import Text "mo:core/Text";
     /// let compare = Tuple3.makeCompare(Nat.compare, Text.compare, Nat.compare);
     /// assert compare((1, "hello", 2), (1, "world", 1)) == #less;
     /// ```
@@ -192,9 +192,9 @@ module {
     /// Creates a textual representation of a 4-tuple for debugging purposes.
     ///
     /// ```motoko
-    /// import { Tuple4 } "mo:base/Tuples";
+    /// import { Tuple4 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
+    /// import Nat "mo:core/Nat";
     /// assert Tuple4.toText((1, "hello", 2, 3), Nat.toText, func (x: Text): Text = x, Nat.toText, Nat.toText) == "(1, hello, 2, 3)";
     /// ```
     public func toText<A, B, C, D>(t : (A, B, C, D), toTextA : A -> Text, toTextB : B -> Text, toTextC : C -> Text, toTextD : D -> Text) : Text = "(" # toTextA(t.0) # ", " # toTextB(t.1) # ", " # toTextC(t.2) # ", " # toTextD(t.3) # ")";
@@ -202,10 +202,10 @@ module {
     /// Compares two 4-tuples for equality.
     ///
     /// ```motoko
-    /// import { Tuple4 } "mo:base/Tuples";
+    /// import { Tuple4 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
-    /// import Text "mo:base/Text";
+    /// import Nat "mo:core/Nat";
+    /// import Text "mo:core/Text";
     /// assert Tuple4.equal((1, "hello", 2, 3), (1, "hello", 2, 3), Nat.equal, Text.equal, Nat.equal, Nat.equal);
     /// ```
     public func equal<A, B, C, D>(t1 : (A, B, C, D), t2 : (A, B, C, D), aEqual : (A, A) -> Bool, bEqual : (B, B) -> Bool, cEqual : (C, C) -> Bool, dEqual : (D, D) -> Bool) : Bool = aEqual(t1.0, t2.0) and bEqual(t1.1, t2.1) and cEqual(t1.2, t2.2) and dEqual(t1.3, t2.3);
@@ -213,10 +213,10 @@ module {
     /// Compares two 4-tuples lexicographically.
     ///
     /// ```motoko
-    /// import { Tuple4 } "mo:base/Tuples";
+    /// import { Tuple4 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
-    /// import Text "mo:base/Text";
+    /// import Nat "mo:core/Nat";
+    /// import Text "mo:core/Text";
     /// assert Tuple4.compare((1, "hello", 2, 3), (1, "world", 1, 3), Nat.compare, Text.compare, Nat.compare, Nat.compare) == #less;
     /// assert Tuple4.compare((1, "hello", 2, 3), (2, "hello", 2, 3), Nat.compare, Text.compare, Nat.compare, Nat.compare) == #less;
     /// assert Tuple4.compare((1, "hello", 2, 3), (1, "hello", 2, 3), Nat.compare, Text.compare, Nat.compare, Nat.compare) == #equal;
@@ -241,9 +241,9 @@ module {
     /// This is useful when you need to reuse the same toText conversion multiple times.
     ///
     /// ```motoko
-    /// import { Tuple4 } "mo:base/Tuples";
+    /// import { Tuple4 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
+    /// import Nat "mo:core/Nat";
     /// let toText = Tuple4.makeToText(Nat.toText, func (x: Text): Text = x, Nat.toText, Nat.toText);
     /// assert toText((1, "hello", 2, 3)) == "(1, hello, 2, 3)";
     /// ```
@@ -253,10 +253,10 @@ module {
     /// This is useful when you need to reuse the same equality comparison multiple times.
     ///
     /// ```motoko
-    /// import { Tuple4 } "mo:base/Tuples";
+    /// import { Tuple4 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
-    /// import Text "mo:base/Text";
+    /// import Nat "mo:core/Nat";
+    /// import Text "mo:core/Text";
     /// let equal = Tuple4.makeEqual(Nat.equal, Text.equal, Nat.equal, Nat.equal);
     /// assert equal((1, "hello", 2, 3), (1, "hello", 2, 3));
     /// ```
@@ -266,10 +266,10 @@ module {
     /// This is useful when you need to reuse the same comparison multiple times.
     ///
     /// ```motoko
-    /// import { Tuple4 } "mo:base/Tuples";
+    /// import { Tuple4 } "mo:core/Tuples";
     ///
-    /// import Nat "mo:base/Nat";
-    /// import Text "mo:base/Text";
+    /// import Nat "mo:core/Nat";
+    /// import Text "mo:core/Text";
     /// let compare = Tuple4.makeCompare(Nat.compare, Text.compare, Nat.compare, Nat.compare);
     /// assert compare((1, "hello", 2, 3), (1, "world", 1, 3)) == #less;
     /// ```

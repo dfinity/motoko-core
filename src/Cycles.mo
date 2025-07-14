@@ -18,7 +18,7 @@
 ///
 /// Example for use on the ICP:
 /// ```motoko no-repl
-/// import Cycles "mo:base/Cycles";
+/// import Cycles "mo:core/Cycles";
 ///
 /// persistent actor {
 ///   public func main() : async () {
@@ -45,7 +45,7 @@ module {
   ///
   /// Example for use on the ICP:
   /// ```motoko no-repl
-  /// import Cycles "mo:base/Cycles";
+  /// import Cycles "mo:core/Cycles";
   ///
   /// persistent actor {
   ///   public func main() : async() {
@@ -64,7 +64,7 @@ module {
   ///
   /// Example for use on the ICP:
   /// ```motoko no-repl
-  /// import Cycles "mo:base/Cycles";
+  /// import Cycles "mo:core/Cycles";
   ///
   /// persistent actor {
   ///   public func main() : async() {
@@ -81,7 +81,7 @@ module {
   ///
   /// Example for use on the ICP (for simplicity, only transferring cycles to itself):
   /// ```motoko no-repl
-  /// import Cycles "mo:base/Cycles";
+  /// import Cycles "mo:core/Cycles";
   ///
   /// persistent actor {
   ///   public func main() : async() {
@@ -104,7 +104,7 @@ module {
   ///
   /// Example for use on the ICP (for simplicity, only transferring cycles to itself):
   /// ```motoko no-repl
-  /// import Cycles "mo:base/Cycles";
+  /// import Cycles "mo:core/Cycles";
   ///
   /// persistent actor {
   ///   func operation() : async() {
@@ -125,7 +125,7 @@ module {
   ///
   /// Example for use on the IC:
   /// ```motoko no-repl
-  /// import Cycles "mo:base/Cycles";
+  /// import Cycles "mo:core/Cycles";
   ///
   /// actor {
   ///   public func main() : async() {

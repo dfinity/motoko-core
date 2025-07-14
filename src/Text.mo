@@ -18,12 +18,12 @@
 /// assert concat == "Hello! 👋";
 /// ```
 ///
-/// The `"mo:base/Text"` module defines additional operations on `Text` values.
+/// The `"mo:core/Text"` module defines additional operations on `Text` values.
 ///
-/// Import the module from the base library:
+/// Import the module from the core library:
 ///
 /// ```motoko name=import
-/// import Text "mo:base/Text";
+/// import Text "mo:core/Text";
 /// ```
 ///
 /// Note: `Text` values are represented as ropes of UTF-8 character sequences with O(1) concatenation.
@@ -121,8 +121,8 @@ module {
   /// Equivalent to `Iter.toArrayMut(t.chars())`.
   ///
   /// ```motoko include=import
-  /// import VarArray "mo:base/VarArray";
-  /// import Char "mo:base/Char";
+  /// import VarArray "mo:core/VarArray";
+  /// import Char "mo:core/Char";
   ///
   /// assert VarArray.equal(Text.toVarArray("Café"), [var 'C', 'a', 'f', 'é'], Char.equal);
   /// ```
@@ -194,7 +194,7 @@ module {
   /// Returns true if two text values are equal.
   ///
   /// ```motoko
-  /// import Text "mo:base/Text";
+  /// import Text "mo:core/Text";
   ///
   /// assert Text.equal("hello", "hello");
   /// assert not Text.equal("hello", "world");
@@ -204,7 +204,7 @@ module {
   /// Returns true if two text values are not equal.
   ///
   /// ```motoko
-  /// import Text "mo:base/Text";
+  /// import Text "mo:core/Text";
   ///
   /// assert Text.notEqual("hello", "world");
   /// assert not Text.notEqual("hello", "hello");
@@ -214,7 +214,7 @@ module {
   /// Returns true if the first text value is lexicographically less than the second.
   ///
   /// ```motoko
-  /// import Text "mo:base/Text";
+  /// import Text "mo:core/Text";
   ///
   /// assert Text.less("apple", "banana");
   /// assert not Text.less("banana", "apple");
@@ -224,7 +224,7 @@ module {
   /// Returns true if the first text value is lexicographically less than or equal to the second.
   ///
   /// ```motoko
-  /// import Text "mo:base/Text";
+  /// import Text "mo:core/Text";
   ///
   /// assert Text.lessOrEqual("apple", "banana");
   /// assert Text.lessOrEqual("apple", "apple");
@@ -235,7 +235,7 @@ module {
   /// Returns true if the first text value is lexicographically greater than the second.
   ///
   /// ```motoko
-  /// import Text "mo:base/Text";
+  /// import Text "mo:core/Text";
   ///
   /// assert Text.greater("banana", "apple");
   /// assert not Text.greater("apple", "banana");
@@ -245,7 +245,7 @@ module {
   /// Returns true if the first text value is lexicographically greater than or equal to the second.
   ///
   /// ```motoko
-  /// import Text "mo:base/Text";
+  /// import Text "mo:core/Text";
   ///
   /// assert Text.greaterOrEqual("banana", "apple");
   /// assert Text.greaterOrEqual("apple", "apple");
@@ -855,7 +855,7 @@ module {
   /// Compares `t1` and `t2` using the provided character-wise comparison function.
   ///
   /// ```motoko include=import
-  /// import Char "mo:base/Char";
+  /// import Char "mo:core/Char";
   ///
   /// assert Text.compareWith("abc", "ABC", func(c1, c2) { Char.compare(c1, c2) }) == #greater;
   /// ```

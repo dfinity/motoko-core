@@ -6,9 +6,9 @@
 /// If you would like to manipulate Blobs, it is recommended that you convert
 /// Blobs to `[var Nat8]` or `Buffer<Nat8>`, do the manipulation, then convert back.
 ///
-/// Import from the base library to use this module.
+/// Import from the core library to use this module.
 /// ```motoko name=import
-/// import Blob "mo:base/Blob";
+/// import Blob "mo:core/Blob";
 /// ```
 ///
 /// Some built in features not listed in this module:
@@ -19,8 +19,8 @@
 ///
 /// For example:
 /// ```motoko include=import
-/// import Debug "mo:base/Debug";
-/// import Nat8 "mo:base/Nat8";
+/// import Debug "mo:core/Debug";
+/// import Nat8 "mo:core/Nat8";
 ///
 /// let blob = "\00\00\00\ff" : Blob; // blob literals, where each byte is delimited by a back-slash and represented in hex
 /// let blob2 = "charsもあり" : Blob; // you can also use characters in the literals
@@ -103,8 +103,8 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Nat8 "mo:base/Nat8";
-  /// import VarArray "mo:base/VarArray";
+  /// import Nat8 "mo:core/Nat8";
+  /// import VarArray "mo:core/VarArray";
   ///
   /// let blob = "\00\FF\00" : Blob;
   /// let bytes = Blob.toVarArray(blob);
@@ -154,7 +154,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import List "mo:base/List";
+  /// import List "mo:core/List";
   ///
   /// let list1 = List.singleton<Blob>("\00\FF\00");
   /// let list2 = List.singleton<Blob>("\00\FF\00");

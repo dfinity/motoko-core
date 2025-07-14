@@ -8,9 +8,9 @@
 /// it is recommended you use `List` for those purposes.
 /// Arrays must be created with a fixed size.
 ///
-/// Import from the base library to use this module.
+/// Import from the core library to use this module.
 /// ```motoko name=import
-/// import Array "mo:base/Array";
+/// import Array "mo:core/Array";
 /// ```
 
 import Order "Order";
@@ -78,8 +78,8 @@ module {
   /// Transforms an immutable array into a mutable array.
   ///
   /// ```motoko include=import
-  /// import VarArray "mo:base/VarArray";
-  /// import Nat "mo:base/Nat";
+  /// import VarArray "mo:core/VarArray";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array = [0, 1, 2];
   /// let varArray = Array.toVarArray<Nat>(array);
@@ -109,7 +109,7 @@ module {
   ///
   /// ```motoko include=import
   /// // Use the equal function from the Nat module to compare Nats
-  /// import {equal} "mo:base/Nat";
+  /// import {equal} "mo:core/Nat";
   ///
   /// let array1 = [0, 1, 2, 3];
   /// let array2 = [0, 1, 2, 3];
@@ -212,7 +212,7 @@ module {
   /// Sort is deterministic and stable.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array = [4, 2, 6];
   /// let sorted = Array.sort(array, Nat.compare);
@@ -326,7 +326,7 @@ module {
   /// and keeping all non-null elements. The ordering is retained.
   ///
   /// ```motoko include=import
-  /// import {toText} "mo:base/Nat";
+  /// import {toText} "mo:core/Nat";
   ///
   /// let array = [4, 2, 0, 1];
   /// let newArray =
@@ -510,7 +510,7 @@ module {
   /// left to right.
   ///
   /// ```motoko include=import
-  /// import {add} "mo:base/Nat";
+  /// import {add} "mo:core/Nat";
   ///
   /// let array = [4, 2, 0, 1];
   /// let sum =
@@ -540,7 +540,7 @@ module {
   /// right to left.
   ///
   /// ```motoko include=import
-  /// import {toText} "mo:base/Nat";
+  /// import {toText} "mo:core/Nat";
   ///
   /// let array = [1, 9, 4, 8];
   /// let bookTitle = Array.foldRight<Nat, Text>(array, "", func(x, acc) = toText(x) # acc);
@@ -791,7 +791,7 @@ module {
   /// Returns the index of the first `element` in the `array`.
   ///
   /// ```motoko include=import
-  /// import Char "mo:base/Char";
+  /// import Char "mo:core/Char";
   /// let array = ['c', 'o', 'f', 'f', 'e', 'e'];
   /// assert Array.indexOf<Char>('c', array, Char.equal) == ?0;
   /// assert Array.indexOf<Char>('f', array, Char.equal) == ?2;
@@ -806,7 +806,7 @@ module {
   /// Returns the index of the next occurence of `element` in the `array` starting from the `from` index (inclusive).
   ///
   /// ```motoko include=import
-  /// import Char "mo:base/Char";
+  /// import Char "mo:core/Char";
   /// let array = ['c', 'o', 'f', 'f', 'e', 'e'];
   /// assert Array.nextIndexOf<Char>('c', array, 0, Char.equal) == ?0;
   /// assert Array.nextIndexOf<Char>('f', array, 0, Char.equal) == ?2;
@@ -834,7 +834,7 @@ module {
   /// Returns the index of the last `element` in the `array`.
   ///
   /// ```motoko include=import
-  /// import Char "mo:base/Char";
+  /// import Char "mo:core/Char";
   /// let array = ['c', 'o', 'f', 'f', 'e', 'e'];
   /// assert Array.lastIndexOf<Char>('c', array, Char.equal) == ?0;
   /// assert Array.lastIndexOf<Char>('f', array, Char.equal) == ?3;
@@ -855,7 +855,7 @@ module {
   /// If the first index is greater than the second, the function returns an empty iterator.
   ///
   /// ```motoko include=import
-  /// import Char "mo:base/Char";
+  /// import Char "mo:core/Char";
   /// let array = ['c', 'o', 'f', 'f', 'e', 'e'];
   /// assert Array.prevIndexOf<Char>('c', array, array.size(), Char.equal) == ?0;
   /// assert Array.prevIndexOf<Char>('e', array, array.size(), Char.equal) == ?5;
@@ -973,7 +973,7 @@ module {
   /// Converts the array to its textual representation using `f` to convert each element to `Text`.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array = [1, 2, 3];
   /// let text = Array.toText<Nat>(array, Nat.toText);
@@ -1009,7 +1009,7 @@ module {
   /// the shorter array is considered #less than the longer array.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array1 = [1, 2, 3];
   /// let array2 = [1, 2, 4];
@@ -1017,7 +1017,7 @@ module {
   /// ```
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let array3 = [1, 2];
   /// let array4 = [1, 2, 3];

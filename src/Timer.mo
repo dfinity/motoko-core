@@ -2,7 +2,7 @@
 /// If `moc` is invoked with `-no-timer`, the importing will fail. Furthermore, if passed `--trap-on-call-error`, a congested canister send queue may prevent timer expirations to execute at runtime. It may also deactivate the global timer.
 ///
 /// ```motoko name=import
-/// import Timer "mo:base/Timer";
+/// import Timer "mo:core/Timer";
 /// ```
 ///
 /// The resolution of the timers is similar to the block rate,
@@ -36,7 +36,7 @@ module {
   /// executes the future `job()`.
   ///
   /// ```motoko include=import no-repl
-  /// import Int "mo:base/Int";
+  /// import Int "mo:core/Int";
   ///
   /// func runIn30Minutes() : async () {
   ///   // ...

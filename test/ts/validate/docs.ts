@@ -39,7 +39,7 @@ async function main() {
   const testFilters = process.argv.slice(2);
 
   const virtualBaseDirectory = "motoko-base";
-  motoko.usePackage("base", join(virtualBaseDirectory, "src")); // Register `mo:base`
+  motoko.usePackage("core", join(virtualBaseDirectory, "src")); // Register `mo:core`
 
   const snippets: Snippet[] = (
     await Promise.all(

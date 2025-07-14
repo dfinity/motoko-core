@@ -20,7 +20,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import PRNG "mo:base/internal/PRNG";
+  /// import PRNG "mo:core/internal/PRNG";
   ///
   /// let rng = PRNG.SFC64(24, 11, 3);
   /// ```

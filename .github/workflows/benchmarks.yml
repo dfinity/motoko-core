@@ -59,7 +59,7 @@ jobs:
           body: |
             ${{ steps.benchmarks.outputs.result }}
             
-            **Note**: Renamed benchmarks cannot be compared. Refer to the [current baseline](https://github.com/dfinity/new-motoko-base/tree/benchmark-results) for manual comparison.
+            **Note**: Renamed benchmarks cannot be compared. Refer to the [current baseline](https://github.com/dfinity/motoko-core/tree/benchmark-results) for manual comparison.
           edit-mode: replace
 
       - name: Generate Benchmark Results

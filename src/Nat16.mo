@@ -2,9 +2,9 @@
 ///
 /// Note that most operations are available as built-in operators (e.g. `1 + 1`).
 ///
-/// Import from the base library to use this module.
+/// Import from the core library to use this module.
 /// ```motoko name=import
-/// import Nat16 "mo:base/Nat16";
+/// import Nat16 "mo:core/Nat16";
 /// ```
 import Nat "Nat";
 import Iter "Iter";
@@ -236,7 +236,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.sort([2, 3, 1] : [Nat16], Nat16.compare) == [1, 2, 3];
   /// ```
   public func compare(x : Nat16, y : Nat16) : Order.Order {
@@ -259,7 +259,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Nat16, Nat16>([2, 3, 1], 0, Nat16.add) == 6;
   /// ```
   public func add(x : Nat16, y : Nat16) : Nat16 { x + y };
@@ -280,7 +280,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Nat16, Nat16>([2, 3, 1], 20, Nat16.sub) == 14;
   /// ```
   public func sub(x : Nat16, y : Nat16) : Nat16 { x - y };
@@ -301,7 +301,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Nat16, Nat16>([2, 3, 1], 1, Nat16.mul) == 6;
   /// ```
   public func mul(x : Nat16, y : Nat16) : Nat16 { x * y };
@@ -576,7 +576,7 @@ module {
 
   /// Returns an iterator over `Nat16` values from the first to second argument with an exclusive upper bound.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Nat16.range(1, 4);
   /// assert iter.next() == ?1;
@@ -587,7 +587,7 @@ module {
   ///
   /// If the first argument is greater than the second argument, the function returns an empty iterator.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Nat16.range(4, 1);
   /// assert iter.next() == null; // empty iterator
@@ -613,7 +613,7 @@ module {
 
   /// Returns an iterator over `Nat16` values from the first to second argument, inclusive.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Nat16.rangeInclusive(1, 3);
   /// assert iter.next() == ?1;
@@ -624,7 +624,7 @@ module {
   ///
   /// If the first argument is greater than the second argument, the function returns an empty iterator.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Nat16.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
@@ -655,7 +655,7 @@ module {
 
   /// Returns an iterator over all Nat16 values, from 0 to maxValue.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Nat16.allValues();
   /// assert iter.next() == ?0;

@@ -21,9 +21,9 @@
 ///
 /// Then, you can use this module to work with the `Principal`.
 ///
-/// Import from the base library to use this module.
+/// Import from the core library to use this module.
 /// ```motoko name=import
-/// import Principal "mo:base/Principal";
+/// import Principal "mo:core/Principal";
 /// ```
 
 import Prim "mo:⛔";

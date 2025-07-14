@@ -11,7 +11,7 @@
 /// iterators between consumers.
 ///
 /// ```motoko name=import
-/// import Iter "mo:base/Iter";
+/// import Iter "mo:core/Iter";
 /// ```
 ///
 ///
@@ -526,7 +526,7 @@ module {
   /// It stops consuming elements from the original iterator as soon as the predicate returns true.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let iter = [1, 2, 3, 4].values();
   /// assert Iter.contains<Nat>(iter, Nat.equal, 2);
@@ -577,7 +577,7 @@ module {
   /// When the iterator is empty, it returns `null`.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let iter = [1, 2, 3].values();
   /// assert ?6 == Iter.reduce<Nat>(iter, Nat.add);
@@ -590,7 +590,7 @@ module {
   /// Produces an iterator containing cumulative results of applying the `combine` operator going left to right, including the `initial` value.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let iter = [1, 2, 3].values();
   /// let scanned = Iter.scanLeft<Nat, Nat>(iter, 0, Nat.add);
@@ -622,7 +622,7 @@ module {
   /// **Use `scanLeft` when possible to avoid the extra memory overhead**.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let iter = [1, 2, 3].values();
   /// let scanned = Iter.scanRight<Nat, Nat>(iter, 0, Nat.add);
@@ -656,7 +656,7 @@ module {
   /// If the iterator is empty, it returns `null`.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let iter = [1, 2, 3].values();
   /// assert ?3 == Iter.max<Nat>(iter, Nat.compare);
@@ -677,7 +677,7 @@ module {
   /// If the iterator is empty, it returns `null`.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:base/Nat";
+  /// import Nat "mo:core/Nat";
   ///
   /// let iter = [1, 2, 3].values();
   /// assert ?1 == Iter.min<Nat>(iter, Nat.compare);

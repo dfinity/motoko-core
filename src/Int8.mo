@@ -2,9 +2,9 @@
 ///
 /// Note that most operations are available as built-in operators (e.g. `1 + 1`).
 ///
-/// Import from the base library to use this module.
+/// Import from the core library to use this module.
 /// ```motoko name=import
-/// import Int8 "mo:base/Int8";
+/// import Int8 "mo:core/Int8";
 /// ```
 import Int "Int";
 import Iter "Iter";
@@ -243,7 +243,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.sort([1, -2, -3] : [Int8], Int8.compare) == [-3, -2, 1];
   /// ```
   public func compare(x : Int8, y : Int8) : Order.Order {
@@ -281,7 +281,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int8, Int8>([1, -2, -3], 0, Int8.add) == -4;
   /// ```
   public func add(x : Int8, y : Int8) : Int8 { x + y };
@@ -302,7 +302,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int8, Int8>([1, -2, -3], 0, Int8.sub) == 4;
   /// ```
   public func sub(x : Int8, y : Int8) : Int8 { x - y };
@@ -323,7 +323,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int8, Int8>([1, -2, -3], 1, Int8.mul) == 6;
   /// ```
   public func mul(x : Int8, y : Int8) : Int8 { x * y };
@@ -631,7 +631,7 @@ module {
 
   /// Returns an iterator over `Int8` values from the first to second argument with an exclusive upper bound.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int8.range(1, 4);
   /// assert iter.next() == ?1;
@@ -642,7 +642,7 @@ module {
   ///
   /// If the first argument is greater than the second argument, the function returns an empty iterator.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int8.range(4, 1);
   /// assert iter.next() == null; // empty iterator
@@ -668,7 +668,7 @@ module {
 
   /// Returns an iterator over `Int8` values from the first to second argument, inclusive.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int8.rangeInclusive(1, 3);
   /// assert iter.next() == ?1;
@@ -679,7 +679,7 @@ module {
   ///
   /// If the first argument is greater than the second argument, the function returns an empty iterator.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int8.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
@@ -710,7 +710,7 @@ module {
 
   /// Returns an iterator over all Int8 values, from minValue to maxValue.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int8.allValues();
   /// assert iter.next() == ?-128;

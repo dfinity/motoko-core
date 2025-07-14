@@ -3,9 +3,9 @@
 /// Most operations on integer numbers (e.g. addition) are available as built-in operators (e.g. `-1 + 1`).
 /// This module provides equivalent functions and `Text` conversion.
 ///
-/// Import from the base library to use this module.
+/// Import from the core library to use this module.
 /// ```motoko name=import
-/// import Int "mo:base/Int";
+/// import Int "mo:core/Int";
 /// ```
 
 import Prim "mo:⛔";
@@ -107,7 +107,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Debug "mo:base/Debug";
+  /// import Debug "mo:core/Debug";
   /// assert Int.toNat(1234 : Int) == (1234 : Nat);
   /// ```
   public func toNat(int : Int) : Nat {
@@ -251,7 +251,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.sort([1, -2, -3], Int.compare) == [-3, -2, 1];
   /// ```
   public func compare(x : Int, y : Int) : Order.Order {
@@ -287,7 +287,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft([1, -2, -3], 0, Int.add) == -4;
   /// ```
   public func add(x : Int, y : Int) : Int { x + y };
@@ -308,7 +308,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft([1, -2, -3], 0, Int.sub) == 4;
   /// ```
   public func sub(x : Int, y : Int) : Int { x - y };
@@ -329,7 +329,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft([1, -2, -3], 1, Int.mul) == 6;
   /// ```
   public func mul(x : Int, y : Int) : Int { x * y };
@@ -384,7 +384,7 @@ module {
 
   /// Returns an iterator over the integers from the first to second argument with an exclusive upper bound.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int.range(1, 4);
   /// assert iter.next() == ?1;
@@ -395,7 +395,7 @@ module {
   ///
   /// If the first argument is greater than the second argument, the function returns an empty iterator.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int.range(4, 1);
   /// assert iter.next() == null; // empty iterator
@@ -418,7 +418,7 @@ module {
   /// Returns an iterator over `Int` values from the first to second argument with an exclusive upper bound,
   /// incrementing by the specified step size.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// // Positive step
   /// let iter1 = Int.rangeBy(1, 7, 2);
@@ -472,7 +472,7 @@ module {
 
   /// Returns an iterator over the integers from the first to second argument, inclusive.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int.rangeInclusive(1, 3);
   /// assert iter.next() == ?1;
@@ -483,7 +483,7 @@ module {
   ///
   /// If the first argument is greater than the second argument, the function returns an empty iterator.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int.rangeInclusive(3, 1);
   /// assert iter.next() == null; // empty iterator
@@ -506,7 +506,7 @@ module {
   /// Returns an iterator over the integers from the first to second argument, inclusive,
   /// incrementing by the specified step size.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// // Positive step
   /// let iter1 = Int.rangeByInclusive(1, 7, 2);

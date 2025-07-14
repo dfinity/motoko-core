@@ -1,8 +1,8 @@
 /// Utility functions for debugging.
 ///
-/// Import from the base library to use this module.
+/// Import from the core library to use this module.
 /// ```motoko name=import
-/// import Debug "mo:base/Debug";
+/// import Debug "mo:core/Debug";
 /// ```
 
 import Prim "mo:⛔";

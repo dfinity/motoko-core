@@ -4,8 +4,8 @@
 ///
 /// Example:
 /// ```motoko
-/// import Stack "mo:base/Stack";
-/// import Debug "mo:base/Debug";
+/// import Stack "mo:core/Stack";
+/// import Debug "mo:core/Debug";
 ///
 /// persistent actor {
 ///   let levels = Stack.empty<Text>();
@@ -41,9 +41,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
-  /// import PureList "mo:base/pure/List";
-  /// import Iter "mo:base/Iter";
+  /// import Stack "mo:core/Stack";
+  /// import PureList "mo:core/pure/List";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let mutableStack = Stack.empty<Nat>();
@@ -67,9 +67,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
-  /// import PureList "mo:base/pure/List";
-  /// import Iter "mo:base/Iter";
+  /// import Stack "mo:core/Stack";
+  /// import PureList "mo:core/pure/List";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let immutableList = PureList.fromIter<Nat>([1, 2, 3].values());
@@ -101,8 +101,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
-  /// import Nat "mo:base/Nat";
+  /// import Stack "mo:core/Stack";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let stack = Stack.empty<Text>();
@@ -125,8 +125,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
-  /// import Iter "mo:base/Iter";
+  /// import Stack "mo:core/Stack";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let stack = Stack.tabulate<Nat>(3, func(i) { 2 * i });
@@ -153,7 +153,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.singleton<Text>("motoko");
@@ -173,7 +173,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.fromIter<Nat>([3, 2, 1].values());
@@ -193,8 +193,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
-  /// import Nat "mo:base/Nat";
+  /// import Stack "mo:core/Stack";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let original = Stack.fromIter<Nat>([3, 2, 1].values());
@@ -219,7 +219,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.empty<Nat>();
@@ -237,7 +237,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.fromIter<Nat>([3, 2, 1].values());
@@ -256,8 +256,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
-  /// import Nat "mo:base/Nat";
+  /// import Stack "mo:core/Stack";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let stack = Stack.fromIter<Nat>([3, 2, 1].values());
@@ -282,7 +282,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.empty<Nat>();
@@ -303,7 +303,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.empty<Nat>();
@@ -328,7 +328,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.empty<Nat>();
@@ -361,7 +361,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.empty<Char>();
@@ -400,7 +400,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.empty<Nat>();
@@ -430,9 +430,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
-  /// import Nat "mo:base/Nat";
-  /// import Iter "mo:base/Iter";
+  /// import Stack "mo:core/Stack";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let stack = Stack.empty<Nat>();
@@ -466,7 +466,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.fromIter<Nat>([2, 4, 6].values());
@@ -491,7 +491,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.fromIter<Nat>([3, 2, 1].values());
@@ -516,9 +516,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
-  /// import Nat "mo:base/Nat";
-  /// import Debug "mo:base/Debug";
+  /// import Stack "mo:core/Stack";
+  /// import Nat "mo:core/Nat";
+  /// import Debug "mo:core/Debug";
   ///
   /// persistent actor {
   ///   let stack = Stack.empty<Nat>();
@@ -546,8 +546,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
-  /// import Iter "mo:base/Iter";
+  /// import Stack "mo:core/Stack";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let stack = Stack.empty<Nat>();
@@ -580,7 +580,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.empty<Nat>();
@@ -616,7 +616,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.empty<Nat>();
@@ -659,8 +659,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
-  /// import Nat "mo:base/Nat";
+  /// import Stack "mo:core/Stack";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let stack1 = Stack.fromIter<Nat>([3, 2, 1].values());
@@ -702,8 +702,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
-  /// import Iter "mo:base/Iter";
+  /// import Stack "mo:core/Stack";
+  /// import Iter "mo:core/Iter";
   ///
   /// persistent actor {
   ///   let stack = Stack.fromIter<Nat>([3, 2, 1].values());
@@ -727,8 +727,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
-  /// import Nat "mo:base/Nat";
+  /// import Stack "mo:core/Stack";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let stack = Stack.fromIter<Nat>([3, 2, 1].values());
@@ -755,8 +755,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:base/Stack";
-  /// import Nat "mo:base/Nat";
+  /// import Stack "mo:core/Stack";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let stack1 = Stack.fromIter<Nat>([2, 1].values());

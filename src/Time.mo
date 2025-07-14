@@ -3,8 +3,8 @@
 /// The following example illustrates using the system time:
 ///
 /// ```motoko
-/// import Int = "mo:base/Int";
-/// import Time = "mo:base/Time";
+/// import Int = "mo:core/Int";
+/// import Time = "mo:core/Time";
 ///
 /// persistent actor {
 ///   var lastTime = Time.now();

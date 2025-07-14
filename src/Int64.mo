@@ -2,9 +2,9 @@
 ///
 /// Note that most operations are available as built-in operators (e.g. `1 + 1`).
 ///
-/// Import from the base library to use this module.
+/// Import from the core library to use this module.
 /// ```motoko name=import
-/// import Int64 "mo:base/Int64";
+/// import Int64 "mo:core/Int64";
 /// ```
 
 import Int "Int";
@@ -248,7 +248,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.sort([1, -2, -3] : [Int64], Int64.compare) == [-3, -2, 1];
   /// ```
   public func compare(x : Int64, y : Int64) : Order.Order {
@@ -286,7 +286,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int64, Int64>([1, -2, -3], 0, Int64.add) == -4;
   /// ```
   public func add(x : Int64, y : Int64) : Int64 { x + y };
@@ -307,7 +307,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int64, Int64>([1, -2, -3], 0, Int64.sub) == 4;
   /// ```
   public func sub(x : Int64, y : Int64) : Int64 { x - y };
@@ -328,7 +328,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// import Array "mo:base/Array";
+  /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int64, Int64>([1, -2, -3], 1, Int64.mul) == 6;
   /// ```
   public func mul(x : Int64, y : Int64) : Int64 { x * y };
@@ -637,7 +637,7 @@ module {
 
   /// Returns an iterator over `Int64` values from the first to second argument with an exclusive upper bound.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int64.range(1, 4);
   /// assert iter.next() == ?1;
@@ -648,7 +648,7 @@ module {
   ///
   /// If the first argument is greater than the second argument, the function returns an empty iterator.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int64.range(4, 1);
   /// assert iter.next() == null; // empty iterator
@@ -674,7 +674,7 @@ module {
 
   /// Returns an iterator over `Int64` values from the first to second argument, inclusive.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int64.rangeInclusive(1, 3);
   /// assert iter.next() == ?1;
@@ -685,7 +685,7 @@ module {
   ///
   /// If the first argument is greater than the second argument, the function returns an empty iterator.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int64.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
@@ -716,7 +716,7 @@ module {
 
   /// Returns an iterator over all Int64 values, from minValue to maxValue.
   /// ```motoko include=import
-  /// import Iter "mo:base/Iter";
+  /// import Iter "mo:core/Iter";
   ///
   /// let iter = Int64.allValues();
   /// assert iter.next() == ?-9_223_372_036_854_775_808;

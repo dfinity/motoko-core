@@ -3,7 +3,7 @@
 /// This module contains common floating-point constants and utility functions.
 ///
 /// ```motoko name=import
-/// import Float "mo:base/Float";
+/// import Float "mo:core/Float";
 /// ```
 ///
 /// Notation for special values in the documentation below:
@@ -31,7 +31,7 @@
 ///
 ///   Example:
 ///   ```motoko
-///   import Float "mo:base/Float";
+///   import Float "mo:core/Float";
 ///   let x = 0.1 + 0.1 + 0.1;
 ///   let y = 0.3;
 ///

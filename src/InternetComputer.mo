@@ -14,8 +14,8 @@ module {
   ///
   /// Example:
   /// ```motoko no-repl
-  /// import IC "mo:base/InternetComputer";
-  /// import Principal "mo:base/Principal";
+  /// import IC "mo:core/InternetComputer";
+  /// import Principal "mo:core/Principal";
   ///
   /// persistent actor {
   ///   type OutputType = { decimals : Nat32 };
@@ -49,7 +49,7 @@ module {
   ///
   /// Example:
   /// ```motoko no-repl
-  /// import IC "mo:base/InternetComputer";
+  /// import IC "mo:core/InternetComputer";
   ///
   /// let count = IC.countInstructions(func() {
   ///   // ...
@@ -82,7 +82,7 @@ module {
   ///
   /// Example:
   /// ```motoko no-repl
-  /// import IC "mo:base/InternetComputer";
+  /// import IC "mo:core/InternetComputer";
   ///
   /// let c1 = IC.performanceCounter(1);
   /// // ...

@@ -45,7 +45,7 @@ module {
 
   /// Applies a function to the wrapped value. `null`'s are left untouched.
   /// ```motoko
-  /// import Option "mo:base/Option";
+  /// import Option "mo:core/Option";
   /// assert Option.map<Nat, Nat>(?42, func x = x + 1) == ?43;
   /// assert Option.map<Nat, Nat>(null, func x = x + 1) == null;
   /// ```
@@ -58,7 +58,7 @@ module {
   /// `forEach` if you're only interested in the side effect `f` produces.
   ///
   /// ```motoko
-  /// import Option "mo:base/Option";
+  /// import Option "mo:core/Option";
   /// var counter : Nat = 0;
   /// Option.forEach(?5, func (x : Nat) { counter += x });
   /// assert counter == 5;
@@ -90,7 +90,7 @@ module {
 
   /// Given an optional optional value, removes one layer of optionality.
   /// ```motoko
-  /// import Option "mo:base/Option";
+  /// import Option "mo:core/Option";
   /// assert Option.flatten(?(?(42))) == ?42;
   /// assert Option.flatten(?(null)) == null;
   /// assert Option.flatten(null) == null;
@@ -101,7 +101,7 @@ module {
 
   /// Creates an optional value from a definite value.
   /// ```motoko
-  /// import Option "mo:base/Option";
+  /// import Option "mo:core/Option";
   /// assert Option.some(42) == ?42;
   /// ```
   public func some<A>(x : A) : ?A = ?x;

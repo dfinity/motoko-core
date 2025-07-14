@@ -2,6 +2,12 @@
 
 ## Next
 
+* **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
+* Fix a bug in `List.last<T>` (#336). 
+* Fix a typo in the `VarArray` documentation (#338).
+
+## 0.5.0
+
 * **Breaking:** Adjust `List` and `pure/List` APIs for consistency (#322).
 * Fix: `first()` and `last()` from `List` now return `null` on empty lists instead of trapping (#312).
 * Add `reverse()` function to the `pure/Queue` module (#229).

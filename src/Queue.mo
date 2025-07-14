@@ -8,7 +8,7 @@
 ///
 /// Example:
 /// ```motoko
-/// import Queue "mo:base/Queue";
+/// import Queue "mo:core/Queue";
 ///
 /// persistent actor {
 ///   let orders = Queue.empty<Text>();
@@ -43,7 +43,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Nat>([1, 2, 3].values());
@@ -70,8 +70,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
-  /// import PureQueue "mo:base/pure/Queue";
+  /// import Queue "mo:core/Queue";
+  /// import PureQueue "mo:core/pure/Queue";
   ///
   /// persistent actor {
   ///   let pureQueue = PureQueue.fromIter<Nat>([1, 2, 3].values());
@@ -97,7 +97,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.empty<Text>();
@@ -115,7 +115,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.singleton<Nat>(123);
@@ -135,7 +135,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Nat>([1, 2, 3].values());
@@ -156,7 +156,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let original = Queue.fromIter<Nat>([1, 2, 3].values());
@@ -182,7 +182,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Text>(["A", "B", "C"].values());
@@ -200,7 +200,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.empty<Nat>();
@@ -218,8 +218,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
-  /// import Nat "mo:base/Nat";
+  /// import Queue "mo:core/Queue";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Nat>([1, 2, 3].values());
@@ -244,7 +244,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Nat>([1, 2, 3].values());
@@ -266,7 +266,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Nat>([1, 2, 3].values());
@@ -287,7 +287,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.empty<Nat>();
@@ -320,7 +320,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.empty<Nat>();
@@ -354,7 +354,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Nat>([1, 2, 3].values());
@@ -385,7 +385,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Nat>([1, 2, 3].values());
@@ -415,7 +415,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Text>(["A", "B", "C"].values());
@@ -439,7 +439,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   /// persistent actor {
   ///   let queue = Queue.fromIter<Text>(["A", "B", "C"].values());
   ///   transient let iter = Queue.values(queue);
@@ -472,7 +472,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Nat>([2, 4, 6].values());
@@ -495,7 +495,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Nat>([1, 2, 3].values());
@@ -519,7 +519,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   var sum = 0;
@@ -542,7 +542,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Nat>([1, 2, 3].values());
@@ -566,7 +566,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Nat>([1, 2, 3, 4].values());
@@ -593,7 +593,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
+  /// import Queue "mo:core/Queue";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Nat>([1, 2, 3, 4].values());
@@ -625,8 +625,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
-  /// import Nat "mo:base/Nat";
+  /// import Queue "mo:core/Queue";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let queue1 = Queue.fromIter<Nat>([1, 2, 3].values());
@@ -665,8 +665,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
-  /// import Nat "mo:base/Nat";
+  /// import Queue "mo:core/Queue";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let queue = Queue.fromIter<Nat>([1, 2, 3].values());
@@ -693,8 +693,8 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Queue "mo:base/Queue";
-  /// import Nat "mo:base/Nat";
+  /// import Queue "mo:core/Queue";
+  /// import Nat "mo:core/Nat";
   ///
   /// persistent actor {
   ///   let queue1 = Queue.fromIter<Nat>([1, 2].values());

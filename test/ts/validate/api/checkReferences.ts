@@ -1,4 +1,4 @@
-// Detect "mo:base/..." imports within the base library itself (https://github.com/dfinity/motoko-base/pull/487)
+// Detect "mo:core/..." imports within the core library itself (https://github.com/dfinity/motoko-base/pull/487)
 
 import { join } from "path";
 import { readFileSync } from "fs";
@@ -15,14 +15,14 @@ moFiles.forEach((srcPath) => {
   source.split("\n").forEach((line, i) => {
     line = line.trim();
     if (
-      line.includes('"mo:base') &&
+      line.includes('"mo:core') &&
       !line.startsWith("//") &&
       !line.endsWith("// ignore-reference-check")
     ) {
       console.error(
-        `A possible reference to \`mo:base\` was found at ${srcPath}:${
+        `A possible reference to \`mo:core\` was found at ${srcPath}:${
           i + 1
-        }\n\nIf this was intentional, consider adding an \`// ignore-reference-check\` comment to the end of the line.\nOtherwise, try removing the "mo:base/..." prefix in favor of a relative path.`
+        }\n\nIf this was intentional, consider adding an \`// ignore-reference-check\` comment to the end of the line.\nOtherwise, try removing the "mo:core/..." prefix in favor of a relative path.`
       );
       process.exit(1);
     }
