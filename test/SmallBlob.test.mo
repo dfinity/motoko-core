@@ -1,22 +1,20 @@
-/// Setup motoko debugger:
-/// - git clone https://github.com/scalebit/ic-sdk to ~/ic-sdk
-/// - cd ~/ic-sdk && cargo build
-///
-/// Run:
-/// moc $(mops sources) -o MoDe.wasm -g test/SmallBlob.test.mo && ~/ic-sdk/target/debug/dfx debug MoDe.wasm
-///
 /// Commands:
 /// bp set -n breakpoint
 /// run
 /// bt
-/// list  Output: File not found: "<moc-asset>/prelude"
-/// thread step-in  Note: output seems to be wrong, points to a wrong line
+/// list
+/// thread step-in
 /// bt
 /// thread step-out
-/// list  Note: no output?
+/// thread step-in
+/// thread step-out
+/// thread step-in
+/// thread step-out
 /// bt
-/// thread step-out  Output: File not found: "<moc-asset>/prelude"
-/// thread step-over Output: File not found: "./internals"
+/// thread step-out
+/// thread step-out
+/// thread step-out
+/// thread step-out
 import Blob "../src/Blob";
 import { suite; test; expect } "mo:test";
 import Debug "../src/Debug";

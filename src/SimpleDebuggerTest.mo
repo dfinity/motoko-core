@@ -1,10 +1,3 @@
-/// Setup motoko debugger:
-/// - git clone https://github.com/scalebit/ic-sdk to ~/ic-sdk
-/// - cd ~/ic-sdk && cargo build
-///
-/// Run:
-/// moc $(mops sources) -o MoDe.wasm -g src/SimpleDebuggerTest.mo && ~/ic-sdk/target/debug/dfx debug MoDe.wasm
-///
 /// Commands:
 /// bp set -n main
 /// run
