@@ -4,9 +4,10 @@
 
 * **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
 * Added `explode` to `Int16`/`32`/`64`, `Nat16`/`32`/`64`, slicing fixed-length numbers into constituent bytes (#346).
-* Fix a bug in `List.last<T>` (#336). 
+* Fix a bug in `List.last<T>` (#336).
 * Fix a typo in the `VarArray` documentation (#338).
 * Perf: Uses the new Array_tabulateVar primitive to speed up various function in VarArray (#334)
+* Optimize methods in `List<T>` (#337).
 
 ## 0.5.0
 

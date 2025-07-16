@@ -554,7 +554,7 @@
       "public func reverseInPlace<T>(list : List<T>)",
       "public func reverseValues<T>(list : List<T>) : Iter.Iter<T>",
       "public func singleton<T>(element : T) : List<T>",
-      "public func size<T>(list : List<T>) : Nat",
+      "public func size<T>( list : { var blockIndex : Nat; var elementIndex : Nat } ) : Nat",
       "public func sort<T>(list : List<T>, compare : (T, T) -> Order.Order)",
       "public func toArray<T>(list : List<T>) : [T]",
       "public func toPure<T>(list : List<T>) : PureList.List<T>",
