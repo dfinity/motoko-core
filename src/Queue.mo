@@ -483,7 +483,7 @@ module {
     let iter = values(queue);
     Array.tabulate<T>(queue.size, func(i) {
       switch (iter.next()) {
-        case null { Prim.trap("Queue.toArray: internal error") };
+        case null { Prim.trap("Queue.toArray: unexpected end of iterator") };
         case (?value) { value }
       }
     })
