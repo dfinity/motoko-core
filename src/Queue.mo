@@ -481,12 +481,15 @@ module {
   /// `n` denotes the number of elements stored in the queue.
   public func toArray<T>(queue : Queue<T>) : [T] {
     let iter = values(queue);
-    Array.tabulate<T>(queue.size, func(i) {
-      switch (iter.next()) {
-        case null { Prim.trap("Queue.toArray: unexpected end of iterator") };
-        case (?value) { value }
+    Array.tabulate<T>(
+      queue.size,
+      func(i) {
+        switch (iter.next()) {
+          case null { Prim.trap("Queue.toArray: unexpected end of iterator") };
+          case (?value) { value }
+        }
       }
-    })
+    )
   };
 
   /// Returns an iterator over the elements in the queue.

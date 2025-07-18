@@ -350,12 +350,17 @@ module {
   /// Space: O(size)
   public func toArray<T>(queue : Queue<T>) : [T] {
     let iter = values(queue);
-    Array.tabulate<T>(queue.1, func(i) {
-      switch (iter.next()) {
-        case null { Prim.trap("pure/Queue.toArray: unexpected end of iterator") };
-        case (?value) { value }
+    Array.tabulate<T>(
+      queue.1,
+      func(i) {
+        switch (iter.next()) {
+          case null {
+            Prim.trap("pure/Queue.toArray: unexpected end of iterator")
+          };
+          case (?value) { value }
+        }
       }
-    })
+    )
   };
 
   /// Convert a queue to an iterator of its elements in front-to-back order.

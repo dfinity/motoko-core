@@ -604,7 +604,7 @@ suite(
         assert Queue.size(queue) == 3;
         assert Queue.peekFront(queue) == ?1;
         assert Queue.peekBack(queue) == ?3;
-        
+
         switch (Queue.popFront(queue)) {
           case null assert false;
           case (?(1, rest1)) {
