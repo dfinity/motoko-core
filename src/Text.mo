@@ -196,8 +196,6 @@ module {
   /// ```motoko include=import
   /// let text = Text.reverse("Hello");
   /// assert text == "olleH";
-  /// let palindrome = Text.reverse("racecar");
-  /// assert palindrome == "racecar";
   /// ```
   ///
   /// Runtime: O(t.size())
