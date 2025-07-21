@@ -90,9 +90,7 @@ let togetherAgain = Text.concat(a, b);
 assert togetherAgain == &quot;HelloThere&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="reverse"><code><span class="keyword">public func </span><span class="fnname">reverse</span>(<span class="parameter">t</span> : <a href="#type.Text"><span class="type">Text</span></a>) : <a href="#type.Text"><span class="type">Text</span></a></code></h4><p><p>Returns a new <code>Text</code> with the characters of the input <code>Text</code> in reverse order.</p>
 <pre><code>motoko include=import
 let text = Text.reverse(&quot;Hello&quot;);
-assert text == &quot;olleH&quot;;
-let palindrome = Text.reverse(&quot;racecar&quot;);
-assert palindrome == &quot;racecar&quot;;</code></pre>
+assert text == &quot;olleH&quot;;</code></pre>
 
 <p>Runtime: O(t.size())
 Space: O(t.size())</p>
