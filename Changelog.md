@@ -7,6 +7,7 @@
 * Fix a bug in `List.last<T>` (#336). 
 * Fix a typo in the `VarArray` documentation (#338).
 * Perf: Uses the new Array_tabulateVar primitive to speed up various function in VarArray (#334)
+* Add `Text.reverse()` (#351).
 
 ## 0.5.0
 
