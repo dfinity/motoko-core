@@ -1115,6 +1115,7 @@
       "public func notEqual(t1 : Text, t2 : Text) : Bool",
       "public type Pattern",
       "public func replace(t : Text, p : Pattern, r : Text) : Text",
+      "public func reverse(t : Text) : Text",
       "public func size(t : Text) : Nat",
       "public func split(t : Text, p : Pattern) : Iter.Iter<Text>",
       "public func startsWith(t : Text, p : Pattern) : Bool",
