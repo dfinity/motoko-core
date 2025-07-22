@@ -1,8 +1,6 @@
-# Motoko Core Library
+# Motoko Core Package
 
-> **Work in progress! Please consider providing feedback on the [GitHub discussions page](https://github.com/dfinity/motoko-core/discussions)**. 
-
-#### ✨ [Documentation preview](https://dfinity.github.io/motoko-core)
+#### ✨ [Documentation](https://dfinity.github.io/motoko-core)
 
 ---
 
@@ -12,12 +10,12 @@ The original standard library (known as "base") is available [here](https://gith
 
 ## Quick Start
 
-A preview of the core library is available via the [`core`](https://mops.one/core) Mops package.
+A preview of the `core` package is available via the [`core`](https://mops.one/core) Mops package.
 
-You can quickly try out the core library by making the following change to your `mops.toml` config file:
+You can quickly try out the `core` package by making the following change to your `mops.toml` config file:
 
 ```toml
-core = "0.5.0"
+core = "1.0.0"
 ```
 
 It's also possible to use the latest changes in the GitHub repository:
@@ -25,9 +23,6 @@ It's also possible to use the latest changes in the GitHub repository:
 ```toml
 core = "https://github.com/dfinity/motoko-core"
 ```
-
-Since this is a preview release for community feedback, expect breaking changes.
-Please report any bugs or inconsistencies by opening a [GitHub issue](https://github.com/dfinity/motoko-core/issues). 
 
 ## Local Environment
 
@@ -68,7 +63,7 @@ We automatically generate previews for each pull request.
 
 PRs are welcome! Please check out the [contributor guidelines](https://github.com/dfinity/motoko-core/blob/main/.github/CONTRIBUTING.md) for more information.
 
-Code and documentation style guidelines for the repository can be found [here](./STYLEGUIDE.md).
+Code and documentation style guidelines for the repository can be found [here](./Styleguide.md).
 
 Big thanks to the following community contributors:
 
