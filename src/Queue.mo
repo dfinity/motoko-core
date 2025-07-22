@@ -485,7 +485,7 @@ module {
       queue.size,
       func(i) {
         switch (iter.next()) {
-          case null { Prim.trap("Queue.toArray: unexpected end of iterator") };
+          case null { Prim.trap("Queue.toArray(): unexpected end of iterator") };
           case (?value) { value }
         }
       }
