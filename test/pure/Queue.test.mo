@@ -573,4 +573,98 @@ suite(
       }
     )
   }
+);
+
+suite(
+  "fromArray",
+  func() {
+    test(
+      "empty array",
+      func() {
+        let queue = Queue.fromArray<Nat>([]);
+        assert Queue.isEmpty(queue);
+        assert Queue.size(queue) == 0
+      }
+    );
+
+    test(
+      "single element",
+      func() {
+        let queue = Queue.fromArray<Nat>([42]);
+        assert Queue.size(queue) == 1;
+        assert Queue.peekFront(queue) == ?42;
+        assert Queue.peekBack(queue) == ?42
+      }
+    );
+
+    test(
+      "multiple elements",
+      func() {
+        let queue = Queue.fromArray<Nat>([1, 2, 3]);
+        assert Queue.size(queue) == 3;
+        assert Queue.peekFront(queue) == ?1;
+        assert Queue.peekBack(queue) == ?3;
+
+        switch (Queue.popFront(queue)) {
+          case null assert false;
+          case (?(1, rest1)) {
+            switch (Queue.popFront(rest1)) {
+              case null assert false;
+              case (?(2, rest2)) {
+                switch (Queue.popFront(rest2)) {
+                  case null assert false;
+                  case (?(3, rest3)) {
+                    assert Queue.isEmpty(rest3)
+                  }
+                }
+              }
+            }
+          };
+          case _ assert false
+        }
+      }
+    )
+  }
+);
+
+suite(
+  "toArray",
+  func() {
+    test(
+      "empty queue",
+      func() {
+        let queue = Queue.empty<Nat>();
+        let array = Queue.toArray(queue);
+        assert array == []
+      }
+    );
+
+    test(
+      "single element",
+      func() {
+        let queue = Queue.singleton<Nat>(42);
+        let array = Queue.toArray(queue);
+        assert array == [42]
+      }
+    );
+
+    test(
+      "multiple elements",
+      func() {
+        let queue = Queue.fromArray<Nat>([1, 2, 3]);
+        let array = Queue.toArray(queue);
+        assert array == [1, 2, 3]
+      }
+    );
+
+    test(
+      "round trip",
+      func() {
+        let original = [1, 2, 3, 4, 5];
+        let queue = Queue.fromArray<Nat>(original);
+        let result = Queue.toArray(queue);
+        assert result == original
+      }
+    )
+  }
 )

@@ -32,6 +32,8 @@ import Iter "../Iter";
 import List "List";
 import Order "../Order";
 import Types "../Types";
+import Array "../Array";
+import Prim "mo:⛔";
 
 module {
   type List<T> = Types.Pure.List<T>;
@@ -307,6 +309,58 @@ module {
   public func fromIter<T>(iter : Iter.Iter<T>) : Queue<T> {
     let list = List.fromIter iter;
     check(list, List.size list, null)
+  };
+
+  /// Create a queue from an array.
+  /// Elements appear in the same order as in the array.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// persistent actor {
+  ///   let queue = Queue.fromArray<Text>(["A", "B", "C"]);
+  ///   assert Queue.size(queue) == 3;
+  ///   assert Queue.peekFront(queue) == ?"A";
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(size)
+  public func fromArray<T>(array : [T]) : Queue<T> {
+    let list = List.fromArray array;
+    check(list, array.size(), null)
+  };
+
+  /// Create an immutable array from a queue.
+  /// Elements appear in the same order as in the queue (front to back).
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// import Array "mo:core/Array";
+  ///
+  /// persistent actor {
+  ///   let queue = Queue.fromArray<Text>(["A", "B", "C"]);
+  ///   let array = Queue.toArray(queue);
+  ///   assert array == ["A", "B", "C"];
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(size)
+  public func toArray<T>(queue : Queue<T>) : [T] {
+    let iter = values(queue);
+    Array.tabulate<T>(
+      queue.1,
+      func(i) {
+        switch (iter.next()) {
+          case null {
+            Prim.trap("pure/Queue.toArray: unexpected end of iterator")
+          };
+          case (?value) { value }
+        }
+      }
+    )
   };
 
   /// Convert a queue to an iterator of its elements in front-to-back order.
