@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html><head title="Doc"><meta charset="UTF-8"/><link href="styles.css" rel="stylesheet"/></head><body><nav class="sidebar"><h3>Modules</h3><ul><li><li><a href="Array.html">Array</a></li></li><li><li><a href="Blob.html">Blob</a></li></li><li><li><a href="Bool.html">Bool</a></li></li><li><li><a href="CertifiedData.html">CertifiedData</a></li></li><li><li><a href="Char.html">Char</a></li></li><li><li><a href="Cycles.html">Cycles</a></li></li><li><li><a href="Debug.html">Debug</a></li></li><li><li><a href="Error.html">Error</a></li></li><li><li><a href="Float.html">Float</a></li></li><li><li><a href="Func.html">Func</a></li></li><li><li><a href="Int.html">Int</a></li></li><li><li><a href="Int16.html">Int16</a></li></li><li><li><a href="Int32.html">Int32</a></li></li><li><li><a href="Int64.html">Int64</a></li></li><li><li><a href="Int8.html">Int8</a></li></li><li><li><a href="InternetComputer.html">InternetComputer</a></li></li><li><li><a href="Iter.html">Iter</a></li></li><li><li><a href="List.html">List</a></li></li><li><li><a href="Map.html">Map</a></li></li><li><li><a href="Nat.html">Nat</a></li></li><li><li><a href="Nat16.html">Nat16</a></li></li><li><li><a href="Nat32.html">Nat32</a></li></li><li><li><a href="Nat64.html">Nat64</a></li></li><li><li><a href="Nat8.html">Nat8</a></li></li><li><li><a href="Option.html">Option</a></li></li><li><li><a href="Order.html">Order</a></li></li><li><li><a href="Principal.html">Principal</a></li></li><li><li><a href="Queue.html">Queue</a></li></li><li><li><a href="Random.html">Random</a></li></li><li><li><a href="Region.html">Region</a></li></li><li><li><a href="Result.html">Result</a></li></li><li><li><a href="Runtime.html">Runtime</a></li></li><li><li><a href="Set.html">Set</a></li></li><li><li><a href="Stack.html">Stack</a></li></li><li><li><a href="Text.html">Text</a></li></li><li><li><a href="Time.html">Time</a></li></li><li><li><a href="Timer.html">Timer</a></li></li><li><li><a href="Tuples.html">Tuples</a></li></li><li><li><a href="Types.html">Types</a></li></li><li><li><a href="VarArray.html">VarArray</a></li></li><li><li><a href="internal/BTreeHelper.html">internal/BTreeHelper</a></li></li><li><li><a href="internal/PRNG.html">internal/PRNG</a></li></li><li><li><a href="pure/List.html">pure/List</a></li></li><li><li><a href="pure/Map.html">pure/Map</a></li></li><li><li><a href="pure/Queue.html">pure/Queue</a></li></li><li><li><a href="pure/RealTimeQueue.html">pure/RealTimeQueue</a></li></li><li><li><a href="pure/Set.html">pure/Set</a></li></li></ul><h3>Declarations</h3><ul><li><li><a href="#type.Int">Int</a></li></li><li><li><a href="#abs">abs</a></li></li><li><li><a href="#toText">toText</a></li></li><li><li><a href="#fromText">fromText</a></li></li><li><li><a href="#toNat">toNat</a></li></li><li><li><a href="#fromNat">fromNat</a></li></li><li><li><a href="#min">min</a></li></li><li><li><a href="#max">max</a></li></li><li><li><a href="#equal">equal</a></li></li><li><li><a href="#notEqual">notEqual</a></li></li><li><li><a href="#less">less</a></li></li><li><li><a href="#lessOrEqual">lessOrEqual</a></li></li><li><li><a href="#greater">greater</a></li></li><li><li><a href="#greaterOrEqual">greaterOrEqual</a></li></li><li><li><a href="#compare">compare</a></li></li><li><li><a href="#neg">neg</a></li></li><li><li><a href="#add">add</a></li></li><li><li><a href="#sub">sub</a></li></li><li><li><a href="#mul">mul</a></li></li><li><li><a href="#div">div</a></li></li><li><li><a href="#rem">rem</a></li></li><li><li><a href="#pow">pow</a></li></li><li><li><a href="#range">range</a></li></li><li><li><a href="#rangeBy">rangeBy</a></li></li><li><li><a href="#rangeInclusive">rangeInclusive</a></li></li><li><li><a href="#rangeByInclusive">rangeByInclusive</a></li></li></ul></nav><div class="documentation"><h1>Int</h1><p>Signed integer numbers with infinite precision (also called big integers).</p>
+<p>Most operations on integer numbers (e.g. addition) are available as built-in operators (e.g. <code>-1 + 1</code>).
+This module provides equivalent functions and <code>Text</code> conversion.</p>
+<p>Import from the core library to use this module.</p>
+<pre><code>motoko name=import
+import Int &quot;mo:core/Int&quot;;</code></pre><div class="declaration"><h4 class="type-declaration" id="type.Int"><span class="keyword">type </span><span class="type">Int</span> = <span class="type">Prim.Types.Int</span></h4><p><p>Infinite precision signed integers.</p>
+</p></div><div class="declaration"><h4 class="function" id="abs"><code><span class="keyword">public func </span><span class="fnname">abs</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <span class="type">Nat</span></code></h4><p><p>Returns the absolute value of <code>x</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.abs(-12) == 12;</code></pre></p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <span class="type">Text</span></code></h4><p><p>Converts an integer number to its textual representation. Textual
+representation <em>do not</em> contain underscores to represent commas.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.toText(-1234) == &quot;-1234&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="fromText"><code><span class="keyword">public func </span><span class="fnname">fromText</span>(<span class="parameter">text</span> : <span class="type">Text</span>) : ?<a href="#type.Int"><span class="type">Int</span></a></code></h4><p><p>Creates a integer from its textual representation. Returns <code>null</code>
+if the input is not a valid integer.</p>
+<p>The textual representation <em>must not</em> contain underscores but may
+begin with a '+' or '-' character.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.fromText(&quot;-1234&quot;) == ?-1234;</code></pre></p></div><div class="declaration"><h4 class="function" id="toNat"><code><span class="keyword">public func </span><span class="fnname">toNat</span>(<span class="parameter">int</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <span class="type">Nat</span></code></h4><p><p>Converts an integer to a natural number. Traps if the integer is negative.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+import Debug &quot;mo:core/Debug&quot;;
+assert Int.toNat(1234 : Int) == (1234 : Nat);</code></pre></p></div><div class="declaration"><h4 class="function" id="fromNat"><code><span class="keyword">public func </span><span class="fnname">fromNat</span>(<span class="parameter">nat</span> : <span class="type">Nat</span>) : <a href="#type.Int"><span class="type">Int</span></a></code></h4><p><p>Converts a natural number to an integer.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.fromNat(1234 : Nat) == (1234 : Int);</code></pre></p></div><div class="declaration"><h4 class="function" id="min"><code><span class="keyword">public func </span><span class="fnname">min</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <a href="#type.Int"><span class="type">Int</span></a></code></h4><p><p>Returns the minimum of <code>x</code> and <code>y</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.min(2, -3) == -3;</code></pre></p></div><div class="declaration"><h4 class="function" id="max"><code><span class="keyword">public func </span><span class="fnname">max</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <a href="#type.Int"><span class="type">Int</span></a></code></h4><p><p>Returns the maximum of <code>x</code> and <code>y</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.max(2, -3) == 2;</code></pre></p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <span class="type">Bool</span></code></h4><p><p>Equality function for Int types.
+This is equivalent to <code>x == y</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.equal(-1, -1);</code></pre>
+
+<p>Note: The reason why this function is defined in this library (in addition
+to the existing <code>==</code> operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use <code>==</code>
+as a function value at the moment.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+let a : Int = 1;
+let b : Int = -1;
+assert not Int.equal(a, b);</code></pre></p></div><div class="declaration"><h4 class="function" id="notEqual"><code><span class="keyword">public func </span><span class="fnname">notEqual</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <span class="type">Bool</span></code></h4><p><p>Inequality function for Int types.
+This is equivalent to <code>x != y</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.notEqual(-1, -2);</code></pre>
+
+<p>Note: The reason why this function is defined in this library (in addition
+to the existing <code>!=</code> operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use <code>!=</code>
+as a function value at the moment.</p>
+</p></div><div class="declaration"><h4 class="function" id="less"><code><span class="keyword">public func </span><span class="fnname">less</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Less than&quot; function for Int types.
+This is equivalent to <code>x &lt; y</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.less(-2, 1);</code></pre>
+
+<p>Note: The reason why this function is defined in this library (in addition
+to the existing <code>&lt;</code> operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use <code>&lt;</code>
+as a function value at the moment.</p>
+</p></div><div class="declaration"><h4 class="function" id="lessOrEqual"><code><span class="keyword">public func </span><span class="fnname">lessOrEqual</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Less than or equal&quot; function for Int types.
+This is equivalent to <code>x &lt;= y</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.lessOrEqual(-2, 1);</code></pre>
+
+<p>Note: The reason why this function is defined in this library (in addition
+to the existing <code>&lt;=</code> operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use <code>&lt;=</code>
+as a function value at the moment.</p>
+</p></div><div class="declaration"><h4 class="function" id="greater"><code><span class="keyword">public func </span><span class="fnname">greater</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Greater than&quot; function for Int types.
+This is equivalent to <code>x &gt; y</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.greater(1, -2);</code></pre>
+
+<p>Note: The reason why this function is defined in this library (in addition
+to the existing <code>&gt;</code> operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use <code>&gt;</code>
+as a function value at the moment.</p>
+</p></div><div class="declaration"><h4 class="function" id="greaterOrEqual"><code><span class="keyword">public func </span><span class="fnname">greaterOrEqual</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Greater than or equal&quot; function for Int types.
+This is equivalent to <code>x &gt;= y</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.greaterOrEqual(1, -2);</code></pre>
+
+<p>Note: The reason why this function is defined in this library (in addition
+to the existing <code>&gt;=</code> operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use <code>&gt;=</code>
+as a function value at the moment.</p>
+</p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <a href="Order.html#type.Order"><span class="type">Order.Order</span></a></code></h4><p><p>General-purpose comparison function for <code>Int</code>. Returns the <code>Order</code> (
+either <code>#less</code>, <code>#equal</code>, or <code>#greater</code>) of comparing <code>x</code> with <code>y</code>.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.compare(-3, 2) == #less;</code></pre>
+
+<p>This function can be used as value for a high order function, such as a sort function.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+import Array &quot;mo:core/Array&quot;;
+assert Array.sort([1, -2, -3], Int.compare) == [-3, -2, 1];</code></pre></p></div><div class="declaration"><h4 class="function" id="neg"><code><span class="keyword">public func </span><span class="fnname">neg</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <a href="#type.Int"><span class="type">Int</span></a></code></h4><p><p>Returns the negation of <code>x</code>, <code>-x</code> .</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.neg(123) == -123;</code></pre>
+
+<p>Note: The reason why this function is defined in this library (in addition
+to the existing <code>-</code> operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use <code>-</code>
+as a function value at the moment.</p>
+</p></div><div class="declaration"><h4 class="function" id="add"><code><span class="keyword">public func </span><span class="fnname">add</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <a href="#type.Int"><span class="type">Int</span></a></code></h4><p><p>Returns the sum of <code>x</code> and <code>y</code>, <code>x + y</code>.</p>
+<p>No overflow since <code>Int</code> has infinite precision.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.add(1, -2) == -1;</code></pre>
+
+<p>Note: The reason why this function is defined in this library (in addition
+to the existing <code>+</code> operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use <code>+</code>
+as a function value at the moment.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+import Array &quot;mo:core/Array&quot;;
+assert Array.foldLeft([1, -2, -3], 0, Int.add) == -4;</code></pre></p></div><div class="declaration"><h4 class="function" id="sub"><code><span class="keyword">public func </span><span class="fnname">sub</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <a href="#type.Int"><span class="type">Int</span></a></code></h4><p><p>Returns the difference of <code>x</code> and <code>y</code>, <code>x - y</code>.</p>
+<p>No overflow since <code>Int</code> has infinite precision.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.sub(1, 2) == -1;</code></pre>
+
+<p>Note: The reason why this function is defined in this library (in addition
+to the existing <code>-</code> operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use <code>-</code>
+as a function value at the moment.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+import Array &quot;mo:core/Array&quot;;
+assert Array.foldLeft([1, -2, -3], 0, Int.sub) == 4;</code></pre></p></div><div class="declaration"><h4 class="function" id="mul"><code><span class="keyword">public func </span><span class="fnname">mul</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <a href="#type.Int"><span class="type">Int</span></a></code></h4><p><p>Returns the product of <code>x</code> and <code>y</code>, <code>x * y</code>.</p>
+<p>No overflow since <code>Int</code> has infinite precision.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.mul(-2, 3) == -6;</code></pre>
+
+<p>Note: The reason why this function is defined in this library (in addition
+to the existing <code>*</code> operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use <code>*</code>
+as a function value at the moment.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+import Array &quot;mo:core/Array&quot;;
+assert Array.foldLeft([1, -2, -3], 1, Int.mul) == 6;</code></pre></p></div><div class="declaration"><h4 class="function" id="div"><code><span class="keyword">public func </span><span class="fnname">div</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <a href="#type.Int"><span class="type">Int</span></a></code></h4><p><p>Returns the signed integer division of <code>x</code> by <code>y</code>,  <code>x / y</code>.
+Rounds the quotient towards zero, which is the same as truncating the decimal places of the quotient.</p>
+<p>Traps when <code>y</code> is zero.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.div(6, -2) == -3;</code></pre>
+
+<p>Note: The reason why this function is defined in this library (in addition
+to the existing <code>/</code> operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use <code>/</code>
+as a function value at the moment.</p>
+</p></div><div class="declaration"><h4 class="function" id="rem"><code><span class="keyword">public func </span><span class="fnname">rem</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <a href="#type.Int"><span class="type">Int</span></a></code></h4><p><p>Returns the remainder of the signed integer division of <code>x</code> by <code>y</code>, <code>x % y</code>,
+which is defined as <code>x - x / y * y</code>.</p>
+<p>Traps when <code>y</code> is zero.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.rem(6, -4) == 2;</code></pre>
+
+<p>Note: The reason why this function is defined in this library (in addition
+to the existing <code>%</code> operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use <code>%</code>
+as a function value at the moment.</p>
+</p></div><div class="declaration"><h4 class="function" id="pow"><code><span class="keyword">public func </span><span class="fnname">pow</span>(<span class="parameter">x</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">y</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <a href="#type.Int"><span class="type">Int</span></a></code></h4><p><p>Returns <code>x</code> to the power of <code>y</code>, <code>x ** y</code>.</p>
+<p>Traps when <code>y</code> is negative or <code>y &gt; 2 ** 32 - 1</code>.
+No overflow since <code>Int</code> has infinite precision.</p>
+<p>Example:</p>
+<pre><code>motoko include=import
+assert Int.pow(-2, 3) == -8;</code></pre>
+
+<p>Note: The reason why this function is defined in this library (in addition
+to the existing <code>**</code> operator) is so that you can use it as a function
+value to pass to a higher order function. It is not possible to use <code>**</code>
+as a function value at the moment.</p>
+</p></div><div class="declaration"><h4 class="function" id="range"><code><span class="keyword">public func </span><span class="fnname">range</span>(<span class="parameter">fromInclusive</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">toExclusive</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Int"><span class="type">Int</span></a>&gt;</code></h4><p><p>Returns an iterator over the integers from the first to second argument with an exclusive upper bound.</p>
+<pre><code>motoko include=import
+import Iter &quot;mo:core/Iter&quot;;
+
+let iter = Int.range(1, 4);
+assert iter.next() == ?1;
+assert iter.next() == ?2;
+assert iter.next() == ?3;
+assert iter.next() == null;</code></pre>
+
+<p>If the first argument is greater than the second argument, the function returns an empty iterator.</p>
+<pre><code>motoko include=import
+import Iter &quot;mo:core/Iter&quot;;
+
+let iter = Int.range(4, 1);
+assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeBy"><code><span class="keyword">public func </span><span class="fnname">rangeBy</span>(<br/>  <span class="parameter">fromInclusive</span> : <a href="#type.Int"><span class="type">Int</span></a>, <br/>  <span class="parameter">toExclusive</span> : <a href="#type.Int"><span class="type">Int</span></a>, <br/>  <span class="parameter">step</span> : <a href="#type.Int"><span class="type">Int</span></a><br/>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Int"><span class="type">Int</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Int</code> values from the first to second argument with an exclusive upper bound,
+incrementing by the specified step size.</p>
+<pre><code>motoko include=import
+import Iter &quot;mo:core/Iter&quot;;
+
+// Positive step
+let iter1 = Int.rangeBy(1, 7, 2);
+assert iter1.next() == ?1;
+assert iter1.next() == ?3;
+assert iter1.next() == ?5;
+assert iter1.next() == null;
+
+// Negative step
+let iter2 = Int.rangeBy(7, 1, -2);
+assert iter2.next() == ?7;
+assert iter2.next() == ?5;
+assert iter2.next() == ?3;
+assert iter2.next() == null;</code></pre>
+
+<p>If <code>step</code> is 0 or if the iteration would not progress towards the bound, returns an empty iterator.</p>
+</p></div><div class="declaration"><h4 class="function" id="rangeInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeInclusive</span>(<span class="parameter">from</span> : <a href="#type.Int"><span class="type">Int</span></a>, <span class="parameter">to</span> : <a href="#type.Int"><span class="type">Int</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Int"><span class="type">Int</span></a>&gt;</code></h4><p><p>Returns an iterator over the integers from the first to second argument, inclusive.</p>
+<pre><code>motoko include=import
+import Iter &quot;mo:core/Iter&quot;;
+
+let iter = Int.rangeInclusive(1, 3);
+assert iter.next() == ?1;
+assert iter.next() == ?2;
+assert iter.next() == ?3;
+assert iter.next() == null;</code></pre>
+
+<p>If the first argument is greater than the second argument, the function returns an empty iterator.</p>
+<pre><code>motoko include=import
+import Iter &quot;mo:core/Iter&quot;;
+
+let iter = Int.rangeInclusive(3, 1);
+assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeByInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeByInclusive</span>(<br/>  <span class="parameter">from</span> : <a href="#type.Int"><span class="type">Int</span></a>, <br/>  <span class="parameter">to</span> : <a href="#type.Int"><span class="type">Int</span></a>, <br/>  <span class="parameter">step</span> : <a href="#type.Int"><span class="type">Int</span></a><br/>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Int"><span class="type">Int</span></a>&gt;</code></h4><p><p>Returns an iterator over the integers from the first to second argument, inclusive,
+incrementing by the specified step size.</p>
+<pre><code>motoko include=import
+import Iter &quot;mo:core/Iter&quot;;
+
+// Positive step
+let iter1 = Int.rangeByInclusive(1, 7, 2);
+assert iter1.next() == ?1;
+assert iter1.next() == ?3;
+assert iter1.next() == ?5;
+assert iter1.next() == ?7;
+assert iter1.next() == null;
+
+// Negative step
+let iter2 = Int.rangeByInclusive(7, 1, -2);
+assert iter2.next() == ?7;
+assert iter2.next() == ?5;
+assert iter2.next() == ?3;
+assert iter2.next() == ?1;
+assert iter2.next() == null;</code></pre>
+
+<p>If <code>from == to</code>, return an iterator which only returns that value.</p>
+<p>Otherwise, if <code>step</code> is 0 or if the iteration would not progress towards the bound, returns an empty iterator.</p>
+</p></div></div></body></html>
