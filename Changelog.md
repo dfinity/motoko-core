@@ -1,6 +1,6 @@
 # Changelog
 
-## Next
+## 1.0.0
 
 * **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
 * Added `explode` to `Int16`/`32`/`64`, `Nat16`/`32`/`64`, slicing fixed-length numbers into constituent bytes (#346).
