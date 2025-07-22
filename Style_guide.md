@@ -126,7 +126,7 @@ assert Text.compareWith("abc", "ABC", Char.compare) == #greater
 
   - `equal`: compare two values
   
-  - `compare`: compare two values (return `Order = { #less; #equal; #greater }`)
+  - `compare`: compare two values (return `Types.Order`)
   
   - `toText`: convert to textual representation
 
