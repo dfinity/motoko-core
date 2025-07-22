@@ -125,7 +125,9 @@ assert Text.compareWith("abc", "ABC", Char.compare) == #greater
 * The following functions should be provided in all modules corresponding to a data structure or primitive type:
 
   - `equal`: compare two values
+  
   - `compare`: compare two values (return `Order = { #less; #equal; #greater }`)
+  
   - `toText`: convert to textual representation
 
 ### Data structures
@@ -138,7 +140,7 @@ assert Text.compareWith("abc", "ABC", Char.compare) == #greater
 
 * Here is a list of common data structure operations and suggested names that ought to be consistent across containers:
 
-  - `empty`: create a new empty data structure value
+  - `empty`: return a new, empty instance
 
   - `contains`: test membership
 
