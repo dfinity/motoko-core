@@ -94,14 +94,14 @@ assert Text.compareWith("abc", "ABC", Char.compare) == #greater
 
 * In contrast, other types are transparent and can be named after their function or structure where appropriate (e.g. `Tree`).
 
-### Type Aliases
+### Type aliases
 
 * Type aliases should be defined for complex object or variant types or ones that are used more than once.
 
 * Define all public types in `Types.mo`, and include an alias in the relevant module.
 
 
-## Functions and Methods
+## Functions and methods
 
 ### General
 
