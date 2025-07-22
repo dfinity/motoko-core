@@ -33,6 +33,8 @@ import PureQueue "pure/Queue";
 import Iter "Iter";
 import Order "Order";
 import Types "Types";
+import Array "Array";
+import Prim "mo:⛔";
 
 module {
   public type Queue<T> = Types.Queue.Queue<T>;
@@ -432,6 +434,62 @@ module {
       pushBack(queue, element)
     };
     queue
+  };
+
+  /// Creates a new queue from an array.
+  /// Elements appear in the same order as in the array.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import Queue "mo:core/Queue";
+  ///
+  /// persistent actor {
+  ///   let queue = Queue.fromArray<Text>(["A", "B", "C"]);
+  ///   assert Queue.size(queue) == 3;
+  ///   assert Queue.peekFront(queue) == ?"A";
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(n)
+  /// Space: O(n)
+  /// `n` denotes the number of elements stored in the array.
+  public func fromArray<T>(array : [T]) : Queue<T> {
+    let queue = empty<T>();
+    for (element in array.vals()) {
+      pushBack(queue, element)
+    };
+    queue
+  };
+
+  /// Creates a new immutable array containing all elements from the queue.
+  /// Elements appear in the same order as in the queue (front to back).
+  ///
+  /// Example:
+  /// ```motoko
+  /// import Queue "mo:core/Queue";
+  /// import Array "mo:core/Array";
+  ///
+  /// persistent actor {
+  ///   let queue = Queue.fromArray<Text>(["A", "B", "C"]);
+  ///   let array = Queue.toArray(queue);
+  ///   assert array == ["A", "B", "C"];
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(n)
+  /// Space: O(n)
+  /// `n` denotes the number of elements stored in the queue.
+  public func toArray<T>(queue : Queue<T>) : [T] {
+    let iter = values(queue);
+    Array.tabulate<T>(
+      queue.size,
+      func(i) {
+        switch (iter.next()) {
+          case null { Prim.trap("Queue.toArray(): unexpected end of iterator") };
+          case (?value) { value }
+        }
+      }
+    )
   };
 
   /// Returns an iterator over the elements in the queue.

@@ -916,6 +916,7 @@
       "public func filter<T>(queue : Queue<T>, criterion : T -> Bool) : Queue<T>",
       "public func filterMap<T, U>(queue : Queue<T>, project : T -> ?U) : Queue<U>",
       "public func forEach<T>(queue : Queue<T>, operation : T -> ())",
+      "public func fromArray<T>(array : [T]) : Queue<T>",
       "public func fromIter<T>(iter : Iter.Iter<T>) : Queue<T>",
       "public func fromPure<T>(pureQueue : PureQueue.Queue<T>) : Queue<T>",
       "public func isEmpty<T>(queue : Queue<T>) : Bool",
@@ -929,6 +930,7 @@
       "public type Queue<T>",
       "public func singleton<T>(element : T) : Queue<T>",
       "public func size<T>(queue : Queue<T>) : Nat",
+      "public func toArray<T>(queue : Queue<T>) : [T]",
       "public func toPure<T>(queue : Queue<T>) : PureQueue.Queue<T>",
       "public func toText<T>(queue : Queue<T>, format : T -> Text) : Text",
       "public func values<T>(queue : Queue<T>) : Iter.Iter<T>"
@@ -1360,6 +1362,7 @@
       "public func filter<T>(queue : Queue<T>, predicate : T -> Bool) : Queue<T>",
       "public func filterMap<T, U>(queue : Queue<T>, f : T -> ?U) : Queue<U>",
       "public func forEach<T>(queue : Queue<T>, f : T -> ())",
+      "public func fromArray<T>(array : [T]) : Queue<T>",
       "public func fromIter<T>(iter : Iter.Iter<T>) : Queue<T>",
       "public func isEmpty<T>(queue : Queue<T>) : Bool",
       "public func map<T1, T2>(queue : Queue<T1>, f : T1 -> T2) : Queue<T2>",
@@ -1373,6 +1376,7 @@
       "public func reverse<T>(queue : Queue<T>) : Queue<T>",
       "public func singleton<T>(item : T) : Queue<T>",
       "public func size<T>(queue : Queue<T>) : Nat",
+      "public func toArray<T>(queue : Queue<T>) : [T]",
       "public func toText<T>(queue : Queue<T>, f : T -> Text) : Text",
       "public func values<T>(queue : Queue<T>) : Iter.Iter<T>"
     ]
