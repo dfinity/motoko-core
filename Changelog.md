@@ -2,6 +2,7 @@
 
 ## Next
 
+* Fix a outdated function names `logand` and `logor` in the `Bool` documentation (#354).
 * **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
 * Add `explode()` to `Int16`/`32`/`64`, `Nat16`/`32`/`64`, slicing fixed-length numbers into constituent bytes (#346).
 * Add `fromArray()` and `toArray()` to `Queue` and `pure/Queue` (#349).
