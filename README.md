@@ -64,7 +64,7 @@ We automatically generate previews for each pull request.
 
 PRs are welcome! Please check out the [contributor guidelines](https://github.com/dfinity/motoko-core/blob/main/.github/CONTRIBUTING.md) for more information.
 
-Code and documentation style guidelines for the repository can be found [here](./Styleguide.md).
+Interface design and code style guidelines for the repository can be found [here](https://github.com/dfinity/motoko-core/blob/main/Styleguide.md).
 
 Big thanks to the following community contributors:
 
