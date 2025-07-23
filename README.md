@@ -1,26 +1,27 @@
-# Motoko Core Package
+# `core`
 
-#### ✨ [Documentation](https://dfinity.github.io/motoko-core)
+* 📦 [Mops Package](https://mops.one/core)
+* ✨ [Documentation](https://internetcomputer.org/docs/motoko/core)
 
 ---
 
-This repository contains the standard library for the [Motoko](https://github.com/dfinity/motoko) programming language. 
+The `core` package is the official standard library for the [Motoko](https://github.com/dfinity/motoko) programming language. 
 
-The original standard library (known as "base") is available [here](https://github.com/dfinity/motoko-base).
+This replaces the original `base` library, which is available [here](https://github.com/dfinity/motoko-base).
 
 ## Quick Start
 
-A preview of the `core` package is available via the [`core`](https://mops.one/core) Mops package.
-
-You can quickly try out the `core` package by making the following change to your `mops.toml` config file:
+Add the following dependency to your `mops.toml` config file:
 
 ```toml
+[dependencies]
 core = "0.6.0"
 ```
 
 It's also possible to use the latest changes in the GitHub repository:
 
 ```toml
+[dependencies]
 core = "https://github.com/dfinity/motoko-core"
 ```
 
