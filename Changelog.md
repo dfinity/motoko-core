@@ -9,6 +9,7 @@
 * Fix a typo in the `VarArray` documentation (#338).
 * Perf: Uses the new `Array_tabulateVar` primitive to speed up various function in `VarArray` (#334).
 * Add `Text.reverse()` (#351).
+* Update style guidelines (#353).
 
 ## 0.5.0
 
