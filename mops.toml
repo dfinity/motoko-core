@@ -1,8 +1,9 @@
 [package]
 name = "new-base"
 version = "0.4.1"
-description = "The new Motoko base library (preview)"
-keywords = [ "base" ]
+description = "Deprecated"
+repository = "https://github.com/rvanasa/new-motoko-base"
+keywords = []
 license = "Apache-2.0"
 
 [dev-dependencies]
