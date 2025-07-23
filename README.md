@@ -32,7 +32,7 @@ Interface design and code style guidelines for the repository can be found [here
 
 ### Dev Environment
 
-Make sure that [Node.js](https://nodejs.org/en/) `>= 22.x` is installed on your system. [`dfx`](https://internetcomputer.org/docs/building-apps/getting-started/install) is optional and used for some development scripts.
+> Make sure that [Node.js](https://nodejs.org/en/) `>= 22.x` is installed on your system.
 
 Run the following commands to configure your local development branch:
 
@@ -49,7 +49,7 @@ Below is a quick reference for commonly-used scripts during development:
 ```sh
 npm test # Run all tests
 npm run format # Format Motoko files
-npm run validate:api # Update the public API lockfile
+npm run validate # Update the public API lockfile
 npm run validate:docs Array # Run code snippets in `src/Array.mo`
 ```
 
