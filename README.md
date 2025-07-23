@@ -15,7 +15,7 @@ A preview of the `core` package is available via the [`core`](https://mops.one/c
 You can quickly try out the `core` package by making the following change to your `mops.toml` config file:
 
 ```toml
-core = "1.0.0"
+core = "0.6.0"
 ```
 
 It's also possible to use the latest changes in the GitHub repository:
