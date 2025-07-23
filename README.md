@@ -7,27 +7,32 @@
 
 The `core` package is the official standard library for the [Motoko](https://github.com/dfinity/motoko) programming language. 
 
-This replaces the original `base` library, which is available [here](https://github.com/dfinity/motoko-base).
+This replaces the original `base` library, which is available [here](https://github.com/dfinity/motoko-base). 
+
+An official [migration guide](https://internetcomputer.org/docs/motoko/base-core-migration) is available for upgrading projects from `base` to `core`.
 
 ## Quick Start
 
-Add the following dependency to your `mops.toml` config file:
+1. Install the [Mops](https://docs.mops.one/quick-start) package manager
+2. Open a terminal in your project directory
+3. Run `mops add core`
+
+This adds the following dependency to your `mops.toml` config file:
 
 ```toml
 [dependencies]
 core = "0.6.0"
 ```
 
-It's also possible to use the latest changes in the GitHub repository:
+## Contributing
 
-```toml
-[dependencies]
-core = "https://github.com/dfinity/motoko-core"
-```
+PRs are welcome! Please check out the [contributor guidelines](https://github.com/dfinity/motoko-core/blob/main/.github/CONTRIBUTING.md) for more information.
 
-## Local Environment
+Interface design and code style guidelines for the repository can be found [here](https://github.com/dfinity/motoko-core/blob/main/Styleguide.md).
 
-Make sure that [Node.js](https://nodejs.org/en/) `>= 22.x` and the latest version of [`dfx`](https://internetcomputer.org/docs/building-apps/getting-started/install) are installed on your system.
+### Dev Environment
+
+Make sure that [Node.js](https://nodejs.org/en/) `>= 22.x` is installed on your system. [`dfx`](https://internetcomputer.org/docs/building-apps/getting-started/install) is optional and used for some development scripts.
 
 Run the following commands to configure your local development branch:
 
@@ -50,21 +55,7 @@ npm run validate:docs Array # Run code snippets in `src/Array.mo`
 
 All available scripts can be found in the project's [`package.json`](https://github.com/dfinity/motoko-core/blob/main/package.json) file.
 
-## Documentation
-
-It's possible to generate a documentation preview by running the following command:
-
-```sh
-npm run docs
-```
-
-We automatically generate previews for each pull request.
-
-## Contributing
-
-PRs are welcome! Please check out the [contributor guidelines](https://github.com/dfinity/motoko-core/blob/main/.github/CONTRIBUTING.md) for more information.
-
-Interface design and code style guidelines for the repository can be found [here](https://github.com/dfinity/motoko-core/blob/main/Styleguide.md).
+### Major Contributors
 
 Big thanks to the following community contributors:
 
