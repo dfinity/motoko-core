@@ -212,6 +212,54 @@ run(
 
 run(
   suite(
+    "reverse",
+    [
+      test(
+        "reverse-empty",
+        Text.reverse(""),
+        M.equals(T.text "")
+      ),
+      test(
+        "reverse-single",
+        Text.reverse("a"),
+        M.equals(T.text "a")
+      ),
+      test(
+        "reverse-basic",
+        Text.reverse("Hello"),
+        M.equals(T.text "olleH")
+      ),
+      test(
+        "reverse-palindrome",
+        Text.reverse("racecar"),
+        M.equals(T.text "racecar")
+      ),
+      test(
+        "reverse-numbers",
+        Text.reverse("12345"),
+        M.equals(T.text "54321")
+      ),
+      test(
+        "reverse-unicode",
+        Text.reverse("☃❄🌨"),
+        M.equals(T.text "🌨❄☃")
+      ),
+      test(
+        "reverse-mixed",
+        Text.reverse("abc123XYZ"),
+        M.equals(T.text "ZYX321cba")
+      ),
+      test(
+        "reverse-long",
+        Text.reverse("abcdefghijklmnopqrstuvwxyz"),
+        M.equals(T.text "zyxwvutsrqponmlkjihgfedcba")
+      )
+    ]
+  )
+);
+
+run(
+  suite(
     "join",
     [
       test(

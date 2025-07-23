@@ -191,6 +191,19 @@ module {
   /// ```
   public func concat(t1 : Text, t2 : Text) : Text = t1 # t2;
 
+  /// Returns a new `Text` with the characters of the input `Text` in reverse order.
+  ///
+  /// ```motoko include=import
+  /// let text = Text.reverse("Hello");
+  /// assert text == "olleH";
+  /// ```
+  ///
+  /// Runtime: O(t.size())
+  /// Space: O(t.size())
+  public func reverse(t : Text) : Text {
+    fromIter(Iter.reverse(t.chars()))
+  };
+
   /// Returns true if two text values are equal.
   ///
   /// ```motoko
