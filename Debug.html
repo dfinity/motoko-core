@@ -8,8 +8,10 @@ produced during the execution of non-replicated queries and composite queries.
 In other environments, like the interpreter and stand-alone wasm engines, the output is written to standard out.</p>
 <pre><code>motoko include=import
 Debug.print &quot;Hello New World!&quot;;
-Debug.print(debug_show(4)) // Often used with `debug_show` to convert values to Text</code></pre></p></div><div class="declaration"><h4 class="function" id="todo"><code><span class="keyword">public func </span><span class="fnname">todo</span>() : <span class="type">None</span></code></h4><p><p>Not yet implemented</p>
-<p>Mark incomplete code with the <code>todo()</code> function.</p>
+Debug.print(debug_show(4)) // Often used with `debug_show` to convert values to Text</code></pre></p></div><div class="declaration"><h4 class="function" id="todo"><code><span class="keyword">public func </span><span class="fnname">todo</span>() : <span class="type">None</span></code></h4><p><p>Mark incomplete code with the <code>todo()</code> function.</p>
 <p>Each have calls are well-typed in all typing contexts, which
 trap in all execution contexts.</p>
-</p></div></div></body></html>
+<pre><code>motoko include=import
+func doSomethingComplex() {
+  Debug.todo()
+};</code></pre></p></div></div></body></html>
