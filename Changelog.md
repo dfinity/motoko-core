@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+
+* Update readme
+
 ## 0.4.0
 
 * Add `isReplicated : () -> Bool` to `InternetComputer` (#213).

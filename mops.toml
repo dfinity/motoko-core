@@ -1,6 +1,6 @@
 [package]
 name = "new-base"
-version = "0.4.0"
+version = "0.4.1"
 description = "The new Motoko base library (preview)"
 repository = "https://github.com/dfinity/new-motoko-base"
 keywords = [ "base" ]
