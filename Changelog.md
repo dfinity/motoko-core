@@ -1,6 +1,6 @@
 # Changelog
 
-## Next
+## 0.6.0
 
 * Fix a outdated function names `logand` and `logor` in the `Bool` documentation (#354).
 * **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
@@ -10,6 +10,7 @@
 * Fix a typo in the `VarArray` documentation (#338).
 * Perf: Uses the new `Array_tabulateVar` primitive to speed up various function in `VarArray` (#334).
 * Add `Text.reverse()` (#351).
+* Update style guidelines (#353).
 
 ## 0.5.0
 
