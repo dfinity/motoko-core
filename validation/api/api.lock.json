@@ -636,7 +636,7 @@
       "public func rem(x : Nat, y : Nat) : Nat",
       "public func sub(x : Nat, y : Nat) : Nat",
       "public func toInt(nat : Nat) : Int",
-      "public func toText(n : Nat) : Text"
+      "public let toText : Nat -> Text"
     ]
   },
   {
