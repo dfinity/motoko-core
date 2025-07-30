@@ -1,5 +1,7 @@
 # Changelog
 
+* Perf: Made `Nat.toText` slightly more performant (#358).
+
 ## 0.6.0
 
 * **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
