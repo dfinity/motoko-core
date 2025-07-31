@@ -1274,7 +1274,7 @@ module {
     if (isEmpty(list)) null else list.blocks[1][0]
   };
 
-  /// Returns the last element of `list`. Traps if `list` is empty.
+  /// Returns the last element of `list`, or `null` if the list is empty.
   ///
   /// Example:
   /// ```motoko include=import
