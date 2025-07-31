@@ -1,6 +1,7 @@
-# Changelog
+# Next
 
 * Perf: Made `Nat.toText` slightly more performant (#358).
+* Fix doc comment for `List.last()` (#359).
 
 ## 0.6.0
 
