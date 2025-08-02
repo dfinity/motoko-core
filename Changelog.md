@@ -1,6 +1,7 @@
 # Next
 
-* Perf: Made `Nat.toText()` slightly more performant (#358).
+* Make `Nat.toText()` slightly more performant (#358).
+* Add `uniform64()`, `nat64()`, `natRange()`, and `intRange()` to `AsyncRandom` class (#360).
 
 ## 0.6.0
 
