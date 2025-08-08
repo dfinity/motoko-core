@@ -14,7 +14,6 @@ await suite(
       func() : async () {
         let state = Random.emptyState();
 
-        // Verify initial state values
         expect.nat(state.bytes.size()).equal(0);
         expect.nat(state.index).equal(0);
         expect.nat8(state.bits).equal(0x00);
@@ -55,13 +54,13 @@ await suite(
         let _random2 = Random.cryptoFromState(state2);
 
         // States should be independent objects
-        expect.nat(state1.index).equal(state2.index); // Both start at 0
-        expect.nat(state1.bytes.size()).equal(state2.bytes.size()); // Both start empty
+        expect.nat(state1.index).equal(state2.index);
+        expect.nat(state1.bytes.size()).equal(state2.bytes.size());
 
         // But they should be different objects (we can't directly test object identity,
         // but we can test that modifying one doesn't affect the other)
         state1.index := 5;
-        expect.bool(state1.index != state2.index).isTrue();
+        expect.nat(state1.index).equal(5);
         expect.nat(state2.index).equal(0)
       }
     )
@@ -84,10 +83,8 @@ await suite(
         let state = Random.emptyState();
         let mockBytes : [Nat8] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
-        // Create AsyncRandom with mock generator
         let _random = Random.AsyncRandom(state, mockAsyncGenerator(mockBytes));
 
-        // Verify initial state
         expect.nat(state.bytes.size()).equal(0);
         expect.nat(state.index).equal(0);
 
@@ -105,10 +102,8 @@ await suite(
         state.bits := 0x55;
         state.bitMask := 0x20;
 
-        // Create new AsyncRandom with modified state
         let _random = Random.cryptoFromState(state);
 
-        // Verify state persists
         expect.nat(state.bytes.size()).equal(4);
         expect.nat(state.index).equal(2);
         expect.nat8(state.bits).equal(0x55);
@@ -158,7 +153,7 @@ await suite(
         // State should reflect the exhausted condition
         expect.nat(state.bytes.size()).equal(4);
         expect.nat(state.index).equal(4);
-        expect.bool(state.index >= state.bytes.size()).isTrue()
+        expect.nat(state.index).equal(state.bytes.size())
       }
     );
     await test(
@@ -175,7 +170,6 @@ await suite(
 
           let _random = Random.cryptoFromState(state);
 
-          // Verify state is set correctly
           expect.nat8(state.bitMask).equal(mask);
           expect.nat8(state.bits).equal(0xFF)
         }
@@ -201,7 +195,6 @@ await suite(
 
         let _random = Random.AsyncRandom(state, alternatingGenerator);
 
-        // Verify initial state setup
         expect.nat(state.bytes.size()).equal(0);
         expect.nat(state.index).equal(0);
 
@@ -219,10 +212,13 @@ await suite(
     func deterministicMockGenerator(seed : Nat8) : () -> async* Blob {
       var counter = seed;
       func() : async* Blob {
-        let bytes : [Nat8] = Array.tabulate<Nat8>(16, func(i) {
-          counter := Nat8.fromNat((Nat8.toNat(counter) + 1) % 256);
-          counter
-        });
+        let bytes : [Nat8] = Array.tabulate<Nat8>(
+          16,
+          func(i) {
+            counter := Nat8.fromNat((Nat8.toNat(counter) + 1) % 256);
+            counter
+          }
+        );
         Blob.fromArray(bytes)
       }
     };
@@ -233,7 +229,6 @@ await suite(
         let state = Random.emptyState();
         let random = Random.AsyncRandom(state, deterministicMockGenerator(0));
 
-        // Test multiple bool() calls
         let results : [Bool] = [
           await* random.bool(),
           await* random.bool(),
@@ -242,16 +237,14 @@ await suite(
           await* random.bool()
         ];
 
-        // All results should be valid booleans (this is always true in Motoko)
-        // Just verify we can call the method without errors
         expect.nat(results.size()).equal(5);
 
         // Test that bool() advances state
         let initialIndex = state.index;
+        let initialBitMask = state.bitMask;
         let _ = await* random.bool();
-        // Note: Due to bit masking, bool() may not always advance byte index
-        // but it should advance bit consumption
-        expect.bool(state.bitMask != 0x00 or state.index > initialIndex).isTrue()
+        // State should be modified after bool() call (either index or bitMask advances)
+        expect.bool(state.index > initialIndex or state.bitMask != initialBitMask).isTrue()
       }
     );
 
@@ -261,7 +254,6 @@ await suite(
         let state = Random.emptyState();
         let random = Random.AsyncRandom(state, deterministicMockGenerator(10));
 
-        // Test multiple nat8() calls
         let results : [Nat8] = [
           await* random.nat8(),
           await* random.nat8(),
@@ -270,10 +262,8 @@ await suite(
           await* random.nat8()
         ];
 
-        // Verify all results are valid Nat8 values (always true, but test execution)
         expect.nat(results.size()).equal(5);
-        
-        // Verify state advancement
+
         expect.nat(state.index).equal(5);
         expect.nat(state.bytes.size()).equal(16); // First generator call should populate 16 bytes
       }
@@ -283,18 +273,16 @@ await suite(
       "nat8() with known deterministic sequence",
       func() : async () {
         let state = Random.emptyState();
-        // Create generator that produces predictable bytes
         func predictableGenerator() : async* Blob {
           Blob.fromArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
         };
         let random = Random.AsyncRandom(state, predictableGenerator);
 
-        // Test first few values
         expect.nat8(await* random.nat8()).equal(1);
         expect.nat8(await* random.nat8()).equal(2);
         expect.nat8(await* random.nat8()).equal(3);
         expect.nat8(await* random.nat8()).equal(4);
-        expect.nat8(await* random.nat8()).equal(5);
+        expect.nat8(await* random.nat8()).equal(5)
       }
     );
 
@@ -304,16 +292,14 @@ await suite(
         let state = Random.emptyState();
         let random = Random.AsyncRandom(state, deterministicMockGenerator(42));
 
-        // Test multiple nat64() calls
         let results : [Nat64] = [
           await* random.nat64(),
           await* random.nat64(),
           await* random.nat64()
         ];
 
-        // Verify all results are valid (no specific range check needed for full Nat64)
         expect.nat(results.size()).equal(3);
-        
+
         // Each nat64() should consume 8 bytes, but generator produces 16 bytes at a time
         // So after 3 calls: first 2 calls consume 16 bytes, 3rd call triggers new generator call and consumes 8 more
         expect.nat(state.index).equal(8); // 3rd call consumed 8 bytes from fresh 16-byte batch
@@ -332,12 +318,10 @@ await suite(
         let random = Random.AsyncRandom(state, sequentialGenerator);
 
         let result = await* random.nat64();
-        
+
         // Expected: bytes [0,1,2,3,4,5,6,7] combined as big-endian Nat64
         // = 0x0001020304050607
-        let expected : Nat64 = 
-          (0 << 56) | (1 << 48) | (2 << 40) | (3 << 32) | 
-          (4 << 24) | (5 << 16) | (6 << 8) | 7;
+        let expected : Nat64 = (0 << 56) | (1 << 48) | (2 << 40) | (3 << 32) | (4 << 24) | (5 << 16) | (6 << 8) | 7;
         expect.nat64(result).equal(expected)
       }
     );
@@ -351,7 +335,6 @@ await suite(
         let from : Nat64 = 100;
         let toExclusive : Nat64 = 200;
 
-        // Test multiple calls
         for (_ in Nat.range(0, 20)) {
           let val = await* random.nat64Range(from, toExclusive);
           expect.bool(val >= from).isTrue();
@@ -369,7 +352,6 @@ await suite(
         let from : Nat64 = 42;
         let toExclusive : Nat64 = 43;
 
-        // Should always return the single possible value
         for (_ in Nat.range(0, 10)) {
           let val = await* random.nat64Range(from, toExclusive);
           expect.nat64(val).equal(from)
@@ -386,7 +368,6 @@ await suite(
         let from = 50;
         let toExclusive = 150;
 
-        // Test multiple calls
         for (_ in Nat.range(0, 20)) {
           let val = await* random.natRange(from, toExclusive);
           expect.bool(val >= from).isTrue();
@@ -404,7 +385,6 @@ await suite(
         let from = 99;
         let toExclusive = 100;
 
-        // Should always return the single possible value
         for (_ in Nat.range(0, 10)) {
           let val = await* random.natRange(from, toExclusive);
           expect.nat(val).equal(from)
@@ -421,7 +401,6 @@ await suite(
         let from = -100;
         let toExclusive = 100;
 
-        // Test multiple calls
         for (_ in Nat.range(0, 20)) {
           let val = await* random.intRange(from, toExclusive);
           expect.bool(val >= from).isTrue();
@@ -439,7 +418,6 @@ await suite(
         let from = -500;
         let toExclusive = -400;
 
-        // Test multiple calls
         for (_ in Nat.range(0, 15)) {
           let val = await* random.intRange(from, toExclusive);
           expect.bool(val >= from).isTrue();
@@ -457,7 +435,6 @@ await suite(
         let from = 1000;
         let toExclusive = 2000;
 
-        // Test multiple calls
         for (_ in Nat.range(0, 15)) {
           let val = await* random.intRange(from, toExclusive);
           expect.bool(val >= from).isTrue();
@@ -475,7 +452,6 @@ await suite(
         let from = -50;
         let toExclusive = -49;
 
-        // Should always return the single possible value
         for (_ in Nat.range(0, 10)) {
           let val = await* random.intRange(from, toExclusive);
           expect.int(val).equal(from)
@@ -487,21 +463,22 @@ await suite(
       "State persistence across multiple generators",
       func() : async () {
         let state = Random.emptyState();
-        
+
         // First generator
         let random1 = Random.AsyncRandom(state, deterministicMockGenerator(10));
         let val1 = await* random1.nat8();
         let firstIndex = state.index;
-        
+
         // Second generator with same state
         let random2 = Random.AsyncRandom(state, deterministicMockGenerator(20));
         let val2 = await* random2.nat8();
-        
+
         // State should continue from where first left off
         expect.nat(state.index).equal(firstIndex + 1);
-        
+
         // Values should be different since we're continuing from advanced state
-        expect.bool(val1 != val2).isTrue()
+        expect.nat8(val1).equal(11); // First byte from deterministicMockGenerator(10)
+        expect.nat8(val2).equal(12); // Second byte from same generator state
       }
     );
 
@@ -509,8 +486,7 @@ await suite(
       "Generator refill behavior when bytes exhausted",
       func() : async () {
         let state = Random.emptyState();
-        
-        // Create generator that produces small chunks
+
         var generatorCallCount = 0;
         func smallChunkGenerator() : async* Blob {
           generatorCallCount += 1;
@@ -520,18 +496,18 @@ await suite(
             Blob.fromArray([200, 201, 202, 203]) // 4 bytes
           }
         };
-        
+
         let random = Random.AsyncRandom(state, smallChunkGenerator);
-        
+
         // Consume first 2 bytes
         expect.nat8(await* random.nat8()).equal(100);
         expect.nat8(await* random.nat8()).equal(101);
         expect.nat(generatorCallCount).equal(1);
-        
+
         // This should trigger second generator call
         expect.nat8(await* random.nat8()).equal(200);
         expect.nat(generatorCallCount).equal(2);
-        
+
         // Continue with remaining bytes from second call
         expect.nat8(await* random.nat8()).equal(201);
         expect.nat8(await* random.nat8()).equal(202);
@@ -559,7 +535,7 @@ await suite(
         // Each nat64() call advances index by 8
         // Each range call uses nat64() internally, so advances by 8 (or more due to rejection sampling)
         // bool() may or may not advance index depending on bit mask state
-        
+
         expect.nat(state.index).greater(0); // Should have advanced
         expect.nat(state.bytes.size()).greater(0); // Should have bytes loaded
       }
@@ -574,14 +550,11 @@ await suite(
       "crypto() creates working AsyncRandom",
       func() : async () {
         let random = Random.crypto();
-        
+
         // Test that we can call methods (actual randomness will vary)
         let _bool = await* random.bool();
         let _nat8 = await* random.nat8();
-        let _nat64 = await* random.nat64();
-        
-        // Just verify calls complete successfully
-        expect.bool(true).isTrue()
+        let _nat64 = await* random.nat64()
       }
     );
 
@@ -590,21 +563,16 @@ await suite(
       func() : async () {
         let state = Random.emptyState();
         let random1 = Random.cryptoFromState(state);
-        
-        // Generate some values to modify state
+
         let _val1 = await* random1.nat8();
         let _val2 = await* random1.nat8();
-        
-        // Create new instance with same state
+
         let random2 = Random.cryptoFromState(state);
         let _val3 = await* random2.nat8();
-        
+
         // State should have been modified by previous calls
-        expect.bool(state.index > 0).isTrue();
-        expect.bool(state.bytes.size() > 0).isTrue();
-        
-        // Just verify the call works (actual value will be cryptographically random)
-        expect.bool(true).isTrue()
+        expect.nat(state.index).greater(0);
+        expect.nat(state.bytes.size()).greater(0)
       }
     );
 
@@ -614,16 +582,16 @@ await suite(
         let state = Random.emptyState();
         let random1 = Random.cryptoFromState(state);
         let random2 = Random.cryptoFromState(state);
-        
+
         // Both instances should share the same state
         let _val1 = await* random1.nat8();
         let index1 = state.index;
-        
+
         let _val2 = await* random2.nat8();
         let index2 = state.index;
-        
+
         // Second call should advance from where first left off
-        expect.bool(index2 > index1).isTrue()
+        expect.nat(index2).greater(index1)
       }
     )
   }
