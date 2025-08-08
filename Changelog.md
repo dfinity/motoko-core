@@ -1,6 +1,7 @@
 # Next
 
 * Perf: Made `Nat.toText()` slightly more performant (#358).
+* Fix corner case in `sliceToArray()`.
 
 ## 0.6.0
 
