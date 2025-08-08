@@ -1000,4 +1000,94 @@ do {
   assert Array.fromIter(Int.rangeByInclusive(1, 2, 0)) == [];
   assert Array.fromIter(Int.rangeByInclusive(2, 1, 1)) == [];
   assert Array.fromIter(Int.rangeByInclusive(1, 2, -1)) == []
-}
+};
+
+/* --------------------------------------- */
+
+run(
+  suite(
+    "fromText",
+    [
+      test(
+        "positive number",
+        Int.fromText("1234"),
+        M.equals(T.optional<Int>(T.intTestable, ?1234))
+      ),
+      test(
+        "negative number",
+        Int.fromText("-1234"),
+        M.equals(T.optional<Int>(T.intTestable, ?(-1234)))
+      ),
+      test(
+        "zero",
+        Int.fromText("0"),
+        M.equals(T.optional<Int>(T.intTestable, ?0))
+      ),
+      test(
+        "positive with plus sign",
+        Int.fromText("+1234"),
+        M.equals(T.optional<Int>(T.intTestable, ?1234))
+      ),
+      test(
+        "negative zero",
+        Int.fromText("-0"),
+        M.equals(T.optional<Int>(T.intTestable, ?0))
+      ),
+      test(
+        "positive zero",
+        Int.fromText("+0"),
+        M.equals(T.optional<Int>(T.intTestable, ?0))
+      ),
+      test(
+        "empty string",
+        Int.fromText(""),
+        M.equals(T.optional<Int>(T.intTestable, null))
+      ),
+      test(
+        "plus sign only",
+        Int.fromText("+"),
+        M.equals(T.optional<Int>(T.intTestable, null))
+      ),
+      test(
+        "minus sign only",
+        Int.fromText("-"),
+        M.equals(T.optional<Int>(T.intTestable, null))
+      ),
+      test(
+        "invalid character",
+        Int.fromText("12a34"),
+        M.equals(T.optional<Int>(T.intTestable, null))
+      ),
+      test(
+        "leading invalid character",
+        Int.fromText("a1234"),
+        M.equals(T.optional<Int>(T.intTestable, null))
+      ),
+      test(
+        "trailing invalid character",
+        Int.fromText("1234a"),
+        M.equals(T.optional<Int>(T.intTestable, null))
+      ),
+      test(
+        "multiple signs",
+        Int.fromText("+-1234"),
+        M.equals(T.optional<Int>(T.intTestable, null))
+      ),
+      test(
+        "space in number",
+        Int.fromText("12 34"),
+        M.equals(T.optional<Int>(T.intTestable, null))
+      ),
+      test(
+        "large number",
+        Int.fromText(largeNumberText),
+        M.equals(T.optional<Int>(T.intTestable, ?largeNumber))
+      ),
+      test(
+        "negative large number",
+        Int.fromText("-" # largeNumberText),
+        M.equals(T.optional<Int>(T.intTestable, ?(-largeNumber)))
+      )
+    ]
+  )
+)

@@ -87,18 +87,23 @@ module {
     var n = 0;
     var isFirst = true;
     var isNegative = false;
+    var hasDigits = false;
     for (c in text.chars()) {
       if (isFirst and c == '+') {
         // Skip character
       } else if (isFirst and c == '-') {
         isNegative := true
       } else if (Char.isDigit(c)) {
+        hasDigits := true;
         let charAsNat = Prim.nat32ToNat(Prim.charToNat32(c) -% Prim.charToNat32('0'));
         n := n * 10 + charAsNat
       } else {
         return null
       };
       isFirst := false
+    };
+    if (not hasDigits) {
+      return null
     };
     ?(if (isNegative) { -n } else { n })
   };
