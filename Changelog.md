@@ -1,6 +1,7 @@
 # Next
 
 * Perf: Made `Nat.toText()` slightly more performant (#358).
+* Change `Int.fromText()` to return `null` for `"+"` and `"-"` instead of `?0` (#365).
 
 ## 0.6.0
 
