@@ -478,7 +478,7 @@ let suite = Suite.suite(
       M.equals(T.array(T.natTestable, [4]))
     ),
     Suite.test(
-      "sliceToArray with negative fromInclusive and zero toExclusive (repro case)",
+      "sliceToArray with negative fromInclusive and zero toExclusive",
       VarArray.sliceToArray<Nat>([var 1, 2, 3, 4, 5], -2, 0),
       M.equals(T.array<Nat>(T.natTestable, []))
     ),
