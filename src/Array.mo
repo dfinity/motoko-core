@@ -967,6 +967,9 @@ module {
     // Convert to Nat (always non-negative due to bounds checking above)
     let start = Prim.abs(startInt);
     let end = Prim.abs(endInt);
+    if (start >= end) {
+      return []
+    };
     Prim.Array_tabulate<T>(end - start, func i = array[start + i])
   };
 
