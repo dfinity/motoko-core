@@ -2,6 +2,9 @@
 
 * Make `Nat.toText()` slightly more performant (#358).
 * Add `uniform64()`, `nat64()`, `natRange()`, and `intRange()` to `AsyncRandom` class (#360).
+* Fix corner case in `sliceToArray()` (#364).
+* **Breaking:** Adjust `Int.fromText()` to return `null` instead of `?0` for `"+"` and `"-"` (#365).
+
 
 ## 0.6.0
 
