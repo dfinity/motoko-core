@@ -114,7 +114,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `combine` runs in O(1) time and space.
-  public func foldLeft<A>(text : Text, base : A, combine : (A, Char) -> A ) : A {
+  public func foldLeft<A>(text : Text, base : A, combine : (A, Char) -> A) : A {
       var acc = base;
       for (c in text.chars()) acc := combine(acc, c);
       acc

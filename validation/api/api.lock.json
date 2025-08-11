@@ -1103,6 +1103,7 @@
       "public func endsWith(t : Text, p : Pattern) : Bool",
       "public func equal(t1 : Text, t2 : Text) : Bool",
       "public func flatMap(t : Text, f : Char -> Text) : Text",
+      "public func foldLeft<A>(text : Text, base : A, combine : (A, Char) -> A) : A",
       "public func fromArray(a : [Char]) : Text",
       "public let fromChar : (c : Char) -> Text",
       "public func fromIter(cs : Iter.Iter<Char>) : Text",
