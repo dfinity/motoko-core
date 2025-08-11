@@ -2,6 +2,7 @@
 
 * Perf: Made `Nat.toText()` slightly more performant (#358).
 * Fix corner case in `sliceToArray()` (#364).
+* **Breaking:** Adjust `Int.fromText()` to return `null` instead of `?0` for `"+"` and `"-"` (#365).
 
 ## 0.6.0
 
