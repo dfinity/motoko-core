@@ -91,7 +91,6 @@ module {
   /// ```
   public func toIter(t : Text) : Iter.Iter<Char> = t.chars();
 
-
   /// Collapses the characters in `text` into a single value by starting with `base`
   /// and progessively combining characters into `base` with `combine`. Iteration runs
   /// left to right.
@@ -115,9 +114,9 @@ module {
   ///
   /// *Runtime and space assumes that `combine` runs in O(1) time and space.
   public func foldLeft<A>(text : Text, base : A, combine : (A, Char) -> A) : A {
-      var acc = base;
-      for (c in text.chars()) acc := combine(acc, c);
-      acc
+    var acc = base;
+    for (c in text.chars()) acc := combine(acc, c);
+    acc
   };
 
   /// Creates a new `Array` containing characters of the given `Text`.
