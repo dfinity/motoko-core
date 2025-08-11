@@ -71,7 +71,7 @@ async function validateNextSection(changelogContent: string): Promise<void> {
   );
 
   if (entries.length === 0) {
-    return; // No entries in Next section
+    return;
   }
 
   const prNumbers: number[] = [];
