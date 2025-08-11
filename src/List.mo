@@ -556,7 +556,7 @@ module {
       }
     ) {
       case (?result) return result;
-      case (_) Prim.trap "List index out of bounds in getUnsafe"
+      case (_) Prim.trap "List.getUnsafe(): index out of bounds"
     }
   };
 
@@ -597,7 +597,7 @@ module {
     let (a, b) = locate(index);
     if (a < list.blockIndex or a == list.blockIndex and b < list.elementIndex) {
       list.blocks[a][b] := ?value
-    } else Prim.trap "List index out of bounds in put"
+    } else Prim.trap "List.put(): index out of bounds"
   };
 
   /// Sorts the elements in the list according to `compare`.
