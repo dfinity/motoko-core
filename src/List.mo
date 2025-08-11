@@ -523,43 +523,6 @@ module {
     }
   };
 
-  /// Returns the element at index `index`. Indexing is zero-based.
-  /// Traps if `index >= size`.
-  ///
-  /// Note: This function is provided for cases where you know the index is valid
-  /// and want to avoid handling the optional type. For safer access, use `get()`.
-  ///
-  /// Example:
-  /// ```motoko include=import
-  /// let list = List.empty<Nat>();
-  /// List.add(list, 10);
-  /// List.add(list, 11);
-  /// assert List.getUnsafe(list, 0) == 10;
-  /// ```
-  ///
-  /// Runtime: `O(1)`
-  public func getUnsafe<T>(list : List<T>, index : Nat) : T {
-    // inlined version of:
-    //   let (a,b) = locate(index);
-    //   switch(list.blocks[a][b]) {
-    //     case (?element) element;
-    //     case (null) Prim.trap "";
-    //   };
-    let i = Nat32.fromNat(index);
-    let lz = Nat32.bitcountLeadingZero(i);
-    let lz2 = lz >> 1;
-    switch (
-      if (lz & 1 == 0) {
-        list.blocks[Nat32.toNat(((i << lz2) >> 16) ^ (0x10000 >> lz2))][Nat32.toNat(i & (0xFFFF >> lz2))]
-      } else {
-        list.blocks[Nat32.toNat(((i << lz2) >> 15) ^ (0x18000 >> lz2))][Nat32.toNat(i & (0x7FFF >> lz2))]
-      }
-    ) {
-      case (?result) return result;
-      case (_) Prim.trap "List.getUnsafe(): index out of bounds"
-    }
-  };
-
   /// Returns the element at index `index` as an option.
   /// Returns `null` when `index >= size`. Indexing is zero-based.
   ///
@@ -1560,7 +1523,7 @@ module {
   public func max<T>(list : List<T>, compare : (T, T) -> Order.Order) : ?T {
     if (isEmpty(list)) return null;
 
-    var maxSoFar = getUnsafe(list, 0);
+    var maxSoFar = Option.unwrap(get(list, 0));
     forEach<T>(
       list,
       func(x) = switch (compare(x, maxSoFar)) {
@@ -1595,7 +1558,7 @@ module {
   public func min<T>(list : List<T>, compare : (T, T) -> Order.Order) : ?T {
     if (isEmpty(list)) return null;
 
-    var minSoFar = getUnsafe(list, 0);
+    var minSoFar = Option.unwrap(get(list, 0));
     forEach<T>(
       list,
       func(x) = switch (compare(x, minSoFar)) {
@@ -1713,7 +1676,7 @@ module {
     };
     if (vsize > 0) {
       // avoid the trailing comma
-      text := text # f(getUnsafe<T>(list, i))
+      text := text # f(Option.unwrap(get<T>(list, i)))
     };
 
     "List[" # text # "]"
@@ -1799,10 +1762,10 @@ module {
 
     var i = 0;
     var j = vsize - 1 : Nat;
-    var temp = getUnsafe(list, 0);
+    var temp = Option.unwrap(get(list, 0));
     while (i < vsize / 2) {
-      temp := getUnsafe(list, j);
-      put(list, j, getUnsafe(list, i));
+      temp := Option.unwrap(get(list, j));
+      put(list, j, Option.unwrap(get(list, i)));
       put(list, i, temp);
       i += 1;
       j -= 1
