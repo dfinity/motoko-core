@@ -469,7 +469,6 @@ module {
   /// ```
   public func rangeInclusive(from : Nat, to : Nat) : Iter.Iter<Nat> {
     if (from > to) {
-      // Needs tests.
       Iter.empty()
     } else {
       object {
