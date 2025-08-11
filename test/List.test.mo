@@ -919,7 +919,7 @@ func testNew(n : Nat) : Bool {
 
 func testInit(n : Nat) : Bool {
   let vec = List.repeat<Nat>(1, n);
-  List.size(vec) == n and (n == 0 or (List.get(vec, 0) == 1 and List.get(vec, n - 1 : Nat) == 1))
+  List.size(vec) == n and (n == 0 or (List.get(vec, 0) == ?1 and List.get(vec, n - 1 : Nat) == ?1))
 };
 
 func testAdd(n : Nat) : Bool {
@@ -935,10 +935,17 @@ func testAdd(n : Nat) : Bool {
   };
 
   for (i in Nat.range(0, n)) {
-    let value = List.get(vec, i);
-    if (value != i) {
-      Debug.print("Value mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(i) # ", got " # Nat.toText(value));
-      return false
+    switch (List.get(vec, i)) {
+      case (?value) {
+        if (value != i) {
+          Debug.print("Value mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(i) # ", got " # Nat.toText(value));
+          return false
+        }
+      };
+      case null {
+        Debug.print("Unexpected null at index " # Nat.toText(i));
+        return false
+      }
     }
   };
 
@@ -954,10 +961,17 @@ func testAddAll(n : Nat) : Bool {
     return false
   };
   for (i in Nat.range(0, n)) {
-    let value = List.get(vec, n + i);
-    if (value != 1) {
-      Debug.print("Value mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(1) # ", got " # Nat.toText(value));
-      return false
+    switch (List.get(vec, n + i)) {
+      case (?value) {
+        if (value != 1) {
+          Debug.print("Value mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(1) # ", got " # Nat.toText(value));
+          return false
+        }
+      };
+      case null {
+        Debug.print("Unexpected null at index " # Nat.toText(i));
+        return false
+      }
     }
   };
   true
@@ -998,10 +1012,17 @@ func testGet(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i + 1));
 
   for (i in Nat.range(1, n + 1)) {
-    let value = List.get(vec, i - 1 : Nat);
-    if (value != i) {
-      Debug.print("get: Mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(i) # ", got " # Nat.toText(value));
-      return false
+    switch (List.get(vec, i - 1 : Nat)) {
+      case (?value) {
+        if (value != i) {
+          Debug.print("get: Mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(i) # ", got " # Nat.toText(value));
+          return false
+        }
+      };
+      case null {
+        Debug.print("get: Unexpected null at index " # Nat.toText(i));
+        return false
+      }
     }
   };
 
@@ -1046,7 +1067,7 @@ func testPut(n : Nat) : Bool {
     true
   } else {
     List.put(vec, n - 1 : Nat, 100);
-    List.get(vec, n - 1 : Nat) == 100
+    List.get(vec, n - 1 : Nat) == ?100
   }
 };
 
