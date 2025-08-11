@@ -1,5 +1,6 @@
 # Next
 
+* Add `Text.foldLeft()` (#366).
 * Perf: Made `Nat.toText()` slightly more performant (#358).
 
 ## 0.6.0
