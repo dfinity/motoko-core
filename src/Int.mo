@@ -499,7 +499,6 @@ module {
   /// ```
   public func rangeInclusive(from : Int, to : Int) : Iter.Iter<Int> {
     if (from > to) {
-      // Needs tests.
       Iter.empty()
     } else {
       object {
