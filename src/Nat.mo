@@ -374,15 +374,21 @@ module {
   /// let iter = Nat.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(fromInclusive : Nat, toExclusive : Nat) : Iter.Iter<Nat> = object {
-    var n = fromInclusive;
-    public func next() : ?Nat {
-      if (n >= toExclusive) {
-        return null
-      };
-      let current = n;
-      n += 1;
-      ?current
+  public func range(fromInclusive : Nat, toExclusive : Nat) : Iter.Iter<Nat> {
+    if (fromInclusive >= toExclusive) {
+      Iter.empty()
+    } else {
+      object {
+        var n = fromInclusive;
+        public func next() : ?Nat {
+          if (n >= toExclusive) {
+            return null
+          };
+          let current = n;
+          n += 1;
+          ?current
+        }
+      }
     }
   };
 
@@ -408,7 +414,7 @@ module {
   ///
   /// If `step` is 0 or if the iteration would not progress towards the bound, returns an empty iterator.
   public func rangeBy(fromInclusive : Nat, toExclusive : Nat, step : Int) : Iter.Iter<Nat> {
-    if (step == 0) {
+    if (step == 0 or (step > 0 and fromInclusive >= toExclusive) or (step < 0 and fromInclusive <= toExclusive)) {
       Iter.empty()
     } else if (step > 0) {
       object {
@@ -461,15 +467,22 @@ module {
   /// let iter = Nat.rangeInclusive(3, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(from : Nat, to : Nat) : Iter.Iter<Nat> = object {
-    var n = from;
-    public func next() : ?Nat {
-      if (n > to) {
-        return null
-      };
-      let current = n;
-      n += 1;
-      ?current
+  public func rangeInclusive(from : Nat, to : Nat) : Iter.Iter<Nat> {
+    if (from > to) {
+      // Needs tests.
+      Iter.empty()
+    } else {
+      object {
+        var n = from;
+        public func next() : ?Nat {
+          if (n > to) {
+            return null
+          };
+          let current = n;
+          n += 1;
+          ?current
+        }
+      }
     }
   };
 

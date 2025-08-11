@@ -55,7 +55,11 @@ test(
     assert Array.fromIter(Nat.rangeBy(3, 1, -2)) == [3];
     assert Array.fromIter(Nat.rangeBy(1, 3, -1)) == [];
     assert Array.fromIter(Nat.rangeBy(0, 1, 0)) == [];
-    assert Array.fromIter(Nat.rangeBy(1, 0, 0)) == []
+    assert Array.fromIter(Nat.rangeBy(1, 0, 0)) == [];
+
+    assert Array.fromIter(Nat.rangeBy(4, 4, 1)) == [];
+    assert Array.fromIter(Nat.rangeBy(3, 4, 1)) == [3];
+    assert Array.fromIter(Nat.rangeBy(4, 3, -1)) == [4]
   }
 );
 
