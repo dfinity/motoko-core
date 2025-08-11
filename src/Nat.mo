@@ -495,18 +495,20 @@ module {
   /// assert iter2.next() == null;
   /// ```
   ///
-  /// If `from == to`, return an iterator which only
+  /// If `from == to`, return an iterator which only returns that value.
   ///
   /// Otherwise, if `step` is 0 or if the iteration would not progress towards the bound, returns an empty iterator.
   public func rangeByInclusive(from : Nat, to : Nat, step : Int) : Iter.Iter<Nat> {
     if (from == to) {
       Iter.singleton(from)
+    } else if (step == 0 or (step > 0 and from > to) or (step < 0 and from < to)) {
+      Iter.empty()
     } else if (step > 0) {
       object {
         let stepMagnitude = Int.abs(step);
         var n = from;
         public func next() : ?Nat {
-          if (n >= to + 1) {
+          if (n > to) {
             return null
           };
           let current = n;
@@ -514,21 +516,23 @@ module {
           ?current
         }
       }
-    } else {
+    } else {  
       object {
         let stepMagnitude = Int.abs(step);
         var n = from;
+        var done = false;
         public func next() : ?Nat {
-          if (n + 1 <= to) {
-            return null
-          };
-          let current = n;
-          if (stepMagnitude > n) {
-            n := 0
+          if (done) {
+            null
           } else {
-            n -= stepMagnitude
-          };
-          ?current
+            let current = n;
+            if (n < to + stepMagnitude) {
+              done := true
+            } else {
+              n -= stepMagnitude
+            };
+            ?current
+          }
         }
       }
     }
