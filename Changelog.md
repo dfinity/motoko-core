@@ -6,6 +6,7 @@
 * Fix corner case in `sliceToArray()` (#364).
 * **Breaking:** Adjust `Int.fromText()` to return `null` instead of `?0` for `"+"` and `"-"` (#365).
 * Fix corner cases in `Nat.rangeByInclusive()` (#368).
+* Address inconsistent treatment of empty iterators by range functions in `Int` and `Nat` (#369).
 
 ## 0.6.0
 
