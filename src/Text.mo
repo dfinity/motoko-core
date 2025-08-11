@@ -96,7 +96,6 @@ module {
   /// left to right.
   ///
   /// ```motoko include=import
-  /// import {add} "mo:core/Nat";
   ///
   /// let text = "Mississippi";
   /// let count =
