@@ -516,7 +516,7 @@ module {
           ?current
         }
       }
-    } else {  
+    } else {
       object {
         let stepMagnitude = Int.abs(step);
         var n = from;
