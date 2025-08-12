@@ -390,10 +390,10 @@ assert VarArray.nextIndexOf&lt;Char&gt;(array, Char.equal, 'f', 4) == null;</cod
 import Char &quot;mo:core/Char&quot;;
 
 let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
-assert VarArray.lastIndexOf&lt;Char&gt;('c', array, Char.equal) == ?0;
-assert VarArray.lastIndexOf&lt;Char&gt;('f', array, Char.equal) == ?3;
-assert VarArray.lastIndexOf&lt;Char&gt;('e', array, Char.equal) == ?5;
-assert VarArray.lastIndexOf&lt;Char&gt;('g', array, Char.equal) == null;</code></pre>
+assert VarArray.lastIndexOf&lt;Char&gt;(array, Char.equal, 'c') == ?0;
+assert VarArray.lastIndexOf&lt;Char&gt;(array, Char.equal, 'f') == ?3;
+assert VarArray.lastIndexOf&lt;Char&gt;(array, Char.equal, 'e') == ?5;
+assert VarArray.lastIndexOf&lt;Char&gt;(array, Char.equal, 'g') == null;</code></pre>
 
 <p>Runtime: O(array.size())</p>
 <p>Space: O(1)</p>
