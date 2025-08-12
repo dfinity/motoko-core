@@ -981,10 +981,10 @@ module {
   /// import Char "mo:core/Char";
   ///
   /// let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
-  /// assert VarArray.lastIndexOf<Char>('c', array, Char.equal) == ?0;
-  /// assert VarArray.lastIndexOf<Char>('f', array, Char.equal) == ?3;
-  /// assert VarArray.lastIndexOf<Char>('e', array, Char.equal) == ?5;
-  /// assert VarArray.lastIndexOf<Char>('g', array, Char.equal) == null;
+  /// assert VarArray.lastIndexOf<Char>(array, Char.equal, 'c') == ?0;
+  /// assert VarArray.lastIndexOf<Char>(array, Char.equal, 'f') == ?3;
+  /// assert VarArray.lastIndexOf<Char>(array, Char.equal, 'e') == ?5;
+  /// assert VarArray.lastIndexOf<Char>(array, Char.equal, 'g') == null;
   /// ```
   ///
   /// Runtime: O(array.size())
