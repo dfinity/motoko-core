@@ -1,5 +1,6 @@
 ## Next
 
+* **Breaking:** Standardize function argument order (#376).
 * Fix corner cases in `Nat.rangeByInclusive()` (#368).
 * Add `Text.foldLeft()` (#366).
 * **Breaking:** Adjust `Int.fromText()` to return `null` instead of `?0` for `"+"` and `"-"` (#365).
