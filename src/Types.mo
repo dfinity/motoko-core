@@ -1,3 +1,17 @@
+/// Common types used throughout the core package.
+///
+/// Example usage:
+///
+/// ```motoko name=import
+/// import Types "mo:core/Types";
+///
+/// // Result for error handling
+/// let result : Types.Result<Int, Text> = #ok(42);
+///
+/// // Iterator for sequences
+/// let iter : Types.Iter<Nat> = { next = func() { ?1 } };
+/// ```
+
 import Prim "mo:⛔";
 
 module {
@@ -106,7 +120,6 @@ module {
     };
 
     public type Leaf<K, V> = {
-      // why the extra indirection?
       data : Data<K, V>
     };
 
