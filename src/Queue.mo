@@ -764,7 +764,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(1)
   /// `n` denotes the number of elements stored in the queue.
-  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, compareItem : (T, T) -> Order.Order) : Order.Order {
+  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, compare : (T, T) -> Order.Order) : Order.Order {
     let iterator1 = values(queue1);
     let iterator2 = values(queue2);
     loop {
@@ -773,7 +773,7 @@ module {
         case (null, _) return #less;
         case (_, null) return #greater;
         case (?element1, ?element2) {
-          let comparison = compareItem(element1, element2);
+          let comparison = compare(element1, element2);
           if (comparison != #equal) {
             return comparison
           }

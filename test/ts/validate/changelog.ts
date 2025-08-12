@@ -89,9 +89,9 @@ async function validateNextSection(changelogContent: string): Promise<void> {
 
   // Check sorted PR numbers
   for (let i = 1; i < prNumbers.length; i++) {
-    if (prNumbers[i] <= prNumbers[i - 1]) {
+    if (prNumbers[i] >= prNumbers[i - 1]) {
       throw new Error(
-        `PR numbers in Next section should be sorted in ascending order. ` +
+        `PR numbers in Next section should be sorted in descending order. ` +
           `Found PR #${prNumbers[i]} after PR #${prNumbers[i - 1]}`
       );
     }
