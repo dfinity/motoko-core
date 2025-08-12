@@ -6,7 +6,7 @@
 * Fix corner case in `sliceToArray()` (#364).
 * **Breaking:** Adjust `Int.fromText()` to return `null` instead of `?0` for `"+"` and `"-"` (#365).
 * **Breaking:** Change `List.get()` to return `?T` instead of `T` for consistency (#367).
-* Add `List.at()` with the original behavior of `List.get()`.
+* Add `List.at()` with the original behavior of `List.get()` (#373).
 
 ## 0.6.0
 
