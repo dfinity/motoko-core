@@ -406,15 +406,19 @@ module {
   /// assert iter.next() == null; // empty iterator
   /// ```
   public func range(fromInclusive : Int, toExclusive : Int) : Iter.Iter<Int> {
-    object {
-      var n = fromInclusive;
-      public func next() : ?Int {
-        if (n >= toExclusive) {
-          null
-        } else {
-          let result = n;
-          n += 1;
-          ?result
+    if (fromInclusive >= toExclusive) {
+      Iter.empty()
+    } else {
+      object {
+        var n = fromInclusive;
+        public func next() : ?Int {
+          if (n >= toExclusive) {
+            null
+          } else {
+            let result = n;
+            n += 1;
+            ?result
+          }
         }
       }
     }
@@ -494,15 +498,19 @@ module {
   /// assert iter.next() == null; // empty iterator
   /// ```
   public func rangeInclusive(from : Int, to : Int) : Iter.Iter<Int> {
-    object {
-      var n = from;
-      public func next() : ?Int {
-        if (n > to) {
-          null
-        } else {
-          let result = n;
-          n += 1;
-          ?result
+    if (from > to) {
+      Iter.empty()
+    } else {
+      object {
+        var n = from;
+        public func next() : ?Int {
+          if (n > to) {
+            null
+          } else {
+            let result = n;
+            n += 1;
+            ?result
+          }
         }
       }
     }

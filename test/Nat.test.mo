@@ -55,7 +55,23 @@ test(
     assert Array.fromIter(Nat.rangeBy(3, 1, -2)) == [3];
     assert Array.fromIter(Nat.rangeBy(1, 3, -1)) == [];
     assert Array.fromIter(Nat.rangeBy(0, 1, 0)) == [];
-    assert Array.fromIter(Nat.rangeBy(1, 0, 0)) == []
+    assert Array.fromIter(Nat.rangeBy(1, 0, 0)) == [];
+
+    assert Array.fromIter(Nat.rangeBy(4, 4, 1)) == [];
+    assert Array.fromIter(Nat.rangeBy(3, 4, 1)) == [3];
+    assert Array.fromIter(Nat.rangeBy(4, 3, -1)) == [4]
+  }
+);
+
+test(
+  "rangeInclusive",
+  func() {
+    assert Array.fromIter(Nat.rangeInclusive(0, 2)) == [0, 1, 2];
+    assert Array.fromIter(Nat.rangeInclusive(1, 2)) == [1, 2];
+    assert Array.fromIter(Nat.rangeInclusive(1, 1)) == [1];
+    assert Array.fromIter(Nat.rangeInclusive(1, 0)) == [];
+    assert Array.fromIter(Nat.rangeInclusive(0, 0)) == [0];
+    assert Array.fromIter(Nat.rangeInclusive(0, 1)) == [0, 1]
   }
 );
 
@@ -74,6 +90,10 @@ test(
     assert Array.fromIter(Nat.rangeByInclusive(1, 1, -1)) == [1];
     assert Array.fromIter(Nat.rangeByInclusive(1, 2, 0)) == [];
     assert Array.fromIter(Nat.rangeByInclusive(2, 1, 1)) == [];
-    assert Array.fromIter(Nat.rangeByInclusive(1, 2, -1)) == []
+    assert Array.fromIter(Nat.rangeByInclusive(1, 2, -1)) == [];
+
+    assert Array.fromIter(Nat.rangeByInclusive(3, 0, -1)) == [3, 2, 1, 0];
+    assert Array.fromIter(Nat.rangeByInclusive(3, 0, 0)) == [];
+    assert Array.fromIter(Nat.rangeByInclusive(3, 3, 0)) == [3]
   }
 )
