@@ -277,7 +277,7 @@ assert iter2.next() == ?3;
 assert iter2.next() == ?1;
 assert iter2.next() == null;</code></pre>
 
-<p>If <code>from == to</code>, return an iterator which only</p>
+<p>If <code>from == to</code>, return an iterator which only returns that value.</p>
 <p>Otherwise, if <code>step</code> is 0 or if the iteration would not progress towards the bound, returns an empty iterator.</p>
 </p></div><div class="declaration"><h4 class="function" id="allValues"><code><span class="keyword">public func </span><span class="fnname">allValues</span>() : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an infinite iterator over all possible <code>Nat</code> values.</p>
 <pre><code>motoko include=import
