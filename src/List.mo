@@ -523,6 +523,33 @@ module {
     }
   };
 
+  /// Returns the element at index `index`.
+  /// Traps if `index >= size`. Indexing is zero-based.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let list = List.empty<Nat>();
+  /// List.add(list, 10);
+  /// List.add(list, 11);
+  /// assert List.at(list, 0) == 10;
+  /// // List.at(list, 2); // traps
+  /// ```
+  ///
+  /// Runtime: `O(1)`
+  ///
+  /// Space: `O(1)`
+  public func at<T>(list : List<T>, index : Nat) : T {
+    let (a, b) = locate(index);
+    if (a < list.blockIndex or list.elementIndex != 0 and a == list.blockIndex) {
+      switch (list.blocks[a][b]) {
+        case (?value) value;
+        case (null) Prim.trap "List.at(): internal error"
+      }
+    } else {
+      Prim.trap "List.at(): index out of bounds"
+    }
+  };
+
   /// Returns the element at index `index` as an option.
   /// Returns `null` when `index >= size`. Indexing is zero-based.
   ///
@@ -1186,7 +1213,7 @@ module {
   public func toVarArray<T>(list : List<T>) : [var T] {
     let s = size(list);
     if (s == 0) return [var];
-    let arr = VarArray.repeat<T>(Option.unwrap(first(list)), s);
+    let arr = VarArray.repeat<T>(at(list, 0), s);
     var i = 0;
     let next = values_(list).unsafe_next;
     while (i < s) {
@@ -1523,7 +1550,7 @@ module {
   public func max<T>(list : List<T>, compare : (T, T) -> Order.Order) : ?T {
     if (isEmpty(list)) return null;
 
-    var maxSoFar = Option.unwrap(get(list, 0));
+    var maxSoFar = at(list, 0);
     forEach<T>(
       list,
       func(x) = switch (compare(x, maxSoFar)) {
@@ -1558,7 +1585,7 @@ module {
   public func min<T>(list : List<T>, compare : (T, T) -> Order.Order) : ?T {
     if (isEmpty(list)) return null;
 
-    var minSoFar = Option.unwrap(get(list, 0));
+    var minSoFar = at(list, 0);
     forEach<T>(
       list,
       func(x) = switch (compare(x, minSoFar)) {
@@ -1676,7 +1703,7 @@ module {
     };
     if (vsize > 0) {
       // avoid the trailing comma
-      text := text # f(Option.unwrap(get<T>(list, i)))
+      text := text # f(at(list, i))
     };
 
     "List[" # text # "]"
@@ -1762,10 +1789,10 @@ module {
 
     var i = 0;
     var j = vsize - 1 : Nat;
-    var temp = Option.unwrap(get(list, 0));
+    var temp = at(list, 0);
     while (i < vsize / 2) {
-      temp := Option.unwrap(get(list, j));
-      put(list, j, Option.unwrap(get(list, i)));
+      temp := at(list, j);
+      put(list, j, at(list, i));
       put(list, i, temp);
       i += 1;
       j -= 1

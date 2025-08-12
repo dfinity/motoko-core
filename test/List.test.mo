@@ -1061,6 +1061,19 @@ func testGetOpt(n : Nat) : Bool {
   true
 };
 
+func testAt(n : Nat) : Bool {
+  let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i + 1));
+
+  for (i in Nat.range(1, n + 1)) {
+    let value = List.at(vec, i - 1 : Nat);
+    if (value != i) {
+      Debug.print("at: Mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(i) # ", got " # Nat.toText(value));
+      return false
+    }
+  };
+  true
+};
+
 func testPut(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
   if (n == 0) {
@@ -1240,6 +1253,7 @@ func runAllTests() {
   runTest("testRemoveLast", testRemoveLast);
   runTest("testGet", testGet);
   runTest("testGetOpt", testGetOpt);
+  runTest("testAt", testAt);
   runTest("testPut", testPut);
   runTest("testClear", testClear);
   runTest("testClone", testClone);
@@ -1259,6 +1273,40 @@ func runAllTests() {
 
 // Run all tests
 runAllTests();
+
+Test.suite(
+  "at() function tests",
+  func() {
+    Test.test(
+      "at() returns correct values",
+      func() {
+        let list = List.fromArray<Nat>([10, 11, 12]);
+        Test.expect.nat(List.at(list, 0)).equal(10);
+        Test.expect.nat(List.at(list, 1)).equal(11);
+        Test.expect.nat(List.at(list, 2)).equal(12)
+      }
+    );
+    Test.test(
+      "at() vs get() consistency",
+      func() {
+        let list = List.fromArray<Nat>([1, 2, 3, 4, 5]);
+        for (i in Nat.range(0, 4)) {
+          let getResult = List.get(list, i);
+          switch (getResult) {
+            case (?value) {
+              let atResult = List.at(list, i);
+              Test.expect.nat(atResult).equal(value)
+            };
+            case (null) {
+              // This shouldn't happen for valid indices
+              Test.expect.bool(false).equal(true)
+            }
+          }
+        }
+      }
+    )
+  }
+);
 
 Test.suite(
   "Regression tests",

@@ -39,7 +39,6 @@ import Iter "../Iter";
 import Types "../Types";
 import Nat "../Nat";
 import Order "../Order";
-import Option "../Option";
 
 module {
 
@@ -1127,9 +1126,9 @@ module {
       func buildFromSortedHelper(l : Nat, r : Nat, depth : Nat) : Tree<V> {
         if (l + 1 == r) {
           if (depth == maxDepth) {
-            return #red(#leaf, Option.unwrap(List.get(buf, l)), #leaf)
+            return #red(#leaf, List.at(buf, l), #leaf)
           } else {
-            return #black(#leaf, Option.unwrap(List.get(buf, l)), #leaf)
+            return #black(#leaf, List.at(buf, l), #leaf)
           }
         };
         if (l >= r) {
@@ -1138,7 +1137,7 @@ module {
         let m = (l + r) / 2;
         return #black(
           buildFromSortedHelper(l, m, depth + 1),
-          Option.unwrap(List.get(buf, m)),
+          List.at(buf, m),
           buildFromSortedHelper(m + 1, r, depth + 1)
         )
       };
