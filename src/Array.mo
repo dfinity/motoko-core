@@ -1049,4 +1049,45 @@ module {
     }
   };
 
+  /// Performs binary search on a sorted array to find the index of the `element`.
+  /// Returns the index if found, otherwise returns null.
+  /// The array must be sorted in ascending order according to the `compare` function.
+  ///
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let sorted = [1, 3, 5, 7, 9, 11];
+  /// assert Array.binarySearch<Nat>(sorted, 5, Nat.compare) == ?2;
+  /// assert Array.binarySearch<Nat>(sorted, 6, Nat.compare) == null;
+  /// ```
+  ///
+  /// Runtime: O(log(size))
+  ///
+  /// Space: O(1)
+  ///
+  /// *Runtime and space assumes that `compare` runs in O(1) time and space.
+  public func binarySearch<T>(array : [T], element : T, compare : (T, T) -> Order.Order) : ?Nat {
+    let size = array.size();
+    if (size == 0) {
+      return null
+    };
+    var left = 0;
+    var right = size;
+    while (left < right) {
+      let mid = (left + right) / 2;
+      switch (compare(array[mid], element)) {
+        case (#less) {
+          left := mid + 1
+        };
+        case (#greater) {
+          right := mid
+        };
+        case (#equal) {
+          return ?mid
+        }
+      }
+    };
+    null
+  };
+
 }

@@ -594,6 +594,52 @@ let suite = Suite.suite(
         values
       },
       M.equals(T.text("abc"))
+    ),
+    Suite.test(
+      "binarySearch found",
+      Array.binarySearch<Nat>([1, 3, 5, 7, 9, 11], 5, Nat.compare),
+      M.equals(T.optional(T.natTestable, ?2))
+    ),
+    Suite.test(
+      "binarySearch not found",
+      Array.binarySearch<Nat>([1, 3, 5, 7, 9, 11], 6, Nat.compare),
+      M.equals(T.optional(T.natTestable, null : ?Nat))
+    ),
+    Suite.test(
+      "binarySearch first element",
+      Array.binarySearch<Nat>([1, 3, 5, 7, 9, 11], 1, Nat.compare),
+      M.equals(T.optional(T.natTestable, ?0))
+    ),
+    Suite.test(
+      "binarySearch last element",
+      Array.binarySearch<Nat>([1, 3, 5, 7, 9, 11], 11, Nat.compare),
+      M.equals(T.optional(T.natTestable, ?5))
+    ),
+    Suite.test(
+      "binarySearch empty array",
+      Array.binarySearch<Nat>([], 5, Nat.compare),
+      M.equals(T.optional(T.natTestable, null : ?Nat))
+    ),
+    Suite.test(
+      "binarySearch single element found",
+      Array.binarySearch<Nat>([42], 42, Nat.compare),
+      M.equals(T.optional(T.natTestable, ?0))
+    ),
+    Suite.test(
+      "binarySearch single element not found",
+      Array.binarySearch<Nat>([42], 43, Nat.compare),
+      M.equals(T.optional(T.natTestable, null : ?Nat))
+    ),
+    Suite.test(
+      "binarySearch duplicates",
+      do {
+        let result = Array.binarySearch<Nat>([1, 2, 2, 2, 3], 2, Nat.compare);
+        switch result {
+          case (?index) { index >= 1 and index <= 3 };
+          case null { false }
+        }
+      },
+      M.equals(T.bool(true))
     )
   ]
 );
