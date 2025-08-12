@@ -179,7 +179,7 @@ Garbage Collection: ${\color{gray}0\\%}$
 | pure/List.foldRight |  19_105_768 |
 | pure/List.merge     |  31_808_584 |
 | pure/List.chunks    |  51_510_344 |
-| pure/Queue          | 140_562_492 |
+| pure/Queue          | 142_662_505 |
 
 
 **Heap**
@@ -258,7 +258,7 @@ Garbage Collection: ${\color{gray}0\\%}$
 | Initialize with 2 elements |      3_092 |              2_304 |         3_040 |
 | Push 500 elements          |     90_713 |            744_219 |       219_284 |
 | Pop front 2 elements       |     86_966 |              4_446 |         3_847 |
-| Pop 150 front&back         |     92_074 |            304_887 |       124_560 |
+| Pop 150 front&back         |     92_095 |            304_908 |       124_581 |
 
 
 **Heap**
