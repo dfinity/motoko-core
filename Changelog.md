@@ -1,5 +1,6 @@
 # Next
 
+* Add `Iter.peekable()` (#372)
 * Add `Text.foldLeft()` (#366).
 * Make `Nat.toText()` slightly more performant (#358).
 * Add `uniform64()`, `nat64()`, `natRange()`, and `intRange()` to `AsyncRandom` class (#360).
