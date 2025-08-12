@@ -864,4 +864,45 @@ module {
     }
   };
 
+  /// An Iter with a single item of lookahead. Created by the `peekable` function.
+  public type Peekable<T> = Types.Peekable<T>;
+
+  /// Wraps a given iterator and provides a single item of lookahead.
+  /// The additional `peek` function can be used to look at the next item without advancing.
+  /// Note: The underlying iterator will be consumed
+  ///
+  /// ```motoko include=import
+  /// let iter = Iter.peekable(Iter.fromArray([1, 2, 3]));
+  /// assert iter.peek() == ?1;
+  /// assert iter.next() == ?1;
+  /// assert iter.peek() == ?2;
+  /// assert iter.peek() == ?2;
+  /// assert iter.next() == ?2;
+  /// assert iter.next() == ?3;
+  /// assert iter.peek() == null;
+  /// assert iter.next() == null;
+  /// ```
+  public func peekable<T>(iter : Iter<T>) : Peekable<T> {
+    object {
+      private var lookahead : ?T = null;
+      public func next() : ?T {
+        switch (lookahead) {
+          case null iter.next();
+          case (?x) {
+            lookahead := null;
+            ?x
+          }
+        }
+      };
+      public func peek() : ?T {
+        switch (lookahead) {
+          case null {
+            lookahead := iter.next()
+          };
+          case (_) {}
+        };
+        lookahead
+      }
+    }
+  }
 }

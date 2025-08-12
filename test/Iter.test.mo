@@ -864,4 +864,19 @@ suite(
     test("some", func() = mk([1, 2, 1, 4], ?1));
     test("empty", func() = mk([], null))
   }
+);
+
+suite(
+  "peekable",
+  func() {
+    let iter = Iter.peekable(Iter.fromArray([1, 2, 3]));
+    expect.option(iter.peek(), Nat.toText, Nat.equal).equal(?1);
+    expect.option(iter.next(), Nat.toText, Nat.equal).equal(?1);
+    expect.option(iter.peek(), Nat.toText, Nat.equal).equal(?2);
+    expect.option(iter.peek(), Nat.toText, Nat.equal).equal(?2);
+    expect.option(iter.next(), Nat.toText, Nat.equal).equal(?2);
+    expect.option(iter.next(), Nat.toText, Nat.equal).equal(?3);
+    expect.option(iter.peek(), Nat.toText, Nat.equal).equal(null);
+    expect.option(iter.next(), Nat.toText, Nat.equal).equal(null)
+  }
 )

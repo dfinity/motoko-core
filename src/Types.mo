@@ -23,6 +23,7 @@ module {
 
   public type Hash = Nat32;
   public type Iter<T> = { next : () -> ?T };
+  public type Peekable<T> = Iter<T> and { peek : () -> ?T };
   public type Order = { #less; #equal; #greater };
   public type Result<T, E> = { #ok : T; #err : E };
   public type Pattern = {
