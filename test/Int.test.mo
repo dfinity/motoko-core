@@ -980,6 +980,16 @@ do {
 };
 
 do {
+  Debug.print("rangeInclusive()");
+
+  assert Array.fromIter(Int.rangeInclusive(0, 2)) == [0, 1, 2];
+  assert Array.fromIter(Int.rangeInclusive(-2, 2)) == [-2, -1, 0, 1, 2];
+  assert Array.fromIter(Int.rangeInclusive(1, 1)) == [1];
+  assert Array.fromIter(Int.rangeInclusive(1, 0)) == [];
+  assert Array.fromIter(Int.rangeInclusive(1, -1)) == []
+};
+
+do {
   Debug.print("rangeByInclusive()");
 
   assert Array.fromIter(Int.rangeByInclusive(1, 7, 2)) == [1, 3, 5, 7];
