@@ -423,15 +423,15 @@ assert Array.compare&lt;Nat&gt;(array3, array4, Nat.compare) == #less;</code></p
 <p>Runtime: O(min(size1, size2))</p>
 <p>Space: O(1)</p>
 <p>*Runtime and space assumes that <code>compare</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="binarySearch"><code><span class="keyword">public func </span><span class="fnname">binarySearch</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">array</span> : [<span class="type">T</span>], <br/>  <span class="parameter">element</span> : <span class="type">T</span>, <br/>  <span class="parameter">compare</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a><br/>) : ?<span class="type">Nat</span></code></h4><p><p>Performs binary search on a sorted array to find the index of the <code>element</code>.
+</p></div><div class="declaration"><h4 class="function" id="binarySearch"><code><span class="keyword">public func </span><span class="fnname">binarySearch</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">array</span> : [<span class="type">T</span>], <br/>  <span class="parameter">compare</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>, <br/>  <span class="parameter">element</span> : <span class="type">T</span><br/>) : ?<span class="type">Nat</span></code></h4><p><p>Performs binary search on a sorted array to find the index of the <code>element</code>.
 Returns the index if found, otherwise returns null.
 The array must be sorted in ascending order according to the <code>compare</code> function.</p>
 <pre><code>motoko include=import
 import Nat &quot;mo:core/Nat&quot;;
 
 let sorted = [1, 3, 5, 7, 9, 11];
-assert Array.binarySearch&lt;Nat&gt;(sorted, 5, Nat.compare) == ?2;
-assert Array.binarySearch&lt;Nat&gt;(sorted, 6, Nat.compare) == null;</code></pre>
+assert Array.binarySearch&lt;Nat&gt;(sorted, Nat.compare, 5) == ?2;
+assert Array.binarySearch&lt;Nat&gt;(sorted, Nat.compare, 6) == null;</code></pre>
 
 <p>Runtime: O(log(size))</p>
 <p>Space: O(1)</p>
