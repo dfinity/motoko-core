@@ -7,6 +7,7 @@
 * Add `Text.foldLeft()` (#366).
 * Fix corner cases in `Nat.rangeByInclusive()` (#368).
 * Address inconsistent treatment of empty iterators by range functions in `Int` and `Nat` (#369).
+* Add example usage documentation to `Types` module (#374).
 
 ## 0.6.0
 
