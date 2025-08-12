@@ -597,43 +597,43 @@ let suite = Suite.suite(
     ),
     Suite.test(
       "binarySearch found",
-      Array.binarySearch<Nat>([1, 3, 5, 7, 9, 11], 5, Nat.compare),
+      Array.binarySearch<Nat>([1, 3, 5, 7, 9, 11], Nat.compare, 5),
       M.equals(T.optional(T.natTestable, ?2))
     ),
     Suite.test(
       "binarySearch not found",
-      Array.binarySearch<Nat>([1, 3, 5, 7, 9, 11], 6, Nat.compare),
+      Array.binarySearch<Nat>([1, 3, 5, 7, 9, 11], Nat.compare, 6),
       M.equals(T.optional(T.natTestable, null : ?Nat))
     ),
     Suite.test(
       "binarySearch first element",
-      Array.binarySearch<Nat>([1, 3, 5, 7, 9, 11], 1, Nat.compare),
+      Array.binarySearch<Nat>([1, 3, 5, 7, 9, 11], Nat.compare, 1),
       M.equals(T.optional(T.natTestable, ?0))
     ),
     Suite.test(
       "binarySearch last element",
-      Array.binarySearch<Nat>([1, 3, 5, 7, 9, 11], 11, Nat.compare),
+      Array.binarySearch<Nat>([1, 3, 5, 7, 9, 11], Nat.compare, 11),
       M.equals(T.optional(T.natTestable, ?5))
     ),
     Suite.test(
       "binarySearch empty array",
-      Array.binarySearch<Nat>([], 5, Nat.compare),
+      Array.binarySearch<Nat>([], Nat.compare, 5),
       M.equals(T.optional(T.natTestable, null : ?Nat))
     ),
     Suite.test(
       "binarySearch single element found",
-      Array.binarySearch<Nat>([42], 42, Nat.compare),
+      Array.binarySearch<Nat>([42], Nat.compare, 42),
       M.equals(T.optional(T.natTestable, ?0))
     ),
     Suite.test(
       "binarySearch single element not found",
-      Array.binarySearch<Nat>([42], 43, Nat.compare),
+      Array.binarySearch<Nat>([42], Nat.compare, 43),
       M.equals(T.optional(T.natTestable, null : ?Nat))
     ),
     Suite.test(
       "binarySearch duplicates",
       do {
-        let result = Array.binarySearch<Nat>([1, 2, 2, 2, 3], 2, Nat.compare);
+        let result = Array.binarySearch<Nat>([1, 2, 2, 2, 3], Nat.compare, 2);
         switch result {
           case (?index) { index >= 1 and index <= 3 };
           case null { false }

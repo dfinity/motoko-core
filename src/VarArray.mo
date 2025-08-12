@@ -1191,8 +1191,8 @@ module {
   /// import Nat "mo:core/Nat";
   ///
   /// let sorted = [var 1, 3, 5, 7, 9, 11];
-  /// assert VarArray.binarySearch<Nat>(sorted, 5, Nat.compare) == ?2;
-  /// assert VarArray.binarySearch<Nat>(sorted, 6, Nat.compare) == null;
+  /// assert VarArray.binarySearch<Nat>(sorted, Nat.compare, 5) == ?2;
+  /// assert VarArray.binarySearch<Nat>(sorted, Nat.compare, 6) == null;
   /// ```
   ///
   /// Runtime: O(log(size))
@@ -1200,7 +1200,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func binarySearch<T>(array : [var T], element : T, compare : (T, T) -> Order.Order) : ?Nat {
+  public func binarySearch<T>(array : [var T], compare : (T, T) -> Order.Order, element : T) : ?Nat {
     let size = array.size();
     if (size == 0) {
       return null
