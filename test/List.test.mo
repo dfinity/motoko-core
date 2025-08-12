@@ -1292,16 +1292,8 @@ Test.suite(
         let list = List.fromArray<Nat>([1, 2, 3, 4, 5]);
         for (i in Nat.range(0, 4)) {
           let getResult = List.get(list, i);
-          switch (getResult) {
-            case (?value) {
-              let atResult = List.at(list, i);
-              Test.expect.nat(atResult).equal(value)
-            };
-            case (null) {
-              // This shouldn't happen for valid indices
-              Test.expect.bool(false).equal(true)
-            }
-          }
+          let atResult = List.at(list, i);
+          Test.expect.option(getResult, Nat.toText, Nat.equal).equal(?atResult)
         }
       }
     )
