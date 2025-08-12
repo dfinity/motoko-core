@@ -1,9 +1,9 @@
 ## Next
 
 * **Breaking:** Standardize function argument order (#376).
+* Address inconsistent treatment of empty iterators by range functions in `Int` and `Nat` (#369).
 * Fix corner cases in `Nat.rangeByInclusive()` (#368).
 * Add `Text.foldLeft()` (#366).
-* Address inconsistent treatment of empty iterators by range functions in `Int` and `Nat` (#369).
 * **Breaking:** Adjust `Int.fromText()` to return `null` instead of `?0` for `"+"` and `"-"` (#365).
 * Fix corner case in `sliceToArray()` (#364).
 * Add `uniform64()`, `nat64()`, `natRange()`, and `intRange()` to `AsyncRandom` class (#360).
