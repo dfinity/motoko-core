@@ -4,7 +4,7 @@
 * Add `uniform64()`, `nat64()`, `natRange()`, and `intRange()` to `AsyncRandom` class (#360).
 * Fix corner case in `sliceToArray()` (#364).
 * **Breaking:** Adjust `Int.fromText()` to return `null` instead of `?0` for `"+"` and `"-"` (#365).
-* **Breaking:** Change `List.get()` to return `?T` instead of `T` for consistency (#367).
+* **Breaking:** Rename `List.get()` to `List.at()` and `List.getOpt()` to `List.get()` (#367).
 * Add `Text.foldLeft()` (#366).
 * Fix corner cases in `Nat.rangeByInclusive()` (#368).
 * Address inconsistent treatment of empty iterators by range functions in `Int` and `Nat` (#369).
