@@ -1343,6 +1343,75 @@ Test.suite(
         Test.expect.bool(List.min(empty, Nat.compare) == null).equal(true);
         Test.expect.bool(List.min(emptied, Nat.compare) == null).equal(true)
       }
+    );
+    Test.test(
+      "binarySearch",
+      func() {
+        Test.expect.bool(List.binarySearch<Nat>(empty, Nat.compare, 0) == null).equal(true);
+        Test.expect.bool(List.binarySearch<Nat>(emptied, Nat.compare, 0) == null).equal(true)
+      }
+    )
+  }
+);
+
+// Additional binarySearch tests
+Test.suite(
+  "binarySearch",
+  func() {
+    Test.test(
+      "found",
+      func() {
+        let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
+        Test.expect.bool(List.binarySearch<Nat>(list, Nat.compare, 5) == ?2).equal(true)
+      }
+    );
+    Test.test(
+      "not found",
+      func() {
+        let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
+        Test.expect.bool(List.binarySearch<Nat>(list, Nat.compare, 6) == null).equal(true)
+      }
+    );
+    Test.test(
+      "first element",
+      func() {
+        let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
+        Test.expect.bool(List.binarySearch<Nat>(list, Nat.compare, 1) == ?0).equal(true)
+      }
+    );
+    Test.test(
+      "last element",
+      func() {
+        let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
+        Test.expect.bool(List.binarySearch<Nat>(list, Nat.compare, 11) == ?5).equal(true)
+      }
+    );
+    Test.test(
+      "single element found",
+      func() {
+        let list = List.fromArray<Nat>([42]);
+        Test.expect.bool(List.binarySearch<Nat>(list, Nat.compare, 42) == ?0).equal(true)
+      }
+    );
+    Test.test(
+      "single element not found",
+      func() {
+        let list = List.fromArray<Nat>([42]);
+        Test.expect.bool(List.binarySearch<Nat>(list, Nat.compare, 43) == null).equal(true)
+      }
+    );
+    Test.test(
+      "duplicates",
+      func() {
+        let list = List.fromArray<Nat>([1, 2, 2, 2, 3]);
+        let result = List.binarySearch<Nat>(list, Nat.compare, 2);
+        Test.expect.bool(
+          switch result {
+            case (?index) { index >= 1 and index <= 3 };
+            case null { false }
+          }
+        ).equal(true)
+      }
     )
   }
 )
