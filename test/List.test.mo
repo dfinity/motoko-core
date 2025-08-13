@@ -919,7 +919,7 @@ func testNew(n : Nat) : Bool {
 
 func testInit(n : Nat) : Bool {
   let vec = List.repeat<Nat>(1, n);
-  List.size(vec) == n and (n == 0 or (List.get(vec, 0) == ?1 and List.get(vec, n - 1 : Nat) == ?1))
+  List.size(vec) == n and (n == 0 or (List.at(vec, 0) == 1 and List.at(vec, n - 1 : Nat) == 1))
 };
 
 func testAdd(n : Nat) : Bool {
@@ -935,17 +935,10 @@ func testAdd(n : Nat) : Bool {
   };
 
   for (i in Nat.range(0, n)) {
-    switch (List.get(vec, i)) {
-      case (?value) {
-        if (value != i) {
-          Debug.print("Value mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(i) # ", got " # Nat.toText(value));
-          return false
-        }
-      };
-      case null {
-        Debug.print("Unexpected null at index " # Nat.toText(i));
-        return false
-      }
+    let value = List.at(vec, i);
+    if (value != i) {
+      Debug.print("Value mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(i) # ", got " # Nat.toText(value));
+      return false
     }
   };
 
@@ -961,17 +954,10 @@ func testAddAll(n : Nat) : Bool {
     return false
   };
   for (i in Nat.range(0, n)) {
-    switch (List.get(vec, n + i)) {
-      case (?value) {
-        if (value != 1) {
-          Debug.print("Value mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(1) # ", got " # Nat.toText(value));
-          return false
-        }
-      };
-      case null {
-        Debug.print("Unexpected null at index " # Nat.toText(i));
-        return false
-      }
+    let value = List.at(vec, n + i);
+    if (value != 1) {
+      Debug.print("Value mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(1) # ", got " # Nat.toText(value));
+      return false
     }
   };
   true
@@ -1008,6 +994,20 @@ func testRemoveLast(n : Nat) : Bool {
   true
 };
 
+func testAt(n : Nat) : Bool {
+  let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i + 1));
+
+  for (i in Nat.range(1, n + 1)) {
+    let value = List.at(vec, i - 1 : Nat);
+    if (value != i) {
+      Debug.print("at: Mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(i) # ", got " # Nat.toText(value));
+      return false
+    }
+  };
+
+  true
+};
+
 func testGet(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i + 1));
 
@@ -1015,45 +1015,24 @@ func testGet(n : Nat) : Bool {
     switch (List.get(vec, i - 1 : Nat)) {
       case (?value) {
         if (value != i) {
-          Debug.print("get: Mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(i) # ", got " # Nat.toText(value));
+          Debug.print("get: Mismatch at index " # Nat.toText(i) # ": expected ?" # Nat.toText(i) # ", got ?" # Nat.toText(value));
           return false
         }
       };
-      case null {
+      case (null) {
         Debug.print("get: Unexpected null at index " # Nat.toText(i));
         return false
       }
     }
   };
 
-  true
-};
-
-func testGetOpt(n : Nat) : Bool {
-  let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i + 1));
-
-  for (i in Nat.range(1, n + 1)) {
-    switch (List.getOpt(vec, i - 1 : Nat)) {
-      case (?value) {
-        if (value != i) {
-          Debug.print("getOpt: Mismatch at index " # Nat.toText(i) # ": expected ?" # Nat.toText(i) # ", got ?" # Nat.toText(value));
-          return false
-        }
-      };
-      case (null) {
-        Debug.print("getOpt: Unexpected null at index " # Nat.toText(i));
-        return false
-      }
-    }
-  };
-
   // Test out-of-bounds access
-  switch (List.getOpt(vec, n)) {
+  switch (List.get(vec, n)) {
     case (null) {
       // This is expected
     };
     case (?value) {
-      Debug.print("getOpt: Expected null for out-of-bounds access, got ?" # Nat.toText(value));
+      Debug.print("get: Expected null for out-of-bounds access, got ?" # Nat.toText(value));
       return false
     }
   };
@@ -1067,7 +1046,7 @@ func testPut(n : Nat) : Bool {
     true
   } else {
     List.put(vec, n - 1 : Nat, 100);
-    List.get(vec, n - 1 : Nat) == ?100
+    List.at(vec, n - 1 : Nat) == 100
   }
 };
 
@@ -1238,8 +1217,8 @@ func runAllTests() {
   runTest("testAdd", testAdd);
   runTest("testAddAll", testAddAll);
   runTest("testRemoveLast", testRemoveLast);
+  runTest("testAt", testAt);
   runTest("testGet", testGet);
-  runTest("testGetOpt", testGetOpt);
   runTest("testPut", testPut);
   runTest("testClear", testClear);
   runTest("testClone", testClone);
