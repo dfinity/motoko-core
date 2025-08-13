@@ -261,7 +261,7 @@ module {
   ///
   /// persistent actor {
   ///   let stack = Stack.fromIter<Nat>([3, 2, 1].values());
-  ///   assert Stack.contains(stack, 2, Nat.equal);
+  ///   assert Stack.contains(stack, Nat.equal, 2);
   /// }
   /// ```
   ///
@@ -269,7 +269,7 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and assuming
   /// that `equal` has O(1) costs.
-  public func contains<T>(stack : Stack<T>, element : T, equal : (T, T) -> Bool) : Bool {
+  public func contains<T>(stack : Stack<T>, equal : (T, T) -> Bool, element : T) : Bool {
     for (existing in values(stack)) {
       if (equal(existing, element)) {
         return true
