@@ -361,50 +361,50 @@ assert VarArray.any&lt;Nat&gt;(array, func x = x &gt; 3);</code></pre>
 <p>Runtime: O(size)</p>
 <p>Space: O(1)</p>
 <p>*Runtime and space assumes that <code>predicate</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="indexOf"><code><span class="keyword">public func </span><span class="fnname">indexOf</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">element</span> : <span class="type">T</span>, <br/>  <span class="parameter">array</span> : [<span class="keyword">var </span><span class="type">T</span>], <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span><br/>) : ?<span class="type">Nat</span></code></h4><p><p>Returns the index of the first <code>element</code> in the <code>array</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="indexOf"><code><span class="keyword">public func </span><span class="fnname">indexOf</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">array</span> : [<span class="keyword">var </span><span class="type">T</span>], <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>, <br/>  <span class="parameter">element</span> : <span class="type">T</span><br/>) : ?<span class="type">Nat</span></code></h4><p><p>Returns the index of the first <code>element</code> in the <code>array</code>.</p>
 <pre><code>motoko include=import
 import Char &quot;mo:core/Char&quot;;
 
 let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
-assert VarArray.indexOf&lt;Char&gt;('c', array, Char.equal) == ?0;
-assert VarArray.indexOf&lt;Char&gt;('f', array, Char.equal) == ?2;
-assert VarArray.indexOf&lt;Char&gt;('g', array, Char.equal) == null;</code></pre>
+assert VarArray.indexOf&lt;Char&gt;(array, Char.equal, 'c') == ?0;
+assert VarArray.indexOf&lt;Char&gt;(array, Char.equal, 'f') == ?2;
+assert VarArray.indexOf&lt;Char&gt;(array, Char.equal, 'g') == null;</code></pre>
 
 <p>Runtime: O(array.size())</p>
 <p>Space: O(1)</p>
-</p></div><div class="declaration"><h4 class="function" id="nextIndexOf"><code><span class="keyword">public func </span><span class="fnname">nextIndexOf</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">element</span> : <span class="type">T</span>, <br/>  <span class="parameter">array</span> : [<span class="keyword">var </span><span class="type">T</span>], <br/>  <span class="parameter">fromInclusive</span> : <span class="type">Nat</span>, <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span><br/>) : ?<span class="type">Nat</span></code></h4><p><p>Returns the index of the next occurence of <code>element</code> in the <code>array</code> starting from the <code>from</code> index (inclusive).</p>
+</p></div><div class="declaration"><h4 class="function" id="nextIndexOf"><code><span class="keyword">public func </span><span class="fnname">nextIndexOf</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">array</span> : [<span class="keyword">var </span><span class="type">T</span>], <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>, <br/>  <span class="parameter">element</span> : <span class="type">T</span>, <br/>  <span class="parameter">fromInclusive</span> : <span class="type">Nat</span><br/>) : ?<span class="type">Nat</span></code></h4><p><p>Returns the index of the next occurence of <code>element</code> in the <code>array</code> starting from the <code>from</code> index (inclusive).</p>
 <pre><code>motoko include=import
 import Char &quot;mo:core/Char&quot;;
 
 let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
-assert VarArray.nextIndexOf&lt;Char&gt;('c', array, 0, Char.equal) == ?0;
-assert VarArray.nextIndexOf&lt;Char&gt;('f', array, 0, Char.equal) == ?2;
-assert VarArray.nextIndexOf&lt;Char&gt;('f', array, 2, Char.equal) == ?2;
-assert VarArray.nextIndexOf&lt;Char&gt;('f', array, 3, Char.equal) == ?3;
-assert VarArray.nextIndexOf&lt;Char&gt;('f', array, 4, Char.equal) == null;</code></pre>
+assert VarArray.nextIndexOf&lt;Char&gt;(array, Char.equal, 'c', 0) == ?0;
+assert VarArray.nextIndexOf&lt;Char&gt;(array, Char.equal, 'f', 0) == ?2;
+assert VarArray.nextIndexOf&lt;Char&gt;(array, Char.equal, 'f', 2) == ?2;
+assert VarArray.nextIndexOf&lt;Char&gt;(array, Char.equal, 'f', 3) == ?3;
+assert VarArray.nextIndexOf&lt;Char&gt;(array, Char.equal, 'f', 4) == null;</code></pre>
 
 <p>Runtime: O(array.size())</p>
 <p>Space: O(1)</p>
-</p></div><div class="declaration"><h4 class="function" id="lastIndexOf"><code><span class="keyword">public func </span><span class="fnname">lastIndexOf</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">element</span> : <span class="type">T</span>, <br/>  <span class="parameter">array</span> : [<span class="keyword">var </span><span class="type">T</span>], <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span><br/>) : ?<span class="type">Nat</span></code></h4><p><p>Returns the index of the last <code>element</code> in the <code>array</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="lastIndexOf"><code><span class="keyword">public func </span><span class="fnname">lastIndexOf</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">array</span> : [<span class="keyword">var </span><span class="type">T</span>], <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>, <br/>  <span class="parameter">element</span> : <span class="type">T</span><br/>) : ?<span class="type">Nat</span></code></h4><p><p>Returns the index of the last <code>element</code> in the <code>array</code>.</p>
 <pre><code>motoko include=import
 import Char &quot;mo:core/Char&quot;;
 
 let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
-assert VarArray.lastIndexOf&lt;Char&gt;('c', array, Char.equal) == ?0;
-assert VarArray.lastIndexOf&lt;Char&gt;('f', array, Char.equal) == ?3;
-assert VarArray.lastIndexOf&lt;Char&gt;('e', array, Char.equal) == ?5;
-assert VarArray.lastIndexOf&lt;Char&gt;('g', array, Char.equal) == null;</code></pre>
+assert VarArray.lastIndexOf&lt;Char&gt;(array, Char.equal, 'c') == ?0;
+assert VarArray.lastIndexOf&lt;Char&gt;(array, Char.equal, 'f') == ?3;
+assert VarArray.lastIndexOf&lt;Char&gt;(array, Char.equal, 'e') == ?5;
+assert VarArray.lastIndexOf&lt;Char&gt;(array, Char.equal, 'g') == null;</code></pre>
 
 <p>Runtime: O(array.size())</p>
 <p>Space: O(1)</p>
-</p></div><div class="declaration"><h4 class="function" id="prevIndexOf"><code><span class="keyword">public func </span><span class="fnname">prevIndexOf</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">element</span> : <span class="type">T</span>, <br/>  <span class="parameter">array</span> : [<span class="keyword">var </span><span class="type">T</span>], <br/>  <span class="parameter">fromExclusive</span> : <span class="type">Nat</span>, <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span><br/>) : ?<span class="type">Nat</span></code></h4><p><p>Returns the index of the previous occurence of <code>element</code> in the <code>array</code> starting from the <code>from</code> index (exclusive).</p>
+</p></div><div class="declaration"><h4 class="function" id="prevIndexOf"><code><span class="keyword">public func </span><span class="fnname">prevIndexOf</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">array</span> : [<span class="keyword">var </span><span class="type">T</span>], <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>, <br/>  <span class="parameter">element</span> : <span class="type">T</span>, <br/>  <span class="parameter">fromExclusive</span> : <span class="type">Nat</span><br/>) : ?<span class="type">Nat</span></code></h4><p><p>Returns the index of the previous occurence of <code>element</code> in the <code>array</code> starting from the <code>from</code> index (exclusive).</p>
 <pre><code>motoko include=import
 import Char &quot;mo:core/Char&quot;;
 let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
-assert VarArray.prevIndexOf&lt;Char&gt;('c', array, array.size(), Char.equal) == ?0;
-assert VarArray.prevIndexOf&lt;Char&gt;('e', array, array.size(), Char.equal) == ?5;
-assert VarArray.prevIndexOf&lt;Char&gt;('e', array, 5, Char.equal) == ?4;
-assert VarArray.prevIndexOf&lt;Char&gt;('e', array, 4, Char.equal) == null;</code></pre>
+assert VarArray.prevIndexOf&lt;Char&gt;(array, Char.equal, 'c', array.size()) == ?0;
+assert VarArray.prevIndexOf&lt;Char&gt;(array, Char.equal, 'e', array.size()) == ?5;
+assert VarArray.prevIndexOf&lt;Char&gt;(array, Char.equal, 'e', 5) == ?4;
+assert VarArray.prevIndexOf&lt;Char&gt;(array, Char.equal, 'e', 4) == null;</code></pre>
 
 <p>Runtime: O(array.size());
 Space: O(1);</p>
