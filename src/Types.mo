@@ -3,13 +3,13 @@
 /// Example usage:
 ///
 /// ```motoko name=import
-/// import Types "mo:core/Types";
+/// import { type Result, type Iter } "mo:core/Types";
 ///
 /// // Result for error handling
-/// let result : Types.Result<Int, Text> = #ok(42);
+/// let result : Result<Int, Text> = #ok(42);
 ///
 /// // Iterator for sequences
-/// let iter : Types.Iter<Nat> = { next = func() { ?1 } };
+/// let iter : Iter<Nat> = { next = func() { ?1 } };
 /// ```
 
 import Prim "mo:⛔";
