@@ -2,6 +2,7 @@
 
 * **Breaking:** Standardize function argument order (#376).
 * Add `binarySearch()` to `Array`, `VarArray`, and `List` modules (#375).
+* Add example usage documentation to `Types` module (#374).
 * Address inconsistent treatment of empty iterators by range functions in `Int` and `Nat` (#369).
 * Fix corner cases in `Nat.rangeByInclusive()` (#368).
 * Add `Text.foldLeft()` (#366).
