@@ -3,7 +3,7 @@
 /// Example usage:
 ///
 /// ```motoko name=import
-/// import { type Result, type Iter } "mo:core/Types";
+/// import { type Result; type Iter } "mo:core/Types";
 ///
 /// // Result for error handling
 /// let result : Result<Int, Text> = #ok(42);
