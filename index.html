@@ -465,7 +465,16 @@ import Nat &quot;mo:core/Nat&quot;;
 let swapped = Tuple2.swap((1, &quot;hello&quot;));
 assert swapped == (&quot;hello&quot;, 1);
 let text = Tuple3.toText((1, true, 3), Nat.toText, Bool.toText, Nat.toText);
-assert text == &quot;(1, true, 3)&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Types.html">Types</a><div class="index-item-comment"></div></li><li class="index-item"><a class="index-item-link" href="VarArray.html">VarArray</a><div class="index-item-comment"><p>Provides extended utility functions on mutable Arrays (<code>[var]</code>).</p>
+assert text == &quot;(1, true, 3)&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Types.html">Types</a><div class="index-item-comment"><p>Common types used throughout the core package.</p>
+<p>Example usage:</p>
+<pre><code>motoko name=import
+import { type Result; type Iter } &quot;mo:core/Types&quot;;
+
+// Result for error handling
+let result : Result&lt;Int, Text&gt; = #ok(42);
+
+// Iterator for sequences
+let iter : Iter&lt;Nat&gt; = { next = func() { ?1 } };</code></pre></div></li><li class="index-item"><a class="index-item-link" href="VarArray.html">VarArray</a><div class="index-item-comment"><p>Provides extended utility functions on mutable Arrays (<code>[var]</code>).</p>
 <p>Note the difference between mutable (<code>[var]</code>) and immutable (<code>[]</code>) arrays.
 Mutable arrays allow their elements to be modified after creation, while
 immutable arrays are fixed once created.</p>
