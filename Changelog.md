@@ -1,6 +1,7 @@
 ## Next
 
 * **Breaking:** Standardize function argument order (#376).
+* Add example usage documentation to `Types` module (#374).
 * Address inconsistent treatment of empty iterators by range functions in `Int` and `Nat` (#369).
 * Fix corner cases in `Nat.rangeByInclusive()` (#368).
 * **Breaking:** Rename `List.get()` to `List.at()` and `List.getOpt()` to `List.get()` (#367).
