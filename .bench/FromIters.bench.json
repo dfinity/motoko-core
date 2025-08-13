@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "moc": "0.14.14",
+  "moc": "0.15.1",
   "replica": "dfx",
   "replicaVersion": "0.28.0",
   "gc": "copying",
@@ -116,7 +116,7 @@
       {
         "rts_stable_memory_size": 0,
         "stable_memory_size": 0,
-        "instructions": 4832522,
+        "instructions": 4832563,
         "rts_memory_size": 0,
         "rts_total_allocation": 480704,
         "rts_collector_instructions": 6257,
@@ -131,7 +131,7 @@
       {
         "rts_stable_memory_size": 0,
         "stable_memory_size": 0,
-        "instructions": 48305436,
+        "instructions": 48305477,
         "rts_memory_size": 0,
         "rts_total_allocation": 4800704,
         "rts_collector_instructions": 6257,

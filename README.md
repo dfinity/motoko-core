@@ -77,7 +77,7 @@ Garbage Collection: ${\color{gray}0\\%}$
 | :--------------------------- | -----: | --------: | ---------: |
 | Array.fromIter               | 48_764 | 4_712_025 | 47_103_135 |
 | List.fromIter                | 31_698 | 3_061_541 | 30_603_553 |
-| List.fromIter . Iter.reverse | 50_297 | 4_832_522 | 48_305_436 |
+| List.fromIter . Iter.reverse | 50_297 | 4_832_563 | 48_305_477 |
 
 
 **Heap**
