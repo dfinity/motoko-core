@@ -456,23 +456,23 @@ let suite = Suite.suite(
       M.equals(T.array(T.natTestable, [6, 8, 10]))
     ),
     Suite.test(
-      "sliceToArray with empty result when start >= end",
-      Array.sliceToArray<Nat>([1, 2, 3, 4, 5], 3, 2),
+      "subArray with empty result when start >= end",
+      Array.subArray<Nat>([1, 2, 3, 4, 5], 3, 2),
       M.equals(T.array<Nat>(T.natTestable, []))
     ),
     Suite.test(
-      "sliceToArray with negative fromInclusive and positive toExclusive",
-      Array.sliceToArray<Nat>([1, 2, 3, 4, 5], -2, 4),
+      "subArray with negative fromInclusive and positive toExclusive",
+      Array.subArray<Nat>([1, 2, 3, 4, 5], -2, 4),
       M.equals(T.array(T.natTestable, [4]))
     ),
     Suite.test(
-      "sliceToArray with negative fromInclusive and zero toExclusive",
-      Array.sliceToArray<Nat>([1, 2, 3, 4, 5], -2, 0),
+      "subArray with negative fromInclusive and zero toExclusive",
+      Array.subArray<Nat>([1, 2, 3, 4, 5], -2, 0),
       M.equals(T.array<Nat>(T.natTestable, []))
     ),
     Suite.test(
-      "sliceToArray with both negative indices where start > end",
-      Array.sliceToArray<Nat>([1, 2, 3, 4, 5], -1, -3),
+      "subArray with both negative indices where start > end",
+      Array.subArray<Nat>([1, 2, 3, 4, 5], -1, -3),
       M.equals(T.array<Nat>(T.natTestable, []))
     ),
     Suite.test(
