@@ -409,7 +409,7 @@ module {
   };
 
   /// Deletes an element from a set.
-  /// Returns `true` if the element was contained in the set, `false` if not.
+  /// No effect if the element is not contained in the set.
   ///
   /// ```motoko
   /// import Set "mo:core/Set";
@@ -439,8 +439,6 @@ module {
     ignore delete(set, compare, element)
   };
 
-  /// Deletes an element from a set.
-  /// Returns true if the element was contained in the set, false if not.
   /// Deletes an element from a set.
   /// Returns true if the element was contained in the set, false if not.
   ///

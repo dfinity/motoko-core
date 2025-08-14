@@ -456,69 +456,89 @@ let suite = Suite.suite(
       M.equals(T.array(T.natTestable, [6, 8, 10]))
     ),
     Suite.test(
+      "sliceToArray with empty result when start >= end",
+      Array.sliceToArray<Nat>([1, 2, 3, 4, 5], 3, 2),
+      M.equals(T.array<Nat>(T.natTestable, []))
+    ),
+    Suite.test(
+      "sliceToArray with negative fromInclusive and positive toExclusive",
+      Array.sliceToArray<Nat>([1, 2, 3, 4, 5], -2, 4),
+      M.equals(T.array(T.natTestable, [4]))
+    ),
+    Suite.test(
+      "sliceToArray with negative fromInclusive and zero toExclusive",
+      Array.sliceToArray<Nat>([1, 2, 3, 4, 5], -2, 0),
+      M.equals(T.array<Nat>(T.natTestable, []))
+    ),
+    Suite.test(
+      "sliceToArray with both negative indices where start > end",
+      Array.sliceToArray<Nat>([1, 2, 3, 4, 5], -1, -3),
+      M.equals(T.array<Nat>(T.natTestable, []))
+    ),
+    Suite.test(
       "nextIndexOf start",
-      Array.nextIndexOf<Char>('c', ['c', 'o', 'f', 'f', 'e', 'e'], 0, Char.equal),
+      Array.nextIndexOf<Char>(['c', 'o', 'f', 'f', 'e', 'e'], Char.equal, 'c', 0),
       M.equals(T.optional(T.natTestable, ?0))
     ),
     Suite.test(
       "nextIndexOf not found from offset",
-      Array.nextIndexOf<Char>('c', ['c', 'o', 'f', 'f', 'e', 'e'], 1, Char.equal),
+      Array.nextIndexOf<Char>(['c', 'o', 'f', 'f', 'e', 'e'], Char.equal, 'c', 1),
       M.equals(T.optional(T.natTestable, null : ?Nat))
     ),
     Suite.test(
       "nextIndexOf middle",
-      Array.nextIndexOf<Char>('f', ['c', 'o', 'f', 'f', 'e', 'e'], 0, Char.equal),
+      Array.nextIndexOf<Char>(['c', 'o', 'f', 'f', 'e', 'e'], Char.equal, 'f', 0),
       M.equals(T.optional(T.natTestable, ?2))
     ),
     Suite.test(
       "nextIndexOf repeat",
-      Array.nextIndexOf<Char>('f', ['c', 'o', 'f', 'f', 'e', 'e'], 2, Char.equal),
+      Array.nextIndexOf<Char>(['c', 'o', 'f', 'f', 'e', 'e'], Char.equal, 'f', 2),
       M.equals(T.optional(T.natTestable, ?2))
     ),
     Suite.test(
       "nextIndexOf start from the middle",
-      Array.nextIndexOf<Char>('f', ['c', 'o', 'f', 'f', 'e', 'e'], 3, Char.equal),
+      Array.nextIndexOf<Char>(['c', 'o', 'f', 'f', 'e', 'e'], Char.equal, 'f', 3),
       M.equals(T.optional(T.natTestable, ?3))
     ),
     Suite.test(
       "nextIndexOf not found",
-      Array.nextIndexOf<Char>('g', ['c', 'o', 'f', 'f', 'e', 'e'], 0, Char.equal),
+      Array.nextIndexOf<Char>(['c', 'o', 'f', 'f', 'e', 'e'], Char.equal, 'g', 0),
       M.equals(T.optional(T.natTestable, null : ?Nat))
     ),
     Suite.test(
       "nextIndexOf index out of bounds",
-      Array.nextIndexOf<Char>('f', ['c', 'o', 'f', 'f', 'e', 'e'], 100, Char.equal),
+      Array.nextIndexOf<Char>(['c', 'o', 'f', 'f', 'e', 'e'], Char.equal, 'f', 100),
       M.equals(T.optional(T.natTestable, null : ?Nat))
     ),
 
     Suite.test(
       "prevIndexOf first",
-      Array.prevIndexOf<Char>('c', ['c', 'o', 'f', 'f', 'e', 'e'], 6, Char.equal),
+      Array.prevIndexOf<Char>(['c', 'o', 'f', 'f', 'e', 'e'], Char.equal, 'c', 6),
       M.equals(T.optional(T.natTestable, ?0))
     ),
     Suite.test(
       "prevIndexOf last",
-      Array.prevIndexOf<Char>('e', ['c', 'o', 'f', 'f', 'e', 'e'], 6, Char.equal),
+      Array.prevIndexOf<Char>(['c', 'o', 'f', 'f', 'e', 'e'], Char.equal, 'e', 6),
       M.equals(T.optional(T.natTestable, ?5))
     ),
     Suite.test(
       "prevIndexOf middle",
-      Array.prevIndexOf<Char>('f', ['c', 'o', 'f', 'f', 'e', 'e'], 6, Char.equal),
+      Array.prevIndexOf<Char>(['c', 'o', 'f', 'f', 'e', 'e'], Char.equal, 'f', 6),
       M.equals(T.optional(T.natTestable, ?3))
     ),
     Suite.test(
       "prevIndexOf start from the middle",
-      Array.prevIndexOf<Char>('f', ['c', 'o', 'f', 'f', 'e', 'e'], 3, Char.equal),
+      Array.prevIndexOf<Char>(['c', 'o', 'f', 'f', 'e', 'e'], Char.equal, 'f', 3),
       M.equals(T.optional(T.natTestable, ?2))
     ),
     Suite.test(
       "prevIndexOf existing not found",
-      Array.prevIndexOf<Char>('f', ['c', 'o', 'f', 'f', 'e', 'e'], 2, Char.equal),
+      Array.prevIndexOf<Char>(['c', 'o', 'f', 'f', 'e', 'e'], Char.equal, 'f', 2),
       M.equals(T.optional(T.natTestable, null : ?Nat))
     ),
     Suite.test(
       "prevIndexOf not found",
-      Array.prevIndexOf<Char>('g', ['c', 'o', 'f', 'f', 'e', 'e'], 6, Char.equal),
+      Array.prevIndexOf<Char>(['c', 'o', 'f', 'f', 'e', 'e'], Char.equal, 'g', 6),
       M.equals(T.optional(T.natTestable, null : ?Nat))
     ),
     Suite.test(

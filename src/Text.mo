@@ -91,6 +91,33 @@ module {
   /// ```
   public func toIter(t : Text) : Iter.Iter<Char> = t.chars();
 
+  /// Collapses the characters in `text` into a single value by starting with `base`
+  /// and progessively combining characters into `base` with `combine`. Iteration runs
+  /// left to right.
+  ///
+  /// ```motoko include=import
+  ///
+  /// let text = "Mississippi";
+  /// let count =
+  ///   Text.foldLeft<Nat>(
+  ///     text,
+  ///     0, // start the sum at 0
+  ///     func(ss, c) = if (c == 's') ss + 1 else ss
+  ///   );
+  /// assert count == 4;
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  ///
+  /// *Runtime and space assumes that `combine` runs in O(1) time and space.
+  public func foldLeft<A>(text : Text, base : A, combine : (A, Char) -> A) : A {
+    var acc = base;
+    for (c in text.chars()) acc := combine(acc, c);
+    acc
+  };
+
   /// Creates a new `Array` containing characters of the given `Text`.
   ///
   /// Equivalent to `Iter.toArray(t.chars())`.
@@ -190,6 +217,19 @@ module {
   /// assert togetherAgain == "HelloThere";
   /// ```
   public func concat(t1 : Text, t2 : Text) : Text = t1 # t2;
+
+  /// Returns a new `Text` with the characters of the input `Text` in reverse order.
+  ///
+  /// ```motoko include=import
+  /// let text = Text.reverse("Hello");
+  /// assert text == "olleH";
+  /// ```
+  ///
+  /// Runtime: O(t.size())
+  /// Space: O(t.size())
+  public func reverse(t : Text) : Text {
+    fromIter(Iter.reverse(t.chars()))
+  };
 
   /// Returns true if two text values are equal.
   ///
@@ -334,7 +374,7 @@ module {
     for (c in t.chars()) {
       r #= Prim.charToText(f(c))
     };
-    return r
+    r
   };
 
   /// Returns the result of applying `f` to each character in `ts`, concatenating the intermediate text values.
@@ -352,7 +392,7 @@ module {
     for (c in t.chars()) {
       r #= f(c)
     };
-    return r
+    r
   };
 
   /// A pattern `p` describes a sequence of characters. A pattern has one of the following forms:

@@ -7,7 +7,7 @@
 ///
 /// While boolean operators `_ and _` and `_ or _` are short-circuiting,
 /// avoiding computation of the right argument when possible, the functions
-/// `logand(_, _)` and `logor(_, _)` are *strict* and will always evaluate *both*
+/// `logicalAnd(_, _)` and `logicalOr(_, _)` are *strict* and will always evaluate *both*
 /// of their arguments.
 ///
 /// Example:

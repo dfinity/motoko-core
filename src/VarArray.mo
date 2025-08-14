@@ -62,21 +62,9 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func clone<T>(array : [var T]) : [var T] {
-    let size = array.size();
-    if (size == 0) {
-      return [var]
-    };
-    let newArray = Prim.Array_init<T>(size, array[0]);
-    var i = 0;
-    while (i < size) {
-      newArray[i] := array[i];
-      i += 1
-    };
-    newArray
-  };
+  public func clone<T>(array : [var T]) : [var T] = Prim.Array_tabulateVar<T>(array.size(), func i = array[i]);
 
-  /// Creates an immutable array of size `size`. Each element at index i
+  /// Creates a mutable array of size `size`. Each element at index i
   /// is created by applying `generator` to i.
   ///
   /// ```motoko include=import
@@ -91,20 +79,7 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `generator` runs in O(1) time and space.
-  public func tabulate<T>(size : Nat, generator : Nat -> T) : [var T] {
-    if (size == 0) {
-      return [var]
-    };
-    let first = generator(0);
-    let array = Prim.Array_init<T>(size, first);
-    array[0] := first;
-    var index = 1;
-    while (index < size) {
-      array[index] := generator(index);
-      index += 1
-    };
-    array
-  };
+  public func tabulate<T>(size : Nat, generator : Nat -> T) : [var T] = Prim.Array_tabulateVar(size, generator);
 
   /// Tests if two arrays contain equal values (i.e. they represent the same
   /// list of elements). Uses `equal` to compare elements in the arrays.
@@ -961,15 +936,15 @@ module {
   /// import Char "mo:core/Char";
   ///
   /// let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
-  /// assert VarArray.indexOf<Char>('c', array, Char.equal) == ?0;
-  /// assert VarArray.indexOf<Char>('f', array, Char.equal) == ?2;
-  /// assert VarArray.indexOf<Char>('g', array, Char.equal) == null;
+  /// assert VarArray.indexOf<Char>(array, Char.equal, 'c') == ?0;
+  /// assert VarArray.indexOf<Char>(array, Char.equal, 'f') == ?2;
+  /// assert VarArray.indexOf<Char>(array, Char.equal, 'g') == null;
   /// ```
   ///
   /// Runtime: O(array.size())
   ///
   /// Space: O(1)
-  public func indexOf<T>(element : T, array : [var T], equal : (T, T) -> Bool) : ?Nat = nextIndexOf<T>(element, array, 0, equal);
+  public func indexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T) : ?Nat = nextIndexOf<T>(array, equal, element, 0);
 
   /// Returns the index of the next occurence of `element` in the `array` starting from the `from` index (inclusive).
   ///
@@ -977,17 +952,17 @@ module {
   /// import Char "mo:core/Char";
   ///
   /// let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
-  /// assert VarArray.nextIndexOf<Char>('c', array, 0, Char.equal) == ?0;
-  /// assert VarArray.nextIndexOf<Char>('f', array, 0, Char.equal) == ?2;
-  /// assert VarArray.nextIndexOf<Char>('f', array, 2, Char.equal) == ?2;
-  /// assert VarArray.nextIndexOf<Char>('f', array, 3, Char.equal) == ?3;
-  /// assert VarArray.nextIndexOf<Char>('f', array, 4, Char.equal) == null;
+  /// assert VarArray.nextIndexOf<Char>(array, Char.equal, 'c', 0) == ?0;
+  /// assert VarArray.nextIndexOf<Char>(array, Char.equal, 'f', 0) == ?2;
+  /// assert VarArray.nextIndexOf<Char>(array, Char.equal, 'f', 2) == ?2;
+  /// assert VarArray.nextIndexOf<Char>(array, Char.equal, 'f', 3) == ?3;
+  /// assert VarArray.nextIndexOf<Char>(array, Char.equal, 'f', 4) == null;
   /// ```
   ///
   /// Runtime: O(array.size())
   ///
   /// Space: O(1)
-  public func nextIndexOf<T>(element : T, array : [var T], fromInclusive : Nat, equal : (T, T) -> Bool) : ?Nat {
+  public func nextIndexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T, fromInclusive : Nat) : ?Nat {
     var index = fromInclusive;
     let size = array.size();
     while (index < size) {
@@ -1006,31 +981,31 @@ module {
   /// import Char "mo:core/Char";
   ///
   /// let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
-  /// assert VarArray.lastIndexOf<Char>('c', array, Char.equal) == ?0;
-  /// assert VarArray.lastIndexOf<Char>('f', array, Char.equal) == ?3;
-  /// assert VarArray.lastIndexOf<Char>('e', array, Char.equal) == ?5;
-  /// assert VarArray.lastIndexOf<Char>('g', array, Char.equal) == null;
+  /// assert VarArray.lastIndexOf<Char>(array, Char.equal, 'c') == ?0;
+  /// assert VarArray.lastIndexOf<Char>(array, Char.equal, 'f') == ?3;
+  /// assert VarArray.lastIndexOf<Char>(array, Char.equal, 'e') == ?5;
+  /// assert VarArray.lastIndexOf<Char>(array, Char.equal, 'g') == null;
   /// ```
   ///
   /// Runtime: O(array.size())
   ///
   /// Space: O(1)
-  public func lastIndexOf<T>(element : T, array : [var T], equal : (T, T) -> Bool) : ?Nat = prevIndexOf<T>(element, array, array.size(), equal);
+  public func lastIndexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T) : ?Nat = prevIndexOf<T>(array, equal, element, array.size());
 
   /// Returns the index of the previous occurence of `element` in the `array` starting from the `from` index (exclusive).
   ///
   /// ```motoko include=import
   /// import Char "mo:core/Char";
   /// let array = [var 'c', 'o', 'f', 'f', 'e', 'e'];
-  /// assert VarArray.prevIndexOf<Char>('c', array, array.size(), Char.equal) == ?0;
-  /// assert VarArray.prevIndexOf<Char>('e', array, array.size(), Char.equal) == ?5;
-  /// assert VarArray.prevIndexOf<Char>('e', array, 5, Char.equal) == ?4;
-  /// assert VarArray.prevIndexOf<Char>('e', array, 4, Char.equal) == null;
+  /// assert VarArray.prevIndexOf<Char>(array, Char.equal, 'c', array.size()) == ?0;
+  /// assert VarArray.prevIndexOf<Char>(array, Char.equal, 'e', array.size()) == ?5;
+  /// assert VarArray.prevIndexOf<Char>(array, Char.equal, 'e', 5) == ?4;
+  /// assert VarArray.prevIndexOf<Char>(array, Char.equal, 'e', 4) == null;
   /// ```
   ///
   /// Runtime: O(array.size());
   /// Space: O(1);
-  public func prevIndexOf<T>(element : T, array : [var T], fromExclusive : Nat, equal : (T, T) -> Bool) : ?Nat {
+  public func prevIndexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T, fromExclusive : Nat) : ?Nat {
     var i = fromExclusive;
     while (i > 0) {
       i -= 1;
@@ -1132,6 +1107,9 @@ module {
     // Convert to Nat (always non-negative due to bounds checking above)
     let start = Prim.abs(startInt);
     let end = Prim.abs(endInt);
+    if (start >= end) {
+      return []
+    };
     Prim.Array_tabulate<T>(end - start, func i = array[start + i])
   };
 

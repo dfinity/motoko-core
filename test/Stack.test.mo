@@ -130,7 +130,7 @@ suite(
       "contains finds element",
       func() {
         let s = Stack.fromIter<Nat>([1, 2, 3].vals());
-        expect.bool(Stack.contains(s, 2, Nat.equal)).isTrue()
+        expect.bool(Stack.contains(s, Nat.equal, 2)).isTrue()
       }
     );
 

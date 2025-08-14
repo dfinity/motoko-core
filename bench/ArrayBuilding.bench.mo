@@ -1,5 +1,5 @@
 import Bench "mo:bench";
-import Buffer "mo:base-0-14-8/Buffer";
+import Buffer "mo:base-0-14-13/Buffer";
 
 import List "../src/List";
 import PureList "../src/pure/List";

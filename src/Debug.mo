@@ -21,15 +21,19 @@ module {
   /// Debug.print(debug_show(4)) // Often used with `debug_show` to convert values to Text
   /// ```
   public func print(text : Text) {
-    Prim.debugPrint text
+    Prim.debugPrint(text)
   };
 
-  /// Not yet implemented
-  ///
   /// Mark incomplete code with the `todo()` function.
   ///
   /// Each have calls are well-typed in all typing contexts, which
   /// trap in all execution contexts.
+  ///
+  /// ```motoko include=import
+  /// func doSomethingComplex() {
+  ///   Debug.todo()
+  /// };
+  /// ```
   public func todo() : None {
     Runtime.trap("Debug.todo()")
   };

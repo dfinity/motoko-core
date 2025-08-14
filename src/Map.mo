@@ -279,7 +279,7 @@ module {
   ///
   /// Runtime: `O(n)`.
   /// Space: `O(1)`.
-  public func equal<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKeys : (K, K) -> Types.Order, equalValues : (V, V) -> Bool) : Bool {
+  public func equal<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (K, K) -> Types.Order, equalValue : (V, V) -> Bool) : Bool {
     if (size(map1) != size(map2)) {
       return false
     };
@@ -294,8 +294,8 @@ module {
         };
         case (?(key1, value1), ?(key2, value2)) {
           if (
-            not (compareKeys(key1, key2) == #equal) or
-            not equalValues(value1, value2)
+            not (compareKey(key1, key2) == #equal) or
+            not equalValue(value1, value2)
           ) {
             return false
           }

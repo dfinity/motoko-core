@@ -1,5 +1,5 @@
 import { Principal } from "@dfinity/principal";
-import { PocketIc, PocketIcServer } from "@hadronous/pic";
+import { PocketIc, PocketIcServer } from "@dfinity/pic";
 import chalk from "chalk";
 import { readFile } from "fs/promises";
 import { glob } from "glob";
