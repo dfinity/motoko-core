@@ -10,6 +10,7 @@
 * Fix corner case in `sliceToArray()` (#364).
 * Add `uniform64()`, `nat64()`, `natRange()`, and `intRange()` to `AsyncRandom` class (#360).
 * Make `Nat.toText()` slightly more performant (#358).
+* **Breaking:** Rename `sliceToArray()` to `subArray()` (#333).
 
 ## 0.6.0
 
@@ -25,7 +26,6 @@
 ## 0.5.0
 
 * **Breaking:** Adjust `List` and `pure/List` APIs for consistency (#322).
-* **Breaking:** Rename `sliceToArray()` to `subArray()` (#333).
 * Fix: `first()` and `last()` from `List` now return `null` on empty lists instead of trapping (#312).
 * Add `reverse()` function to the `pure/Queue` module (#229).
 * Add `pure/RealTimeQueue` module - an alternative immutable double-ended queue implementation with worst-case `O(1)` time complexity for all operations but worse amortized performance (#229).
