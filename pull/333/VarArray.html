@@ -428,7 +428,7 @@ assert iter3.next() == null;</code></pre>
 
 <p>Runtime: O(1)</p>
 <p>Space: O(1)</p>
-</p></div><div class="declaration"><h4 class="function" id="subArray"><code><span class="keyword">public func </span><span class="fnname">subArray</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">array</span> : [<span class="keyword">var </span><span class="type">T</span>], <br/>  <span class="parameter">fromInclusive</span> : <span class="type">Int</span>, <br/>  <span class="parameter">toExclusive</span> : <span class="type">Int</span><br/>) : [<span class="type">T</span>]</code></h4><p><p>Returns a new array containing elements from <code>array</code> starting at index <code>fromInclusive</code> up to (but not including) index <code>toExclusive</code>.
+</p></div><div class="declaration"><h4 class="function" id="subArray"><code><span class="keyword">public func </span><span class="fnname">subArray</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">array</span> : [<span class="keyword">var </span><span class="type">T</span>], <br/>  <span class="parameter">fromInclusive</span> : <span class="type">Int</span>, <br/>  <span class="parameter">toExclusive</span> : <span class="type">Int</span><br/>) : [<span class="keyword">var </span><span class="type">T</span>]</code></h4><p><p>Returns a new array containing elements from <code>array</code> starting at index <code>fromInclusive</code> up to (but not including) index <code>toExclusive</code>.
 If the indices are out of bounds, they are clamped to the array bounds.</p>
 <pre><code>motoko include=import
 let array = [var 1, 2, 3, 4, 5];
