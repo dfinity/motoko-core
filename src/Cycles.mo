@@ -127,7 +127,7 @@ module {
   /// ```motoko no-repl
   /// import Cycles "mo:core/Cycles";
   ///
-  /// actor {
+  /// persistent actor {
   ///   public func main() : async() {
   ///     let burnt = Cycles.burn<system>(10_000_000);
   ///     assert burnt == 10_000_000;
