@@ -1089,7 +1089,7 @@ module {
   /// Runtime: O(toExclusive - fromInclusive)
   ///
   /// Space: O(toExclusive - fromInclusive)
-  public func subArray<T>(array : [var T], fromInclusive : Int, toExclusive : Int) : [T] {
+  public func subArray<T>(array : [var T], fromInclusive : Int, toExclusive : Int) : [var T] {
     let size = array.size();
     // Convert negative indices to positive and handle bounds
     let startInt = if (fromInclusive < 0) {
@@ -1108,9 +1108,9 @@ module {
     let start = Prim.abs(startInt);
     let end = Prim.abs(endInt);
     if (start >= end) {
-      return []
+      return [var]
     };
-    Prim.Array_tabulate<T>(end - start, func i = array[start + i])
+    Prim.Array_tabulateVar<T>(end - start, func i = array[start + i])
   };
 
   /// Converts the mutable array to its textual representation using `f` to convert each element to `Text`.
