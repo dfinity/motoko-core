@@ -1,3 +1,7 @@
+# Next
+
+* Add `findInRange()` and `findInRangeBinarySearch()` to `Int` and `Nat` (#381).
+
 ## 1.0.0
 
 * Add `sliceToVarArray()` to `Array` and `VarArray` (#377).

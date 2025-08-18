@@ -96,4 +96,37 @@ test(
     assert Array.fromIter(Nat.rangeByInclusive(3, 0, 0)) == [];
     assert Array.fromIter(Nat.rangeByInclusive(3, 3, 0)) == [3]
   }
+);
+
+test(
+  "findInRange",
+  func() {
+    assert Nat.findInRange(0, 0, func(x) { x > 7 }) == null;
+    assert Nat.findInRange(3, 9, func(x) { x > 7 }) == ?8;
+    assert Nat.findInRange(3, 8, func(x) { x > 7 }) == null;
+    assert Nat.findInRange(3, 8, func(x) { x < 7 }) == ?3;
+    let v = [7, 3, 10, 3, 17, 10, 3];
+    assert Nat.findInRange(0, v.size(), func(x) { v[x] == 7 }) == ?0;
+    assert Nat.findInRange(0, v.size(), func(x) { v[x] == 3 }) == ?1;
+    assert Nat.findInRange(0, v.size(), func(x) { v[x] == 10 }) == ?2;
+    assert Nat.findInRange(0, v.size(), func(x) { v[x] == 17 }) == ?4
+  }
+);
+
+test(
+  "findInRangeBinarySearch",
+  func() {
+    assert Nat.findInRangeBinarySearch(0, 0, func(x) { x > 7 }) == null;
+    assert Nat.findInRangeBinarySearch(3, 9, func(x) { x > 7 }) == ?8;
+    assert Nat.findInRangeBinarySearch(3, 8, func(x) { x > 7 }) == null;
+    assert Nat.findInRangeBinarySearch(3, 8, func(x) { x < 7 }) == ?3;
+    // Stress-test binary search against linear search.
+    for (i in Nat.range(0, 10)) {
+      for (j in Nat.range(0, 10)) {
+        for (val in Nat.range(0, 11)) {
+          assert Nat.findInRangeBinarySearch(i, j, func(x) { x >= val }) == Nat.findInRange(i, j, func(x) { x >= val })
+        }
+      }
+    }
+  }
 )

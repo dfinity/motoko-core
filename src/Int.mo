@@ -577,4 +577,62 @@ module {
     }
   };
 
+  /// Returns the first value in the range of `Int` values [fromInclusive, toExclusive) for which `predicate` returns true.
+  /// If no element satisfies the predicate (or the range is empty), returns null.
+  ///
+  /// ```motoko include=import
+  ///
+  /// assert Int.findInRange(3, 9, func(x) { x > 7 }) == ?8;
+  /// assert Int.findInRange(3, 8, func(x) { x > 7 }) == null;
+  /// assert Int.findInRange(3, 8, func(x) { x < 7 }) == ?3;
+  /// ```
+  ///
+  /// Runtime: O(toExclusive - fromInclusive)
+  ///
+  /// Space: O(1)
+  ///
+  /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
+  public func findInRange(fromInclusive : Int, toExclusive : Int, predicate : Int -> Bool) : ?Int {
+    for (element in range(fromInclusive, toExclusive)) {
+      if (predicate element) {
+        return ?element
+      }
+    };
+    null
+  };
+
+  /// Same as `findInRange()`, but requires that `predicate` is non-decreasing on [fromInclusive, toExclusive).
+  /// Returns the first value in the range of `Int` values [fromInclusive, toExclusive) for which `predicate` returns true.
+  /// If no element satisfies the predicate (or the range is empty), returns null.
+  /// If `predicate` is not non-decreasing on the interval, the result is undefined.
+  ///
+  /// ```motoko include=import
+  ///
+  /// assert Int.findInRangeBinarySearch(3, 9, func(x) { x > 7 }) == ?8;
+  /// assert Int.findInRangeBinarySearch(3, 8, func(x) { x > 7 }) == null;
+  /// Int.findInRangeBinarySearch(3, 8, func(x) { x < 7 }); // Undefined result: `predicate` is not non-decreasing.
+  /// ```
+  ///
+  /// Runtime: O(log(toExclusive - fromInclusive))
+  ///
+  /// Space: O(1)
+  ///
+  /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
+  public func findInRangeBinarySearch(fromInclusive : Int, toExclusive : Int, predicate : Int -> Bool) : ?Int {
+    var l = fromInclusive;
+    var r = toExclusive;
+    while (l < r) {
+      let mid = l + (r - l) / 2;
+      if (predicate mid) {
+        r := mid
+      } else {
+        l := mid + 1
+      }
+    };
+    if (r < toExclusive) {
+      ?r
+    } else {
+      null
+    }
+  }
 }

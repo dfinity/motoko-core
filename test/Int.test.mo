@@ -951,6 +951,8 @@ run(
   )
 );
 
+/* --------------------------------------- */
+
 do {
   Debug.print("range()");
 
@@ -1010,6 +1012,37 @@ do {
   assert Array.fromIter(Int.rangeByInclusive(1, 2, 0)) == [];
   assert Array.fromIter(Int.rangeByInclusive(2, 1, 1)) == [];
   assert Array.fromIter(Int.rangeByInclusive(1, 2, -1)) == []
+};
+
+do {
+  Debug.print("findInRange()");
+  assert Int.findInRange(-3, -3, func(x) { x > 7 }) == null;
+  assert Int.findInRange(-3, 9, func(x) { x > 7 }) == ?8;
+  assert Int.findInRange(-3, 8, func(x) { x > 7 }) == null;
+  assert Int.findInRange(3, 8, func(x) { x < 7 }) == ?3;
+  assert Int.findInRange(-5, -3, func(x) { x > -5 }) == ?-4;
+  let v : [Int] = [7, 3, 10, 3, 17, 10, 3];
+  assert Int.findInRange(0, v.size(), func(x) { v[Int.toNat(x)] == 7 }) == ?0;
+  assert Int.findInRange(0, v.size(), func(x) { v[Int.toNat(x)] == 3 }) == ?1;
+  assert Int.findInRange(0, v.size(), func(x) { v[Int.toNat(x)] == 10 }) == ?2;
+  assert Int.findInRange(0, v.size(), func(x) { v[Int.toNat(x)] == 17 }) == ?4
+};
+
+do {
+  Debug.print("findInRangeBinarySearch()");
+  assert Int.findInRangeBinarySearch(-3, -3, func(x) { x > 7 }) == null;
+  assert Int.findInRangeBinarySearch(-3, 9, func(x) { x > 7 }) == ?8;
+  assert Int.findInRangeBinarySearch(-3, 8, func(x) { x > 7 }) == null;
+  assert Int.findInRangeBinarySearch(3, 8, func(x) { x < 7 }) == ?3;
+  assert Int.findInRangeBinarySearch(-5, -3, func(x) { x > -5 }) == ?-4;
+  // Stress-test binary search against linear search.
+  for (i in Int.range(-10, 10)) {
+    for (j in Int.range(-10, 10)) {
+      for (val in Int.range(-11, 11)) {
+        assert Int.findInRangeBinarySearch(i, j, func(x) { x >= val }) == Int.findInRange(i, j, func(x) { x >= val })
+      }
+    }
+  }
 };
 
 /* --------------------------------------- */
