@@ -573,7 +573,6 @@ module {
   /// If no element satisfies the predicate (or the range is empty), returns null.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:core/Nat";
   ///
   /// assert Nat.findInRange(3, 9, func(x) { x > 7 }) == ?8;
   /// assert Nat.findInRange(3, 8, func(x) { x > 7 }) == null;
@@ -600,7 +599,6 @@ module {
   /// If `predicate` is not non-decreasing on the interval, the result is undefined.
   ///
   /// ```motoko include=import
-  /// import Nat "mo:core/Nat";
   ///
   /// assert Nat.findInRangeBinarySearch(3, 9, func(x) { x > 7 }) == ?8;
   /// assert Nat.findInRangeBinarySearch(3, 8, func(x) { x > 7 }) == null;
