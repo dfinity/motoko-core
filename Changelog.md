@@ -1,5 +1,6 @@
 ## 1.0.0
 
+* TODO(move + add number): Add `findInRange()` and `findInRangeBinarySearch()` to `Int` and `Nat` (?).
 * Add `sliceToVarArray()` to `Array` and `VarArray` (#377).
 * **Breaking:** Standardize function argument order (#376).
 * Add example usage documentation to `Types` module (#374).

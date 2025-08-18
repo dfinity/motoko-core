@@ -586,7 +586,7 @@ module {
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
   public func findInRange(fromInclusive : Nat, toExclusive : Nat, predicate : Nat -> Bool) : ?Nat {
-    for (element in Nat.range(fromInclusive, toExclusive)) {
+    for (element in range(fromInclusive, toExclusive)) {
       if (predicate element) {
         return ?element
       }

@@ -594,7 +594,7 @@ module {
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
   public func findInRange(fromInclusive : Int, toExclusive : Int, predicate : Int -> Bool) : ?Int {
-    for (element in Int.range(fromInclusive, toExclusive)) {
+    for (element in range(fromInclusive, toExclusive)) {
       if (predicate element) {
         return ?element
       }
@@ -624,7 +624,7 @@ module {
     var l = fromInclusive;
     var r = toExclusive;
     while (l < r) {
-      let mid = (l + r) / 2;
+      let mid = l + (r - l) / 2;
       if (predicate mid) {
         r := mid
       } else {
