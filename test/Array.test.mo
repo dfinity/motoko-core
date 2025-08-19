@@ -1,4 +1,5 @@
 import Array "../src/Array";
+import VarArray "../src/VarArray";
 import Int "../src/Int";
 import Char "../src/Char";
 import Nat "../src/Nat";
@@ -6,6 +7,38 @@ import Text "../src/Text";
 import Suite "mo:matchers/Suite";
 import T "mo:matchers/Testable";
 import M "mo:matchers/Matchers";
+
+func joinWith(xs : [var Text], sep : Text) : Text {
+  let size = xs.size();
+
+  if (size == 0) return "";
+  if (size == 1) return xs[0];
+
+  var result = xs[0];
+  var i = 0;
+  label l loop {
+    i += 1;
+    if (i >= size) { break l };
+    result #= sep # xs[i]
+  };
+  result
+};
+
+func varArrayTestable<A>(testableA : T.Testable<A>) : T.Testable<[var A]> {
+  {
+    display = func(xs : [var A]) : Text = "[var " # joinWith(VarArray.map<A, Text>(xs, testableA.display), ", ") # "]";
+    equals = func(xs1 : [var A], xs2 : [var A]) : Bool = VarArray.equal(xs1, xs2, testableA.equals)
+  }
+};
+
+func varArray<A>(testableA : T.Testable<A>, xs : [var A]) : T.TestableItem<[var A]> {
+  let testableAs = varArrayTestable<A>(testableA);
+  {
+    item = xs;
+    display = testableAs.display;
+    equals = testableAs.equals
+  }
+};
 
 let suite = Suite.suite(
   "Array",
@@ -474,6 +507,66 @@ let suite = Suite.suite(
       "sliceToArray with both negative indices where start > end",
       Array.sliceToArray<Nat>([1, 2, 3, 4, 5], -1, -3),
       M.equals(T.array<Nat>(T.natTestable, []))
+    ),
+    Suite.test(
+      "sliceToVarArray if including entire array",
+      Array.sliceToVarArray<Nat>([2, 4, 6, 8, 10], 0, 5),
+      M.equals(varArray<Nat>(T.natTestable, [var 2, 4, 6, 8, 10]))
+    ),
+    Suite.test(
+      "sliceToVarArray if including all but last index",
+      Array.sliceToVarArray<Nat>([2, 4, 6, 8, 10], 0, -1),
+      M.equals(varArray<Nat>(T.natTestable, [var 2, 4, 6, 8]))
+    ),
+    Suite.test(
+      "sliceToVarArray if including all but first index",
+      Array.sliceToVarArray<Nat>([2, 4, 6, 8, 10], 1, 5),
+      M.equals(varArray<Nat>(T.natTestable, [var 4, 6, 8, 10]))
+    ),
+    Suite.test(
+      "sliceToVarArray if including middle of array",
+      Array.sliceToVarArray<Nat>([2, 4, 6, 8, 10], 1, 4),
+      M.equals(varArray<Nat>(T.natTestable, [var 4, 6, 8]))
+    ),
+    Suite.test(
+      "sliceToVarArray if including middle of array (negative indices)",
+      Array.sliceToVarArray<Nat>([2, 4, 6, 8, 10], -4, -1),
+      M.equals(varArray<Nat>(T.natTestable, [var 4, 6, 8]))
+    ),
+    Suite.test(
+      "sliceToVarArray if including start, but not end of array",
+      Array.sliceToVarArray<Nat>([2, 4, 6, 8, 10], 0, -2),
+      M.equals(varArray<Nat>(T.natTestable, [var 2, 4, 6]))
+    ),
+    Suite.test(
+      "sliceToVarArray if including end, but not start of array",
+      Array.sliceToVarArray<Nat>([2, 4, 6, 8, 10], 2, 5),
+      M.equals(varArray<Nat>(T.natTestable, [var 6, 8, 10]))
+    ),
+    Suite.test(
+      "sliceToVarArray if including end, but not start of array (negative indices)",
+      Array.sliceToVarArray<Nat>([2, 4, 6, 8, 10], -3, 5),
+      M.equals(varArray<Nat>(T.natTestable, [var 6, 8, 10]))
+    ),
+    Suite.test(
+      "sliceToVarArray with empty result when start >= end",
+      Array.sliceToVarArray<Nat>([1, 2, 3, 4, 5], 3, 2),
+      M.equals(varArray<Nat>(T.natTestable, [var]))
+    ),
+    Suite.test(
+      "sliceToVarArray with negative fromInclusive and positive toExclusive",
+      Array.sliceToVarArray<Nat>([1, 2, 3, 4, 5], -2, 4),
+      M.equals(varArray<Nat>(T.natTestable, [var 4]))
+    ),
+    Suite.test(
+      "sliceToVarArray with negative fromInclusive and zero toExclusive",
+      Array.sliceToVarArray<Nat>([1, 2, 3, 4, 5], -2, 0),
+      M.equals(varArray<Nat>(T.natTestable, [var]))
+    ),
+    Suite.test(
+      "sliceToVarArray with both negative indices where start > end",
+      Array.sliceToVarArray<Nat>([1, 2, 3, 4, 5], -1, -3),
+      M.equals(varArray<Nat>(T.natTestable, [var]))
     ),
     Suite.test(
       "nextIndexOf start",

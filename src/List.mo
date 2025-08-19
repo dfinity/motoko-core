@@ -507,11 +507,11 @@ module {
   /// let list = List.empty<Nat>();
   /// List.add(list, 10);
   /// List.add(list, 11);
-  /// assert List.get(list, 0) == 10;
+  /// assert List.at(list, 0) == 10;
   /// ```
   ///
   /// Runtime: `O(1)`
-  public func get<T>(list : List<T>, index : Nat) : T {
+  public func at<T>(list : List<T>, index : Nat) : T {
     // inlined version of:
     //   let (a,b) = locate(index);
     //   switch(list.blocks[a][b]) {
@@ -541,14 +541,14 @@ module {
   /// let list = List.empty<Nat>();
   /// List.add(list, 10);
   /// List.add(list, 11);
-  /// assert List.getOpt(list, 0) == ?10;
-  /// assert List.getOpt(list, 2) == null;
+  /// assert List.get(list, 0) == ?10;
+  /// assert List.get(list, 2) == null;
   /// ```
   ///
   /// Runtime: `O(1)`
   ///
   /// Space: `O(1)`
-  public func getOpt<T>(list : List<T>, index : Nat) : ?T {
+  public func get<T>(list : List<T>, index : Nat) : ?T {
     let (a, b) = locate(index);
     if (a < list.blockIndex or list.elementIndex != 0 and a == list.blockIndex) {
       list.blocks[a][b]
@@ -1578,7 +1578,7 @@ module {
   public func max<T>(list : List<T>, compare : (T, T) -> Order.Order) : ?T {
     if (isEmpty(list)) return null;
 
-    var maxSoFar = get(list, 0);
+    var maxSoFar = at(list, 0);
     forEach<T>(
       list,
       func(x) = switch (compare(x, maxSoFar)) {
@@ -1613,7 +1613,7 @@ module {
   public func min<T>(list : List<T>, compare : (T, T) -> Order.Order) : ?T {
     if (isEmpty(list)) return null;
 
-    var minSoFar = get(list, 0);
+    var minSoFar = at(list, 0);
     forEach<T>(
       list,
       func(x) = switch (compare(x, minSoFar)) {
@@ -1731,7 +1731,7 @@ module {
     };
     if (vsize > 0) {
       // avoid the trailing comma
-      text := text # f(get<T>(list, i))
+      text := text # f(at<T>(list, i))
     };
 
     "List[" # text # "]"
@@ -1817,10 +1817,10 @@ module {
 
     var i = 0;
     var j = vsize - 1 : Nat;
-    var temp = get(list, 0);
+    var temp = at(list, 0);
     while (i < vsize / 2) {
-      temp := get(list, j);
-      put(list, j, get(list, i));
+      temp := at(list, j);
+      put(list, j, at(list, i));
       put(list, i, temp);
       i += 1;
       j -= 1

@@ -1113,6 +1113,48 @@ module {
     Prim.Array_tabulate<T>(end - start, func i = array[start + i])
   };
 
+  /// Returns a new mutable array containing elements from `array` starting at index `fromInclusive` up to (but not including) index `toExclusive`.
+  /// If the indices are out of bounds, they are clamped to the array bounds.
+  ///
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let array = [var 1, 2, 3, 4, 5];
+  ///
+  /// let slice1 = VarArray.sliceToVarArray<Nat>(array, 1, 4);
+  /// assert VarArray.equal(slice1, [var 2, 3, 4], Nat.equal);
+  ///
+  /// let slice2 = VarArray.sliceToVarArray<Nat>(array, 1, -1);
+  /// assert VarArray.equal(slice2, [var 2, 3, 4], Nat.equal);
+  /// ```
+  ///
+  /// Runtime: O(toExclusive - fromInclusive)
+  ///
+  /// Space: O(toExclusive - fromInclusive)
+  public func sliceToVarArray<T>(array : [var T], fromInclusive : Int, toExclusive : Int) : [var T] {
+    let size = array.size();
+    // Convert negative indices to positive and handle bounds
+    let startInt = if (fromInclusive < 0) {
+      let s = size + fromInclusive;
+      if (s < 0) { 0 } else { s }
+    } else {
+      if (fromInclusive > size) { size } else { fromInclusive }
+    };
+    let endInt = if (toExclusive < 0) {
+      let e = size + toExclusive;
+      if (e < 0) { 0 } else { e }
+    } else {
+      if (toExclusive > size) { size } else { toExclusive }
+    };
+    // Convert to Nat (always non-negative due to bounds checking above)
+    let start = Prim.abs(startInt);
+    let end = Prim.abs(endInt);
+    if (start >= end) {
+      return [var]
+    };
+    Prim.Array_tabulateVar<T>(end - start, func i = array[start + i])
+  };
+
   /// Converts the mutable array to its textual representation using `f` to convert each element to `Text`.
   ///
   /// ```motoko include=import
