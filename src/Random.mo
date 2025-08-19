@@ -1,6 +1,6 @@
 /// Random number generation.
 ///
-/// Import from the core library to use this module.
+/// Import from the core package to use this module.
 /// ```motoko name=import
 /// import Random "mo:core/Random";
 /// ```

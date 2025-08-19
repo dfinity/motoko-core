@@ -1,4 +1,4 @@
-# Core library style guide
+# Core package style guide
 
 ## Source code
 

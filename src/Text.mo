@@ -20,7 +20,7 @@
 ///
 /// The `"mo:core/Text"` module defines additional operations on `Text` values.
 ///
-/// Import the module from the core library:
+/// Import the module from the core package:
 ///
 /// ```motoko name=import
 /// import Text "mo:core/Text";
