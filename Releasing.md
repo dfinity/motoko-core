@@ -1,4 +1,3 @@
-
 # Releasing `motoko-core`
 
 Steps to publish a new version of the `core` package:
