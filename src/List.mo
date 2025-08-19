@@ -790,16 +790,10 @@ module {
     var right = listSize;
     while (left < right) {
       let mid = (left + right) / 2;
-      switch (compare(get(list, mid), element)) {
-        case (#less) {
-          left := mid + 1
-        };
-        case (#greater) {
-          right := mid
-        };
-        case (#equal) {
-          return ?mid
-        }
+      switch (compare(at(list, mid), element)) {
+        case (#less) left := mid + 1;
+        case (#greater) right := mid;
+        case (#equal) return ?mid
       }
     };
     null
