@@ -1119,15 +1119,9 @@ module {
     while (left < right) {
       let mid = (left + right) / 2;
       switch (compare(array[mid], element)) {
-        case (#less) {
-          left := mid + 1
-        };
-        case (#greater) {
-          right := mid
-        };
-        case (#equal) {
-          return ?mid
-        }
+        case (#less) left := mid + 1;
+        case (#greater) right := mid;
+        case (#equal) return ?mid
       }
     };
     null
