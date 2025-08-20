@@ -669,46 +669,60 @@ let suite = Suite.suite(
     ),
     Suite.test(
       "binarySearch found",
-      VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 5),
-      M.equals(T.optional(T.natTestable, ?2))
+      do {
+        VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 5) == #found(2)
+      },
+      M.equals(T.bool(true))
     ),
     Suite.test(
       "binarySearch not found",
-      VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 6),
-      M.equals(T.optional(T.natTestable, null : ?Nat))
+      do {
+        VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 6) == #notFound(3)
+      },
+      M.equals(T.bool(true))
     ),
     Suite.test(
       "binarySearch first element",
-      VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 1),
-      M.equals(T.optional(T.natTestable, ?0))
+      do {
+        VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 1) == #found(0)
+      },
+      M.equals(T.bool(true))
     ),
     Suite.test(
       "binarySearch last element",
-      VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 11),
-      M.equals(T.optional(T.natTestable, ?5))
+      do {
+        VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 11) == #found(5)
+      },
+      M.equals(T.bool(true))
     ),
     Suite.test(
       "binarySearch empty array",
-      VarArray.binarySearch<Nat>([var], Nat.compare, 5),
-      M.equals(T.optional(T.natTestable, null : ?Nat))
+      do {
+        VarArray.binarySearch<Nat>([var], Nat.compare, 5) == #notFound(0)
+      },
+      M.equals(T.bool(true))
     ),
     Suite.test(
       "binarySearch single element found",
-      VarArray.binarySearch<Nat>([var 42], Nat.compare, 42),
-      M.equals(T.optional(T.natTestable, ?0))
+      do {
+        VarArray.binarySearch<Nat>([var 42], Nat.compare, 42) == #found(0)
+      },
+      M.equals(T.bool(true))
     ),
     Suite.test(
       "binarySearch single element not found",
-      VarArray.binarySearch<Nat>([var 42], Nat.compare, 43),
-      M.equals(T.optional(T.natTestable, null : ?Nat))
+      do {
+        VarArray.binarySearch<Nat>([var 42], Nat.compare, 43) == #notFound(1)
+      },
+      M.equals(T.bool(true))
     ),
     Suite.test(
       "binarySearch duplicates",
       do {
         let result = VarArray.binarySearch<Nat>([var 1, 2, 2, 2, 3], Nat.compare, 2);
         switch result {
-          case (?index) { index >= 1 and index <= 3 };
-          case null { false }
+          case (#found index) { index >= 1 and index <= 3 };
+          case _ { false }
         }
       },
       M.equals(T.bool(true))
