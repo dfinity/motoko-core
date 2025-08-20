@@ -26,7 +26,7 @@ persistent actor MyCanister {
   }
 }</code></pre></p></div><div class="declaration"><h4 class="function" id="toLedgerAccount"><code><span class="keyword">public func </span><span class="fnname">toLedgerAccount</span>(<span class="parameter">principal</span> : <a href="#type.Principal"><span class="type">Principal</span></a>, <span class="parameter">subAccount</span> : ?<span class="type">Blob</span>) : <span class="type">Blob</span></code></h4><p><p>Compute the Ledger account identifier of a principal. Optionally specify a sub-account.</p>
 <p>Example:</p>
-<pre><code>motoko include=import no-validate
+<pre><code>motoko include=import
 let principal = Principal.fromText(&quot;un4fu-tqaaa-aaaab-qadjq-cai&quot;);
 let subAccount : Blob = &quot;\4A\8D\3F\2B\6E\01\C8\7D\9E\03\B4\56\7C\F8\9A\01\D2\34\56\78\9A\BC\DE\F0\12\34\56\78\9A\BC\DE\F0&quot;;
 let account = Principal.toLedgerAccount(principal, ?subAccount);
