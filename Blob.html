@@ -4,7 +4,7 @@
 <p>Byte sequences are also often represented as <code>[Nat8]</code>, i.e. an array of bytes, but this representation is currently much less compact than <code>Blob</code>, taking 4 physical bytes to represent each logical byte in the sequence.
 If you would like to manipulate Blobs, it is recommended that you convert
 Blobs to <code>[var Nat8]</code> or <code>Buffer&lt;Nat8&gt;</code>, do the manipulation, then convert back.</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Blob &quot;mo:core/Blob&quot;;</code></pre>
 

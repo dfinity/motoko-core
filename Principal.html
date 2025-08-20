@@ -15,7 +15,7 @@ persistent actor {
 }</code></pre>
 
 <p>Then, you can use this module to work with the <code>Principal</code>.</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Principal &quot;mo:core/Principal&quot;;</code></pre><div class="declaration"><h4 class="type-declaration" id="type.Principal"><span class="keyword">type </span><span class="type">Principal</span> = <span class="type">Prim.Types.Principal</span></h4><p></p></div><div class="declaration"><h4 class="function" id="fromActor"><code><span class="keyword">public func </span><span class="fnname">fromActor</span>(<span class="parameter">a</span> : <span class="keyword">actor </span>{  }) : <a href="#type.Principal"><span class="type">Principal</span></a></code></h4><p><p>Get the <code>Principal</code> identifier of an actor.</p>
 <p>Example:</p>

@@ -3,7 +3,7 @@
 <p>The Result type is used for returning and propagating errors. It has two variants:
 <code>#ok(Ok)</code>, representing success and containing a value, and <code>#err(Err)</code>, representing
 error and containing an error value.</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Result &quot;mo:core/Result&quot;;</code></pre><div class="declaration"><h4 class="type-declaration" id="type.Result"><span class="keyword">type </span><span class="type">Result</span>&lt;<span class="type">Ok</span>, <span class="type">Err</span>&gt; = <a href="Types.html#type.Result"><span class="type">Types.Result</span></a>&lt;<span class="type">Ok</span>, <span class="type">Err</span>&gt;</h4><p><p>The Result type used for returning and propagating errors.</p>
 <p>The simplest way of working with Results is to pattern match on them.

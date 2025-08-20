@@ -6,14 +6,14 @@ immutable arrays are fixed once created.</p>
 <p>WARNING: If you are looking for a list that can grow and shrink in size,
 it is recommended you use <code>List</code> for those purposes.
 Arrays must be created with a fixed size.</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Array &quot;mo:core/Array&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Blob.html">Blob</a><div class="index-item-comment"><p>Module for working with Blobs (immutable sequences of bytes).</p>
 <p>Blobs represent sequences of bytes. They are immutable, iterable, but not indexable and can be empty.</p>
 <p>Byte sequences are also often represented as <code>[Nat8]</code>, i.e. an array of bytes, but this representation is currently much less compact than <code>Blob</code>, taking 4 physical bytes to represent each logical byte in the sequence.
 If you would like to manipulate Blobs, it is recommended that you convert
 Blobs to <code>[var Nat8]</code> or <code>Buffer&lt;Nat8&gt;</code>, do the manipulation, then convert back.</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Blob &quot;mo:core/Blob&quot;;</code></pre>
 
@@ -32,7 +32,7 @@ assert numBytes == 4; // returns the number of bytes in the Blob
 for (byte in blob.values()) { // iterator over the Blob
   Debug.print(Nat8.toText(byte))
 }</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Bool.html">Bool</a><div class="index-item-comment"><p>Boolean type and operations.</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Bool &quot;mo:core/Bool&quot;;</code></pre>
 
@@ -61,7 +61,7 @@ calls to your canister tamperproof.</p>
 <p>Characters in Motoko represent Unicode code points
 in the range 0 to 0x10FFFF, excluding the surrogate code points
 (0xD800 through 0xDFFF).</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Char &quot;mo:core/Char&quot;;</code></pre>
 
@@ -107,7 +107,7 @@ persistent actor {
     assert Cycles.available() == initialAvailable - 10_000_000;
   }
 }</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Debug.html">Debug</a><div class="index-item-comment"><p>Utility functions for debugging.</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Debug &quot;mo:core/Debug&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Error.html">Error</a><div class="index-item-comment"><p>Error values and inspection.</p>
 <p>The <code>Error</code> type is the argument to <code>throw</code>, parameter of <code>catch</code>.
@@ -152,28 +152,28 @@ Floating point numbers have limited precision and operations may inherently resu
  sign bit for NaN results.</li></ul></div></li><li class="index-item"><a class="index-item-link" href="Func.html">Func</a><div class="index-item-comment"><p>Functions on functions, creating functions from simpler inputs.</p>
 <p>(Most commonly used when programming in functional style using higher-order
 functions.)</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Func = &quot;mo:core/Func&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Int.html">Int</a><div class="index-item-comment"><p>Signed integer numbers with infinite precision (also called big integers).</p>
 <p>Most operations on integer numbers (e.g. addition) are available as built-in operators (e.g. <code>-1 + 1</code>).
 This module provides equivalent functions and <code>Text</code> conversion.</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Int &quot;mo:core/Int&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Int16.html">Int16</a><div class="index-item-comment"><p>Utility functions on 16-bit signed integers.</p>
 <p>Note that most operations are available as built-in operators (e.g. <code>1 + 1</code>).</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Int16 &quot;mo:core/Int16&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Int32.html">Int32</a><div class="index-item-comment"><p>Utility functions on 32-bit signed integers.</p>
 <p>Note that most operations are available as built-in operators (e.g. <code>1 + 1</code>).</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Int32 &quot;mo:core/Int32&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Int64.html">Int64</a><div class="index-item-comment"><p>Utility functions on 64-bit signed integers.</p>
 <p>Note that most operations are available as built-in operators (e.g. <code>1 + 1</code>).</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Int64 &quot;mo:core/Int64&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Int8.html">Int8</a><div class="index-item-comment"><p>Utility functions on 8-bit signed integers.</p>
 <p>Note that most operations are available as built-in operators (e.g. <code>1 + 1</code>).</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Int8 &quot;mo:core/Int8&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="InternetComputer.html">InternetComputer</a><div class="index-item-comment"><p>Low-level interface to the Internet Computer.</p>
 </div></li><li class="index-item"><a class="index-item-link" href="Iter.html">Iter</a><div class="index-item-comment"><p>Utilities for <code>Iter</code> (iterator) values.</p>
@@ -227,23 +227,23 @@ persistent actor {
 <code>n</code> denotes the number of key-value entries stored in the map.</li></ul></div></li><li class="index-item"><a class="index-item-link" href="Nat.html">Nat</a><div class="index-item-comment"><p>Natural numbers with infinite precision.</p>
 <p>Most operations on natural numbers (e.g. addition) are available as built-in operators (e.g. <code>1 + 1</code>).
 This module provides equivalent functions and <code>Text</code> conversion.</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Nat &quot;mo:core/Nat&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Nat16.html">Nat16</a><div class="index-item-comment"><p>Utility functions on 16-bit unsigned integers.</p>
 <p>Note that most operations are available as built-in operators (e.g. <code>1 + 1</code>).</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Nat16 &quot;mo:core/Nat16&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Nat32.html">Nat32</a><div class="index-item-comment"><p>Utility functions on 32-bit unsigned integers.</p>
 <p>Note that most operations are available as built-in operators (e.g. <code>1 + 1</code>).</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Nat32 &quot;mo:core/Nat32&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Nat64.html">Nat64</a><div class="index-item-comment"><p>Utility functions on 64-bit unsigned integers.</p>
 <p>Note that most operations are available as built-in operators (e.g. <code>1 + 1</code>).</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Nat64 &quot;mo:core/Nat64&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Nat8.html">Nat8</a><div class="index-item-comment"><p>Utility functions on 8-bit unsigned integers.</p>
 <p>Note that most operations are available as built-in operators (e.g. <code>1 + 1</code>).</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Nat8 &quot;mo:core/Nat8&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Option.html">Option</a><div class="index-item-comment"><p>Typesafe nullable values.</p>
 <p>Optional values can be seen as a typesafe <code>null</code>. A value of type <code>?Int</code> can
@@ -283,7 +283,7 @@ persistent actor {
 }</code></pre>
 
 <p>Then, you can use this module to work with the <code>Principal</code>.</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Principal &quot;mo:core/Principal&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Queue.html">Queue</a><div class="index-item-comment"><p>A mutable double-ended queue of elements.
 The queue has two ends, front and back.
@@ -309,7 +309,7 @@ persistent actor {
 <p>Performance:</p>
 <ul><li>Runtime: <code>O(1)</code> for push, pop, and peek operations.</li><li>Space: <code>O(n)</code>.
 <code>n</code> denotes the number of elements stored in the queue.</li></ul></div></li><li class="index-item"><a class="index-item-link" href="Random.html">Random</a><div class="index-item-comment"><p>Random number generation.</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Random &quot;mo:core/Random&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Region.html">Region</a><div class="index-item-comment"><p>Byte-level access to isolated, virtual stable memory regions.</p>
 <p>This is a moderately lightweight abstraction over IC <em>stable memory</em> and supports persisting
@@ -350,7 +350,7 @@ import Region &quot;mo:core/Region&quot;;</code></pre></div></li><li class="inde
 <p>The Result type is used for returning and propagating errors. It has two variants:
 <code>#ok(Ok)</code>, representing success and containing a value, and <code>#err(Err)</code>, representing
 error and containing an error value.</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Result &quot;mo:core/Result&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Runtime.html">Runtime</a><div class="index-item-comment"><p>Runtime utilities.
 These functions were originally part of the <code>Debug</code> module.</p>
@@ -411,7 +411,7 @@ let concat = text # &quot; 👋&quot;;
 assert concat == &quot;Hello! 👋&quot;;</code></pre>
 
 <p>The <code>&quot;mo:core/Text&quot;</code> module defines additional operations on <code>Text</code> values.</p>
-<p>Import the module from the core library:</p>
+<p>Import the module from the core package:</p>
 <pre><code>motoko name=import
 import Text &quot;mo:core/Text&quot;;</code></pre>
 
@@ -481,7 +481,7 @@ immutable arrays are fixed once created.</p>
 <p>WARNING: If you are looking for a list that can grow and shrink in size,
 it is recommended you use <code>List</code> for those purposes.
 Arrays must be created with a fixed size.</p>
-<p>Import from the core library to use this module.</p>
+<p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import VarArray &quot;mo:core/VarArray&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="internal/BTreeHelper.html">internal/BTreeHelper</a><div class="index-item-comment"></div></li><li class="index-item"><a class="index-item-link" href="internal/PRNG.html">internal/PRNG</a><div class="index-item-comment"><p>Collection of pseudo-random number generators</p>
 <p>The algorithms deliver deterministic statistical randomness,
