@@ -1,4 +1,4 @@
-// Detect "mo:core/..." imports within the core library itself (https://github.com/dfinity/motoko-base/pull/487)
+// Detect "mo:core/..." imports within the core package itself (https://github.com/dfinity/motoko-base/pull/487)
 
 import { join } from "path";
 import { readFileSync } from "fs";

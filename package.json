@@ -1,7 +1,7 @@
 {
   "name": "@dfinity/motoko-core",
   "version": "0.0.0",
-  "description": "Motoko core library",
+  "description": "Motoko core package",
   "private": true,
   "scripts": {
     "postinstall": "mops install",

@@ -1,3 +1,7 @@
+## Next
+
+* 
+
 ## 1.0.0
 
 * Add `sliceToVarArray()` to `Array` and `VarArray` (#377).
