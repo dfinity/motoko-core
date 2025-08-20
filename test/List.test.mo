@@ -1349,8 +1349,8 @@ Test.suite(
       func() {
         let result1 = List.binarySearch<Nat>(empty, Nat.compare, 0);
         let result2 = List.binarySearch<Nat>(emptied, Nat.compare, 0);
-        Test.expect.bool(result1 == #notFound(0)).equal(true);
-        Test.expect.bool(result2 == #notFound(0)).equal(true)
+        Test.expect.bool(result1 == #err(0)).equal(true);
+        Test.expect.bool(result2 == #err(0)).equal(true)
       }
     )
   }
@@ -1365,7 +1365,7 @@ Test.suite(
       func() {
         let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
         let result = List.binarySearch<Nat>(list, Nat.compare, 5);
-        Test.expect.bool(result == #found(2)).equal(true)
+        Test.expect.bool(result == #ok(2)).equal(true)
       }
     );
     Test.test(
@@ -1373,7 +1373,7 @@ Test.suite(
       func() {
         let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
         let result = List.binarySearch<Nat>(list, Nat.compare, 6);
-        Test.expect.bool(result == #notFound(3)).equal(true)
+        Test.expect.bool(result == #err(3)).equal(true)
       }
     );
     Test.test(
@@ -1381,7 +1381,7 @@ Test.suite(
       func() {
         let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
         let result = List.binarySearch<Nat>(list, Nat.compare, 1);
-        Test.expect.bool(result == #found(0)).equal(true)
+        Test.expect.bool(result == #ok(0)).equal(true)
       }
     );
     Test.test(
@@ -1389,7 +1389,7 @@ Test.suite(
       func() {
         let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
         let result = List.binarySearch<Nat>(list, Nat.compare, 11);
-        Test.expect.bool(result == #found(5)).equal(true)
+        Test.expect.bool(result == #ok(5)).equal(true)
       }
     );
     Test.test(
@@ -1397,7 +1397,7 @@ Test.suite(
       func() {
         let list = List.fromArray<Nat>([42]);
         let result = List.binarySearch<Nat>(list, Nat.compare, 42);
-        Test.expect.bool(result == #found(0)).equal(true)
+        Test.expect.bool(result == #ok(0)).equal(true)
       }
     );
     Test.test(
@@ -1405,7 +1405,7 @@ Test.suite(
       func() {
         let list = List.fromArray<Nat>([42]);
         let result = List.binarySearch<Nat>(list, Nat.compare, 43);
-        Test.expect.bool(result == #notFound(1)).equal(true)
+        Test.expect.bool(result == #err(1)).equal(true)
       }
     );
     Test.test(
@@ -1414,7 +1414,7 @@ Test.suite(
         let list = List.fromArray<Nat>([1, 2, 2, 2, 3]);
         let result = List.binarySearch<Nat>(list, Nat.compare, 2);
         let ok = switch result {
-          case (#found index) { index >= 1 and index <= 3 };
+          case (#ok index) { index >= 1 and index <= 3 };
           case _ { false }
         };
         Test.expect.bool(ok).equal(true)

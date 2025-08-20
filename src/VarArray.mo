@@ -1226,8 +1226,7 @@ module {
   };
 
   /// Performs binary search on a sorted mutable array to find the index of the `element`.
-  /// Returns `#found(index)` if the element is found, or `#notFound(index)` with the index
-  /// where the element would be inserted according to the ordering if not found.
+  /// Returns `#ok(index)` if the element is found, or `#err(index)` with the index
   ///
   /// If there are multiple equal elements, no guarantee is made about which index is returned.
   /// The array must be sorted in ascending order according to the `compare` function.
@@ -1236,8 +1235,8 @@ module {
   /// import Nat "mo:core/Nat";
   ///
   /// let sorted = [var 1, 3, 5, 7, 9, 11];
-  /// assert VarArray.binarySearch<Nat>(sorted, Nat.compare, 5) == #found(2);
-  /// assert VarArray.binarySearch<Nat>(sorted, Nat.compare, 6) == #notFound(3);
+  /// assert VarArray.binarySearch<Nat>(sorted, Nat.compare, 5) == #ok(2);
+  /// assert VarArray.binarySearch<Nat>(sorted, Nat.compare, 6) == #err(3);
   /// ```
   ///
   /// Runtime: O(log(size))
@@ -1245,10 +1244,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func binarySearch<T>(array : [var T], compare : (T, T) -> Order.Order, element : T) : {
-    #found : Nat;
-    #notFound : Nat
-  } {
+  public func binarySearch<T>(array : [var T], compare : (T, T) -> Order.Order, element : T) : Types.Result<Nat, Nat> {
     let size = array.size();
     var left = 0;
     var right = size;
@@ -1257,10 +1253,10 @@ module {
       switch (compare(array[mid], element)) {
         case (#less) left := mid + 1;
         case (#greater) right := mid;
-        case (#equal) return #found(mid)
+        case (#equal) return #ok mid
       }
     };
-    #notFound(left)
+    #err left
   }
 
 }

@@ -669,50 +669,46 @@ let suite = Suite.suite(
     ),
     Suite.test(
       "binarySearch found",
-      do {
-        VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 5) == #found(2)
-      },
+      VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 5) == #ok(2),
       M.equals(T.bool(true))
     ),
     Suite.test(
       "binarySearch not found",
-      do {
-        VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 6) == #notFound(3)
-      },
+      VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 6) == #err(3),
       M.equals(T.bool(true))
     ),
     Suite.test(
       "binarySearch first element",
       do {
-        VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 1) == #found(0)
+        VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 1) == #ok(0)
       },
       M.equals(T.bool(true))
     ),
     Suite.test(
       "binarySearch last element",
       do {
-        VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 11) == #found(5)
+        VarArray.binarySearch<Nat>([var 1, 3, 5, 7, 9, 11], Nat.compare, 11) == #ok(5)
       },
       M.equals(T.bool(true))
     ),
     Suite.test(
       "binarySearch empty array",
       do {
-        VarArray.binarySearch<Nat>([var], Nat.compare, 5) == #notFound(0)
+        VarArray.binarySearch<Nat>([var], Nat.compare, 5) == #err(0)
       },
       M.equals(T.bool(true))
     ),
     Suite.test(
       "binarySearch single element found",
       do {
-        VarArray.binarySearch<Nat>([var 42], Nat.compare, 42) == #found(0)
+        VarArray.binarySearch<Nat>([var 42], Nat.compare, 42) == #ok(0)
       },
       M.equals(T.bool(true))
     ),
     Suite.test(
       "binarySearch single element not found",
       do {
-        VarArray.binarySearch<Nat>([var 42], Nat.compare, 43) == #notFound(1)
+        VarArray.binarySearch<Nat>([var 42], Nat.compare, 43) == #err(1)
       },
       M.equals(T.bool(true))
     ),
@@ -721,7 +717,7 @@ let suite = Suite.suite(
       do {
         let result = VarArray.binarySearch<Nat>([var 1, 2, 2, 2, 3], Nat.compare, 2);
         switch result {
-          case (#found index) { index >= 1 and index <= 3 };
+          case (#ok index) { index >= 1 and index <= 3 };
           case _ { false }
         }
       },
