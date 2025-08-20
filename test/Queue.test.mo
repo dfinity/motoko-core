@@ -501,7 +501,7 @@ suite(
   }
 );
 
-// TODO: Use PRNG in new core library
+// TODO: Use `mo:core/Random`
 class Random(seed : Nat) {
   var number = seed;
 

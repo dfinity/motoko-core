@@ -8,7 +8,7 @@
 /// it is recommended you use `List` for those purposes.
 /// Arrays must be created with a fixed size.
 ///
-/// Import from the core library to use this module.
+/// Import from the core package to use this module.
 /// ```motoko name=import
 /// import Array "mo:core/Array";
 /// ```
