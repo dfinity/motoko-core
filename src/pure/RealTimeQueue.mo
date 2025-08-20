@@ -900,7 +900,7 @@ module {
       case (?(x, ?(y, ?(z, null))), null) #three(z, y, x);
       case (?(x, ?(y, null)), ?(z, null)) #three(z, y, x);
       case (?(x, null), ?(y, ?(z, null))) #three(z, y, x);
-      case _ (trap "Queue.Stacks.smallqueue() impossible")
+      case _(trap "Queue.Stacks.smallqueue() impossible")
     };
 
     public func smallqueueReversed<T>((left, right) : Stacks<T>) : Queue<T> = switch (left, right) {
@@ -914,7 +914,7 @@ module {
       case (?(x, ?(y, ?(z, null))), null) #three(x, y, z);
       case (?(x, ?(y, null)), ?(z, null)) #three(x, y, z);
       case (?(x, null), ?(y, ?(z, null))) #three(x, y, z);
-      case _ (trap "Queue.Stacks.smallqueueReversed() impossible")
+      case _(trap "Queue.Stacks.smallqueueReversed() impossible")
     };
     public func map<T, U>((left, right) : Stacks<T>, f : T -> U) : Stacks<U> = (List.map(left, f), List.map(right, f))
   };
