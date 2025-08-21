@@ -94,6 +94,8 @@ persistent actor {
 
 ## Module changes
 
+Refer to the [migration guide](https://internetcomputer.org/docs/motoko/base-core-migration) for a comprehensive list of changes from `base` to `core`.
+
 ### New modules
 
 - `List` - Mutable list
