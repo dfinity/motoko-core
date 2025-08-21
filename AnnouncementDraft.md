@@ -77,6 +77,8 @@ persistent actor {
 }
 ```
 
+> Note: `pure/List` is a singly [linked list](https://en.wikipedia.org/wiki/Linked_list) that pushes elements to the front via `pushFront()`, while the imperative `List` is a [dynamic array](https://en.wikipedia.org/wiki/Dynamic_array) that pushes to the back via `add()`.
+
 We also included an efficient [heap-based BTree map implementation](https://github.com/canscale/StableHeapBTreeMap) (big thanks to [Byron Becker](https://github.com/ByronBecker)):
 
 ```motoko no-repl
