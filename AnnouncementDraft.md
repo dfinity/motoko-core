@@ -60,7 +60,7 @@ import Nat "mo:core/Nat";
 persistent actor {
   let list = List.empty<Nat>(); // Persistent data structure
   List.add(list, 5);
-  assert List.toText(list, Nat.toText) == "[5]";
+  assert List.toText(list, Nat.toText) == "List[5]";
 }
 ``` 
 
