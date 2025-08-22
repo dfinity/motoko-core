@@ -158,7 +158,7 @@ Interface design and code style guidelines for the repository can be found [here
 
 If you encounter a bug, please let us know by opening a [GitHub issue](https://github.com/dfinity/motoko-core/issues).
 
-We look forward to hearing your thoughts on the new `core` package! As always, your feedback is welcome and helps us keep our priorities aligned with the Motoko community.
+We look forward to hearing your thoughts! As always, your feedback is welcome and valuable as the `core` package continues to evolve over time.
 
 Cheers!
 
