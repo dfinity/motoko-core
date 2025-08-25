@@ -785,9 +785,8 @@ module {
   ///
   /// *Runtime and space assumes that `compare` runs in `O(1)` time and space.
   public func binarySearch<T>(list : List<T>, compare : (T, T) -> Order.Order, element : T) : Types.Result<Nat, Nat> {
-    let listSize = size(list);
     var left = 0;
-    var right = listSize;
+    var right = size(list);
     while (left < right) {
       let mid = (left + right) / 2;
       switch (compare(at(list, mid), element)) {
