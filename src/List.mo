@@ -1,5 +1,5 @@
 /// A mutable growable array data structure with efficient random access and dynamic resizing.
-/// Unlike `mo:core/pure/List`, which is a purely functional linked list, this `List` provides O(1) access time and O(sqrt(n)) memory overhead.
+/// In contrast to `mo:core/pure/List`, which is a purely functional linked list, this `List` provides O(1) access time and O(sqrt(n)) memory overhead.
 /// Can be declared `stable` for orthogonal persistence.
 ///
 /// This implementation is adapted with permission from the `vector` Mops package created by Research AG.

@@ -1,5 +1,5 @@
 /// Purely-functional, singly-linked list data structure.
-/// Unlike `mo:core/List`, which is a mutable growable array, this module provides immutable lists with efficient prepend and traversal operations.
+/// In contrast to `mo:core/List`, which is a mutable growable array, this module provides immutable lists with efficient prepend and traversal operations.
 ///
 /// A list of type `List<T>` is either `null` or an optional pair of a value of type `T` and a tail, itself of type `List<T>`.
 ///
