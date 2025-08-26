@@ -195,7 +195,7 @@ for (x in iter) {
 
 <p>Iterators can be:</p>
 <ul><li>created from other collections (e.g. using <code>values</code> or <code>keys</code> function on a <code>Map</code>) or from scratch (e.g. using <code>empty</code> or <code>singleton</code>).</li><li>transformed using <code>map</code>, <code>filter</code>, <code>concat</code>, etc. Which can be used to compose several transformations together without materializing intermediate collections.</li><li>consumed using <code>forEach</code>, <code>size</code>, <code>toArray</code>, etc.</li><li>combined using <code>concat</code>.</li></ul></div></li><li class="index-item"><a class="index-item-link" href="List.html">List</a><div class="index-item-comment"><p>A mutable growable array data structure with efficient random access and dynamic resizing.
-In contrast to <code>mo:core/pure/List</code>, which is a purely functional linked list, this <code>List</code> provides O(1) access time and O(sqrt(n)) memory overhead.
+<code>List</code> provides O(1) access time and O(sqrt(n)) memory overhead. In contrast, <code>pure/List</code> is a purely functional linked list.
 Can be declared <code>stable</code> for orthogonal persistence.</p>
 <p>This implementation is adapted with permission from the <code>vector</code> Mops package created by Research AG.</p>
 <p>Copyright: 2023 MR Research AG
@@ -494,7 +494,7 @@ See: https://numpy.org/doc/stable/reference/random/bit_generators/sfc64.html</p>
 Main author: react0r-com
 Contributors: Timo Hanke (timohanke)</p>
 </div></li><li class="index-item"><a class="index-item-link" href="pure/List.html">pure/List</a><div class="index-item-comment"><p>Purely-functional, singly-linked list data structure.
-In contrast to <code>mo:core/List</code>, which is a mutable growable array, this module provides immutable lists with efficient prepend and traversal operations.</p>
+This module provides immutable lists with efficient prepend and traversal operations.</p>
 <p>A list of type <code>List&lt;T&gt;</code> is either <code>null</code> or an optional pair of a value of type <code>T</code> and a tail, itself of type <code>List&lt;T&gt;</code>.</p>
 <p>To use this library, import it using:</p>
 <pre><code>motoko name=import
