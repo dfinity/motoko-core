@@ -34,7 +34,7 @@ import Types "Types";
 module Stack {
   public type Stack<T> = Types.Stack<T>;
 
-  // Type / class names to be decided
+  // Type and class names to be decided
   type ItemFuncs<T> = module { toText : T -> Types.Text };
   public class Wrapper<T>(T : ItemFuncs<T>) {
     var stack : Stack<T> = Stack.empty();
