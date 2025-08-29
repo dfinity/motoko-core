@@ -1,6 +1,7 @@
 ## Next
 
 * Clarify difference between `List` and `pure/List` in doc comments (#386).
+* Optimize methods in `List<T>` (#337).
 
 ## 1.0.0
 
