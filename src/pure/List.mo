@@ -1,25 +1,42 @@
-/// Purely-functional, singly-linked lists.
+/// Simplified `pure/List` data structure from `core`.
 
-/// A list of type `List<T>` is either `null` or an optional pair of a value of type `T` and a tail, itself of type `List<T>`.
-///
-/// To use this library, import it using:
-///
-/// ```motoko name=import
-/// import List "mo:core/pure/List";
-/// ```
-
-import { Array_tabulate } "mo:⛔";
-import Array "../Array";
-import Iter "../Iter";
-import Order "../Order";
-import Result "../Result";
-import { trap } "../Runtime";
 import Types "../Types";
-import Runtime "../Runtime";
 
-module {
+module List {
 
-  public type List<T> = Types.Pure.List<T>;
+  public type List<T> = ?(T, List<T>);
+
+  // Type and class names to be decided
+  type ItemFuncs<T> = module { toText : T -> Types.Text };
+  public class Wrapper<T>(T : ItemFuncs<T>) {
+    var list : List<T> = empty();
+
+    public func isEmpty() : Bool {
+      List.isEmpty(list)
+    };
+
+    public func get(index : Nat) : ?T {
+      List.get(list, index)
+    };
+
+    public func pushFront(item : T) : () {
+      list := List.pushFront(list, item)
+    };
+
+    public func popFront() : ?T {
+      let (ret, newList) = List.popFront(list);
+      list := newList;
+      ret
+    };
+
+    public func toText() : Text {
+      List.toText(list, T.toText)
+    }
+  };
+
+  public func new<T>(T : ItemFuncs<T>) : Wrapper<T> {
+    Wrapper(T)
+  };
 
   /// Create an empty list.
   ///
@@ -329,8 +346,8 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func mapResult<T, R, E>(list : List<T>, f : T -> Result.Result<R, E>) : Result.Result<List<R>, E> = (
-    func rev(acc : List<R>, list : List<T>, f : T -> Result.Result<R, E>) : Result.Result<List<R>, E> = switch list {
+  public func mapResult<T, R, E>(list : List<T>, f : T -> Types.Result<R, E>) : Types.Result<List<R>, E> = (
+    func rev(acc : List<R>, list : List<T>, f : T -> Types.Result<R, E>) : Types.Result<List<R>, E> = switch list {
       case (?(h, t)) switch (f h) {
         case (#ok fh) rev(?(fh, acc), t, f);
         case (#err e) #err e
@@ -401,7 +418,7 @@ module {
   /// Runtime: O(size*size)
   ///
   /// Space: O(size*size)
-  public func join<T>(iter : Iter.Iter<List<T>>) : List<T> {
+  public func join<T>(iter : Types.Iter<List<T>>) : List<T> {
     var acc : List<T> = null;
     for (list in iter) {
       acc := revAppend(list, acc)
@@ -655,8 +672,8 @@ module {
   /// Space: O(size(l1) + size(l2))
   ///
   /// *Runtime and space assumes that `lessThanOrEqual` runs in O(1) time and space.
-  public func merge<T>(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Order.Order) : List<T> = (
-    func go(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Order.Order, acc : List<T>) : List<T> = switch (list1, list2) {
+  public func merge<T>(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Types.Order) : List<T> = (
+    func go(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Types.Order, acc : List<T>) : List<T> = switch (list1, list2) {
       case ((null, l) or (l, null)) reverse(revAppend(l, acc));
       case (?(h1, t1), ?(h2, t2)) switch (compare(h1, h2)) {
         case (#less or #equal) go(t1, list2, compare, ?(h1, acc));
@@ -709,7 +726,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that argument `compare` runs in O(1) time and space.
-  public func compare<T>(list1 : List<T>, list2 : List<T>, compareItem : (T, T) -> Order.Order) : Order.Order = switch (list1, list2) {
+  public func compare<T>(list1 : List<T>, list2 : List<T>, compareItem : (T, T) -> Types.Order) : Types.Order = switch (list1, list2) {
     case (?(h1, t1), ?(h2, t2)) switch (compareItem(h1, h2)) {
       case (#equal) compare(t1, t2, compareItem);
       case o o
@@ -867,33 +884,6 @@ module {
     go(n, list, null)
   };
 
-  /// Split the given list into chunks of length `n`.
-  /// The last chunk will be shorter if the length of the given list
-  /// does not divide by `n` evenly. Traps if `n` = 0.
-  ///
-  /// Example:
-  /// ```motoko
-  /// import List "mo:core/pure/List";
-  ///
-  /// persistent actor {
-  ///   let list = ?(0, ?(1, ?(2, ?(3, ?(4, null)))));
-  ///   assert List.chunks(list, 2) == ?(?(0, ?(1, null)), ?(?(2, ?(3, null)), ?(?(4, null), null)));
-  /// }
-  /// ```
-  ///
-  /// Runtime: O(size)
-  ///
-  /// Space: O(size)
-  public func chunks<T>(list : List<T>, n : Nat) : List<List<T>> {
-    if (n == 0) trap "pure/List.chunks()";
-    func go(list : List<T>, n : Nat, acc : List<List<T>>) : List<List<T>> = switch (split(list, n)) {
-      case (null, _) reverse acc;
-      case (pre, null) reverse(?(pre, acc));
-      case (pre, post) go(post, n, ?(pre, acc))
-    };
-    go(list, n, null)
-  };
-
   /// Returns an iterator to the elements in the list.
   ///
   /// Example:
@@ -910,7 +900,7 @@ module {
   ///   assert text == "314";
   /// }
   /// ```
-  public func values<T>(list : List<T>) : Iter.Iter<T> = object {
+  public func values<T>(list : List<T>) : Types.Iter<T> = object {
     var l = list;
     public func next() : ?T = switch l {
       case null null;
@@ -937,7 +927,7 @@ module {
   ///   assert text == "012";
   /// }
   /// ```
-  public func enumerate<T>(list : List<T>) : Iter.Iter<(Nat, T)> = object {
+  public func enumerate<T>(list : List<T>) : Types.Iter<(Nat, T)> = object {
     var i = 0;
     var l = list;
     public func next() : ?(Nat, T) = switch l {
@@ -971,62 +961,6 @@ module {
     go 0
   };
 
-  /// Convert a mutable array into a list.
-  ///
-  /// Example:
-  /// ```motoko
-  /// import List "mo:core/pure/List";
-  ///
-  /// persistent actor {
-  ///   let list = List.fromVarArray([var 0, 1, 2, 3, 4]);
-  ///   assert list == ?(0, ?(1, ?(2, ?(3, ?(4, null)))));
-  /// }
-  /// ```
-  ///
-  /// Runtime: O(size)
-  ///
-  /// Space: O(size)
-  public func fromVarArray<T>(array : [var T]) : List<T> = fromArray<T>(Array.fromVarArray<T>(array));
-
-  /// Create an array from a list.
-  /// Example:
-  /// ```motoko
-  /// import List "mo:core/pure/List";
-  /// import Array "mo:core/Array";
-  /// import Nat "mo:core/Nat";
-  ///
-  /// persistent actor {
-  ///   let array = List.toArray(?(0, ?(1, ?(2, ?(3, ?(4, null))))));
-  ///   assert Array.equal(array, [0, 1, 2, 3, 4], Nat.equal);
-  /// }
-  /// ```
-  ///
-  /// Runtime: O(size)
-  ///
-  /// Space: O(size)
-  public func toArray<T>(list : List<T>) : [T] {
-    var l = list;
-    Array_tabulate<T>(size list, func _ { let ?(h, t) = l else Runtime.trap("List.toArray(): unreachable"); l := t; h })
-  };
-
-  /// Create a mutable array from a list.
-  /// Example:
-  /// ```motoko
-  /// import List "mo:core/pure/List";
-  /// import Array "mo:core/Array";
-  /// import Nat "mo:core/Nat";
-  ///
-  /// persistent actor {
-  ///   let array = List.toVarArray<Nat>(?(0, ?(1, ?(2, ?(3, ?(4, null))))));
-  ///   assert Array.equal(Array.fromVarArray(array), [0, 1, 2, 3, 4], Nat.equal);
-  /// }
-  /// ```
-  ///
-  /// Runtime: O(size)
-  ///
-  /// Space: O(size)
-  public func toVarArray<T>(list : List<T>) : [var T] = Array.toVarArray<T>(toArray<T>(list));
-
   /// Turn an iterator into a list, consuming it.
   /// Example:
   /// ```motoko
@@ -1041,7 +975,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func fromIter<T>(iter : Iter.Iter<T>) : List<T> {
+  public func fromIter<T>(iter : Types.Iter<T>) : List<T> {
     var result : List<T> = null;
     for (x in iter) {
       result := ?(x, result)
