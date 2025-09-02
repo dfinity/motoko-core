@@ -1,12 +1,11 @@
 import Nat "mo:core/Nat";
-import Text "mo:core/Text";
 import Stack "mo:core/Stack";
 import PureList "mo:core/pure/List";
 import { debugPrint } "mo:prim";
 
 persistent actor Actor {
-  let stack = Stack.new(Nat);
-  let list = PureList.new(Text);
+  let stack = Stack.new<Nat>(Nat);
+  let list = PureList.new<Nat>(Nat);
 
   public func main() : async () {
     assert stack.isEmpty();
@@ -16,10 +15,10 @@ persistent actor Actor {
     assert stack.pop() == ?123;
 
     assert list.isEmpty();
-    list.push("item");
+    list.pushFront(123);
     debugPrint(list.toText());
-    assert list.get(0) == ?"item";
-    assert list.pop() == ?"item"
+    assert list.get(0) == ?123;
+    assert list.popFront() == ?123
   }
 };
 await Actor.main()
