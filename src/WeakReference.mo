@@ -15,16 +15,16 @@ module {
     ref : weak T
   };
 
-  public func allocateWeakRef<T>(obj : T) : WeakReference<T> {
+  public func allocate<T>(obj : T) : WeakReference<T> {
     return { ref = Prim.allocWeakRef<T>(obj) }
   };
 
-  public func deref<T>(weakRef : WeakReference<T>) : ?T {
+  public func get<T>(weakRef : WeakReference<T>) : ?T {
     return Prim.weakGet<T>(weakRef.ref)
   };
 
-  public func isLive(weakRef : weak Any) : Bool {
-    return Prim.isLive(weakRef)
+  public func isLive<T>(weakRef : WeakReference<T>) : Bool {
+    return Prim.isLive(weakRef.ref)
   };
 
 }

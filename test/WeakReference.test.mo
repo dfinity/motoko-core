@@ -5,8 +5,8 @@ test(
   "allocateWeakRef",
   func() {
     let arr = [123, 456, 789];
-    let weakRef = WeakReference.allocateWeakRef(arr);
-    expect.bool(WeakReference.deref(weakRef) == ?arr).equal(true)
+    let weakRef = WeakReference.allocate(arr);
+    expect.bool(WeakReference.get(weakRef) == ?arr).equal(true)
   }
 );
 
@@ -14,8 +14,8 @@ test(
   "deref",
   func() {
     let arr = [123, 456, 789];
-    let weakRef = WeakReference.allocateWeakRef(arr);
-    switch (WeakReference.deref(weakRef)) {
+    let weakRef = WeakReference.allocate(arr);
+    switch (WeakReference.get(weakRef)) {
       case (?myArray) {
         let value = myArray[1];
         expect.nat(value).equal(456)
@@ -29,7 +29,7 @@ test(
   "isLive",
   func() {
     let arr = [123, 456, 789];
-    let weakRef = WeakReference.allocateWeakRef(arr);
-    expect.bool(WeakReference.isLive(weakRef.ref)).equal(true)
+    let weakRef = WeakReference.allocate(arr);
+    expect.bool(WeakReference.isLive(weakRef)).equal(true)
   }
 )
