@@ -1248,9 +1248,9 @@
   {
     "name": "WeakReference",
     "exports": [
-      "public func allocateWeakRef<T>(obj : T) : WeakReference<T>",
-      "public func deref<T>(weakRef : WeakReference<T>) : ?T",
-      "public func isLive(weakRef : weak Any) : Bool"
+      "public func allocate<T>(obj : T) : WeakReference<T>",
+      "public func get<T>(weakRef : WeakReference<T>) : ?T",
+      "public func isLive<T>(weakRef : WeakReference<T>) : Bool"
     ]
   },
   {
