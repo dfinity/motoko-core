@@ -42,8 +42,8 @@ module {
   ///
   /// Error.reject("Example error") // can be used as throw argument
   /// ```
-  public func reject(message : Text): Error {
-    Prim.error(message);
+  public func reject(message : Text) : Error {
+    Prim.error(message)
   };
 
   /// Returns the code of an error.
@@ -55,7 +55,9 @@ module {
   /// let error = Error.reject("Example error");
   /// Error.code(error) // #canister_reject
   /// ```
-  public let code : (error : Error) -> ErrorCode = Prim.errorCode;
+  public func code(error : Error) : ErrorCode {
+    Prim.errorCode(error)
+  };
 
   /// Returns the message of an error.
   ///
@@ -66,7 +68,9 @@ module {
   /// let error = Error.reject("Example error");
   /// Error.message(error) // "Example error"
   /// ```
-  public let message : (error : Error) -> Text = Prim.errorMessage;
+  public func message(error : Error) : Text {
+    Prim.errorMessage(error)
+  };
 
   /// Returns whether retrying to send a message may result in success.
   ///
@@ -93,9 +97,11 @@ module {
   /// }
   ///
   /// ```
-  public let isRetryPossible = func(error : Error) : Bool = switch (code error) {
-    case (#system_unknown or #system_transient) true;
-    case _ false
+  public func isRetryPossible(error : Error) : Bool {
+    switch (code error) {
+      case (#system_unknown or #system_transient) true;
+      case _ false
+    }
   };
 
 }
