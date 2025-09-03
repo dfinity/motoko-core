@@ -4,6 +4,7 @@
     "exports": [
       "public func all<T>(array : [T], predicate : T -> Bool) : Bool",
       "public func any<T>(array : [T], predicate : T -> Bool) : Bool",
+      "public func binarySearch<T>(array : [T], compare : (T, T) -> Order.Order, element : T) : { #found : Nat; #insertionIndex : Nat }",
       "public func compare<T>(array1 : [T], array2 : [T], compare : (T, T) -> Order.Order) : Order.Order",
       "public func concat<T>(array1 : [T], array2 : [T]) : [T]",
       "public func empty<T>() : [T]",
@@ -27,7 +28,7 @@
       "public func lastIndexOf<T>(array : [T], equal : (T, T) -> Bool, element : T) : ?Nat",
       "public func map<T, R>(array : [T], f : T -> R) : [R]",
       "public func mapEntries<T, R>(array : [T], f : (T, Nat) -> R) : [R]",
-      "public func mapResult<T, R, E>(array : [T], f : T -> Result.Result<R, E>) : Result.Result<[R], E>",
+      "public func mapResult<T, R, E>(array : [T], f : T -> Types.Result<R, E>) : Types.Result<[R], E>",
       "public func nextIndexOf<T>(array : [T], equal : (T, T) -> Bool, element : T, fromInclusive : Nat) : ?Nat",
       "public func prevIndexOf<T>(array : [T], equal : (T, T) -> Bool, element : T, fromExclusive : Nat) : ?Nat",
       "public func range<T>(array : [T], fromInclusive : Int, toExclusive : Int) : Types.Iter<T>",
@@ -514,6 +515,7 @@
       "public func all<T>(list : List<T>, predicate : T -> Bool) : Bool",
       "public func any<T>(list : List<T>, predicate : T -> Bool) : Bool",
       "public func at<T>(list : List<T>, index : Nat) : T",
+      "public func binarySearch<T>(list : List<T>, compare : (T, T) -> Order.Order, element : T) : { #found : Nat; #insertionIndex : Nat }",
       "public func clear<T>(list : List<T>)",
       "public func clone<T>(list : List<T>) : List<T>",
       "public func compare<T>(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Order.Order) : Order.Order",
@@ -1203,6 +1205,7 @@
     "exports": [
       "public func all<T>(array : [var T], predicate : T -> Bool) : Bool",
       "public func any<T>(array : [var T], predicate : T -> Bool) : Bool",
+      "public func binarySearch<T>(array : [var T], compare : (T, T) -> Order.Order, element : T) : { #found : Nat; #insertionIndex : Nat }",
       "public func clone<T>(array : [var T]) : [var T]",
       "public func compare<T>(array1 : [var T], array2 : [var T], compare : (T, T) -> Order.Order) : Order.Order",
       "public func concat<T>(array1 : [var T], array2 : [var T]) : [var T]",

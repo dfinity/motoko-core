@@ -763,6 +763,44 @@ module {
     }
   };
 
+  /// Performs binary search on a sorted list to find the index of the `element`.
+  /// Returns `#found(index)` if the element is found, or `#insertionIndex(index)` with the index
+  /// where the element would be inserted according to the ordering if not found.
+  ///
+  /// If there are multiple equal elements, no guarantee is made about which index is returned.
+  /// The list must be sorted in ascending order according to the `compare` function.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
+  /// assert List.binarySearch<Nat>(list, Nat.compare, 5) == #found(2);
+  /// assert List.binarySearch<Nat>(list, Nat.compare, 6) == #insertionIndex(3);
+  /// ```
+  ///
+  /// Runtime: `O(log(size))`
+  ///
+  /// Space: `O(1)`
+  ///
+  /// *Runtime and space assumes that `compare` runs in `O(1)` time and space.
+  public func binarySearch<T>(list : List<T>, compare : (T, T) -> Order.Order, element : T) : {
+    #found : Nat;
+    #insertionIndex : Nat
+  } {
+    var left = 0;
+    var right = size(list);
+    while (left < right) {
+      let mid = (left + right) / 2;
+      switch (compare(at(list, mid), element)) {
+        case (#less) left := mid + 1;
+        case (#greater) right := mid;
+        case (#equal) return #found mid
+      }
+    };
+    #insertionIndex left
+  };
+
   /// Returns true iff every element in `list` satisfies `predicate`.
   /// In particular, if `list` is empty the function returns `true`.
   ///
