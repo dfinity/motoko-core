@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "moc": "0.15.1",
+  "moc": "0.16.1",
   "replica": "dfx",
   "replicaVersion": "0.29.0",
   "gc": "copying",
