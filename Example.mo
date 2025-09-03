@@ -1,5 +1,6 @@
 import Nat "mo:core/Nat";
 import Stack "mo:core/Stack";
+import Map "mo:core/Map";
 import { debugPrint } "mo:prim";
 
 persistent actor Actor {

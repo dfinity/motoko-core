@@ -1188,7 +1188,7 @@ module {
       s7 +%= h
     };
 
-    public func writeIter(iter : { next() : ?Nat8 }) : () {
+    public func writeIter(iter : { next: () -> ?Nat8 }) : () {
       label reading loop {
         switch (iter.next()) {
           case (?val) {

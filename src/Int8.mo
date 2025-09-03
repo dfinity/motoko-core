@@ -38,7 +38,9 @@ module {
   /// ```motoko include=import
   /// assert Int8.toInt(123) == (123 : Int);
   /// ```
-  public let toInt : Int8 -> Int = Prim.int8ToInt;
+  public func toInt(x : Int8): Int {
+    Prim.int8ToInt(x);
+  };
 
   /// Converts a signed integer with infinite precision to an 8-bit signed integer.
   ///
@@ -48,7 +50,9 @@ module {
   /// ```motoko include=import
   /// assert Int8.fromInt(123) == (+123 : Int8);
   /// ```
-  public let fromInt : Int -> Int8 = Prim.intToInt8;
+  public func fromInt(x : Int): Int8 {
+    Prim.intToInt8(x);
+  };
 
   /// Converts a signed integer with infinite precision to an 8-bit signed integer.
   ///

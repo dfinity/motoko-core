@@ -30,7 +30,9 @@ module {
   /// ```motoko include=import
   /// assert Nat64.toNat(123) == (123 : Nat);
   /// ```
-  public let toNat : Nat64 -> Nat = Prim.nat64ToNat;
+  public func toNat(x : Nat64): Nat {
+    Prim.nat64ToNat(x);
+  };
 
   /// Converts an unsigned integer with infinite precision to a 64-bit unsigned integer.
   ///

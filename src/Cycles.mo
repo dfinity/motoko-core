@@ -54,7 +54,9 @@ module {
   ///   }
   /// }
   /// ```
-  public let balance : () -> (amount : Nat) = Prim.cyclesBalance;
+  public func balance(): (amount : Nat) {
+    Prim.cyclesBalance();
+  };
 
   /// Returns the currently available `amount` of cycles.
   /// The amount available is the amount received in the current call,
@@ -73,7 +75,9 @@ module {
   ///   }
   /// }
   /// ```
-  public let available : () -> (amount : Nat) = Prim.cyclesAvailable;
+  public func available(): (amount : Nat) {
+    Prim.cyclesAvailable();
+  };
 
   /// Transfers up to `amount` from `available()` to `balance()`.
   /// Returns the amount actually transferred, which may be less than

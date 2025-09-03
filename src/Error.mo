@@ -42,7 +42,9 @@ module {
   ///
   /// Error.reject("Example error") // can be used as throw argument
   /// ```
-  public let reject : (message : Text) -> Error = Prim.error;
+  public func reject(message : Text): Error {
+    Prim.error(message);
+  };
 
   /// Returns the code of an error.
   ///
@@ -91,7 +93,7 @@ module {
   /// }
   ///
   /// ```
-  public func isRetryPossible(error : Error) : Bool = switch (code error) {
+  public let isRetryPossible = func(error : Error) : Bool = switch (code error) {
     case (#system_unknown or #system_transient) true;
     case _ false
   };

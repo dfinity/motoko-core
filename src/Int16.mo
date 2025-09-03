@@ -39,7 +39,9 @@ module {
   /// ```motoko include=import
   /// assert Int16.toInt(12_345) == (12_345 : Int);
   /// ```
-  public let toInt : Int16 -> Int = Prim.int16ToInt;
+  public func toInt(x : Int16): Int {
+    Prim.int16ToInt(x);
+  };
 
   /// Converts a signed integer with infinite precision to a 16-bit signed integer.
   ///
@@ -49,7 +51,9 @@ module {
   /// ```motoko include=import
   /// assert Int16.fromInt(12_345) == (+12_345 : Int16);
   /// ```
-  public let fromInt : Int -> Int16 = Prim.intToInt16;
+  public func fromInt(x : Int): Int16 {
+    Prim.intToInt16(x);
+  };
 
   /// Converts a signed integer with infinite precision to a 16-bit signed integer.
   ///
