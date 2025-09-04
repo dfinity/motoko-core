@@ -45,6 +45,7 @@ import _pureMap "src/pure/Map";
 import _pureQueue "src/pure/Queue";
 import _pureRealTimeQueue "src/pure/RealTimeQueue";
 import _pureSet "src/pure/Set";
+import _ooMap "src/object-oriented/Map";
 
 persistent actor {
 
