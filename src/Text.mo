@@ -54,7 +54,9 @@ module {
   /// let text = Text.fromChar('A');
   /// assert text == "A";
   /// ```
-  public let fromChar : (c : Char) -> Text = Prim.charToText;
+  public func fromChar(c : Char): Text {
+    Prim.charToText(c);
+  };
 
   /// Converts the given `[Char]` to a `Text` value.
   ///
@@ -502,29 +504,35 @@ module {
     }
   };
 
-  private class CharBuffer(cs : Iter.Iter<Char>) : Iter.Iter<Char> = {
+  type CharBuffer = {
+    pushBack: (Iter.Iter<Char>, Char) -> ();
+    next: () -> ?Char;
+  };
 
-    var stack : Stack.Stack<(Iter.Iter<Char>, Char)> = Stack.empty();
+  public func newCharBuffer(cs : Iter.Iter<Char>) : CharBuffer {
+    object {
+      var stack : Stack.Stack<(Iter.Iter<Char>, Char)> = Stack.empty();
 
-    public func pushBack(cs0 : Iter.Iter<Char>, c : Char) {
-      Stack.push(stack, (cs0, c))
-    };
+      public func pushBack(cs0 : Iter.Iter<Char>, c : Char) {
+        Stack.push(stack, (cs0, c))
+      };
 
-    public func next() : ?Char {
-      switch (Stack.peek(stack)) {
-        case (?(buff, c)) {
-          switch (buff.next()) {
-            case null {
-              ignore Stack.pop(stack);
-              return ?c
-            };
-            case oc {
-              return oc
+      public func next() : ?Char {
+        switch (Stack.peek(stack)) {
+          case (?(buff, c)) {
+            switch (buff.next()) {
+              case null {
+                ignore Stack.pop(stack);
+                return ?c
+              };
+              case oc {
+                return oc
+              }
             }
+          };
+          case null {
+            return cs.next()
           }
-        };
-        case null {
-          return cs.next()
         }
       }
     }
@@ -540,7 +548,7 @@ module {
   /// ```
   public func split(t : Text, p : Pattern) : Iter.Iter<Text> {
     let match = matchOfPattern(p);
-    let cs = CharBuffer(t.chars());
+    let cs = newCharBuffer(t.chars());
     var state = 0;
     var field = "";
     object {
@@ -621,7 +629,7 @@ module {
   /// ```
   public func contains(t : Text, p : Pattern) : Bool {
     let match = matchOfPattern(p);
-    let cs = CharBuffer(t.chars());
+    let cs = newCharBuffer(t.chars());
     loop {
       switch (match(cs)) {
         case (#success) {
@@ -689,7 +697,7 @@ module {
   public func replace(t : Text, p : Pattern, r : Text) : Text {
     let match = matchOfPattern(p);
     let size = sizeOfPattern(p);
-    let cs = CharBuffer(t.chars());
+    let cs = newCharBuffer(t.chars());
     var res = "";
     label l loop {
       switch (match(cs)) {
@@ -816,7 +824,7 @@ module {
   /// assert trimmed == "xyz";
   /// ```
   public func trimEnd(t : Text, p : Pattern) : Text {
-    let cs = CharBuffer(t.chars());
+    let cs = newCharBuffer(t.chars());
     let size = sizeOfPattern(p);
     if (size == 0) return t;
     let match = matchOfPattern(p);
@@ -864,7 +872,7 @@ module {
         };
         case (#fail(cs1, c)) {
           let start = matchSize;
-          let cs2 = CharBuffer(cs);
+          let cs2 = newCharBuffer(cs);
           cs2.pushBack(cs1, c);
           ignore cs2.next();
           matchSize := 0;

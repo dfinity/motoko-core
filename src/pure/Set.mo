@@ -528,7 +528,7 @@ module {
   ///
   /// Note: Creates `O(n * log(n))` temporary objects that will be collected as garbage.
   public func filterMap<T1, T2>(set : Set<T1>, compare : (T2, T2) -> Order.Order, project : T1 -> ?T2) : Set<T2> {
-    func combine(acc : Set<T2>, elem : T1) : Set<T2> {
+    let combine = func(acc : Set<T2>, elem : T1) : Set<T2> {
       switch (project(elem)) {
         case null { acc };
         case (?elem2) {
@@ -1028,7 +1028,7 @@ module {
 
   module Internal {
     public func contains<T>(tree : Tree<T>, compare : (T, T) -> Order.Order, elem : T) : Bool {
-      func f(t : Tree<T>, x : T) : Bool {
+      let f = func(t : Tree<T>, x : T) : Bool {
         switch t {
           case (#black(l, x1, r)) {
             switch (compare(x, x1)) {
@@ -1148,32 +1148,34 @@ module {
 
     type SetTraverser<T> = (Tree<T>, T, Tree<T>, IterRep<T>) -> IterRep<T>;
 
-    class IterSet<T>(tree : Tree<T>, setTraverser : SetTraverser<T>) {
-      var trees : IterRep<T> = ?(#tr(tree), null);
-      public func next() : ?T {
-        switch (trees) {
-          case (null) { null };
-          case (?(#tr(#leaf), ts)) {
-            trees := ts;
-            next()
-          };
-          case (?(#x(x), ts)) {
-            trees := ts;
-            ?x
-          };
-          case (?(#tr(#black(l, x, r)), ts)) {
-            trees := setTraverser(l, x, r, ts);
-            next()
-          };
-          case (?(#tr(#red(l, x, r)), ts)) {
-            trees := setTraverser(l, x, r, ts);
-            next()
+    let iterSet = func<T>(tree : Tree<T>, setTraverser : SetTraverser<T>): Iter.Iter<T> {
+      object {
+        var trees : IterRep<T> = ?(#tr(tree), null);
+        public func next() : ?T {
+          switch (trees) {
+            case (null) { null };
+            case (?(#tr(#leaf), ts)) {
+              trees := ts;
+              next()
+            };
+            case (?(#x(x), ts)) {
+              trees := ts;
+              ?x
+            };
+            case (?(#tr(#black(l, x, r)), ts)) {
+              trees := setTraverser(l, x, r, ts);
+              next()
+            };
+            case (?(#tr(#red(l, x, r)), ts)) {
+              trees := setTraverser(l, x, r, ts);
+              next()
+            }
           }
         }
       }
     };
 
-    public func iter<T>(s : Tree<T>, direction : { #fwd; #bwd }) : Iter.Iter<T> {
+    public let iter = func<T>(s : Tree<T>, direction : { #fwd; #bwd }) : Iter.Iter<T> {
       let turnLeftFirst : SetTraverser<T> = func(l, x, r, ts) {
         ?(#tr(l), ?(#x(x), ?(#tr(r), ts)))
       };
@@ -1183,8 +1185,8 @@ module {
       };
 
       switch direction {
-        case (#fwd) IterSet(s, turnLeftFirst);
-        case (#bwd) IterSet(s, turnRightFirst)
+        case (#fwd) iterSet(s, turnLeftFirst);
+        case (#bwd) iterSet(s, turnRightFirst)
       }
     };
 
@@ -1295,7 +1297,7 @@ module {
       elem : T
     ) : (Set<T>, Bool) {
       var newNodeIsCreated : Bool = false;
-      func ins(tree : Tree<T>) : Tree<T> {
+      let ins = func(tree : Tree<T>) : Tree<T> {
         switch tree {
           case (#black(left, x, right)) {
             switch (compare(elem, x)) {
@@ -1430,7 +1432,7 @@ module {
 
     public func delete<T>(s : Set<T>, compare : (T, T) -> Order.Order, x : T) : (Set<T>, Bool) {
       var changed : Bool = false;
-      func delNode(left : Tree<T>, x1 : T, right : Tree<T>) : Tree<T> {
+      let delNode = func(left : Tree<T>, x1 : T, right : Tree<T>) : Tree<T> {
         switch (compare(x, x1)) {
           case (#less) {
             let newLeft = del left;
@@ -1460,7 +1462,7 @@ module {
           }
         }
       };
-      func del(tree : Tree<T>) : Tree<T> {
+      let del = func(tree : Tree<T>) : Tree<T> {
         switch tree {
           case (#black(left, x1, right)) {
             delNode(left, x1, right)
@@ -1488,7 +1490,7 @@ module {
     };
 
     func blackDepth<T>(node : Tree<T>, comp : (T, T) -> Order.Order) : Nat {
-      func checkNode(left : Tree<T>, x1 : T, right : Tree<T>) : Nat {
+      let checkNode = func(left : Tree<T>, x1 : T, right : Tree<T>) : Nat {
         checkElem(left, func(x : T) : Bool { comp(x, x1) == #less });
         checkElem(right, func(x : T) : Bool { comp(x, x1) == #greater });
         let leftBlacks = blackDepth(left, comp);

@@ -986,7 +986,7 @@ module {
 
     type IterRep<K, V> = List<{ #tr : Tree<K, V>; #xy : (K, V) }>;
 
-    public func iter<K, V>(map : Tree<K, V>, direction : { #fwd; #bwd }) : Iter.Iter<(K, V)> {
+    public let iter = func<K, V>(map : Tree<K, V>, direction : { #fwd; #bwd }) : Iter.Iter<(K, V)> {
       let turnLeftFirst : MapTraverser<K, V> = func(l, x, y, r, ts) {
         ?(#tr(l), ?(#xy(x, y), ?(#tr(r), ts)))
       };
@@ -996,40 +996,42 @@ module {
       };
 
       switch direction {
-        case (#fwd) IterMap(map, turnLeftFirst);
-        case (#bwd) IterMap(map, turnRightFirst)
+        case (#fwd) iterMap(map, turnLeftFirst);
+        case (#bwd) iterMap(map, turnRightFirst)
       }
     };
 
     type MapTraverser<K, V> = (Tree<K, V>, K, V, Tree<K, V>, IterRep<K, V>) -> IterRep<K, V>;
 
-    class IterMap<K, V>(tree : Tree<K, V>, mapTraverser : MapTraverser<K, V>) {
-      var trees : IterRep<K, V> = ?(#tr(tree), null);
-      public func next() : ?(K, V) {
-        switch (trees) {
-          case (null) { null };
-          case (?(#tr(#leaf), ts)) {
-            trees := ts;
-            next()
-          };
-          case (?(#xy(xy), ts)) {
-            trees := ts;
-            ?xy
-          };
-          case (?(#tr(#red(l, x, y, r)), ts)) {
-            trees := mapTraverser(l, x, y, r, ts);
-            next()
-          };
-          case (?(#tr(#black(l, x, y, r)), ts)) {
-            trees := mapTraverser(l, x, y, r, ts);
-            next()
+    let iterMap = func<K, V>(tree : Tree<K, V>, mapTraverser : MapTraverser<K, V>) : Iter.Iter<(K, V)> {
+      object {
+        var trees : IterRep<K, V> = ?(#tr(tree), null);
+        public func next() : ?(K, V) {
+          switch (trees) {
+            case (null) { null };
+            case (?(#tr(#leaf), ts)) {
+              trees := ts;
+              next()
+            };
+            case (?(#xy(xy), ts)) {
+              trees := ts;
+              ?xy
+            };
+            case (?(#tr(#red(l, x, y, r)), ts)) {
+              trees := mapTraverser(l, x, y, r, ts);
+              next()
+            };
+            case (?(#tr(#black(l, x, y, r)), ts)) {
+              trees := mapTraverser(l, x, y, r, ts);
+              next()
+            }
           }
         }
       }
     };
 
     public func map<K, V1, V2>(map : Map<K, V1>, f : (K, V1) -> V2) : Map<K, V2> {
-      func mapRec(m : Tree<K, V1>) : Tree<K, V2> {
+      let mapRec = func(m : Tree<K, V1>) : Tree<K, V2> {
         switch m {
           case (#leaf) { #leaf };
           case (#red(l, x, y, r)) {
@@ -1084,7 +1086,7 @@ module {
     };
 
     public func forEach<K, V>(map : Map<K, V>, operation : (K, V) -> ()) {
-      func combine(_acc : Null, key : K, value : V) : Null {
+      let combine = func(_acc : Null, key : K, value : V) : Null {
         operation(key, value);
         null
       };
@@ -1093,7 +1095,7 @@ module {
 
     public func filter<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, criterion : (K, V) -> Bool) : Map<K, V> {
       var size = 0;
-      func combine(acc : Tree<K, V>, key : K, value : V) : Tree<K, V> {
+      let combine = func(acc : Tree<K, V>, key : K, value : V) : Tree<K, V> {
         if (criterion(key, value)) {
           size += 1;
           add(acc, compare, key, value)
@@ -1104,7 +1106,7 @@ module {
 
     public func mapFilter<K, V1, V2>(map : Map<K, V1>, compare : (K, K) -> Order.Order, f : (K, V1) -> ?V2) : Map<K, V2> {
       var size = 0;
-      func combine(acc : Tree<K, V2>, key : K, value1 : V1) : Tree<K, V2> {
+      let combine = func(acc : Tree<K, V2>, key : K, value1 : V1) : Tree<K, V2> {
         switch (f(key, value1)) {
           case null { acc };
           case (?value2) {
@@ -1265,7 +1267,7 @@ module {
       val : V,
       onClash : ClashResolver<V>
     ) : Tree<K, V> {
-      func ins(tree : Tree<K, V>) : Tree<K, V> {
+      let ins = func(tree : Tree<K, V>) : Tree<K, V> {
         switch tree {
           case (#black(left, x, y, right)) {
             switch (compare(key, x)) {
@@ -1315,7 +1317,7 @@ module {
       val : V
     ) : (Tree<K, V>, ?V) {
       var oldVal : ?V = null;
-      func onClash(clash : { old : V; new : V }) : V {
+      let onClash = func(clash : { old : V; new : V }) : V {
         oldVal := ?clash.old;
         clash.new
       };
@@ -1435,7 +1437,7 @@ module {
 
     public func remove<K, V>(tree : Tree<K, V>, compare : (K, K) -> Order.Order, x : K) : (Tree<K, V>, ?V) {
       var y0 : ?V = null;
-      func delNode(left : Tree<K, V>, x1 : K, y1 : V, right : Tree<K, V>) : Tree<K, V> {
+      let delNode = func(left : Tree<K, V>, x1 : K, y1 : V, right : Tree<K, V>) : Tree<K, V> {
         switch (compare(x, x1)) {
           case (#less) {
             let newLeft = del left;
@@ -1465,7 +1467,7 @@ module {
           }
         }
       };
-      func del(tree : Tree<K, V>) : Tree<K, V> {
+      let del = func(tree : Tree<K, V>) : Tree<K, V> {
         switch tree {
           case (#red(left, x, y, right)) {
             delNode(left, x, y, right)
@@ -1490,7 +1492,7 @@ module {
     };
 
     func blackDepth<K, V>(node : Tree<K, V>, comp : (K, K) -> Order.Order) : Nat {
-      func checkNode(left : Tree<K, V>, key : K, right : Tree<K, V>) : Nat {
+      let checkNode = func(left : Tree<K, V>, key : K, right : Tree<K, V>) : Nat {
         checkKey(left, func(x : K) : Bool { comp(x, key) == #less });
         checkKey(right, func(x : K) : Bool { comp(x, key) == #greater });
         let leftBlacks = blackDepth(left, comp);

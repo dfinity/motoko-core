@@ -39,7 +39,9 @@ module {
   /// let unicode = Char.toNat32(char);
   /// assert unicode == 65;
   /// ```
-  public let toNat32 : (char : Char) -> Nat32 = Prim.charToNat32;
+  public func toNat32(char : Char) : Nat32 {
+    Prim.charToNat32(char)
+  };
 
   /// Convert `w` to a character.
   /// Traps if `w` is not a valid Unicode scalar value.
@@ -51,7 +53,9 @@ module {
   /// let char = Char.fromNat32(unicode);
   /// assert char == 'A';
   /// ```
-  public let fromNat32 : (nat32 : Nat32) -> Char = Prim.nat32ToChar;
+  public func fromNat32(nat32 : Nat32) : Char {
+    Prim.nat32ToChar(nat32)
+  };
 
   /// Convert character `char` to single character text.
   ///
@@ -61,13 +65,19 @@ module {
   /// let text = Char.toText(char);
   /// assert text == "漢";
   /// ```
-  public let toText : (char : Char) -> Text = Prim.charToText;
+  public func toText(char : Char) : Text {
+    Prim.charToText(char)
+  };
 
   // Not exposed pending multi-char implementation.
-  private let _toUpper : (char : Char) -> Char = Prim.charToUpper;
+  private func _toUpper(char : Char) : Char {
+    Prim.charToUpper(char)
+  };
 
   // Not exposed pending multi-char implementation.
-  private let _toLower : (char : Char) -> Char = Prim.charToLower;
+  private func _toLower(char : Char) : Char {
+    Prim.charToLower(char)
+  };
 
   /// Returns `true` when `char` is a decimal digit between `0` and `9`, otherwise `false`.
   ///
@@ -89,7 +99,9 @@ module {
   /// assert Char.isWhitespace('\n');
   /// assert not Char.isWhitespace('A');
   /// ```
-  public let isWhitespace : (char : Char) -> Bool = Prim.charIsWhitespace;
+  public func isWhitespace(char : Char) : Bool {
+    Prim.charIsWhitespace(char)
+  };
 
   /// Returns whether `char` is a lowercase character.
   ///
@@ -98,7 +110,9 @@ module {
   /// assert Char.isLower('a');
   /// assert not Char.isLower('A');
   /// ```
-  public let isLower : (char : Char) -> Bool = Prim.charIsLowercase;
+  public func isLower(char : Char) : Bool {
+    Prim.charIsLowercase(char)
+  };
 
   /// Returns whether `char` is an uppercase character.
   ///
@@ -107,7 +121,9 @@ module {
   /// assert Char.isUpper('A');
   /// assert not Char.isUpper('a');
   /// ```
-  public let isUpper : (char : Char) -> Bool = Prim.charIsUppercase;
+  public func isUpper(char : Char): Bool {
+    Prim.charIsUppercase(char);
+  };
 
   /// Returns whether `char` is an alphabetic character.
   ///
@@ -117,7 +133,9 @@ module {
   /// assert Char.isAlphabetic('漢');
   /// assert not Char.isAlphabetic('1');
   /// ```
-  public let isAlphabetic : (char : Char) -> Bool = Prim.charIsAlphabetic;
+  public func isAlphabetic(char : Char): Bool {
+    Prim.charIsAlphabetic(char);
+  };
 
   /// Returns `a == b`.
   ///

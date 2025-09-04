@@ -32,7 +32,9 @@ module {
   ///
   /// See a full example on how to use certified variables here: https://github.com/dfinity/examples/tree/master/motoko/cert-var
   ///
-  public let set : (data : Blob) -> () = Prim.setCertifiedData;
+  public func set(data : Blob): () {
+    Prim.setCertifiedData(data);
+  };
 
   /// Gets a certificate
   ///
@@ -49,6 +51,8 @@ module {
   /// ```
   /// See a full example on how to use certified variables here: https://github.com/dfinity/examples/tree/master/motoko/cert-var
   ///
-  public let getCertificate : () -> ?Blob = Prim.getCertificate;
+  public func getCertificate(): ?Blob {
+    Prim.getCertificate();
+  };
 
 }

@@ -92,7 +92,9 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.abs(-1.2), 1.2, epsilon);
   /// ```
-  public let abs : (x : Float) -> Float = Prim.floatAbs;
+  public func abs(x : Float) : Float {
+    Prim.floatAbs(x)
+  };
 
   /// Returns the square root of `x`.
   ///
@@ -194,7 +196,9 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.copySign(1.2, -2.3), -1.2, epsilon);
   /// ```
-  public let copySign : (x : Float, y : Float) -> Float = Prim.floatCopySign;
+  public func copySign(x : Float, y : Float) : Float {
+    Prim.floatCopySign(x, y);
+  };
 
   /// Returns the smaller value of `x` and `y`.
   ///

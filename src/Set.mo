@@ -1322,7 +1322,7 @@ module {
   /// Can be used to check that elements have been inserted with a consistent comparison function.
   /// Traps if the internal set structure is invalid.
   public func assertValid<T>(set : Set<T>, compare : (T, T) -> Order.Order) {
-    func checkIteration(iterator : Types.Iter<T>, order : Order.Order) {
+    let checkIteration = func(iterator : Types.Iter<T>, order : Order.Order) {
       switch (iterator.next()) {
         case null {};
         case (?first) {

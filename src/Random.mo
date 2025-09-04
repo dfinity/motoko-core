@@ -87,7 +87,7 @@ module {
   /// let random = Random.seed(123);
   /// let coin = random.bool(); // true or false
   /// ```
-  public func seed(seed : Nat64) : Random {
+  public let seed = func(seed : Nat64) : Random {
     seedFromState(seedState(seed))
   };
 
@@ -108,8 +108,8 @@ module {
   ///   }
   /// }
   /// ```
-  public func seedFromState(state : SeedState) : Random {
-    Random(
+  public let seedFromState = func(state : SeedState) : Random {
+    newRandom(
       state.random,
       func() : Blob {
         // Generate 8 bytes directly from a single 64-bit number
@@ -144,7 +144,7 @@ module {
   ///   }
   /// }
   /// ```
-  public func crypto() : AsyncRandom {
+  public let crypto = func() : AsyncRandom {
     cryptoFromState(emptyState())
   };
 
@@ -166,225 +166,243 @@ module {
   ///   }
   /// }
   /// ```
-  public func cryptoFromState(state : State) : AsyncRandom {
-    AsyncRandom(state, func() : async* Blob { await rawRand() })
+  public let cryptoFromState = func(state : State) : AsyncRandom {
+    newAsyncRandom(state, func() : async* Blob { await rawRand() })
   };
 
-  public class Random(state : State, generator : () -> Blob) {
-
-    func nextBit() : Bool {
-      if (0 : Nat8 == state.bitMask) {
-        state.bits := nat8();
-        state.bitMask := 0x40;
-        0 : Nat8 != state.bits & (0x80 : Nat8)
-      } else {
-        let m = state.bitMask;
-        state.bitMask >>= (1 : Nat8);
-        0 : Nat8 != state.bits & m
-      }
-    };
-
-    /// Random choice between `true` and `false`.
-    ///
-    /// Example:
-    /// ```motoko include=import
-    /// let random = Random.seed(42);
-    /// let coin = random.bool(); // true or false
-    /// ```
-    public func bool() : Bool {
-      nextBit()
-    };
-
-    /// Random `Nat8` value in the range [0, 256).
-    ///
-    /// Example:
-    /// ```motoko include=import
-    /// let random = Random.seed(42);
-    /// let byte = random.nat8(); // 0 to 255
-    /// ```
-    public func nat8() : Nat8 {
-      if (state.index >= state.bytes.size()) {
-        let newBytes = Blob.toArray(generator());
-        if (newBytes.size() == 0) {
-          Runtime.trap("Random: generator produced empty Blob")
-        };
-        state.bytes := newBytes;
-        state.index := 0
-      };
-      let byte = state.bytes[state.index];
-      state.index += 1;
-      byte
-    };
-
-    // Helper function which returns a uniformly sampled `Nat64` in the range `[0, max]`.
-    // Uses rejection sampling to ensure uniform distribution even when the range
-    // doesn't divide evenly into 2^64. This avoids modulo bias that would occur
-    // from simply taking the modulo of a random 64-bit number.
-    func uniform64(max : Nat64) : Nat64 {
-      if (max == 0) {
-        return 0
-      };
-      // if (max == 1) {
-      //   return switch (bool()) {
-      //     case false 0;
-      //     case true 1
-      //   }
-      // };
-      if (max == Nat64.maxValue) {
-        return nat64()
-      };
-      let toExclusive = max + 1;
-      // 2^64 - (2^64 % toExclusive) = (2^64-1) - (2^64-1 % toExclusive):
-      let cutoff = Nat64.maxValue - (Nat64.maxValue % toExclusive);
-      // 2^64 / toExclusive, with toExclusive > 1:
-      let multiple = Nat64.fromNat(/* 2^64 */ 0x10000000000000000 / Nat64.toNat(toExclusive));
-      loop {
-        // Build up a random Nat64 from bytes
-        var number = nat64();
-        // If number is below cutoff, we can use it
-        if (number < cutoff) {
-          // Scale down to desired range
-          return number / multiple
-        };
-        // Otherwise reject and try again
-      }
-    };
-
-    /// Random `Nat64` value in the range [0, 2^64).
-    ///
-    /// Example:
-    /// ```motoko include=import
-    /// let random = Random.seed(42);
-    /// let number = random.nat64(); // 0 to 18446744073709551615
-    /// ```
-    public func nat64() : Nat64 {
-      (Nat64.fromNat(Nat8.toNat(nat8())) << 56) | (Nat64.fromNat(Nat8.toNat(nat8())) << 48) | (Nat64.fromNat(Nat8.toNat(nat8())) << 40) | (Nat64.fromNat(Nat8.toNat(nat8())) << 32) | (Nat64.fromNat(Nat8.toNat(nat8())) << 24) | (Nat64.fromNat(Nat8.toNat(nat8())) << 16) | (Nat64.fromNat(Nat8.toNat(nat8())) << 8) | Nat64.fromNat(Nat8.toNat(nat8()))
-    };
-
-    /// Random `Nat64` value in the range [fromInclusive, toExclusive).
-    ///
-    /// Example:
-    /// ```motoko include=import
-    /// let random = Random.seed(42);
-    /// let dice = random.nat64Range(1, 7); // 1 to 6
-    /// ```
-    public func nat64Range(fromInclusive : Nat64, toExclusive : Nat64) : Nat64 {
-      if (fromInclusive >= toExclusive) {
-        Runtime.trap("Random.nat64Range(): fromInclusive >= toExclusive")
-      };
-      uniform64(toExclusive - fromInclusive - 1) + fromInclusive
-    };
-
-    /// Random `Nat` value in the range [fromInclusive, toExclusive).
-    ///
-    /// Example:
-    /// ```motoko include=import
-    /// let random = Random.seed(42);
-    /// let index = random.natRange(0, 10); // 0 to 9
-    /// ```
-    public func natRange(fromInclusive : Nat, toExclusive : Nat) : Nat {
-      if (fromInclusive >= toExclusive) {
-        Runtime.trap("Random.natRange(): fromInclusive >= toExclusive")
-      };
-      Nat64.toNat(uniform64(Nat64.fromNat(toExclusive - fromInclusive - 1))) + fromInclusive
-    };
-
-    public func intRange(fromInclusive : Int, toExclusive : Int) : Int {
-      let range = Nat.fromInt(toExclusive - fromInclusive - 1);
-      Nat64.toNat(uniform64(Nat64.fromNat(range))) + fromInclusive
-    };
-
+  public type Random = {
+    bool : () -> Bool;
+    nat8 : () -> Nat8;
+    nat64 : () -> Nat64;
+    nat64Range : (fromInclusive : Nat64, toExclusive : Nat64) -> Nat64;
+    natRange : (fromInclusive : Nat, toExclusive : Nat) -> Nat;
+    intRange : (fromInclusive : Int, toExclusive : Int) -> Int
   };
 
-  public class AsyncRandom(state : State, generator : () -> async* Blob) {
+  public let newRandom = func(state : State, generator : () -> Blob) : Random {
+    object {
+      func nextBit() : Bool {
+        if (0 : Nat8 == state.bitMask) {
+          state.bits := nat8();
+          state.bitMask := 0x40;
+          0 : Nat8 != state.bits & (0x80 : Nat8)
+        } else {
+          let m = state.bitMask;
+          state.bitMask >>= (1 : Nat8);
+          0 : Nat8 != state.bits & m
+        }
+      };
 
-    func nextBit() : async* Bool {
-      if (0 : Nat8 == state.bitMask) {
-        state.bits := await* nat8();
-        state.bitMask := 0x40;
-        0 : Nat8 != state.bits & (0x80 : Nat8)
-      } else {
-        let m = state.bitMask;
-        state.bitMask >>= (1 : Nat8);
-        0 : Nat8 != state.bits & m
-      }
-    };
+      /// Random choice between `true` and `false`.
+      ///
+      /// Example:
+      /// ```motoko include=import
+      /// let random = Random.seed(42);
+      /// let coin = random.bool(); // true or false
+      /// ```
+      public func bool() : Bool {
+        nextBit()
+      };
 
-    /// Random choice between `true` and `false`.
-    public func bool() : async* Bool {
-      await* nextBit()
-    };
-
-    /// Random `Nat8` value in the range [0, 256).
-    public func nat8() : async* Nat8 {
-      if (state.index >= state.bytes.size()) {
-        let newBytes = Blob.toArray(await* generator());
-        if (newBytes.size() == 0) {
-          Runtime.trap("AsyncRandom: generator produced empty Blob")
+      /// Random `Nat8` value in the range [0, 256).
+      ///
+      /// Example:
+      /// ```motoko include=import
+      /// let random = Random.seed(42);
+      /// let byte = random.nat8(); // 0 to 255
+      /// ```
+      public func nat8() : Nat8 {
+        if (state.index >= state.bytes.size()) {
+          let newBytes = Blob.toArray(generator());
+          if (newBytes.size() == 0) {
+            Runtime.trap("Random: generator produced empty Blob")
+          };
+          state.bytes := newBytes;
+          state.index := 0
         };
-        state.bytes := newBytes;
-        state.index := 0
+        let byte = state.bytes[state.index];
+        state.index += 1;
+        byte
       };
-      let byte = state.bytes[state.index];
-      state.index += 1;
-      byte
-    };
 
-    // Helper function which returns a uniformly sampled `Nat64` in the range `[0, max]`.
-    // Uses rejection sampling to ensure uniform distribution even when the range
-    // doesn't divide evenly into 2^64. This avoids modulo bias that would occur
-    // from simply taking the modulo of a random 64-bit number.
-    func uniform64(max : Nat64) : async* Nat64 {
-      if (max == 0) {
-        return 0
-      };
-      if (max == Nat64.maxValue) {
-        return await* nat64()
-      };
-      let toExclusive = max + 1;
-      // 2^64 - (2^64 % toExclusive) = (2^64-1) - (2^64-1 % toExclusive):
-      let cutoff = Nat64.maxValue - (Nat64.maxValue % toExclusive);
-      // 2^64 / toExclusive, with toExclusive > 1:
-      let multiple = Nat64.fromNat(/* 2^64 */ 0x10000000000000000 / Nat64.toNat(toExclusive));
-      loop {
-        // Build up a random Nat64 from bytes
-        var number = await* nat64();
-        // If number is below cutoff, we can use it
-        if (number < cutoff) {
-          // Scale down to desired range
-          return number / multiple
+      // Helper function which returns a uniformly sampled `Nat64` in the range `[0, max]`.
+      // Uses rejection sampling to ensure uniform distribution even when the range
+      // doesn't divide evenly into 2^64. This avoids modulo bias that would occur
+      // from simply taking the modulo of a random 64-bit number.
+      func uniform64(max : Nat64) : Nat64 {
+        if (max == 0) {
+          return 0
         };
-        // Otherwise reject and try again
+        // if (max == 1) {
+        //   return switch (bool()) {
+        //     case false 0;
+        //     case true 1
+        //   }
+        // };
+        if (max == Nat64.maxValue) {
+          return nat64()
+        };
+        let toExclusive = max + 1;
+        // 2^64 - (2^64 % toExclusive) = (2^64-1) - (2^64-1 % toExclusive):
+        let cutoff = Nat64.maxValue - (Nat64.maxValue % toExclusive);
+        // 2^64 / toExclusive, with toExclusive > 1:
+        let multiple = Nat64.fromNat(/* 2^64 */ 0x10000000000000000 / Nat64.toNat(toExclusive));
+        loop {
+          // Build up a random Nat64 from bytes
+          var number = nat64();
+          // If number is below cutoff, we can use it
+          if (number < cutoff) {
+            // Scale down to desired range
+            return number / multiple
+          };
+          // Otherwise reject and try again
+        }
+      };
+
+      /// Random `Nat64` value in the range [0, 2^64).
+      ///
+      /// Example:
+      /// ```motoko include=import
+      /// let random = Random.seed(42);
+      /// let number = random.nat64(); // 0 to 18446744073709551615
+      /// ```
+      public func nat64() : Nat64 {
+        (Nat64.fromNat(Nat8.toNat(nat8())) << 56) | (Nat64.fromNat(Nat8.toNat(nat8())) << 48) | (Nat64.fromNat(Nat8.toNat(nat8())) << 40) | (Nat64.fromNat(Nat8.toNat(nat8())) << 32) | (Nat64.fromNat(Nat8.toNat(nat8())) << 24) | (Nat64.fromNat(Nat8.toNat(nat8())) << 16) | (Nat64.fromNat(Nat8.toNat(nat8())) << 8) | Nat64.fromNat(Nat8.toNat(nat8()))
+      };
+
+      /// Random `Nat64` value in the range [fromInclusive, toExclusive).
+      ///
+      /// Example:
+      /// ```motoko include=import
+      /// let random = Random.seed(42);
+      /// let dice = random.nat64Range(1, 7); // 1 to 6
+      /// ```
+      public func nat64Range(fromInclusive : Nat64, toExclusive : Nat64) : Nat64 {
+        if (fromInclusive >= toExclusive) {
+          Runtime.trap("Random.nat64Range(): fromInclusive >= toExclusive")
+        };
+        uniform64(toExclusive - fromInclusive - 1) + fromInclusive
+      };
+
+      /// Random `Nat` value in the range [fromInclusive, toExclusive).
+      ///
+      /// Example:
+      /// ```motoko include=import
+      /// let random = Random.seed(42);
+      /// let index = random.natRange(0, 10); // 0 to 9
+      /// ```
+      public func natRange(fromInclusive : Nat, toExclusive : Nat) : Nat {
+        if (fromInclusive >= toExclusive) {
+          Runtime.trap("Random.natRange(): fromInclusive >= toExclusive")
+        };
+        Nat64.toNat(uniform64(Nat64.fromNat(toExclusive - fromInclusive - 1))) + fromInclusive
+      };
+
+      public func intRange(fromInclusive : Int, toExclusive : Int) : Int {
+        let range = Nat.fromInt(toExclusive - fromInclusive - 1);
+        Nat64.toNat(uniform64(Nat64.fromNat(range))) + fromInclusive
       }
-    };
+    }
+  };
 
-    /// Random `Nat64` value in the range [0, 2^64).
-    public func nat64() : async* Nat64 {
-      (Nat64.fromNat(Nat8.toNat(await* nat8())) << 56) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 48) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 40) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 32) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 24) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 16) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 8) | Nat64.fromNat(Nat8.toNat(await* nat8()))
-    };
+  public type AsyncRandom = {
+    bool: () -> async* Bool;
+    nat8: () -> async* Nat8;
+    nat64: () -> async* Nat64;
+    nat64Range: (fromInclusive : Nat64, toExclusive : Nat64) -> async* Nat64;
+    natRange: (fromInclusive : Nat, toExclusive : Nat) -> async* Nat;
+    intRange: (fromInclusive : Int, toExclusive : Int) -> async* Int;
+  };
 
-    /// Random `Nat64` value in the range [fromInclusive, toExclusive).
-    public func nat64Range(fromInclusive : Nat64, toExclusive : Nat64) : async* Nat64 {
-      if (fromInclusive >= toExclusive) {
-        Runtime.trap("AsyncRandom.nat64Range(): fromInclusive >= toExclusive")
+  public let newAsyncRandom = func(state : State, generator : () -> async* Blob) : AsyncRandom {
+    object {
+      func nextBit() : async* Bool {
+        if (0 : Nat8 == state.bitMask) {
+          state.bits := await* nat8();
+          state.bitMask := 0x40;
+          0 : Nat8 != state.bits & (0x80 : Nat8)
+        } else {
+          let m = state.bitMask;
+          state.bitMask >>= (1 : Nat8);
+          0 : Nat8 != state.bits & m
+        }
       };
-      (await* uniform64(toExclusive - fromInclusive - 1)) + fromInclusive
-    };
 
-    /// Random `Nat` value in the range [fromInclusive, toExclusive).
-    public func natRange(fromInclusive : Nat, toExclusive : Nat) : async* Nat {
-      if (fromInclusive >= toExclusive) {
-        Runtime.trap("AsyncRandom.natRange(): fromInclusive >= toExclusive")
+      /// Random choice between `true` and `false`.
+      public func bool() : async* Bool {
+        await* nextBit()
       };
-      Nat64.toNat(await* uniform64(Nat64.fromNat(toExclusive - fromInclusive - 1))) + fromInclusive
-    };
 
-    /// Random `Int` value in the range [fromInclusive, toExclusive).
-    public func intRange(fromInclusive : Int, toExclusive : Int) : async* Int {
-      let range = Nat.fromInt(toExclusive - fromInclusive - 1);
-      Nat64.toNat(await* uniform64(Nat64.fromNat(range))) + fromInclusive
-    };
+      /// Random `Nat8` value in the range [0, 256).
+      public func nat8() : async* Nat8 {
+        if (state.index >= state.bytes.size()) {
+          let newBytes = Blob.toArray(await* generator());
+          if (newBytes.size() == 0) {
+            Runtime.trap("AsyncRandom: generator produced empty Blob")
+          };
+          state.bytes := newBytes;
+          state.index := 0
+        };
+        let byte = state.bytes[state.index];
+        state.index += 1;
+        byte
+      };
 
+      // Helper function which returns a uniformly sampled `Nat64` in the range `[0, max]`.
+      // Uses rejection sampling to ensure uniform distribution even when the range
+      // doesn't divide evenly into 2^64. This avoids modulo bias that would occur
+      // from simply taking the modulo of a random 64-bit number.
+      func uniform64(max : Nat64) : async* Nat64 {
+        if (max == 0) {
+          return 0
+        };
+        if (max == Nat64.maxValue) {
+          return await* nat64()
+        };
+        let toExclusive = max + 1;
+        // 2^64 - (2^64 % toExclusive) = (2^64-1) - (2^64-1 % toExclusive):
+        let cutoff = Nat64.maxValue - (Nat64.maxValue % toExclusive);
+        // 2^64 / toExclusive, with toExclusive > 1:
+        let multiple = Nat64.fromNat(/* 2^64 */ 0x10000000000000000 / Nat64.toNat(toExclusive));
+        loop {
+          // Build up a random Nat64 from bytes
+          var number = await* nat64();
+          // If number is below cutoff, we can use it
+          if (number < cutoff) {
+            // Scale down to desired range
+            return number / multiple
+          };
+          // Otherwise reject and try again
+        }
+      };
+
+      /// Random `Nat64` value in the range [0, 2^64).
+      public func nat64() : async* Nat64 {
+        (Nat64.fromNat(Nat8.toNat(await* nat8())) << 56) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 48) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 40) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 32) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 24) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 16) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 8) | Nat64.fromNat(Nat8.toNat(await* nat8()))
+      };
+
+      /// Random `Nat64` value in the range [fromInclusive, toExclusive).
+      public func nat64Range(fromInclusive : Nat64, toExclusive : Nat64) : async* Nat64 {
+        if (fromInclusive >= toExclusive) {
+          Runtime.trap("AsyncRandom.nat64Range(): fromInclusive >= toExclusive")
+        };
+        (await* uniform64(toExclusive - fromInclusive - 1)) + fromInclusive
+      };
+
+      /// Random `Nat` value in the range [fromInclusive, toExclusive).
+      public func natRange(fromInclusive : Nat, toExclusive : Nat) : async* Nat {
+        if (fromInclusive >= toExclusive) {
+          Runtime.trap("AsyncRandom.natRange(): fromInclusive >= toExclusive")
+        };
+        Nat64.toNat(await* uniform64(Nat64.fromNat(toExclusive - fromInclusive - 1))) + fromInclusive
+      };
+
+      /// Random `Int` value in the range [fromInclusive, toExclusive).
+      public func intRange(fromInclusive : Int, toExclusive : Int) : async* Int {
+        let range = Nat.fromInt(toExclusive - fromInclusive - 1);
+        Nat64.toNat(await* uniform64(Nat64.fromNat(range))) + fromInclusive
+      };
+    };
   };
 
   // Derived from https://github.com/research-ag/prng

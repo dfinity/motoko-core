@@ -30,11 +30,39 @@
 
 import Order "Order";
 import Types "Types";
-import PureList "pure/List";
 
-module {
-  type List<T> = Types.Pure.List<T>;
+module Stack {
   public type Stack<T> = Types.Stack<T>;
+
+  // Type and class names to be decided
+  type ItemFuncs<T> = module { toText : T -> Types.Text };
+  public class Wrapper<T>(T : ItemFuncs<T>) {
+    var stack : Stack<T> = Stack.empty();
+
+    public func isEmpty() : Bool {
+      Stack.isEmpty(stack)
+    };
+
+    public func get(index : Nat) : ?T {
+      Stack.get(stack, index)
+    };
+
+    public func push(item : T) : () {
+      Stack.push(stack, item)
+    };
+
+    public func pop() : ?T {
+      Stack.pop(stack)
+    };
+
+    public func toText() : Text {
+      Stack.toText(stack, T.toText)
+    }
+  };
+
+  public func new<T>(T : ItemFuncs<T>) : Wrapper<T> {
+    Wrapper(T)
+  };
 
   /// Convert a mutable stack to an immutable, purely functional list.
   /// Please note that functional lists are ordered like stacks (FIFO).
@@ -58,7 +86,7 @@ module {
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
   /// where `n` denotes the number of elements stored in the stack.
-  public func toPure<T>(stack : Stack<T>) : PureList.List<T> {
+  public func toPure<T>(stack : Stack<T>) : Types.Pure.List<T> {
     stack.top
   };
 
@@ -81,7 +109,7 @@ module {
   /// Runtime: `O(n)`.
   /// Space: `O(n)`.
   /// where `n` denotes the number of elements stored in the queue.
-  public func fromPure<T>(list : PureList.List<T>) : Stack<T> {
+  public func fromPure<T>(list : Types.Pure.List<T>) : Stack<T> {
     var size = 0;
     var cur = list;
     loop {
@@ -419,7 +447,7 @@ module {
   /// Space: O(n)
   /// where `n` denotes the number of elements stored on the stack.
   public func reverse<T>(stack : Stack<T>) {
-    var last : List<T> = null;
+    var last : Types.Pure.List<T> = null;
     for (element in values(stack)) {
       last := ?(element, last)
     };
