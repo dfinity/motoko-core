@@ -17,7 +17,11 @@ module {
     var heap = List.singleton(element)
   };
 
+  public func size<T>(priorityQueue : PriorityQueue<T>) : Nat = List.size(priorityQueue.heap);
+
   public func isEmpty<T>(priorityQueue : PriorityQueue<T>) : Bool = List.isEmpty(priorityQueue.heap);
+
+  public func clear<T>(priorityQueue : PriorityQueue<T>) = List.clear(priorityQueue.heap);
 
   public func push<T>(priorityQueue : PriorityQueue<T>, compare : (T, T) -> Order.Order, element : T) {
     let heap = priorityQueue.heap;
@@ -32,7 +36,7 @@ module {
     Prim.trap(INTERNAL_ERROR); // unreachable.
   };
 
-  public func peek<T>(priorityQueue : PriorityQueue<T>, compare : (T, T) -> Order.Order) : ?T {
+  public func peek<T>(priorityQueue : PriorityQueue<T>) : ?T {
     let heap = priorityQueue.heap;
     if (List.isEmpty(heap)) {
       null
