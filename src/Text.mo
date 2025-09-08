@@ -300,7 +300,7 @@ module {
   /// assert Text.compare("abc", "def") == #less;
   /// assert Text.compare("abc", "ABC") == #greater;
   /// ```
-  public func compare(t1 : Text, t2 : Text) : Order.Order {
+  public persistent func compare(t1 : Text, t2 : Text) : Order.Order {
     let c = Prim.textCompare(t1, t2);
     if (c < 0) #less else if (c == 0) #equal else #greater
   };

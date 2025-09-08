@@ -217,7 +217,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.sort([2, 3, 1] : [Nat64], Nat64.compare) == [1, 2, 3];
   /// ```
-  public func compare(x : Nat64, y : Nat64) : Order.Order {
+  public persistent func compare(x : Nat64, y : Nat64) : Order.Order {
     if (x < y) { #less } else if (x == y) { #equal } else { #greater }
   };
 
