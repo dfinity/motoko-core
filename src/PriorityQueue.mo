@@ -10,11 +10,11 @@ module {
   let INTERNAL_ERROR = "PriorityQueue: internal error";
 
   public func empty<T>() : PriorityQueue<T> = {
-    var heap = List.empty<T>()
+    heap = List.empty<T>()
   };
 
   public func singleton<T>(element : T) : PriorityQueue<T> = {
-    var heap = List.singleton(element)
+    heap = List.singleton(element)
   };
 
   public func size<T>(priorityQueue : PriorityQueue<T>) : Nat = List.size(priorityQueue.heap);
@@ -28,22 +28,17 @@ module {
     List.add(heap, element);
     var index = List.size(heap) - 1; // How do you silence this error?
     while (index > 0) {
-      switch (compare(element[index], element[(index - 1) / 2])) {
-        case (#greater) swapHeapElements(heap, index, (index - 1) / 2);
+      switch (compare(List.at(heap, index), List.at(heap, (index - 1) / 2))) {
+        case (#greater) {
+          swapHeapElements(heap, index, (index - 1) / 2);
+          index := (index - 1) / 2
+        };
         case _ return
       }
-    };
-    Prim.trap(INTERNAL_ERROR); // unreachable.
-  };
-
-  public func peek<T>(priorityQueue : PriorityQueue<T>) : ?T {
-    let heap = priorityQueue.heap;
-    if (List.isEmpty(heap)) {
-      null
-    } else {
-      ?heap[0]
     }
   };
+
+  public func peek<T>(priorityQueue : PriorityQueue<T>) : ?T = List.get(priorityQueue.heap, 0);
 
   public func pop<T>(priorityQueue : PriorityQueue<T>, compare : (T, T) -> Order.Order) : ?T {
     let heap = priorityQueue.heap;
@@ -56,25 +51,25 @@ module {
     label lbl loop {
       var best = index;
       let left = 2 * index + 1;
-      if (left < lastIndex and compare(heap[left], heap[best]) == #greater) {
+      if (left < lastIndex and compare(List.at(heap, left), List.at(heap, best)) == #greater) {
         best := left
       };
       let right = left + 1;
-      if (right < lastIndex and compare(heap[right], heap[best]) == #greater) {
+      if (right < lastIndex and compare(List.at(heap, right), List.at(heap, best)) == #greater) {
         best := right
       };
       if (best == index) {
         break lbl
       };
-      swapHeapElements(heap, index, best)
+      swapHeapElements(heap, index, best);
+      index := best
     };
-    let ?top = List.removeLast(heap) else Prim.trap(INTERNAL_ERROR); // unreachable.
-    top
+    List.removeLast(heap)
   };
 
-  func swapHeapElements<T>(heap : List<T>, id1 : Nat, id2 : Nat) {
-    let aux = heap[id1];
-    heap[id1] := heap[id2];
-    heap[id2] := aux
+  func swapHeapElements<T>(heap : Types.List<T>, id1 : Nat, id2 : Nat) {
+    let aux = List.at(heap, id1);
+    List.put(heap, id1, List.at(heap, id2));
+    List.put(heap, id2, aux)
   }
 }
