@@ -1,11 +1,13 @@
 ## Next
 
-* 
+* Add support for Weak references (#388).
+* Clarify difference between `List` and `pure/List` in doc comments (#386).
 
 ## 1.0.0
 
 * Add `sliceToVarArray()` to `Array` and `VarArray` (#377).
 * **Breaking:** Standardize function argument order (#376).
+* Add `binarySearch()` to `Array`, `VarArray`, and `List` modules (#375).
 * Add example usage documentation to `Types` module (#374).
 * Address inconsistent treatment of empty iterators by range functions in `Int` and `Nat` (#369).
 * Fix corner cases in `Nat.rangeByInclusive()` (#368).

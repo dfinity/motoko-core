@@ -14,7 +14,6 @@
 /// ```
 
 import Order "Order";
-import Result "Result";
 import VarArray "VarArray";
 import Option "Option";
 import Types "Types";
@@ -398,10 +397,10 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func mapResult<T, R, E>(array : [T], f : T -> Result.Result<R, E>) : Result.Result<[R], E> {
+  public func mapResult<T, R, E>(array : [T], f : T -> Types.Result<R, E>) : Types.Result<[R], E> {
     let size = array.size();
 
-    var error : ?Result.Result<[R], E> = null;
+    var error : ?Types.Result<[R], E> = null;
     let results = Prim.Array_tabulate<?R>(
       size,
       func i {
@@ -1091,5 +1090,43 @@ module {
       #equal
     }
   };
+
+  /// Performs binary search on a sorted array to find the index of the `element`.
+  ///
+  /// Returns `#found(index)` if the element is found, or `#insertionIndex(index)` with the index
+  /// where the element would be inserted according to the ordering if not found.
+  ///
+  /// If there are multiple equal elements, no guarantee is made about which index is returned.
+  /// The array must be sorted in ascending order according to the `compare` function.
+  ///
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let sorted = [1, 3, 5, 7, 9, 11];
+  /// assert Array.binarySearch<Nat>(sorted, Nat.compare, 5) == #found(2);
+  /// assert Array.binarySearch<Nat>(sorted, Nat.compare, 6) == #insertionIndex(3);
+  /// ```
+  ///
+  /// Runtime: O(log(size))
+  ///
+  /// Space: O(1)
+  ///
+  /// *Runtime and space assumes that `compare` runs in O(1) time and space.
+  public func binarySearch<T>(array : [T], compare : (T, T) -> Order.Order, element : T) : {
+    #found : Nat;
+    #insertionIndex : Nat
+  } {
+    var left = 0;
+    var right = array.size();
+    while (left < right) {
+      let mid = (left + right) / 2;
+      switch (compare(array[mid], element)) {
+        case (#less) left := mid + 1;
+        case (#greater) right := mid;
+        case (#equal) return #found mid
+      }
+    };
+    #insertionIndex left
+  }
 
 }
