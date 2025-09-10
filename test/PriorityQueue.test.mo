@@ -1,10 +1,10 @@
 import PriorityQueue "../src/PriorityQueue";
+import PriorityQueueSet "../src/PriorityQueueSet";
 import Nat "../src/Nat";
 import Iter "../src/Iter";
 import Runtime "../src/Runtime";
 import Array "../src/Array";
 import VarArray "../src/VarArray";
-import Set "../src/Set";
 import Random "../src/Random";
 import { Tuple2 } "../src/Tuples";
 import Order "../src/Order";
@@ -210,31 +210,6 @@ suite(
   }
 );
 
-// Alternative PriorityQueue implementation as a wrapper over Set<(T, Nat)>:
-// - Less efficient than the implementation in ../src/PriorityQueue;
-// - Used for stress-testing against the previous.
-class SetPriorityQueue<T>() {
-  let set = Set.empty<(T, Nat)>();
-  var counter = 0;
-
-  public func isEmpty() : Bool = Set.isEmpty<(T, Nat)>(set);
-  public func size() : Nat = Set.size<(T, Nat)>(set);
-  public func clear() = Set.clear<(T, Nat)>(set);
-  public func peek() : ?T = do ? {
-    let (element, _) = Set.max<(T, Nat)>(set)!;
-    element
-  };
-  public func pop(compare : (T, T) -> Order.Order) : ?T = do ? {
-    let (element, nonce) = Set.max<(T, Nat)>(set)!;
-    Set.remove(set, Tuple2.makeCompare<T, Nat>(compare, Nat.compare), (element, nonce));
-    element
-  };
-  public func push(compare : (T, T) -> Order.Order, element : T) {
-    Set.add(set, Tuple2.makeCompare<T, Nat>(compare, Nat.compare), (element, counter));
-    counter += 1
-  }
-};
-
 type PriorityQueueUpdateOperation<T> = {
   #Push : T;
   #Pop;
@@ -268,7 +243,7 @@ func opsToText<T>(ops : [PriorityQueueUpdateOperation<T>], toTextT : T -> Text) 
 
 // Runs a sequence of PriorityQueueUpdateOperations on two data structures in parallel:
 // - PriorityQueue
-// - SetPriorityQueue
+// - PriorityQueueSet
 //
 // After each operation:
 // - If it’s a pop, assert that both queues return the same value.
@@ -280,31 +255,31 @@ func runOpsTwoQueues<T>(
   toText : T -> Text
 ) {
   let priorityQueue = PriorityQueue.empty<T>();
-  let setPriorityQueue = SetPriorityQueue<T>();
+  let priorityQueueSet = PriorityQueueSet.empty<T>();
   for (op in ops.values()) {
     // Apply the operation to both queues.
     switch (op) {
       case (#Push element) {
-        PriorityQueue.push(priorityQueue, compare, element); // 47.64
-        //setPriorityQueue.push(compare, element) // 37.22
+        PriorityQueue.push(priorityQueue, compare, element); // 47.64 New: 48.14
+        PriorityQueueSet.push(priorityQueueSet, compare, element) // 37.22 New: 37.22
       };
       case (#Pop) {
-        //let top = PriorityQueue.pop(priorityQueue, compare);
-        //let expectedTop = setPriorityQueue.pop(compare);
+        let top = PriorityQueue.pop(priorityQueue, compare);
+        let expectedTop = PriorityQueueSet.pop(priorityQueueSet, compare);
         // Verify that the popped values are equal.
-        //expect.option<T>(top, toText, equal).equal(expectedTop)
+        expect.option<T>(top, toText, equal).equal(expectedTop)
       };
       case (#Clear) {
-        //PriorityQueue.clear(priorityQueue);
-        //setPriorityQueue.clear()
+        PriorityQueue.clear(priorityQueue);
+        PriorityQueueSet.clear(priorityQueueSet)
       }
     };
     // After every operation, validate that query methods yield the same results.
-    // let top = PriorityQueue.peek(priorityQueue);
-    // let expectedTop = setPriorityQueue.peek();
-    // expect.option<T>(top, toText, equal).equal(expectedTop);
-    // expect.nat(PriorityQueue.size(priorityQueue)).equal(setPriorityQueue.size());
-    // expect.bool(PriorityQueue.isEmpty(priorityQueue)).equal(setPriorityQueue.isEmpty())
+    let top = PriorityQueue.peek(priorityQueue);
+    let expectedTop = PriorityQueueSet.peek(priorityQueueSet);
+    expect.option<T>(top, toText, equal).equal(expectedTop);
+    expect.nat(PriorityQueue.size(priorityQueue)).equal(PriorityQueueSet.size(priorityQueueSet));
+    expect.bool(PriorityQueue.isEmpty(priorityQueue)).equal(PriorityQueueSet.isEmpty(priorityQueueSet))
   }
 };
 
@@ -342,89 +317,89 @@ func genOpsNatRandom(
 };
 
 suite(
-  "test against reference implementation",
+  "heap implementation vs. set implementation",
   func() {
-    // test(
-    //   "10 operations, no clears",
-    //   func() {
-    //     let ops = genOpsNatRandom(
-    //       /* randomSeed = */ 127,
-    //       /* operationsCount = */ 10,
-    //       /* maxValueExclusive = */ 10,
-    //       /* wPush = */ 1,
-    //       /* wPop = */ 1,
-    //       /* wClear = */ 0
-    //     );
-    //     //Debug.print("ops = " # opsToText(ops, Nat.toText));
-    //     runOpsTwoQueues<Nat>(ops, Nat.compare, Nat.equal, Nat.toText)
-    //   }
-    // );
-    // test(
-    //   "20 operations",
-    //   func() {
-    //     let ops = genOpsNatRandom(
-    //       /* randomSeed = */ 666013,
-    //       /* operationsCount = */ 20,
-    //       /* maxValueExclusive = */ 20,
-    //       /* wPush = */ 1,
-    //       /* wPop = */ 1,
-    //       /* wClear = */ 1
-    //     );
-    //     //Debug.print("ops = " # opsToText(ops, Nat.toText));
-    //     runOpsTwoQueues<Nat>(ops, Nat.compare, Nat.equal, Nat.toText)
-    //   }
-    // );
-    // test(
-    //   "10000 operations, no clears",
-    //   func() {
-    //     let ops = genOpsNatRandom(
-    //       /* randomSeed = */ 23,
-    //       /* operationsCount = */ 10000,
-    //       /* maxValueExclusive = */ 10000,
-    //       /* wPush = */ 1,
-    //       /* wPop = */ 1,
-    //       /* wClear = */ 1
-    //     );
-    //     //Debug.print("ops = " # opsToText(ops, Nat.toText));
-    //     runOpsTwoQueues<Nat>(ops, Nat.compare, Nat.equal, Nat.toText)
-    //   }
-    // );
-    // test(
-    //   "10000 operations, rare clears",
-    //   func() {
-    //     let ops = genOpsNatRandom(
-    //       /* randomSeed = */ 42,
-    //       /* operationsCount = */ 10000,
-    //       /* maxValueExclusive = */ 10000,
-    //       /* wPush = */ 10,
-    //       /* wPop = */ 10,
-    //       /* wClear = */ 1
-    //     );
-    //     //Debug.print("ops = " # opsToText(ops, Nat.toText));
-    //     runOpsTwoQueues<Nat>(ops, Nat.compare, Nat.equal, Nat.toText)
-    //   }
-    // );
-    // test(
-    //   "10000 operations, rare pops, no clears",
-    //   func() {
-    //     let ops = genOpsNatRandom(
-    //       /* randomSeed = */ 42,
-    //       /* operationsCount = */ 10000,
-    //       /* maxValueExclusive = */ 10000,
-    //       /* wPush = */ 10,
-    //       /* wPop = */ 1,
-    //       /* wClear = */ 0
-    //     );
-    //     //Debug.print("ops = " # opsToText(ops, Nat.toText));
-    //     runOpsTwoQueues<Nat>(ops, Nat.compare, Nat.equal, Nat.toText)
-    //   }
-    // );
     test(
-      "10000 operations, only push",
+      "10 operations, no clears",
+      func() {
+        let ops = genOpsNatRandom(
+          /* randomSeed = */ 127,
+          /* operationsCount = */ 10,
+          /* maxValueExclusive = */ 10,
+          /* wPush = */ 1,
+          /* wPop = */ 1,
+          /* wClear = */ 0
+        );
+        //Debug.print("ops = " # opsToText(ops, Nat.toText));
+        runOpsTwoQueues<Nat>(ops, Nat.compare, Nat.equal, Nat.toText)
+      }
+    );
+    test(
+      "20 operations",
+      func() {
+        let ops = genOpsNatRandom(
+          /* randomSeed = */ 666013,
+          /* operationsCount = */ 20,
+          /* maxValueExclusive = */ 20,
+          /* wPush = */ 1,
+          /* wPop = */ 1,
+          /* wClear = */ 1
+        );
+        //Debug.print("ops = " # opsToText(ops, Nat.toText));
+        runOpsTwoQueues<Nat>(ops, Nat.compare, Nat.equal, Nat.toText)
+      }
+    );
+    test(
+      "10000 operations, no clears",
+      func() {
+        let ops = genOpsNatRandom(
+          /* randomSeed = */ 23,
+          /* operationsCount = */ 10000,
+          /* maxValueExclusive = */ 10000,
+          /* wPush = */ 1,
+          /* wPop = */ 1,
+          /* wClear = */ 0
+        );
+        //Debug.print("ops = " # opsToText(ops, Nat.toText));
+        runOpsTwoQueues<Nat>(ops, Nat.compare, Nat.equal, Nat.toText)
+      }
+    );
+    test(
+      "10000 operations, rare clears",
+      func() {
+        let ops = genOpsNatRandom(
+          /* randomSeed = */ 41,
+          /* operationsCount = */ 10000,
+          /* maxValueExclusive = */ 10000,
+          /* wPush = */ 10,
+          /* wPop = */ 10,
+          /* wClear = */ 1
+        );
+        //Debug.print("ops = " # opsToText(ops, Nat.toText));
+        runOpsTwoQueues<Nat>(ops, Nat.compare, Nat.equal, Nat.toText)
+      }
+    );
+    test(
+      "10000 operations, rare pops, no clears",
+      func() {
+        let ops = genOpsNatRandom(
+          /* randomSeed = */ 42,
+          /* operationsCount = */ 10000,
+          /* maxValueExclusive = */ 10000,
+          /* wPush = */ 10,
+          /* wPop = */ 1,
+          /* wClear = */ 0
+        );
+        //Debug.print("ops = " # opsToText(ops, Nat.toText));
+        runOpsTwoQueues<Nat>(ops, Nat.compare, Nat.equal, Nat.toText)
+      }
+    );
+    test(
+      "10000 operations, no pops, no clears",
       func() {
         let ops = genOpsNatRandom(
           /* randomSeed = */ 33,
-          /* operationsCount = */ 100000,
+          /* operationsCount = */ 10000,
           /* maxValueExclusive = */ 10000,
           /* wPush = */ 10,
           /* wPop = */ 0,
