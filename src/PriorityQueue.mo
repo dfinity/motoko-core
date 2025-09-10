@@ -32,7 +32,7 @@
 ///
 /// Implementation note (due to `List`):
 /// * There is an additive memory overhead of `O(sqrt(n))`.
-/// * For `push` and `pop`, the amortized time is `O(log n)`,  
+/// * For `push` and `pop`, the amortized time is `O(log n)`,
 ///   but the worst case can involve an extra `O(sqrt(n))` step.
 import List "List";
 import Types "Types";
@@ -71,10 +71,9 @@ module {
   /// Returns the number of elements in the priority queue.
   ///
   /// Runtime: `O(1)`.
-  public func size<T>(priorityQueue : PriorityQueue<T>) : Nat =
-    List.size(priorityQueue.heap);
+  public func size<T>(priorityQueue : PriorityQueue<T>) : Nat = List.size(priorityQueue.heap);
 
-    /// Returns `true` iff the priority queue is empty.
+  /// Returns `true` iff the priority queue is empty.
   ///
   /// Example:
   /// ```motoko
@@ -85,8 +84,7 @@ module {
   /// ```
   ///
   /// Runtime: `O(1)`. Space: `O(1)`.
-  public func isEmpty<T>(priorityQueue : PriorityQueue<T>) : Bool =
-    List.isEmpty(priorityQueue.heap);
+  public func isEmpty<T>(priorityQueue : PriorityQueue<T>) : Bool = List.isEmpty(priorityQueue.heap);
 
   /// Removes all elements from the priority queue.
   ///
@@ -101,8 +99,7 @@ module {
   /// ```
   ///
   /// Runtime: `O(1)`. Space: `O(1)`.
-  public func clear<T>(priorityQueue : PriorityQueue<T>) =
-    List.clear(priorityQueue.heap);
+  public func clear<T>(priorityQueue : PriorityQueue<T>) = List.clear(priorityQueue.heap);
 
   /// Inserts a new element into the priority queue.
   ///
@@ -146,8 +143,7 @@ module {
   /// ```
   ///
   /// Runtime: `O(1)`. Space: `O(1)`.
-  public func peek<T>(priorityQueue : PriorityQueue<T>) : ?T =
-    List.get(priorityQueue.heap, 0);
+  public func peek<T>(priorityQueue : PriorityQueue<T>) : ?T = List.get(priorityQueue.heap, 0);
 
   /// Removes and returns the element with the highest priority.
   /// Returns `null` if the queue is empty.
