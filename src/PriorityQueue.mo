@@ -132,6 +132,29 @@ module {
       }
     }
   };
+  // Optimization: don't pass compare.
+  // Hole technique.
+  public func pushBetter<T>(
+    priorityQueue : PriorityQueue<T>,
+    compare : (T, T) -> Order.Order,
+    element : T
+  ) {
+    let heap = priorityQueue.heap;
+    List.add(heap, element);
+    var index = List.size(heap) - 1;
+    while (index > 0) {
+      let parentId = (index - 1) / 2;
+      let parentVal = List.at(heap, parentId);
+      if (compare(element, parentVal) == #greater) {
+        List.put(heap, index, parentVal);
+        index := parentId
+      } else {
+        List.put(heap, index, element);
+        return
+      }
+    };
+    List.put(heap, 0, element)
+  };
 
   /// Returns the element with the highest priority, without removing it.
   /// Returns `null` if the queue is empty.
@@ -159,6 +182,52 @@ module {
   /// ```
   ///
   /// Runtime: `O(log n)`. Space: `O(1)`.
+  public func popBetter<T>(
+    priorityQueue : PriorityQueue<T>,
+    compare : (T, T) -> Order.Order
+  ) : ?T {
+    let heap = priorityQueue.heap;
+    if (List.isEmpty(heap)) {
+      return null
+    };
+    let top = List.get(heap, 0);
+    let lastIndex = List.size(heap) - 1;
+    let lastElem = List.at(heap, lastIndex);
+    // swapHeapElements(heap, 0, lastIndex);
+
+    var index = 0;
+    label lbl loop {
+      var best = lastIndex;
+      let left = 2 * index + 1;
+      var bestElem = lastElem;
+      if (left < lastIndex) {
+        let leftElem = List.at(heap, left);
+        if (compare(leftElem, lastElem) == #greater) {
+          best := left;
+          bestElem := leftElem
+        }
+      };
+      // Control flow could be slightly improved.
+      let right = left + 1;
+      if (right < lastIndex) {
+        let rightElem = List.at(heap, right);
+        if (compare(rightElem, bestElem) == #greater) {
+          best := right;
+          bestElem := rightElem
+        }
+      };
+      if (best == lastIndex) {
+        List.put(heap, index, lastElem);
+        break lbl
+      };
+      //swapHeapElements(heap, index, best);
+      List.put(heap, index, bestElem);
+      index := best
+    };
+    ignore List.removeLast(heap);
+    top
+  };
+
   public func pop<T>(
     priorityQueue : PriorityQueue<T>,
     compare : (T, T) -> Order.Order
@@ -173,6 +242,7 @@ module {
     label lbl loop {
       var best = index;
       let left = 2 * index + 1;
+      // was there a bug with -1 here?
       if (left < lastIndex and compare(List.at(heap, left), List.at(heap, best)) == #greater) {
         best := left
       };
