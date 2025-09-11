@@ -114,6 +114,32 @@ module {
           }
         ),
         (
+          "A2) PriorityQueue better push",
+          func(ops : [PriorityQueueUpdateOperation<Nat>]) {
+            let priorityQueue = PriorityQueue.empty<Nat>();
+            for (op in ops.values()) {
+              switch (op) {
+                case (#Push element) PriorityQueue.pushBetter(priorityQueue, Nat.compare, element);
+                case (#Pop) ignore PriorityQueue.pop(priorityQueue, Nat.compare);
+                case (#Clear) PriorityQueue.clear(priorityQueue)
+              }
+            }
+          }
+        ),
+        (
+          "A3) PriorityQueue better push, better pop",
+          func(ops : [PriorityQueueUpdateOperation<Nat>]) {
+            let priorityQueue = PriorityQueue.empty<Nat>();
+            for (op in ops.values()) {
+              switch (op) {
+                case (#Push element) PriorityQueue.pushBetter(priorityQueue, Nat.compare, element);
+                case (#Pop) ignore PriorityQueue.popBetter(priorityQueue, Nat.compare);
+                case (#Clear) PriorityQueue.clear(priorityQueue)
+              }
+            }
+          }
+        ),
+        (
           "B) PriorityQueueSet",
           func(ops : [PriorityQueueUpdateOperation<Nat>]) {
             let priorityQueueSet = PriorityQueueSet.empty<Nat>();
