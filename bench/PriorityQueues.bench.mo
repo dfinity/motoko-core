@@ -50,13 +50,37 @@ module {
     )
   };
 
+  // Generates a sequence of PriorityQueueUpdateOperations on Nat values:
+  // 1. pushOperationsCount pushes, followed by
+  // 2. pushOperationsCount pops.
+  //
+  // randomSeed          - seed for reproducible RNG
+  // pushOperationsCount – total number of push operations to generate
+  // maxValueExclusive   – upper bound (exclusive) for values pushed into the queue
+  func genOpsPushThenPop(
+    randomSeed : Nat64,
+    pushOperationsCount : Nat,
+    maxValueExclusive : Nat
+  ) : [PriorityQueueUpdateOperation<Nat>] {
+    let rng = Random.seed(randomSeed);
+    Array.tabulate<PriorityQueueUpdateOperation<Nat>>(
+      2 * pushOperationsCount,
+      func(i) {
+        switch (i < pushOperationsCount) {
+          case true #Push(rng.natRange(0, maxValueExclusive));
+          case false #Pop
+        }
+      }
+    )
+  };
+
   public func init() : Bench.Bench {
     let bench = Bench.Bench();
 
     bench.name("Different priority queue implementations");
-    bench.description("Compare the performance of the following priority queue implementations_:
+    bench.description("Compare the performance of the following priority queue implementations:
 - `PriorityQueue`: Binary heap implementation over `List`.
-- `PriorityQueueSet`: Wrapper over `Set<(T, Nat)`.");
+- `PriorityQueueSet`: Wrapper over `Set<(T, Nat)>`.");
 
     let testInstances : Map.Map<Text, [PriorityQueueUpdateOperation<Nat>]> = Map.fromIter(
       [
@@ -91,6 +115,14 @@ module {
             /* wPush = */ 10,
             /* wPop = */ 0,
             /* wClear = */ 0
+          )
+        ),
+        (
+          "4.) 100000 pushes, then 100000 pops",
+          genOpsPushThenPop(
+            /* randomSeed = */ 13,
+            /* pushOperationsCount = */ 100000,
+            /* maxValueExclusive */ 100000
           )
         )
       ].values(),
