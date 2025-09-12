@@ -209,7 +209,7 @@ module {
       };
       swapHeapElements(heap, index, best);
       index := best
-    };
+    }
   };
 
   // Optimized version.
@@ -255,7 +255,7 @@ module {
       };
       List.put(heap, index, bestElem);
       index := best
-    };
+    }
   };
 
   /// Swaps two elements in the heap at the given indices.
