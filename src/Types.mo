@@ -108,7 +108,7 @@ module {
       var size : Nat
     }
   };
-  public type Set<T> = Set.Set<T>; // WTF.
+  public type Set<T> = Set.Set<T>;
 
   public module Map {
     public type Node<K, V> = {
