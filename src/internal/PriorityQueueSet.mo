@@ -7,7 +7,7 @@
 /// with equal priority, since a `Set` cannot store duplicates.
 ///
 /// Performance:
-/// * Runtime: `O(log n)` for `push`, `pop` and `peek`. 
+/// * Runtime: `O(log n)` for `push`, `pop` and `peek`.
 /// * Runtime: `O(1)` for `clear`, `size`, and `isEmpty`.
 /// * Space: `O(n)`, where `n` is the number of stored elements.
 import Set "../Set";
