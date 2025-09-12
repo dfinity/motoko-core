@@ -194,7 +194,7 @@ module {
     let lastIndex = List.size(heap) - 1;
     swapHeapElements(heap, 0, lastIndex);
     var index = 0;
-    label lbl loop {
+    loop {
       var best = index;
       let left = 2 * index + 1;
       if (left < lastIndex and compare(List.at(heap, left), List.at(heap, best)) == #greater) {
@@ -205,16 +205,17 @@ module {
         best := right
       };
       if (best == index) {
-        break lbl
+        return List.removeLast(heap)
       };
       swapHeapElements(heap, index, best);
       index := best
     };
-    List.removeLast(heap)
   };
 
   // Optimized version.
   // Main optimization is using the hole technique to avoid copies.
+  // N.B.: the control flow could be slightly optimized further, but the difference in speed
+  // is minimal while the impact on readability would be significant.
   public func popBetter<T>(
     priorityQueue : PriorityQueue<T>,
     compare : (T, T) -> Order.Order
@@ -228,7 +229,7 @@ module {
     let lastElem = List.at(heap, lastIndex);
 
     var index = 0;
-    label lbl loop {
+    loop {
       var best = lastIndex;
       let left = 2 * index + 1;
       var bestElem = lastElem;
@@ -239,7 +240,6 @@ module {
           bestElem := leftElem
         }
       };
-      // Control flow could be slightly improved.
       let right = left + 1;
       if (right < lastIndex) {
         let rightElem = List.at(heap, right);
@@ -250,13 +250,12 @@ module {
       };
       if (best == lastIndex) {
         List.put(heap, index, lastElem);
-        break lbl
+        ignore List.removeLast(heap);
+        return top
       };
       List.put(heap, index, bestElem);
       index := best
     };
-    ignore List.removeLast(heap);
-    top
   };
 
   /// Swaps two elements in the heap at the given indices.
