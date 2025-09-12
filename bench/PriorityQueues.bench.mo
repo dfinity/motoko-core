@@ -74,6 +74,33 @@ module {
     )
   };
 
+  // Generates a sequence of PriorityQueueUpdateOperations on Nat values:
+  // 1. size pushes, followed by
+  // 2. popPushCount instances of a pop followed by a push.
+  //
+  // randomSeed          - seed for reproducible RNG
+  // size                – initial size
+  // popPushCount        - number of times to pop and then push
+  // maxValueExclusive   – upper bound (exclusive) for values pushed into the queue
+  func genOpsKeepConstantSize(
+    randomSeed : Nat64,
+    size : Nat,
+    popPushCount : Nat,
+    maxValueExclusive : Nat
+  ) : [PriorityQueueUpdateOperation<Nat>] {
+    let rng = Random.seed(randomSeed);
+    Array.tabulate<PriorityQueueUpdateOperation<Nat>>(
+      size + 2 * popPushCount,
+      func(i) {
+        if (i < size or (i - size) % 2 == 1) {
+          #Push(rng.natRange(0, maxValueExclusive))
+        } else {
+          #Pop
+        }
+      }
+    )
+  };
+
   public func init() : Bench.Bench {
     let bench = Bench.Bench();
 
@@ -96,7 +123,18 @@ module {
           )
         ),
         (
-          "2.) 100000 operations (push:pop = 10:1)",
+          "2.) 100000 operations (push:pop = 2:1)",
+          genOpsNatRandom(
+            /* randomSeed = */ 24,
+            /* operationsCount = */ 100000,
+            /* maxValueExclusive = */ 100000,
+            /* wPush = */ 2,
+            /* wPop = */ 1,
+            /* wClear = */ 0
+          )
+        ),
+        (
+          "3.) 100000 operations (push:pop = 10:1)",
           genOpsNatRandom(
             /* randomSeed = */ 42,
             /* operationsCount = */ 100000,
@@ -107,22 +145,31 @@ module {
           )
         ),
         (
-          "3.) 100000 operations (only push)",
+          "4.) 100000 operations (only push)",
           genOpsNatRandom(
             /* randomSeed = */ 33,
             /* operationsCount = */ 100000,
             /* maxValueExclusive = */ 100000,
-            /* wPush = */ 10,
+            /* wPush = */ 1,
             /* wPop = */ 0,
             /* wClear = */ 0
           )
         ),
         (
-          "4.) 100000 pushes, then 100000 pops",
+          "5.) 50000 pushes, then 50000 pops",
           genOpsPushThenPop(
             /* randomSeed = */ 13,
-            /* pushOperationsCount = */ 100000,
+            /* pushOperationsCount = */ 50000,
             /* maxValueExclusive */ 100000
+          )
+        ),
+        (
+          "6.) 50000 pushes, then 25000 \"pop; push\"es",
+          genOpsKeepConstantSize(
+            /* randomSeed = */ 55,
+            /* size = */ 50000,
+            /* popPushCount = */ 25000,
+            /* maxValueExclusive = */ 100000
           )
         )
       ].values(),
