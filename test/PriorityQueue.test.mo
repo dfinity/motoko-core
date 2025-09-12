@@ -309,8 +309,8 @@ func runOpsTwoQueues<T>(
     // Apply the operation to both queues.
     switch (op) {
       case (#Push element) {
-        PriorityQueue.push(priorityQueue, compare, element); // 47.64
-        PriorityQueueSet.push(priorityQueueSet, compare, element) // 37.22
+        PriorityQueue.push(priorityQueue, compare, element);
+        PriorityQueueSet.push(priorityQueueSet, compare, element)
       };
       case (#Pop) {
         let top = PriorityQueue.pop(priorityQueue, compare);
@@ -411,14 +411,14 @@ suite(
         Nat.toText(operationsCount) # " operations" # (if useClear "" else ", no clear"),
         func() {
           for (
-            opsSeq in genOpsNatAllSeqs(
+            ops in genOpsNatAllSeqs(
               /* operationsCount = */ operationsCount,
               /* maxValueExclusive = */ operationsCount,
               /* useClear = */ useClear
             ).values()
           ) {
-            //Debug.print("opsSeq = " # opsToText(opsSeq, Nat.toText));
-            runOpsTwoQueues<Nat>(opsSeq, Nat.compare, Nat.equal, Nat.toText)
+            //Debug.print("ops = " # opsToText(ops, Nat.toText));
+            runOpsTwoQueues<Nat>(ops, Nat.compare, Nat.equal, Nat.toText)
           }
         }
       )
