@@ -132,8 +132,9 @@ module {
       }
     }
   };
-  // Optimization: don't pass compare.
-  // Hole technique.
+
+  // Optimized version.
+  // Main optimization is using the hole technique to avoid copies.
   public func pushBetter<T>(
     priorityQueue : PriorityQueue<T>,
     compare : (T, T) -> Order.Order,
@@ -182,6 +183,38 @@ module {
   /// ```
   ///
   /// Runtime: `O(log n)`. Space: `O(1)`.
+  public func pop<T>(
+    priorityQueue : PriorityQueue<T>,
+    compare : (T, T) -> Order.Order
+  ) : ?T {
+    let heap = priorityQueue.heap;
+    if (List.isEmpty(heap)) {
+      return null
+    };
+    let lastIndex = List.size(heap) - 1;
+    swapHeapElements(heap, 0, lastIndex);
+    var index = 0;
+    label lbl loop {
+      var best = index;
+      let left = 2 * index + 1;
+      if (left < lastIndex and compare(List.at(heap, left), List.at(heap, best)) == #greater) {
+        best := left
+      };
+      let right = left + 1;
+      if (right < lastIndex and compare(List.at(heap, right), List.at(heap, best)) == #greater) {
+        best := right
+      };
+      if (best == index) {
+        break lbl
+      };
+      swapHeapElements(heap, index, best);
+      index := best
+    };
+    List.removeLast(heap)
+  };
+
+  // Optimized version.
+  // Main optimization is using the hole technique to avoid copies.
   public func popBetter<T>(
     priorityQueue : PriorityQueue<T>,
     compare : (T, T) -> Order.Order
@@ -193,7 +226,6 @@ module {
     let top = List.get(heap, 0);
     let lastIndex = List.size(heap) - 1;
     let lastElem = List.at(heap, lastIndex);
-    // swapHeapElements(heap, 0, lastIndex);
 
     var index = 0;
     label lbl loop {
@@ -220,43 +252,11 @@ module {
         List.put(heap, index, lastElem);
         break lbl
       };
-      //swapHeapElements(heap, index, best);
       List.put(heap, index, bestElem);
       index := best
     };
     ignore List.removeLast(heap);
     top
-  };
-
-  public func pop<T>(
-    priorityQueue : PriorityQueue<T>,
-    compare : (T, T) -> Order.Order
-  ) : ?T {
-    let heap = priorityQueue.heap;
-    if (List.isEmpty(heap)) {
-      return null
-    };
-    let lastIndex = List.size(heap) - 1;
-    swapHeapElements(heap, 0, lastIndex);
-    var index = 0;
-    label lbl loop {
-      var best = index;
-      let left = 2 * index + 1;
-      // was there a bug with -1 here?
-      if (left < lastIndex and compare(List.at(heap, left), List.at(heap, best)) == #greater) {
-        best := left
-      };
-      let right = left + 1;
-      if (right < lastIndex and compare(List.at(heap, right), List.at(heap, best)) == #greater) {
-        best := right
-      };
-      if (best == index) {
-        break lbl
-      };
-      swapHeapElements(heap, index, best);
-      index := best
-    };
-    List.removeLast(heap)
   };
 
   /// Swaps two elements in the heap at the given indices.
