@@ -1,7 +1,19 @@
-import Set "Set";
-import Order "Order";
-import Nat "Nat";
-import { Tuple2 } "Tuples";
+/// A mutable priority queue of elements.
+/// Always returns the element with the highest priority first,
+/// as determined by a user-provided comparison function.
+///
+/// Internally implemented as a wrapper over a core library `Set<(T, Nat)>`.
+/// The `Nat` values serve as unique tags to distinguish elements
+/// with equal priority, since a `Set` cannot store duplicates.
+///
+/// Performance:
+/// * Runtime: `O(log n)` for `push`, `pop` and `peek`. 
+/// * Runtime: `O(1)` for `clear`, `size`, and `isEmpty`.
+/// * Space: `O(n)`, where `n` is the number of stored elements.
+import Set "../Set";
+import Order "../Order";
+import Nat "../Nat";
+import { Tuple2 } "../Tuples";
 
 module {
   public type PriorityQueue<T> = {

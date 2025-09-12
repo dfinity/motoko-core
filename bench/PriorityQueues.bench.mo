@@ -3,7 +3,7 @@ import Bench "mo:bench";
 import Array "../src/Array";
 import Nat "../src/Nat";
 import PriorityQueue "../src/PriorityQueue";
-import PriorityQueueSet "../src/PriorityQueueSet";
+import PriorityQueueSet "../src/internal/PriorityQueueSet";
 import Random "../src/Random";
 import Runtime "../src/Runtime";
 import Map "../src/Map";
@@ -164,7 +164,7 @@ module {
           )
         ),
         (
-          "6.) 50000 pushes, then 25000 \"pop; push\"es",
+          "6.) 50000 pushes, then 25000 \"pop;push\"es",
           genOpsKeepConstantSize(
             /* randomSeed = */ 55,
             /* size = */ 50000,
