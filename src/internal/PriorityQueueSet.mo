@@ -25,6 +25,8 @@ module {
   ///
   /// Example:
   /// ```motoko
+  /// import PriorityQueue "mo:core/internal/PriorityQueueSet";
+  ///
   /// let pq = PriorityQueue.empty<Nat>();
   /// assert PriorityQueue.isEmpty(pq);
   /// ```
@@ -39,7 +41,9 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// let pq = PriorityQueue.singleton(42);
+  /// import PriorityQueue "mo:core/internal/PriorityQueueSet";
+  ///
+  /// let pq = PriorityQueue.singleton<Nat>(42);
   /// assert PriorityQueue.peek(pq) == ?42;
   /// ```
   ///
@@ -58,6 +62,9 @@ module {
   ///
   /// Example:
   /// ```motoko
+  /// import PriorityQueue "mo:core/internal/PriorityQueueSet";
+  /// import Nat "mo:core/Nat";
+  ///
   /// let pq = PriorityQueue.empty<Nat>();
   /// assert PriorityQueue.isEmpty(pq);
   /// PriorityQueue.push(pq, Nat.compare, 5);
@@ -71,6 +78,9 @@ module {
   ///
   /// Example:
   /// ```motoko
+  /// import PriorityQueue "mo:core/internal/PriorityQueueSet";
+  /// import Nat "mo:core/Nat";
+  ///
   /// let pq = PriorityQueue.empty<Nat>();
   /// PriorityQueue.push(pq, Nat.compare, 5);
   /// PriorityQueue.push(pq, Nat.compare, 10);
@@ -88,6 +98,9 @@ module {
   ///
   /// Example:
   /// ```motoko
+  /// import PriorityQueue "mo:core/internal/PriorityQueueSet";
+  /// import Nat "mo:core/Nat";
+  ///
   /// let pq = PriorityQueue.empty<Nat>();
   /// PriorityQueue.push(pq, Nat.compare, 5);
   /// PriorityQueue.push(pq, Nat.compare, 10);
@@ -105,7 +118,10 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// let pq = PriorityQueue.singleton(42);
+  /// import PriorityQueue "mo:core/internal/PriorityQueueSet";
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let pq = PriorityQueue.singleton<Nat>(42);
   /// assert PriorityQueue.peek(pq) == ?42;
   /// ```
   ///
@@ -122,6 +138,9 @@ module {
   ///
   /// Example:
   /// ```motoko
+  /// import PriorityQueue "mo:core/internal/PriorityQueueSet";
+  /// import Nat "mo:core/Nat";
+  ///
   /// let pq = PriorityQueue.empty<Nat>();
   /// PriorityQueue.push(pq, Nat.compare, 5);
   /// PriorityQueue.push(pq, Nat.compare, 10);
