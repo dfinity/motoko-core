@@ -483,7 +483,12 @@ it is recommended you use <code>List</code> for those purposes.
 Arrays must be created with a fixed size.</p>
 <p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
-import VarArray &quot;mo:core/VarArray&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="internal/BTreeHelper.html">internal/BTreeHelper</a><div class="index-item-comment"></div></li><li class="index-item"><a class="index-item-link" href="internal/PRNG.html">internal/PRNG</a><div class="index-item-comment"><p>Collection of pseudo-random number generators</p>
+import VarArray &quot;mo:core/VarArray&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="WeakReference.html">WeakReference</a><div class="index-item-comment"><p>Module that implements a weak reference to an object.</p>
+<p>ATTENTION: This functionality does not work with classical persistence (<code>--legacy-persistence</code> moc flag).</p>
+<p>Usage example:
+Import from the core package to use this module.</p>
+<pre><code>motoko name=import
+import WeakReference &quot;mo:core/WeakReference&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="internal/BTreeHelper.html">internal/BTreeHelper</a><div class="index-item-comment"></div></li><li class="index-item"><a class="index-item-link" href="internal/PRNG.html">internal/PRNG</a><div class="index-item-comment"><p>Collection of pseudo-random number generators</p>
 <p>The algorithms deliver deterministic statistical randomness,
 not cryptographic randomness.</p>
 <p>Algorithm 1: 128-bit Seiran PRNG
