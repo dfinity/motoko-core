@@ -146,6 +146,10 @@ module {
     Iter(ImperativeIter.zip(a.internal(), b.internal()))
   };
 
+  public func zipWith<A, B, R>(a : Iter<A>, b : Iter<B>, projection : (A, B) -> R) : Iter<R> {
+    Iter(ImperativeIter.zipWith(a.internal(), b.internal(), projection))
+  };
+
   public func scanLeft<T, R>(iter : Iter<T>, initial : R, combine : (R, T) -> R) : Iter<R> {
     Iter(ImperativeIter.scanLeft(iter.internal(), initial, combine))
   };

@@ -238,5 +238,4 @@ module {
   public func greaterOrEqual(blob1 : Blob, blob2 : Blob) : Bool {
     blob1 >= blob2
   };
-
 }
