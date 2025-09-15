@@ -580,7 +580,7 @@ module {
   /// Space: `O(size)`
   public func toText<T>(queue : Queue<T>, f : T -> Text) : Text {
     var text = "PureQueue[";
-    func add(item : T) {
+    let add = func(item : T) {
       if (text.size() > 10) text #= ", ";
       text #= f(item)
     };

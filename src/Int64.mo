@@ -39,7 +39,9 @@ module {
   /// ```motoko include=import
   /// assert Int64.toInt(123_456) == (123_456 : Int);
   /// ```
-  public let toInt : Int64 -> Int = Prim.int64ToInt;
+  public func toInt(x : Int64): Int {
+    Prim.int64ToInt(x);
+  };
 
   /// Converts a signed integer with infinite precision to a 64-bit signed integer.
   ///
@@ -49,7 +51,9 @@ module {
   /// ```motoko include=import
   /// assert Int64.fromInt(123_456) == (+123_456 : Int64);
   /// ```
-  public let fromInt : Int -> Int64 = Prim.intToInt64;
+  public func fromInt(x : Int): Int64 {
+    Prim.intToInt64(x);
+  };
 
   /// Converts a 32-bit signed integer to a 64-bit signed integer.
   ///

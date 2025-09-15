@@ -30,7 +30,9 @@ module {
   /// ```motoko include=import
   /// assert Nat16.toNat(123) == (123 : Nat);
   /// ```
-  public let toNat : Nat16 -> Nat = Prim.nat16ToNat;
+  public func toNat(x : Nat16): Nat {
+    Prim.nat16ToNat(x);
+  };
 
   /// Converts an unsigned integer with infinite precision to a 16-bit unsigned integer.
   ///

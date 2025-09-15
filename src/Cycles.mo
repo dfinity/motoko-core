@@ -54,7 +54,9 @@ module {
   ///   }
   /// }
   /// ```
-  public let balance : () -> (amount : Nat) = Prim.cyclesBalance;
+  public func balance(): (amount : Nat) {
+    Prim.cyclesBalance();
+  };
 
   /// Returns the currently available `amount` of cycles.
   /// The amount available is the amount received in the current call,
@@ -73,7 +75,9 @@ module {
   ///   }
   /// }
   /// ```
-  public let available : () -> (amount : Nat) = Prim.cyclesAvailable;
+  public func available(): (amount : Nat) {
+    Prim.cyclesAvailable();
+  };
 
   /// Transfers up to `amount` from `available()` to `balance()`.
   /// Returns the amount actually transferred, which may be less than
@@ -94,7 +98,9 @@ module {
   ///   }
   /// }
   /// ```
-  public let accept : <system>(amount : Nat) -> (accepted : Nat) = Prim.cyclesAccept;
+  public func accept<system>(amount : Nat): (accepted : Nat) {
+    Prim.cyclesAccept<system>(amount);
+  };
 
   /// Reports `amount` of cycles refunded in the last `await` of the current
   /// context, or zero if no await has occurred yet.
@@ -117,7 +123,9 @@ module {
   ///   }
   /// }
   /// ```
-  public let refunded : () -> (amount : Nat) = Prim.cyclesRefunded;
+  public func refunded(): (amount : Nat) {
+    Prim.cyclesRefunded();
+  };
 
   /// Attempts to burn `amount` of cycles, deducting `burned` from the canister's
   /// cycle balance. The burned cycles are irrevocably lost and not available to any
@@ -134,6 +142,8 @@ module {
   ///   }
   /// }
   /// ```
-  public let burn : <system>(amount : Nat) -> (burned : Nat) = Prim.cyclesBurn;
+  public func burn<system>(amount : Nat): (burned : Nat) {
+    Prim.cyclesBurn<system>(amount);
+  };
 
 }

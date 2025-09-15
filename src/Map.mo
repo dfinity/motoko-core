@@ -1210,7 +1210,7 @@ module {
   /// Can be used to check that key/value pairs have been inserted with a consistent key comparison function.
   /// Traps if the internal map structure is invalid.
   public func assertValid<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order) {
-    func checkIteration(iterator : Types.Iter<(K, V)>, order : Order.Order) {
+    let checkIteration = func(iterator : Types.Iter<(K, V)>, order : Order.Order) {
       switch (iterator.next()) {
         case null {};
         case (?first) {
