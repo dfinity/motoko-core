@@ -73,7 +73,7 @@ module {
   /// ```motoko include=import
   /// assert Float.isNaN(0.0/0.0);
   /// ```
-  public func isNaN(number : Float) : Bool {
+  public persistent func isNaN(number : Float) : Bool {
     number != number
   };
 
@@ -194,7 +194,9 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.copySign(1.2, -2.3), -1.2, epsilon);
   /// ```
-  public let copySign : (x : Float, y : Float) -> Float = Prim.floatCopySign;
+  public persistent func copySign(x : Float, y : Float): Float {
+    Prim.floatCopySign(x, y)
+  };
 
   /// Returns the smaller value of `x` and `y`.
   ///
@@ -608,7 +610,7 @@ module {
   /// ```motoko include=import
   /// assert Float.compare(0.123, 0.1234) == #less;
   /// ```
-  public func compare(x : Float, y : Float) : Order.Order {
+  public persistent func compare(x : Float, y : Float) : Order.Order {
     if (isNaN(x)) {
       if (isNegative(x)) {
         if (isNaN(y) and isNegative(y)) { #equal } else { #less }
@@ -626,7 +628,7 @@ module {
     }
   };
 
-  func isNegative(number : Float) : Bool {
+  persistent func isNegative(number : Float) : Bool {
     copySign(1.0, number) < 0.0
   };
 

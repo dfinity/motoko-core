@@ -39,7 +39,7 @@ async function getReadmeVersions(): Promise<{
 
 async function main() {
   try {
-    const [mopsVersion, mocVersion, readmeVersions] = await Promise.all([
+    const [mopsVersion, _mocVersion, readmeVersions] = await Promise.all([
       getMopsVersion(),
       getMocVersion(),
       getReadmeVersions(),
