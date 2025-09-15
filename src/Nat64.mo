@@ -15,6 +15,7 @@ module {
 
   /// 64-bit natural numbers.
   public type Nat64 = Prim.Types.Nat64;
+  public type Self = Nat64;
 
   /// Maximum 64-bit natural number. `2 ** 64 - 1`.
   ///

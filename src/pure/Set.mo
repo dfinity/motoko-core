@@ -47,6 +47,7 @@ module {
   /// To ensure that property the `Set<T>` does not have any methods,
   /// instead they are gathered in the functor-like class `Operations` (see example there).
   public type Set<T> = Types.Pure.Set<T>;
+  public type Self<T> = Set<T>;
 
   /// Red-black tree of nodes with ordered set elements.
   /// Leaves are considered implicitly black.

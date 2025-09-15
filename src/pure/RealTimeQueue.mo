@@ -62,6 +62,7 @@ module {
     #idles : (Idle<T>, Idle<T>);
     #rebal : States<T>
   };
+  public type Self<T> = Queue<T>;
 
   /// Create a new empty queue.
   ///

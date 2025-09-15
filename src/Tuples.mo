@@ -18,6 +18,7 @@ import Types "Types";
 module {
 
   public module Tuple2 {
+    public type Self<A, B> = (A, B);
     /// Swaps the elements of a tuple.
     ///
     /// ```motoko
@@ -106,6 +107,7 @@ module {
   };
 
   public module Tuple3 {
+    public type Self<A, B, C> = (A, B, C);
     /// Creates a textual representation of a 3-tuple for debugging purposes.
     ///
     /// ```motoko
@@ -189,6 +191,7 @@ module {
   };
 
   public module Tuple4 {
+    public type Self<A, B, C, D> = (A, B, C, D);
     /// Creates a textual representation of a 4-tuple for debugging purposes.
     ///
     /// ```motoko

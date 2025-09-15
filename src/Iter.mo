@@ -54,6 +54,7 @@ module {
   /// }
   /// ```
   public type Iter<T> = Types.Iter<T>;
+  public type Self<T> = Iter<T>;
 
   /// Creates an empty iterator.
   ///

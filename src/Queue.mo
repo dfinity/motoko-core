@@ -38,6 +38,7 @@ import Prim "mo:⛔";
 
 module {
   public type Queue<T> = Types.Queue.Queue<T>;
+  public type Self<T> = Queue<T>;
 
   type Node<T> = Types.Queue.Node<T>;
 

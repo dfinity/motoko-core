@@ -15,6 +15,7 @@ module {
 
   /// 32-bit natural numbers.
   public type Nat32 = Prim.Types.Nat32;
+  public type Self = Nat32;
 
   /// Maximum 32-bit natural number. `2 ** 32 - 1`.
   ///

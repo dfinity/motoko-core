@@ -44,6 +44,7 @@ module {
   let btreeOrder = 32; // Should be >= 4 and <= 512.
 
   public type Set<T> = Types.Set.Set<T>;
+  public type Self<T> = Set<T>;
   type Node<T> = Types.Set.Node<T>;
   type Data<T> = Types.Set.Data<T>;
   type Internal<T> = Types.Set.Internal<T>;

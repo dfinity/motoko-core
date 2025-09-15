@@ -21,6 +21,7 @@ import Prim "mo:⛔";
 
 module {
 
+  public type Self<T> = [var T];
   /// Creates an empty mutable array (equivalent to `[var]`).
   ///
   /// ```motoko include=import

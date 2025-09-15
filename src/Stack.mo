@@ -35,6 +35,7 @@ import PureList "pure/List";
 module {
   type List<T> = Types.Pure.List<T>;
   public type Stack<T> = Types.Stack<T>;
+  public type Self<T> = Stack<T>;
 
   /// Convert a mutable stack to an immutable, purely functional list.
   /// Please note that functional lists are ordered like stacks (FIFO).

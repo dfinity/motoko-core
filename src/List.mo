@@ -32,6 +32,7 @@ module {
   ///
   /// The maximum number of elements in a `List` is 2^32.
   public type List<T> = Types.List<T>;
+  public type Self<T> = List<T>;
 
   let INTERNAL_ERROR = "List: internal error";
 
