@@ -16,7 +16,7 @@ license = "Apache-2.0"
 test = "2.1.1"
 bench = "1.0.0"
 fuzz = "1.0.0"
-matchers = "https://github.com/kritzcreek/motoko-matchers#v1.3.1@5ba5f52bd9a5649dedf5e2a1ccd55d98ed7ff982"
+matchers = "2.1.0"
 base-0-14-13 = "https://github.com/dfinity/motoko-base#moc-0.14.13@794174a307975c225cfb26b57f73e38a841c0415"
 
 [requirements]
