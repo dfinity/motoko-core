@@ -7,7 +7,7 @@
 /// import Nat64 "mo:core/Nat64";
 /// ```
 import Nat "Nat";
-import Iter "Iter";
+import Iter "imperative/Iter";
 import Prim "mo:⛔";
 import Order "Order";
 

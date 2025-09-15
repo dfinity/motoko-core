@@ -30,8 +30,8 @@
 ///
 
 import Char "Char";
-import Iter "Iter";
-import Stack "Stack";
+import Iter "imperative/Iter";
+import Stack "imperative/Stack";
 import Types "Types";
 import Prim "mo:⛔";
 import Order "Order";

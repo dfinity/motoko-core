@@ -11,7 +11,7 @@
 import Int "Int";
 import Prim "mo:⛔";
 import Char "Char";
-import Iter "Iter";
+import Iter "imperative/Iter";
 import Runtime "Runtime";
 import Order "Order";
 

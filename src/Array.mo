@@ -1074,7 +1074,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func compare<T>(array1 : [T], array2 : [T], compare : (T, T) -> Order.Order) : Order.Order {
+  public persistent func compare<T>(array1 : [T], array2 : [T], compare : persistent (T, T) -> Order.Order) : Order.Order {
     let size1 = array1.size();
     let size2 = array2.size();
     var i = 0;

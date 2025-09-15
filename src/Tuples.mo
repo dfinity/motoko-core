@@ -61,9 +61,11 @@ module {
     /// assert Tuple2.compare((2, "hello"), (1, "hello"), Nat.compare, Text.compare) == #greater;
     /// assert Tuple2.compare((1, "world"), (1, "hello"), Nat.compare, Text.compare) == #greater;
     /// ```
-    public func compare<A, B>(t1 : (A, B), t2 : (A, B), aCompare : (A, A) -> Types.Order, bCompare : (B, B) -> Types.Order) : Types.Order = switch (aCompare(t1.0, t2.0)) {
-      case (#equal) bCompare(t1.1, t2.1);
-      case order order
+    public persistent func compare<A, B>(t1 : (A, B), t2 : (A, B), aCompare : persistent (A, A) -> Types.Order, bCompare : persistent (B, B) -> Types.Order) : Types.Order {
+       switch (aCompare(t1.0, t2.0)) {
+        case (#equal) bCompare(t1.1, t2.1);
+        case order order
+      }
     };
 
     /// Creates a `toText` function for a tuple given `toText` functions for its elements.
@@ -102,7 +104,7 @@ module {
     /// let tupleCompare = Tuple2.makeCompare(Nat.compare, Text.compare);
     /// assert tupleCompare((1, "hello"), (1, "world")) == #less;
     /// ```
-    public func makeCompare<A, B>(aCompare : (A, A) -> Types.Order, bCompare : (B, B) -> Types.Order) : ((A, B), (A, B)) -> Types.Order = func(t1, t2) = compare(t1, t2, aCompare, bCompare)
+    public func makeCompare<A, B>(aCompare : persistent (A, A) -> Types.Order, bCompare : persistent (B, B) -> Types.Order) : ((A, B), (A, B)) -> Types.Order = func(t1, t2) = compare(t1, t2, aCompare, bCompare)
   };
 
   public module Tuple3 {

@@ -50,7 +50,7 @@
 /// * Stefan Kahrs, "Red-black trees with types", Journal of Functional Programming, 11(4): 425-432 (2001), [version 1 in web appendix](http://www.cs.ukc.ac.uk/people/staff/smk/redblack/rb.html).
 
 import Order "../Order";
-import Iter "../Iter";
+import Iter "../imperative/Iter";
 import Types "../Types";
 import Runtime "../Runtime";
 

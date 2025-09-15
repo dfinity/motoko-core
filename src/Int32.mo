@@ -7,7 +7,7 @@
 /// import Int32 "mo:core/Int32";
 /// ```
 import Int "Int";
-import Iter "Iter";
+import Iter "imperative/Iter";
 import Prim "mo:⛔";
 import Order "Order";
 

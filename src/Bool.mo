@@ -23,7 +23,7 @@
 /// ```
 
 import Prim "mo:⛔";
-import Iter "Iter";
+import Iter "imperative/Iter";
 import Order "Order";
 
 module {

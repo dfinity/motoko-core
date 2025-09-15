@@ -28,7 +28,7 @@
 /// import Queue "mo:core/pure/Queue";
 /// ```
 
-import Iter "../Iter";
+import Iter "../imperative/Iter";
 import List "List";
 import Order "../Order";
 import Types "../Types";

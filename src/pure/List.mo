@@ -11,7 +11,7 @@
 
 import { Array_tabulate } "mo:⛔";
 import Array "../Array";
-import Iter "../Iter";
+import Iter "../imperative/Iter";
 import Order "../Order";
 import Result "../Result";
 import { trap } "../Runtime";

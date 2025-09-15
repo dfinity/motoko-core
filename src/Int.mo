@@ -11,7 +11,7 @@
 import Prim "mo:⛔";
 import Char "Char";
 import Runtime "Runtime";
-import Iter "Iter";
+import Iter "imperative/Iter";
 import Order "Order";
 
 module {

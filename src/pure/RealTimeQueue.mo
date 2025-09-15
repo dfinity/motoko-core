@@ -43,7 +43,7 @@ import Types "../Types";
 import List "List";
 import Option "../Option";
 import { trap } "../Runtime";
-import Iter "../Iter";
+import Iter "../imperative/Iter";
 
 module {
   /// The real-time queue data structure can be in one of the following states:
