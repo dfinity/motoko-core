@@ -61,6 +61,7 @@ import Runtime "../Runtime";
 module {
 
   public type Map<K, V> = Types.Pure.Map<K, V>;
+  public type Self<K, V> = Map<K, V>;
 
   type Tree<K, V> = Types.Pure.Map.Tree<K, V>;
 

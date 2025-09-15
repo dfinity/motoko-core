@@ -16,6 +16,7 @@ module {
 
   /// 16-bit signed integers.
   public type Int16 = Prim.Types.Int16;
+  public type Self = Int16;
 
   /// Minimum 16-bit integer value, `-2 ** 15`.
   ///

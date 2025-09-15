@@ -19,6 +19,7 @@ module {
 
   /// Infinite precision natural numbers.
   public type Nat = Prim.Types.Nat;
+  public type Sel = Nat;
 
   /// Converts a natural number to its textual representation. Textual
   /// representation _do not_ contain underscores to represent commas.

@@ -18,6 +18,7 @@ module {
 
   /// Infinite precision signed integers.
   public type Int = Prim.Types.Int;
+  public type Self = Int;
 
   /// Returns the absolute value of `x`.
   ///

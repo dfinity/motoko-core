@@ -47,6 +47,7 @@ module {
   /// assert concat == "Hello! 👋";
   /// ```
   public type Text = Prim.Types.Text;
+  public type Self = Text;
 
   /// Converts the given `Char` to a `Text` value.
   ///
