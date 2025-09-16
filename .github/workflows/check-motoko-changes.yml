@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Check for Motoko file changes
         id: check_mo_changes
         run: |
@@ -86,4 +86,7 @@ jobs:
           else
             echo "has_mops_package_version_changes=true" >> $GITHUB_OUTPUT
           fi
-          
+
+          # TEMPORARY OVERRIDE: Force these to true
+          echo "has_mo_changes=true" >> $GITHUB_OUTPUT
+          echo "has_src_mo_changes=true" >> $GITHUB_OUTPUT
