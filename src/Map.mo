@@ -160,10 +160,10 @@ module {
 
   // `type error [M0200], cannot decide type constructor equality`
   // https://github.com/dfinity/motoko/issues/5446
-  public func map<K, V1, V2>(map : Map<K, V1>, projection : V1 -> V2) : Map<K, V2> {
+  public func map<K, V1, V2>(map : Map<K, V1>, projection : (K, V1) -> V2) : Map<K, V2> {
     let result = Map<K, V2>(map.internalComparison());
     for ((key, value) in map.entries()) {
-      result.add(key, projection(value))
+      result.add(key, projection(key, value))
     };
     result
   }
