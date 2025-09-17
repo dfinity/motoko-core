@@ -51,11 +51,11 @@ module {
     };
 
     public func equal(other : Set<T>) : Bool {
-      ImperativeSet.equal<T>(inner, other.internal(), comparison : TransientCompare<T>)
+      ImperativeSet.equal<T>(inner, other.internalSet(), comparison : TransientCompare<T>)
     };
 
     public func compare(other : Set<T>) : Order.Order {
-      ImperativeSet.compare(inner, other.internal(), comparison : TransientCompare<T>)
+      ImperativeSet.compare(inner, other.internalSet(), comparison : TransientCompare<T>)
     };
 
     public func max() : ?T {
@@ -86,7 +86,7 @@ module {
 
     // type error [M0200], cannot decide type constructor equality
     // TODO: Enable when this issue has been fixed: https://github.com/dfinity/motoko/issues/5446
-    // public func map<R>(project : T -> R) : Set<R> {
+    // public func map<R>(project : T -> R, compare: PersistentCompare<R>) : Set<R> {
     //   fromImperative<T, R>(ImperativeSet.map<T, R>(inner, project), compare)
     // };
 
@@ -102,9 +102,9 @@ module {
       ImperativeSet.toText(inner, elementFormat)
     };
 
-    public func internal() : ImperativeSet.Set<T> {
+    public func internalSet() : ImperativeSet.Set<T> {
       inner
-    }
+    };
   };
 
   public persistent func fromImperative<T>(set : ImperativeSet.Set<T>, compare : PersistentCompare<T>) : Set<T> {
@@ -134,6 +134,16 @@ module {
   public func singleton<T>(compare : PersistentCompare<T>, element : T) : Set<T> {
     let result = Set<T>(compare);
     result.add(element);
+    result
+  };
+
+  // `type error [M0200], cannot decide type constructor equality`
+  // https://github.com/dfinity/motoko/issues/5446
+  public func map<T, R>(set : Set<T>, projection : T -> R, compare: PersistentCompare<R>) : Set<R> {
+    let result = Set<R>(compare);
+    for (value in set.values()) {
+      result.add(projection(value))
+    };
     result
   }
 }

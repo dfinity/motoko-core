@@ -60,11 +60,11 @@ module {
     };
 
     public func equal(other : Map<K, V>, equalValue : (V, V) -> Bool) : Bool {
-      ImperativeMap.equal<K, V>(inner, other.internal(), comparison : TransientCompare<K>, equalValue)
+      ImperativeMap.equal<K, V>(inner, other.internalMap(), comparison : TransientCompare<K>, equalValue)
     };
 
     public func compare(other : Map<K, V>, compareValue : (V, V) -> Order.Order) : Order.Order {
-      ImperativeMap.compare(inner, other.internal(), comparison : TransientCompare<K>, compareValue)
+      ImperativeMap.compare(inner, other.internalMap(), comparison : TransientCompare<K>, compareValue)
     };
 
     public func maxEntry() : ?(K, V) {
@@ -119,8 +119,12 @@ module {
       ImperativeMap.toText(inner, keyFormat, valueFormat)
     };
 
-    public func internal() : ImperativeMap.Map<K, V> {
+    public func internalMap() : ImperativeMap.Map<K, V> {
       inner
+    };
+
+    public func internalComparison() : PersistentCompare<K> {
+      comparison
     }
   };
 
@@ -155,6 +159,16 @@ module {
   public func singleton<K, V>(compare : PersistentCompare<K>, key : K, value : V) : Map<K, V> {
     let result = Map<K, V>(compare);
     result.add(key, value);
+    result
+  };
+
+  // `type error [M0200], cannot decide type constructor equality`
+  // https://github.com/dfinity/motoko/issues/5446
+  public func map<K, V1, V2>(map : Map<K, V1>, projection : V1 -> V2) : Map<K, V2> {
+    let result = Map<K, V2>(map.internalComparison());
+    for ((key, value) in map.entries()) {
+      result.add(key, projection(value))
+    };
     result
   }
 }
