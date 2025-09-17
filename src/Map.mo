@@ -152,10 +152,6 @@ module {
     result
   };
 
-  public func empty<K, V>(compare : PersistentCompare<K>) : Map<K, V> {
-    Map<K, V>(compare)
-  };
-
   public func singleton<K, V>(compare : PersistentCompare<K>, key : K, value : V) : Map<K, V> {
     let result = Map<K, V>(compare);
     result.add(key, value);

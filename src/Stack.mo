@@ -100,10 +100,6 @@ module {
     result
   };
 
-  public func empty<T>() : Stack<T> {
-    Stack<T>()
-  };
-
   public func singleton<T>(element : T) : Stack<T> {
     let result = Stack<T>();
     result.push(element);

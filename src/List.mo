@@ -195,10 +195,6 @@ module {
     result
   };
 
-  public func empty<T>() : List<T> {
-    List<T>()
-  };
-
   public func singleton<T>(element : T) : List<T> {
     let result = List<T>();
     result.add(element);

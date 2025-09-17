@@ -127,10 +127,6 @@ module {
     result
   };
 
-  public func empty<T>(compare : PersistentCompare<T>) : Set<T> {
-    Set<T>(compare)
-  };
-
   public func singleton<T>(compare : PersistentCompare<T>, element : T) : Set<T> {
     let result = Set<T>(compare);
     result.add(element);

@@ -113,10 +113,6 @@ module {
     result
   };
 
-  public func empty<T>() : Queue<T> {
-    Queue<T>()
-  };
-
   public func singleton<T>(element : T) : Queue<T> {
     let result = Queue<T>();
     result.pushBack(element);
