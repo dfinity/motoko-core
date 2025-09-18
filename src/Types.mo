@@ -129,7 +129,11 @@ module {
     }
   };
 
-  public type Map<K, V> = Map.Map<K, V>;
+  public type Map<K, V, C <: (K, K) -> Order> = {
+    var root : Map.Node<K, V>;
+    var size : Nat;
+    cmp : C;
+  };
 
   public module Stack {
     public type Stack<T> = {
