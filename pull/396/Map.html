@@ -96,7 +96,24 @@ persistent actor {
 
 <p>Runtime: <code>O(1)</code>.
 Space: <code>O(1)</code>.</p>
-</p></div><div class="declaration"><h4 class="function" id="size"><code><span class="keyword">public func </span><span class="fnname">size</span>&lt;<span class="type">K</span>, <span class="type">V</span>&gt;(<span class="parameter">map</span> : <a href="#type.Map"><span class="type">Map</span></a>&lt;<span class="type">K</span>, <span class="type">V</span>, <a href="#type.Cmp"><span class="type">Cmp</span></a>&lt;<span class="type">K</span>&gt;&gt;) : <span class="type">Nat</span></code></h4><p></p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>&lt;<span class="type">K</span>, <span class="type">V</span>, <span class="type">C</span> &lt;: <a href="#type.Cmp"><span class="type">Cmp</span></a>&lt;<span class="type">K</span>&gt;&gt;(<br/>  <span class="parameter">map1</span> : <a href="#type.Map"><span class="type">Map</span></a>&lt;<span class="type">K</span>, <span class="type">V</span>, <span class="type">C</span>&gt;, <br/>  <span class="parameter">map2</span> : <a href="#type.Map"><span class="type">Map</span></a>&lt;<span class="type">K</span>, <span class="type">V</span>, <span class="type">C</span>&gt;, <br/>  <span class="parameter">equalValue</span> : (<span class="type">V</span>, <span class="type">V</span>) -&gt; <span class="type">Bool</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Test whether two imperative maps have equal entries.
+</p></div><div class="declaration"><h4 class="function" id="size"><code><span class="keyword">public func </span><span class="fnname">size</span>&lt;<span class="type">K</span>, <span class="type">V</span>&gt;(<span class="parameter">map</span> : <a href="#type.Map"><span class="type">Map</span></a>&lt;<span class="type">K</span>, <span class="type">V</span>, <a href="#type.Cmp"><span class="type">Cmp</span></a>&lt;<span class="type">K</span>&gt;&gt;) : <span class="type">Nat</span></code></h4><p><p>Return the number of entries in a key-value map.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Map &quot;mo:core/Map&quot;;
+import Nat &quot;mo:core/Nat&quot;;
+
+persistent actor {
+  let map = Map.fromIter&lt;Nat, Text&gt;(
+    [(0, &quot;Zero&quot;), (1, &quot;One&quot;), (2, &quot;Two&quot;)].values(),
+    Nat.compare);
+
+  assert Map.size(map) == 3;
+  Map.clear(map);
+  assert Map.size(map) == 0;
+}</code></pre>
+
+<p>Runtime: <code>O(1)</code>.
+Space: <code>O(1)</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>&lt;<span class="type">K</span>, <span class="type">V</span>, <span class="type">C</span> &lt;: <a href="#type.Cmp"><span class="type">Cmp</span></a>&lt;<span class="type">K</span>&gt;&gt;(<br/>  <span class="parameter">map1</span> : <a href="#type.Map"><span class="type">Map</span></a>&lt;<span class="type">K</span>, <span class="type">V</span>, <span class="type">C</span>&gt;, <br/>  <span class="parameter">map2</span> : <a href="#type.Map"><span class="type">Map</span></a>&lt;<span class="type">K</span>, <span class="type">V</span>, <span class="type">C</span>&gt;, <br/>  <span class="parameter">equalValue</span> : (<span class="type">V</span>, <span class="type">V</span>) -&gt; <span class="type">Bool</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Test whether two imperative maps have equal entries.
 Both maps have to be constructed by the same comparison function.</p>
 <p>Example:</p>
 <pre class="motoko"><code class="motoko">import Map &quot;mo:core/Map&quot;;
@@ -134,7 +151,25 @@ persistent actor {
 Space: <code>O(1)</code>.
 where <code>n</code> denotes the number of key-value entries stored in the map and
 assuming that the <code>compare</code> function implements an <code>O(1)</code> comparison.</p>
-</p></div><div class="declaration"><h4 class="function" id="get"><code><span class="keyword">public func </span><span class="fnname">get</span>&lt;<span class="type">K</span>, <span class="type">V</span>&gt;(<span class="parameter">map</span> : <a href="#type.Map"><span class="type">Map</span></a>&lt;<span class="type">K</span>, <span class="type">V</span>, <a href="#type.Cmp"><span class="type">Cmp</span></a>&lt;<span class="type">K</span>&gt;&gt;, <span class="parameter">key</span> : <span class="type">K</span>) : ?<span class="type">V</span></code></h4><p></p></div><div class="declaration"><h4 class="function" id="insert"><code><span class="keyword">public func </span><span class="fnname">insert</span>&lt;<span class="type">K</span>, <span class="type">V</span>&gt;(<br/>  <span class="parameter">map</span> : <a href="#type.Map"><span class="type">Map</span></a>&lt;<span class="type">K</span>, <span class="type">V</span>, <a href="#type.Cmp"><span class="type">Cmp</span></a>&lt;<span class="type">K</span>&gt;&gt;, <br/>  <span class="parameter">key</span> : <span class="type">K</span>, <br/>  <span class="parameter">value</span> : <span class="type">V</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Given <code>map</code> ordered by <code>compare</code>, insert a new mapping from <code>key</code> to <code>value</code>.
+</p></div><div class="declaration"><h4 class="function" id="get"><code><span class="keyword">public func </span><span class="fnname">get</span>&lt;<span class="type">K</span>, <span class="type">V</span>&gt;(<span class="parameter">map</span> : <a href="#type.Map"><span class="type">Map</span></a>&lt;<span class="type">K</span>, <span class="type">V</span>, <a href="#type.Cmp"><span class="type">Cmp</span></a>&lt;<span class="type">K</span>&gt;&gt;, <span class="parameter">key</span> : <span class="type">K</span>) : ?<span class="type">V</span></code></h4><p><p>Get the value associated with key in the given map if present and <code>null</code> otherwise.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Map &quot;mo:core/Map&quot;;
+import Nat &quot;mo:core/Nat&quot;;
+
+persistent actor {
+  let map = Map.fromIter&lt;Nat, Text&gt;(
+    [(0, &quot;Zero&quot;), (1, &quot;One&quot;), (2, &quot;Two&quot;)].values(),
+    Nat.compare);
+
+  assert Map.get(map, Nat.compare, 1) == ?&quot;One&quot;;
+  assert Map.get(map, Nat.compare, 3) == null;
+}</code></pre>
+
+<p>Runtime: <code>O(log(n))</code>.
+Space: <code>O(1)</code>.
+where <code>n</code> denotes the number of key-value entries stored in the map and
+assuming that the <code>compare</code> function implements an <code>O(1)</code> comparison.</p>
+</p></div><div class="declaration"><h4 class="function" id="insert"><code><span class="keyword">public func </span><span class="fnname">insert</span>&lt;<span class="type">K</span>, <span class="type">V</span>&gt;(<br/>  <span class="parameter">map</span> : <a href="#type.Map"><span class="type">Map</span></a>&lt;<span class="type">K</span>, <span class="type">V</span>, <a href="#type.Cmp"><span class="type">Cmp</span></a>&lt;<span class="type">K</span>&gt;&gt;, <br/>  <span class="parameter">key</span> : <span class="type">K</span>, <br/>  <span class="parameter">value</span> : <span class="type">V</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Given <code>map</code> ordered by <code>compare</code>, insert a new mapping from <code>key</code> to <code>value</code>.
 Replaces any existing entry under <code>key</code>.
 Returns true if the key is new to the map, otherwise false.</p>
 <p>Example:</p>
