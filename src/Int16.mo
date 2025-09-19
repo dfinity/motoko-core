@@ -8,12 +8,11 @@
 /// ```
 
 import Int "Int";
-import Iter "imperative/Iter";
+import Iter "Iter";
 import Prim "mo:⛔";
 import Order "Order";
 
 module {
-
   /// 16-bit signed integers.
   public type Int16 = Prim.Types.Int16;
 
@@ -668,7 +667,7 @@ module {
     if (fromInclusive >= toExclusive) {
       Iter.empty()
     } else {
-      object {
+      Iter.Iter(object {
         var n = fromInclusive;
         public func next() : ?Int16 {
           if (n == toExclusive) {
@@ -679,7 +678,7 @@ module {
             ?result
           }
         }
-      }
+      })
     }
   };
 
@@ -705,7 +704,7 @@ module {
     if (from > to) {
       Iter.empty()
     } else {
-      object {
+      Iter.Iter(object {
         var n = from;
         var done = false;
         public func next() : ?Int16 {
@@ -721,7 +720,7 @@ module {
             ?result
           }
         }
-      }
+      })
     }
   };
 
@@ -738,5 +737,4 @@ module {
   public func allValues() : Iter.Iter<Int16> {
     rangeInclusive(minValue, maxValue)
   };
-
 }

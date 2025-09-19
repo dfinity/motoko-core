@@ -11,7 +11,7 @@
 import Prim "mo:⛔";
 import Char "Char";
 import Runtime "Runtime";
-import Iter "imperative/Iter";
+import Iter "Iter";
 import Order "Order";
 
 module {
@@ -409,7 +409,7 @@ module {
     if (fromInclusive >= toExclusive) {
       Iter.empty()
     } else {
-      object {
+      Iter.Iter(object {
         var n = fromInclusive;
         public func next() : ?Int {
           if (n >= toExclusive) {
@@ -420,7 +420,7 @@ module {
             ?result
           }
         }
-      }
+      })
     }
   };
 
@@ -449,7 +449,7 @@ module {
     if (step == 0) {
       Iter.empty()
     } else if (step > 0 and fromInclusive < toExclusive) {
-      object {
+      Iter.Iter(object {
         var n = fromInclusive;
         public func next() : ?Int {
           if (n >= toExclusive) {
@@ -460,9 +460,9 @@ module {
             ?current
           }
         }
-      }
+      })
     } else if (step < 0 and fromInclusive > toExclusive) {
-      object {
+      Iter.Iter(object {
         var n = fromInclusive;
         public func next() : ?Int {
           if (n <= toExclusive) {
@@ -473,7 +473,7 @@ module {
             ?current
           }
         }
-      }
+      })
     } else {
       Iter.empty()
     }
@@ -501,7 +501,7 @@ module {
     if (from > to) {
       Iter.empty()
     } else {
-      object {
+      Iter.Iter(object {
         var n = from;
         public func next() : ?Int {
           if (n > to) {
@@ -512,7 +512,7 @@ module {
             ?result
           }
         }
-      }
+      })
     }
   };
 
@@ -547,7 +547,7 @@ module {
     } else if (step == 0) {
       Iter.empty()
     } else if (step > 0 and from < to) {
-      object {
+      Iter.Iter(object {
         var n = from;
         public func next() : ?Int {
           if (n >= to + 1) {
@@ -558,9 +558,9 @@ module {
             ?current
           }
         }
-      }
+      })
     } else if (step < 0 and from > to) {
-      object {
+      Iter.Iter(object {
         var n = from;
         public func next() : ?Int {
           if (n + 1 <= to) {
@@ -571,7 +571,7 @@ module {
             ?current
           }
         }
-      }
+      })
     } else {
       Iter.empty()
     }

@@ -30,8 +30,9 @@
 ///
 
 import Char "Char";
-import Iter "imperative/Iter";
-import Stack "imperative/Stack";
+import Iter "Iter";
+import ImperativeIter "imperative/Iter";
+import ImperativeStack "imperative/Stack";
 import Types "Types";
 import Prim "mo:⛔";
 import Order "Order";
@@ -89,7 +90,9 @@ module {
   /// assert chars.next() == ?'c';
   /// assert chars.next() == null;
   /// ```
-  public func toIter(t : Text) : Iter.Iter<Char> = t.chars();
+  public func toIter(t : Text) : Iter.Iter<Char> {
+    Iter.Iter(t.chars())
+  };
 
   /// Collapses the characters in `text` into a single value by starting with `base`
   /// and progessively combining characters into `base` with `combine`. Iteration runs
@@ -176,7 +179,7 @@ module {
   /// let text = Text.fromIter(['a', 'b', 'c'].values());
   /// assert text == "abc";
   /// ```
-  public func fromIter(cs : Iter.Iter<Char>) : Text {
+  public func fromIter(cs : ImperativeIter.Iter<Char>) : Text {
     var r = "";
     for (c in cs) {
       r #= Prim.charToText(c)
@@ -228,7 +231,7 @@ module {
   /// Runtime: O(t.size())
   /// Space: O(t.size())
   public func reverse(t : Text) : Text {
-    fromIter(Iter.reverse(t.chars()))
+    fromIter(Iter.Iter(t.chars()).reverse())
   };
 
   /// Returns true if two text values are equal.
@@ -412,30 +415,30 @@ module {
   /// ```
   public type Pattern = Types.Pattern;
 
-  private func take(n : Nat, cs : Iter.Iter<Char>) : Iter.Iter<Char> {
+  private func take(n : Nat, cs : ImperativeIter.Iter<Char>) : Iter.Iter<Char> {
     var i = n;
-    object {
+    Iter.Iter(object {
       public func next() : ?Char {
         if (i == 0) return null;
         i -= 1;
         return cs.next()
       }
-    }
+    })
   };
 
   private func empty() : Iter.Iter<Char> {
-    object {
+    Iter.Iter(object {
       public func next() : ?Char = null
-    }
+    })
   };
 
   private type Match = {
     /// #success on complete match
     #success;
     /// #fail(cs,c) on partial match of cs, but failing match on c
-    #fail : (cs : Iter.Iter<Char>, c : Char);
+    #fail : (cs : ImperativeIter.Iter<Char>, c : Char);
     /// #empty(cs) on partial match of cs and empty stream
-    #empty : (cs : Iter.Iter<Char>)
+    #empty : (cs : ImperativeIter.Iter<Char>)
   };
 
   private func sizeOfPattern(pat : Pattern) : Nat {
@@ -445,10 +448,10 @@ module {
     }
   };
 
-  private func matchOfPattern(pat : Pattern) : (cs : Iter.Iter<Char>) -> Match {
+  private func matchOfPattern(pat : Pattern) : (cs : ImperativeIter.Iter<Char>) -> Match {
     switch pat {
       case (#char(p)) {
-        func(cs : Iter.Iter<Char>) : Match {
+        func(cs : ImperativeIter.Iter<Char>) : Match {
           switch (cs.next()) {
             case (?c) {
               if (p == c) {
@@ -462,7 +465,7 @@ module {
         }
       };
       case (#predicate(p)) {
-        func(cs : Iter.Iter<Char>) : Match {
+        func(cs : ImperativeIter.Iter<Char>) : Match {
           switch (cs.next()) {
             case (?c) {
               if (p(c)) {
@@ -476,7 +479,7 @@ module {
         }
       };
       case (#text(p)) {
-        func(cs : Iter.Iter<Char>) : Match {
+        func(cs : ImperativeIter.Iter<Char>) : Match {
           var i = 0;
           let ds = p.chars();
           loop {
@@ -502,20 +505,20 @@ module {
     }
   };
 
-  private class CharBuffer(cs : Iter.Iter<Char>) : Iter.Iter<Char> = {
+  private class CharBuffer(cs : ImperativeIter.Iter<Char>) : ImperativeIter.Iter<Char> = {
 
-    var stack : Stack.Stack<(Iter.Iter<Char>, Char)> = Stack.empty();
+    var stack : ImperativeStack.Stack<(ImperativeIter.Iter<Char>, Char)> = ImperativeStack.empty();
 
-    public func pushBack(cs0 : Iter.Iter<Char>, c : Char) {
-      Stack.push(stack, (cs0, c))
+    public func pushBack(cs0 : ImperativeIter.Iter<Char>, c : Char) {
+      ImperativeStack.push(stack, (cs0, c))
     };
 
     public func next() : ?Char {
-      switch (Stack.peek(stack)) {
+      switch (ImperativeStack.peek(stack)) {
         case (?(buff, c)) {
           switch (buff.next()) {
             case null {
-              ignore Stack.pop(stack);
+              ignore ImperativeStack.pop(stack);
               return ?c
             };
             case oc {
@@ -543,7 +546,7 @@ module {
     let cs = CharBuffer(t.chars());
     var state = 0;
     var field = "";
-    object {
+    Iter.Iter(object {
       public func next() : ?Text {
         switch state {
           case (0 or 1) {
@@ -590,7 +593,7 @@ module {
           case _ { return null }
         }
       }
-    }
+    })
   };
 
   /// Returns a sequence of tokens from the input `Text` delimited by the specified `Pattern`, derived from start to end.
@@ -603,14 +606,14 @@ module {
   /// ```
   public func tokens(t : Text, p : Pattern) : Iter.Iter<Text> {
     let fs = split(t, p);
-    object {
+    Iter.Iter(object {
       public func next() : ?Text {
         switch (fs.next()) {
           case (?"") { next() };
           case ot { ot }
         }
       }
-    }
+    })
   };
 
   /// Returns `true` if the input `Text` contains a match for the specified `Pattern`.

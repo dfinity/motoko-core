@@ -23,7 +23,7 @@
 /// ```
 
 import Prim "mo:⛔";
-import Iter "imperative/Iter";
+import Iter "Iter";
 import Order "Order";
 
 module {
@@ -112,15 +112,18 @@ module {
   /// assert iter.next() == ?false;
   /// assert iter.next() == null;
   /// ```
-  public func allValues() : Iter.Iter<Bool> = object {
-    var state : ?Bool = ?true;
-    public func next() : ?Bool {
-      switch state {
-        case (?true) { state := ?false; ?true };
-        case (?false) { state := null; ?false };
-        case null { null }
+  public func allValues() : Iter.Iter<Bool> {
+    Iter.Iter(
+      object {
+        var state : ?Bool = ?true;
+        public func next() : ?Bool {
+          switch state {
+            case (?true) { state := ?false; ?true };
+            case (?false) { state := null; ?false };
+            case null { null }
+          }
+        }
       }
-    }
-  };
-
+    )
+  }
 }

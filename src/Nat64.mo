@@ -7,7 +7,7 @@
 /// import Nat64 "mo:core/Nat64";
 /// ```
 import Nat "Nat";
-import Iter "imperative/Iter";
+import Iter "Iter";
 import Prim "mo:⛔";
 import Order "Order";
 
@@ -592,7 +592,7 @@ module {
     if (fromInclusive >= toExclusive) {
       Iter.empty()
     } else {
-      object {
+      Iter.Iter(object {
         var n = fromInclusive;
         public func next() : ?Nat64 {
           if (n == toExclusive) {
@@ -603,7 +603,7 @@ module {
             ?result
           }
         }
-      }
+      })
     }
   };
 
@@ -629,7 +629,7 @@ module {
     if (from > to) {
       Iter.empty()
     } else {
-      object {
+      Iter.Iter(object {
         var n = from;
         var done = false;
         public func next() : ?Nat64 {
@@ -645,7 +645,7 @@ module {
             ?result
           }
         }
-      }
+      })
     }
   };
 

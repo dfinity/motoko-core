@@ -11,7 +11,7 @@
 import Int "Int";
 import Prim "mo:⛔";
 import Char "Char";
-import Iter "imperative/Iter";
+import Iter "Iter";
 import Runtime "Runtime";
 import Order "Order";
 
@@ -378,17 +378,19 @@ module {
     if (fromInclusive >= toExclusive) {
       Iter.empty()
     } else {
-      object {
-        var n = fromInclusive;
-        public func next() : ?Nat {
-          if (n >= toExclusive) {
-            return null
-          };
-          let current = n;
-          n += 1;
-          ?current
+      Iter.Iter(
+        object {
+          var n = fromInclusive;
+          public func next() : ?Nat {
+            if (n >= toExclusive) {
+              return null
+            };
+            let current = n;
+            n += 1;
+            ?current
+          }
         }
-      }
+      )
     }
   };
 
@@ -417,7 +419,7 @@ module {
     if (step == 0 or (step > 0 and fromInclusive >= toExclusive) or (step < 0 and fromInclusive <= toExclusive)) {
       Iter.empty()
     } else if (step > 0) {
-      object {
+      Iter.Iter(object {
         let stepMagnitude = Int.abs(step);
         var n = fromInclusive;
         public func next() : ?Nat {
@@ -428,9 +430,9 @@ module {
           n += stepMagnitude;
           ?current
         }
-      }
+      })
     } else {
-      object {
+      Iter.Iter(object {
         let stepMagnitude = Int.abs(step);
         var n = fromInclusive;
         public func next() : ?Nat {
@@ -445,7 +447,7 @@ module {
           };
           ?current
         }
-      }
+      })
     }
   };
 
@@ -471,7 +473,7 @@ module {
     if (from > to) {
       Iter.empty()
     } else {
-      object {
+      Iter.Iter(object {
         var n = from;
         public func next() : ?Nat {
           if (n > to) {
@@ -481,7 +483,7 @@ module {
           n += 1;
           ?current
         }
-      }
+      })
     }
   };
 
@@ -516,37 +518,41 @@ module {
     } else if (step == 0 or (step > 0 and from > to) or (step < 0 and from < to)) {
       Iter.empty()
     } else if (step > 0) {
-      object {
-        let stepMagnitude = Int.abs(step);
-        var n = from;
-        public func next() : ?Nat {
-          if (n > to) {
-            return null
-          };
-          let current = n;
-          n += stepMagnitude;
-          ?current
-        }
-      }
-    } else {
-      object {
-        let stepMagnitude = Int.abs(step);
-        var n = from;
-        var done = false;
-        public func next() : ?Nat {
-          if (done) {
-            null
-          } else {
-            let current = n;
-            if (n < to + stepMagnitude) {
-              done := true
-            } else {
-              n -= stepMagnitude
+      Iter.Iter(
+        object {
+          let stepMagnitude = Int.abs(step);
+          var n = from;
+          public func next() : ?Nat {
+            if (n > to) {
+              return null
             };
+            let current = n;
+            n += stepMagnitude;
             ?current
           }
         }
-      }
+      )
+    } else {
+      Iter.Iter(
+        object {
+          let stepMagnitude = Int.abs(step);
+          var n = from;
+          var done = false;
+          public func next() : ?Nat {
+            if (done) {
+              null
+            } else {
+              let current = n;
+              if (n < to + stepMagnitude) {
+                done := true
+              } else {
+                n -= stepMagnitude
+              };
+              ?current
+            }
+          }
+        }
+      )
     }
   };
 
@@ -560,13 +566,16 @@ module {
   /// assert iter.next() == ?2;
   /// // ...
   /// ```
-  public func allValues() : Iter.Iter<Nat> = object {
-    var n = 0;
-    public func next() : ?Nat {
-      let current = n;
-      n += 1;
-      ?current
-    }
-  };
-
+  public func allValues() : Iter.Iter<Nat> {
+    Iter.Iter(
+      object {
+        var n = 0;
+        public func next() : ?Nat {
+          let current = n;
+          n += 1;
+          ?current
+        }
+      }
+    )
+  }
 }
