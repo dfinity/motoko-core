@@ -595,7 +595,7 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sort<T>(list : List<T>, compare : (T, T) -> Order.Order) {
+  public func sort<T>(list : List<T>, compare : persistent (T, T) -> Order.Order) {
     if (size(list) < 2) return;
     let arr = toVarArray(list);
     VarArray.sortInPlace(arr, compare);

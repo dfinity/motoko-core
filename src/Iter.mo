@@ -87,7 +87,7 @@ module {
       ImperativeIter.toVarArray(inner)
     };
 
-    public func sort(compare : (T, T) -> Order.Order) : Iter<T> {
+    public func sort(compare : persistent (T, T) -> Order.Order) : Iter<T> {
       Iter(ImperativeIter.sort(inner, compare))
     };
 

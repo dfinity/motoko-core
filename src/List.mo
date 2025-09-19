@@ -47,7 +47,7 @@ module {
       ImperativeList.removeLast(inner)
     };
 
-    public func sort(compare : (T, T) -> Order.Order) {
+    public func sort(compare : persistent (T, T) -> Order.Order) {
       ImperativeList.sort(inner, compare)
     };
 

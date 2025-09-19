@@ -201,7 +201,7 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sort<T>(array : [var T], compare : (T, T) -> Order.Order) : [var T] {
+  public func sort<T>(array : [var T], compare : persistent (T, T) -> Order.Order) : [var T] {
     let newArray = clone(array);
     sortInPlace(newArray, compare);
     newArray
@@ -221,7 +221,7 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sortInPlace<T>(array : [var T], compare : (T, T) -> Order.Order) : () {
+  public func sortInPlace<T>(array : [var T], compare : persistent (T, T) -> Order.Order) : () {
     // Stable merge sort in a bottom-up iterative style. Same algorithm as the sort in Buffer.
     let size = array.size();
     if (size == 0) {
