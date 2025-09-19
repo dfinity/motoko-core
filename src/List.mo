@@ -1,4 +1,5 @@
 import ImperativeList "imperative/List";
+import ImperativeIter "imperative/Iter";
 import Iter "Iter";
 import PureList "pure/List";
 import Order "Order";
@@ -51,8 +52,8 @@ module {
       ImperativeList.sort(inner, compare)
     };
 
-    public func addAll(iter : Iter.Iter<T>) {
-      ImperativeList.addAll(inner, iter.internal())
+    public func addAll(iter : ImperativeIter.Iter<T>) {
+      ImperativeList.addAll(inner, iter)
     };
 
     public func addRepeat(initValue : T, count : Nat) {
@@ -172,22 +173,22 @@ module {
   };
 
   public persistent func fromImperative<T>(list : ImperativeList.List<T>) : List<T> {
-    fromIter(Iter.Iter(ImperativeList.values(list)))
+    fromIter(ImperativeList.values(list))
   };
 
   public func fromPure<T>(pure : PureList.List<T>) : List<T> {
-    fromIter(Iter.Iter(PureList.values(PureList.reverse(pure))))
+    fromIter(PureList.values(PureList.reverse(pure)))
   };
 
   public func fromArray<T>(array : [T]) : List<T> {
-    fromIter(Iter.Iter(array.values()))
+    fromIter(array.values())
   };
 
   public func fromVarArray<T>(array : [var T]) : List<T> {
-    fromIter(Iter.Iter(array.values()))
+    fromIter(array.values())
   };
 
-  public persistent func fromIter<T>(iter : Iter.Iter<T>) : List<T> {
+  public persistent func fromIter<T>(iter : ImperativeIter.Iter<T>) : List<T> {
     let result = List<T>();
     for (element in iter) {
       result.add(element)

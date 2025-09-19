@@ -1,4 +1,5 @@
 import ImperativeMap "imperative/Map";
+import ImperativeIter "imperative/Iter";
 import Iter "Iter";
 import PureMap "pure/Map";
 import Order "Order";
@@ -129,22 +130,22 @@ module {
   };
 
   public persistent func fromImperative<K, V>(map : ImperativeMap.Map<K, V>, compare : PersistentCompare<K>) : Map<K, V> {
-    fromIter(Iter.Iter(ImperativeMap.entries(map)), compare)
+    fromIter(ImperativeMap.entries(map), compare)
   };
 
   public func fromPure<K, V>(pure : PureMap.Map<K, V>, compare : PersistentCompare<K>) : Map<K, V> {
-    fromIter(Iter.Iter(PureMap.entries(pure)), compare)
+    fromIter(PureMap.entries(pure), compare)
   };
 
   public func fromArray<K, V>(array : [(K, V)], compare : PersistentCompare<K>) : Map<K, V> {
-    fromIter(Iter.Iter(array.values()), compare)
+    fromIter(array.values(), compare)
   };
 
   public func fromVarArray<K, V>(array : [var (K, V)], compare : PersistentCompare<K>) : Map<K, V> {
-    fromIter(Iter.Iter(array.values()), compare)
+    fromIter(array.values(), compare)
   };
 
-  public persistent func fromIter<K, V>(iter : Iter.Iter<(K, V)>, compare : PersistentCompare<K>) : Map<K, V> {
+  public persistent func fromIter<K, V>(iter : ImperativeIter.Iter<(K, V)>, compare : PersistentCompare<K>) : Map<K, V> {
     let result = Map<K, V>(compare);
     for ((key, value) in iter) {
       result.add(key, value)

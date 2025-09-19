@@ -1,4 +1,5 @@
 import ImperativeQueue "imperative/Queue";
+import ImperativeIter "imperative/Iter";
 import Iter "Iter";
 import PureQueue "pure/Queue";
 import Order "Order";
@@ -90,22 +91,22 @@ module {
   };
 
   public persistent func fromImperative<T>(queue : ImperativeQueue.Queue<T>) : Queue<T> {
-    fromIter(Iter.Iter(ImperativeQueue.values(queue)))
+    fromIter(ImperativeQueue.values(queue))
   };
 
   public func fromPure<T>(pure : PureQueue.Queue<T>) : Queue<T> {
-    fromIter(Iter.Iter(PureQueue.values(pure)))
+    fromIter(PureQueue.values(pure))
   };
 
   public func fromArray<T>(array : [T]) : Queue<T> {
-    fromIter(Iter.Iter(array.values()))
+    fromIter(array.values())
   };
 
   public func fromVarArray<T>(array : [var T]) : Queue<T> {
-    fromIter(Iter.Iter(array.values()))
+    fromIter(array.values())
   };
 
-  public persistent func fromIter<T>(iter : Iter.Iter<T>) : Queue<T> {
+  public persistent func fromIter<T>(iter : ImperativeIter.Iter<T>) : Queue<T> {
     let result = Queue<T>();
     for (element in iter) {
       result.pushBack(element)

@@ -1,4 +1,5 @@
 import ImperativeStack "imperative/Stack";
+import ImperativeIter "imperative/Iter";
 import Iter "Iter";
 import PureList "pure/List";
 import Order "Order";
@@ -77,22 +78,22 @@ module {
   };
 
   public persistent func fromImperative<T>(Stack : ImperativeStack.Stack<T>) : Stack<T> {
-    fromIter(Iter.Iter(ImperativeStack.values(Stack)))
+    fromIter(ImperativeStack.values(Stack))
   };
 
   public func fromPure<T>(pure : PureList.List<T>) : Stack<T> {
-    fromIter(Iter.Iter(PureList.values(pure)))
+    fromIter(PureList.values(pure))
   };
 
   public func fromArray<T>(array : [T]) : Stack<T> {
-    fromIter(Iter.Iter(array.values()))
+    fromIter(array.values())
   };
 
   public func fromVarArray<T>(array : [var T]) : Stack<T> {
-    fromIter(Iter.Iter(array.values()))
+    fromIter(array.values())
   };
 
-  public persistent func fromIter<T>(iter : Iter.Iter<T>) : Stack<T> {
+  public persistent func fromIter<T>(iter : ImperativeIter.Iter<T>) : Stack<T> {
     let result = Stack<T>();
     for (element in iter) {
       result.push(element)

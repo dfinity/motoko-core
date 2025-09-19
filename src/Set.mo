@@ -1,4 +1,5 @@
 import ImperativeSet "imperative/Set";
+import ImperativeIter "imperative/Iter";
 import Iter "Iter";
 import PureSet "pure/Set";
 import Order "Order";
@@ -108,18 +109,18 @@ module {
   };
 
   public persistent func fromImperative<T>(set : ImperativeSet.Set<T>, compare : PersistentCompare<T>) : Set<T> {
-    fromIter(Iter.Iter(ImperativeSet.values(set)), compare)
+    fromIter(ImperativeSet.values(set), compare)
   };
 
   public func fromPure<T>(pure : PureSet.Set<T>, compare : PersistentCompare<T>) : Set<T> {
-    fromIter(Iter.Iter(PureSet.values(pure)), compare)
+    fromIter(PureSet.values(pure), compare)
   };
 
   public func fromArray<T>(array : [T], compare : PersistentCompare<T>) : Set<T> {
-    fromIter(Iter.Iter(array.values()), compare)
+    fromIter(array.values(), compare)
   };
 
-  public persistent func fromIter<T>(iter : Iter.Iter<T>, compare : PersistentCompare<T>) : Set<T> {
+  public persistent func fromIter<T>(iter : ImperativeIter.Iter<T>, compare : PersistentCompare<T>) : Set<T> {
     let result = Set<T>(compare);
     for (element in iter) {
       result.add(element)

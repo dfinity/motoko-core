@@ -75,8 +75,8 @@ module {
       ImperativeIter.min(inner, compare)
     };
 
-    public func concat(other : Iter<T>) : Iter<T> {
-      Iter(ImperativeIter.concat(inner, other.internal()))
+    public func concat(other : ImperativeIter.Iter<T>) : Iter<T> {
+      Iter(ImperativeIter.concat(inner, other))
     };
 
     public func toArray() : [T] {
@@ -98,10 +98,6 @@ module {
     public func next() : ?T {
       inner.next()
     };
-
-    public func internal() : ImperativeIter.Iter<T> {
-      inner
-    }
   };
 
   public func empty<T>() : Iter<T> {
@@ -114,48 +110,48 @@ module {
 
   // TODO: Make object-oriented when below Motoko compiler limitation is resolved.
   // `type error [M0156], block contains expansive type definitions`.
-  public func enumerate<T>(iter : Iter<T>) : Iter<(Nat, T)> {
-    Iter(ImperativeIter.enumerate(iter.internal()))
+  public func enumerate<T>(iter : ImperativeIter.Iter<T>) : Iter<(Nat, T)> {
+    Iter(ImperativeIter.enumerate(iter))
   };
 
   // TODO: Make object-oriented when below Motoko compiler limitation is resolved.
   // `type error [M0200], cannot decide type constructor equality`
   // https://github.com/dfinity/motoko/issues/5446
-  public func map<T, R>(iter : Iter<T>, projection : T -> R) : Iter<R> {
-    Iter(ImperativeIter.map(iter.internal(), projection))
+  public func map<T, R>(iter : ImperativeIter.Iter<T>, projection : T -> R) : Iter<R> {
+    Iter(ImperativeIter.map(iter, projection))
   };
 
   // TODO: Make object-oriented when below Motoko compiler limitation is resolved.
   // `type error [M0200], cannot decide type constructor equality`
   // https://github.com/dfinity/motoko/issues/5446
-  public func filterMap<T, R>(iter : Iter<T>, function : T -> ?R) : Iter<R> {
-    Iter(ImperativeIter.filterMap(iter.internal(), function))
+  public func filterMap<T, R>(iter : ImperativeIter.Iter<T>, function : T -> ?R) : Iter<R> {
+    Iter(ImperativeIter.filterMap(iter, function))
   };
 
-  public func flatten<T>(iter : Iter<Iter<T>>) : Iter<T> {
+  public func flatten<T>(iter : ImperativeIter.Iter<Iter<T>>) : Iter<T> {
     let classical : Iter<ImperativeIter.Iter<T>> = map<Iter<T>, ImperativeIter.Iter<T>>(
       iter,
       func(iterator) {
-        iterator.internal()
+        iterator
       }
     );
-    Iter(ImperativeIter.flatten<T>(classical.internal()))
+    Iter(ImperativeIter.flatten<T>(classical))
   };
 
-  public func zip<A, B>(a : Iter<A>, b : Iter<B>) : Iter<(A, B)> {
-    Iter(ImperativeIter.zip(a.internal(), b.internal()))
+  public func zip<A, B>(a : ImperativeIter.Iter<A>, b : ImperativeIter.Iter<B>) : Iter<(A, B)> {
+    Iter(ImperativeIter.zip(a, b))
   };
 
-  public func zipWith<A, B, R>(a : Iter<A>, b : Iter<B>, projection : (A, B) -> R) : Iter<R> {
-    Iter(ImperativeIter.zipWith(a.internal(), b.internal(), projection))
+  public func zipWith<A, B, R>(a : ImperativeIter.Iter<A>, b : ImperativeIter.Iter<B>, projection : (A, B) -> R) : Iter<R> {
+    Iter(ImperativeIter.zipWith(a, b, projection))
   };
 
-  public func scanLeft<T, R>(iter : Iter<T>, initial : R, combine : (R, T) -> R) : Iter<R> {
-    Iter(ImperativeIter.scanLeft(iter.internal(), initial, combine))
+  public func scanLeft<T, R>(iter : ImperativeIter.Iter<T>, initial : R, combine : (R, T) -> R) : Iter<R> {
+    Iter(ImperativeIter.scanLeft(iter, initial, combine))
   };
 
-  public func scanRight<T, R>(iter : Iter<T>, initial : R, combine : (T, R) -> R) : Iter<R> {
-    Iter(ImperativeIter.scanRight(iter.internal(), initial, combine))
+  public func scanRight<T, R>(iter : ImperativeIter.Iter<T>, initial : R, combine : (T, R) -> R) : Iter<R> {
+    Iter(ImperativeIter.scanRight(iter, initial, combine))
   };
 
   public func unfold<T, S>(initial : S, step : S -> ?(T, S)) : Iter<T> {
