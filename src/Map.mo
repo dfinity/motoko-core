@@ -35,6 +35,7 @@
 
 import PureMap "pure/Map";
 import Types "Types";
+import Iter "Iter";
 import Order "Order";
 import VarArray "VarArray";
 import Runtime "Runtime";
@@ -653,6 +654,10 @@ module {
       }
     };
     deletedValue
+  };
+
+  public func toArray<K, V>(map : Map<K, V>) : [(K, V)] {
+    Iter.toArray(entries(map))
   };
 
   /// Retrieves the key-value pair from the map with the maximum key.
