@@ -27,10 +27,10 @@ var list = List.empty<Nat>();
 
 let sizes = List.empty<Nat>();
 for (i in Nat.rangeInclusive(0, n)) {
-  List.add(sizes, List.size(list));
-  List.add(list, i)
+  sizes.add(list.size());
+  list.add(i)
 };
-List.add(sizes, List.size(list));
+sizes.add(list.size());
 
 class OrderTestable(initItem : Order.Order) : T.TestableItem<Order.Order> {
   public let item = initItem;
@@ -56,8 +56,8 @@ run(
     [
       test(
         "clone",
-        List.toArray(List.clone(list)),
-        M.equals(T.array(T.natTestable, List.toArray(list)))
+        list.clone().toArray(),
+        M.equals(T.array(T.natTestable, list.toArray()))
       )
     ]
   )
@@ -69,34 +69,34 @@ run(
     [
       test(
         "sizes",
-        List.toArray(sizes),
-        M.equals(T.array(T.natTestable, Iter.toArray(Nat.rangeInclusive(0, n + 1))))
+        sizes.toArray(),
+        M.equals(T.array(T.natTestable, Nat.rangeInclusive(0, n + 1).toArray()))
       ),
       test(
         "elements",
-        List.toArray(list),
-        M.equals(T.array(T.natTestable, Iter.toArray(Nat.rangeInclusive(0, n))))
+        list.toArray(),
+        M.equals(T.array(T.natTestable, Nat.rangeInclusive(0, n).toArray()))
       )
     ]
   )
 );
 
-assert List.find(list, func(a : Nat) : Bool = a == 123456) == null;
-assert List.find(list, func(a : Nat) : Bool = a == 0) == ?0;
+assert list.find(func(a : Nat) : Bool = a == 123456) == null;
+assert list.find(func(a : Nat) : Bool = a == 0) == ?0;
 
-assert List.indexOf(list, Nat.equal, n + 1) == null;
-assert List.findIndex(list, func(a : Nat) : Bool = a == n + 1) == null;
-assert List.indexOf(list, Nat.equal, n) == ?n;
-assert List.findIndex(list, func(a : Nat) : Bool = a == n) == ?n;
+assert list.indexOf(Nat.equal, n + 1) == null;
+assert list.findIndex(func(a : Nat) : Bool = a == n + 1) == null;
+assert list.indexOf(Nat.equal, n) == ?n;
+assert list.findIndex(func(a : Nat) : Bool = a == n) == ?n;
 
-assert List.lastIndexOf(list, Nat.equal, n + 1) == null;
-assert List.findLastIndex(list, func(a : Nat) : Bool = a == n + 1) == null;
+assert list.lastIndexOf(Nat.equal, n + 1) == null;
+assert list.findLastIndex(func(a : Nat) : Bool = a == n + 1) == null;
 
-assert List.lastIndexOf(list, Nat.equal, 0) == ?0;
-assert List.findLastIndex(list, func(a : Nat) : Bool = a == 0) == ?0;
+assert list.lastIndexOf(Nat.equal, 0) == ?0;
+assert list.findLastIndex(func(a : Nat) : Bool = a == 0) == ?0;
 
-assert List.all(list, func(x : Nat) : Bool = 0 <= x and x <= n);
-assert List.any(list, func(x : Nat) : Bool = x == n / 2);
+assert list.all(func(x : Nat) : Bool = 0 <= x and x <= n);
+assert list.any(func(x : Nat) : Bool = x == n / 2);
 
 run(
   suite(
@@ -104,38 +104,38 @@ run(
     [
       test(
         "values",
-        Iter.toArray(List.values(list)),
-        M.equals(T.array(T.natTestable, Iter.toArray(Nat.rangeInclusive(0, n))))
+        list.values().toArray(),
+        M.equals(T.array(T.natTestable, Nat.rangeInclusive(0, n).toArray()))
       ),
       test(
         "reverseValues",
-        Iter.toArray(List.reverseValues(list)),
-        M.equals(T.array(T.natTestable, Iter.toArray(Iter.reverse(Nat.rangeInclusive(0, n)))))
+        list.reverseValues().toArray(),
+        M.equals(T.array(T.natTestable, Nat.rangeInclusive(0, n).reverse().toArray()))
       ),
       test(
         "keys",
-        Iter.toArray(List.keys(list)),
-        M.equals(T.array(T.natTestable, Iter.toArray(Nat.rangeInclusive(0, n))))
+        list.keys().toArray(),
+        M.equals(T.array(T.natTestable, Nat.rangeInclusive(0, n).toArray()))
       ),
       test(
         "enumerate1",
-        Iter.toArray(Iter.map<(Nat, Nat), Nat>(List.enumerate(list), func((a, b)) { b })),
-        M.equals(T.array(T.natTestable, Iter.toArray(Nat.rangeInclusive(0, n))))
+        list.enumerate().map(func((a, b)) { b }).toArray(),
+        M.equals(T.array(T.natTestable, Nat.rangeInclusive(0, n).toArray()))
       ),
       test(
         "enumerate2",
-        Iter.toArray(Iter.map<(Nat, Nat), Nat>(List.enumerate(list), func((a, b)) { a })),
-        M.equals(T.array(T.natTestable, Iter.toArray(Nat.rangeInclusive(0, n))))
+        list.enumerate().map(func((a, b)) { a }).toArray(),
+        M.equals(T.array(T.natTestable, Nat.rangeInclusive(0, n).toArray()))
       ),
       test(
         "reverseEnumerate1",
-        Iter.toArray(Iter.map<(Nat, Nat), Nat>(List.reverseEnumerate(list), func((a, b)) { b })),
-        M.equals(T.array(T.natTestable, Iter.toArray(Iter.reverse(Nat.rangeInclusive(0, n)))))
+        list.reverseEnumerate().map(func((a, b)) { b }).toArray(),
+        M.equals(T.array(T.natTestable, Nat.rangeInclusive(0, n).reverse().toArray()))
       ),
       test(
         "reverseEnumerate2",
-        Iter.toArray(Iter.map<(Nat, Nat), Nat>(List.reverseEnumerate(list), func((a, b)) { a })),
-        M.equals(T.array(T.natTestable, Iter.toArray(Iter.reverse(Nat.rangeInclusive(0, n)))))
+        list.reverseEnumerate().map(func((a, b)) { a }).toArray(),
+        M.equals(T.array(T.natTestable, Nat.rangeInclusive(0, n).reverse().toArray()))
       )
     ]
   )
@@ -153,27 +153,27 @@ run(
     [
       test(
         "init with toArray",
-        List.toArray(List.repeat<Nat>(0, n)),
+        List.repeat<Nat>(0, n).toArray(),
         M.equals(T.array(T.natTestable, Array.tabulate<Nat>(n, func(_) = 0)))
       ),
       test(
         "init with values",
-        Iter.toArray(List.values(List.repeat<Nat>(0, n))),
+        List.repeat<Nat>(0, n).values().toArray(),
         M.equals(T.array(T.natTestable, Array.tabulate<Nat>(n, func(_) = 0)))
       ),
       test(
         "add many with toArray",
-        List.toArray(for_add_many),
+        for_add_many.toArray(),
         M.equals(T.array(T.natTestable, Array.tabulate<Nat>(2 * n, func(_) = 0)))
       ),
       test(
         "add many with vals",
-        Iter.toArray(List.values(for_add_many)),
+        Iter.toArray(for_add_many.values()),
         M.equals(T.array(T.natTestable, Array.tabulate<Nat>(2 * n, func(_) = 0)))
       ),
       test(
         "addFromIter",
-        List.toArray(for_add_iter),
+        for_add_iter.toArray(),
         M.equals(T.array(T.natTestable, Array.tabulate<Nat>(2 * n, func(_) = 0)))
       )
     ]
@@ -190,13 +190,13 @@ run(
     [
       test(
         "size",
-        List.size(list),
+        list.size(),
         M.equals(T.nat(n + 1))
       ),
       test(
         "elements",
-        List.toArray(list),
-        M.equals(T.array(T.natTestable, Iter.toArray(Iter.reverse(Nat.rangeInclusive(0, n)))))
+        list.toArray(),
+        M.equals(T.array(T.natTestable, Nat.rangeInclusive(0, n).reverse().toArray()))
       )
     ]
   )
@@ -204,12 +204,12 @@ run(
 
 let removed = List.empty<Nat>();
 for (i in Nat.rangeInclusive(0, n)) {
-  List.add(removed, unwrap(List.removeLast(list)))
+  removed.add(unwrap(list.removeLast()))
 };
 
 let empty = List.empty<Nat>();
 let emptied = List.singleton<Nat>(0);
-let _ = List.removeLast(emptied);
+let _ = emptied.removeLast();
 
 run(
   suite(
@@ -217,13 +217,13 @@ run(
     [
       test(
         "size",
-        List.size(list),
+        list.size(),
         M.equals(T.nat(0))
       ),
       test(
         "elements",
-        List.toArray(removed),
-        M.equals(T.array(T.natTestable, Iter.toArray(Nat.rangeInclusive(0, n))))
+        removed.toArray(),
+        M.equals(T.array(T.natTestable, Nat.rangeInclusive(0, n).toArray()))
       ),
       test(
         "empty",
@@ -240,13 +240,13 @@ run(
 );
 
 // Test last and first
-assert List.last(list) == null;
-assert List.first(list) == null;
+assert list.first() == null;
+assert list.last() == null;
 
 for (i in Nat.rangeInclusive(0, n)) {
-  List.add(list, i);
-  assert List.last(list) == ?i;
-  assert List.first(list) == ?0
+  list.add(i);
+  assert list.last() == ?i;
+  assert list.first() == ?0
 };
 
 run(
@@ -255,8 +255,8 @@ run(
     [
       test(
         "elements",
-        List.toArray(list),
-        M.equals(T.array(T.natTestable, Iter.toArray(Nat.rangeInclusive(0, n))))
+        list.toArray(),
+        M.equals(T.array(T.natTestable, Nat.rangeInclusive(0, n).toArray()))
       )
     ]
   )
@@ -268,42 +268,42 @@ run(
     [
       test(
         "first",
-        List.first(list),
+        list.first(),
         M.equals(T.optional(T.natTestable, ?0))
       ),
       test(
         "first empty",
-        List.first(empty),
+        empty.first(),
         M.equals(T.optional(T.natTestable, null : ?Nat))
       ),
       test(
         "first emptied",
-        List.first(emptied),
+        emptied.first(),
         M.equals(T.optional(T.natTestable, null : ?Nat))
       ),
       test(
         "last of len N",
-        List.last(list),
+        list.last(),
         M.equals(T.optional(T.natTestable, ?n))
       ),
       test(
         "last of len 1",
-        List.last(List.repeat<Nat>(1, 1)),
+        List.repeat<Nat>(1, 1).last(),
         M.equals(T.optional(T.natTestable, ?1))
       ),
       test(
         "last of 6",
-        List.last(List.fromArray<Nat>([0, 1, 2, 3, 4, 5])),
+        List.fromArray<Nat>([0, 1, 2, 3, 4, 5]).last(),
         M.equals(T.optional(T.natTestable, ?5))
       ),
       test(
         "last empty",
-        List.last(List.empty<Nat>()),
+        List.empty<Nat>().last(),
         M.equals(T.optional(T.natTestable, null : ?Nat))
       ),
       test(
         "last emptied",
-        List.last(emptied),
+        emptied.last(),
         M.equals(T.optional(T.natTestable, null : ?Nat))
       )
     ]
@@ -333,13 +333,13 @@ Test.suite(
 );
 
 var sumN = 0;
-List.forEach<Nat>(list, func(i) { sumN += i });
+list.forEach(func(i) { sumN += i });
 var sumRev = 0;
-List.reverseForEach<Nat>(list, func(i) { sumRev += i });
+list.reverseForEach<Nat>(func(i) { sumRev += i });
 var sum1 = 0;
-List.forEach<Nat>(List.repeat<Nat>(1, 1), func(i) { sum1 += i });
+List.repeat<Nat>(1, 1).forEach(func(i) { sum1 += i });
 var sum0 = 0;
-List.forEach<Nat>(List.empty<Nat>(), func(i) { sum0 += i });
+List.empty<Nat>().forEach(func(i) { sum0 += i });
 
 run(
   suite(
@@ -372,9 +372,9 @@ run(
 /* --------------------------------------- */
 
 var sumItems = 0;
-List.forEachEntry<Nat>(list, func(i, x) { sumItems += i + x });
+list.forEachEntry<Nat>(func(i, x) { sumItems += i + x });
 var sumItemsRev = 0;
-List.forEachEntry<Nat>(list, func(i, x) { sumItemsRev += i + x });
+list.forEachEntry<Nat>(func(i, x) { sumItemsRev += i + x });
 
 run(
   suite(
@@ -404,12 +404,12 @@ run(
     [
       test(
         "true",
-        List.contains<Nat>(list, Nat.equal, 2),
+        list.contains(Nat.equal, 2),
         M.equals(T.bool(true))
       ),
       test(
         "true",
-        List.contains<Nat>(list, Nat.equal, 9),
+        list.contains(Nat.equal, 9),
         M.equals(T.bool(false))
       )
     ]
@@ -426,12 +426,12 @@ run(
     [
       test(
         "true",
-        List.contains<Nat>(list, Nat.equal, 2),
+        list.contains(Nat.equal, 2),
         M.equals(T.bool(false))
       ),
       test(
         "true",
-        List.contains<Nat>(list, Nat.equal, 9),
+        list.contains(Nat.equal, 9),
         M.equals(T.bool(false))
       )
     ]
@@ -448,7 +448,7 @@ run(
     [
       test(
         "return value",
-        List.max<Nat>(list, Nat.compare),
+        list.max(Nat.compare),
         M.equals(T.optional(T.natTestable, ?10))
       )
     ]
@@ -465,7 +465,7 @@ run(
     [
       test(
         "return value",
-        List.min<Nat>(list, Nat.compare),
+        list.min(Nat.compare),
         M.equals(T.optional(T.natTestable, ?0))
       )
     ]
@@ -484,22 +484,22 @@ run(
     [
       test(
         "empty lists",
-        List.equal<Nat>(List.empty<Nat>(), List.empty<Nat>(), Nat.equal),
+        List.empty<Nat>().equal(List.empty<Nat>(), Nat.equal),
         M.equals(T.bool(true))
       ),
       test(
         "non-empty lists",
-        List.equal<Nat>(list, List.clone(list), Nat.equal),
+        list.equal(List.clone(list), Nat.equal),
         M.equals(T.bool(true))
       ),
       test(
         "non-empty and empty lists",
-        List.equal<Nat>(list, List.empty<Nat>(), Nat.equal),
+        list.equal(List.empty<Nat>(), Nat.equal),
         M.equals(T.bool(false))
       ),
       test(
         "non-empty lists mismatching lengths",
-        List.equal<Nat>(list, list2, Nat.equal),
+        list.equal<Nat>(list2, Nat.equal),
         M.equals(T.bool(false))
       )
     ]
@@ -519,27 +519,27 @@ run(
     [
       test(
         "empty lists",
-        List.compare<Nat>(List.empty<Nat>(), List.empty<Nat>(), Nat.compare),
+        List.empty<Nat>().compare(List.empty<Nat>(), Nat.compare),
         M.equals(OrderTestable(#equal))
       ),
       test(
         "non-empty lists equal",
-        List.compare<Nat>(list, List.clone(list), Nat.compare),
+        list.compare(List.clone(list), Nat.compare),
         M.equals(OrderTestable(#equal))
       ),
       test(
         "non-empty and empty lists",
-        List.compare<Nat>(list, List.empty<Nat>(), Nat.compare),
+        list.compare(List.empty<Nat>(), Nat.compare),
         M.equals(OrderTestable(#greater))
       ),
       test(
         "non-empty lists mismatching lengths",
-        List.compare<Nat>(list, list2, Nat.compare),
+        list.compare(list2, Nat.compare),
         M.equals(OrderTestable(#greater))
       ),
       test(
         "non-empty lists lexicographic difference",
-        List.compare<Nat>(list, list3, Nat.compare),
+        list.compare(list3, Nat.compare),
         M.equals(OrderTestable(#less))
       )
     ]
@@ -556,17 +556,17 @@ run(
     [
       test(
         "empty list",
-        List.toText<Nat>(List.empty<Nat>(), Nat.toText),
+        List.empty<Nat>().toText(Nat.toText),
         M.equals(T.text("List[]"))
       ),
       test(
         "singleton list",
-        List.toText<Nat>(List.singleton<Nat>(3), Nat.toText),
+        List.singleton<Nat>(3).toText<Nat>(Nat.toText),
         M.equals(T.text("List[3]"))
       ),
       test(
         "non-empty list",
-        List.toText<Nat>(list, Nat.toText),
+        list.toText(Nat.toText),
         M.equals(T.text("List[0, 1, 2, 3, 4, 5]"))
       )
     ]
@@ -581,10 +581,10 @@ list3 := List.empty<Nat>();
 
 var list4 = List.singleton<Nat>(3);
 
-List.reverseInPlace<Nat>(list);
-List.reverseInPlace<Nat>(list2);
-List.reverseInPlace<Nat>(list3);
-List.reverseInPlace<Nat>(list4);
+list.reverseInPlace();
+list2.reverseInPlace();
+list3.reverseInPlace();
+list4.reverseInPlace();
 
 run(
   suite(
@@ -592,22 +592,22 @@ run(
     [
       test(
         "even elements",
-        List.toArray(list),
+        list.toArray(),
         M.equals(T.array(T.natTestable, [7, 6, 5, 4, 3, 2, 1, 0]))
       ),
       test(
         "odd elements",
-        List.toArray(list2),
+        list2.toArray(),
         M.equals(T.array(T.natTestable, [6, 5, 4, 3, 2, 1, 0]))
       ),
       test(
         "empty",
-        List.toArray(list3),
+        list3.toArray(),
         M.equals(T.array(T.natTestable, [] : [Nat]))
       ),
       test(
         "singleton",
-        List.toArray(list4),
+        list4.toArray(),
         M.equals(T.array(T.natTestable, [3]))
       )
     ]
@@ -616,10 +616,10 @@ run(
 
 /* --------------------------------------- */
 
-list := List.reverse<Nat>(List.fromArray<Nat>([0, 1, 2, 3, 4, 5, 6, 7]));
-list2 := List.reverse<Nat>(List.fromArray<Nat>([0, 1, 2, 3, 4, 5, 6]));
-list3 := List.reverse<Nat>(List.empty<Nat>());
-list4 := List.reverse<Nat>(List.singleton<Nat>(3));
+list := List.fromArray<Nat>([0, 1, 2, 3, 4, 5, 6, 7]).reverse();
+list2 := List.fromArray<Nat>([0, 1, 2, 3, 4, 5, 6]).reverse();
+list3 := List.empty<Nat>().reverse();
+list4 := List.singleton<Nat>(3).reverse();
 
 run(
   suite(
@@ -627,22 +627,22 @@ run(
     [
       test(
         "even elements",
-        List.toArray(list),
+        list.toArray(),
         M.equals(T.array(T.natTestable, [7, 6, 5, 4, 3, 2, 1, 0]))
       ),
       test(
         "odd elements",
-        List.toArray(list2),
+        list2.toArray(),
         M.equals(T.array(T.natTestable, [6, 5, 4, 3, 2, 1, 0]))
       ),
       test(
         "empty",
-        List.toArray(list3),
+        list3.toArray(),
         M.equals(T.array(T.natTestable, [] : [Nat]))
       ),
       test(
         "singleton",
-        List.toArray(list4),
+        list4.toArray(),
         M.equals(T.array(T.natTestable, [3]))
       )
     ]
@@ -659,12 +659,12 @@ run(
     [
       test(
         "return value",
-        List.foldLeft<Text, Nat>(list, "", func(acc, x) = acc # Nat.toText(x)),
+        list.foldLeft("", func(acc, x) = acc # Nat.toText(x)),
         M.equals(T.text("0123456"))
       ),
       test(
         "return value empty",
-        List.foldLeft<Text, Nat>(List.empty<Nat>(), "", func(acc, x) = acc # Nat.toText(x)),
+        List.empty<Nat>().foldLeft("", func(acc, x) = acc # Nat.toText(x)),
         M.equals(T.text(""))
       )
     ]
@@ -681,12 +681,12 @@ run(
     [
       test(
         "return value",
-        List.foldRight<Nat, Text>(list, "", func(x, acc) = acc # Nat.toText(x)),
+        list.foldRight("", func(x, acc) = acc # Nat.toText(x)),
         M.equals(T.text("6543210"))
       ),
       test(
         "return value empty",
-        List.foldRight<Nat, Text>(List.empty<Nat>(), "", func(x, acc) = acc # Nat.toText(x)),
+        List.empty<Nat>().foldRight("", func(x, acc) = acc # Nat.toText(x)),
         M.equals(T.text(""))
       )
     ]
@@ -703,12 +703,12 @@ run(
     [
       test(
         "true",
-        List.isEmpty(List.empty<Nat>()),
+        List.empty<Nat>().isEmpty(),
         M.equals(T.bool(true))
       ),
       test(
         "false",
-        List.isEmpty(list),
+        list.isEmpty(),
         M.equals(T.bool(false))
       )
     ]
@@ -725,12 +725,12 @@ run(
     [
       test(
         "map",
-        List.toArray(List.map<Nat, Text>(list, Nat.toText)),
+        list.map(Nat.toText).toArray(),
         M.equals(T.array(T.textTestable, ["0", "1", "2", "3", "4", "5", "6"]))
       ),
       test(
         "empty",
-        List.isEmpty(List.map<Nat, Text>(List.empty<Nat>(), Nat.toText)),
+        List.empty<Nat>().map(Nat.toText).isEmpty(),
         M.equals(T.bool(true))
       )
     ]
@@ -747,22 +747,22 @@ run(
     [
       test(
         "filter evens",
-        List.toArray(List.filter<Nat>(list, func x = x % 2 == 0)),
+        list.filter(func x = x % 2 == 0).toArray(),
         M.equals(T.array(T.natTestable, [0, 2, 4, 6]))
       ),
       test(
         "filter none",
-        List.toArray(List.filter<Nat>(list, func _ = false)),
+        list.filter(func _ = false).toArray(),
         M.equals(T.array(T.natTestable, [] : [Nat]))
       ),
       test(
         "filter all",
-        List.toArray(List.filter<Nat>(list, func _ = true)),
+        list.filter(func _ = true).toArray(),
         M.equals(T.array(T.natTestable, [0, 1, 2, 3, 4, 5, 6]))
       ),
       test(
         "filter empty",
-        List.isEmpty(List.filter<Nat>(List.empty<Nat>(), func _ = true)),
+        List.empty<Nat>().filter(func _ = true).isEmpty(),
         M.equals(T.bool(true))
       )
     ]
@@ -779,22 +779,22 @@ run(
     [
       test(
         "filterMap double evens",
-        List.toArray(List.filterMap<Nat, Nat>(list, func x = if (x % 2 == 0) ?(x * 2) else null)),
+        list.filterMap<Nat, Nat>(func x = if (x % 2 == 0) ?(x * 2) else null).toArray(),
         M.equals(T.array(T.natTestable, [0, 4, 8, 12]))
       ),
       test(
         "filterMap none",
-        List.toArray(List.filterMap<Nat, Nat>(list, func _ = null)),
+        list.filterMap<Nat, Nat>(func _ = null).toArray(),
         M.equals(T.array(T.natTestable, [] : [Nat]))
       ),
       test(
         "filterMap all",
-        List.toArray(List.filterMap<Nat, Text>(list, func x = ?(Nat.toText(x)))),
+        list.filterMap<Nat, Text>(func x = ?(Nat.toText(x))).toArray(),
         M.equals(T.array(T.textTestable, ["0", "1", "2", "3", "4", "5", "6"]))
       ),
       test(
         "filterMap empty",
-        List.isEmpty(List.filterMap<Nat, Nat>(List.empty<Nat>(), func x = ?x)),
+        List.empty<Nat>().filterMap<Nat, Nat>(func x = ?x).isEmpty(),
         M.equals(T.bool(true))
       )
     ]
@@ -811,7 +811,7 @@ run(
     [
       test(
         "sort",
-        List.sort<Nat>(list, Nat.compare) |> List.toArray(list),
+        do { list.sort(Nat.compare); list.toArray() },
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] |> M.equals(T.array(T.natTestable, _))
       )
     ]
@@ -914,23 +914,23 @@ func runTest(name : Text, test : (Nat) -> Bool) {
 // Test cases
 func testNew(n : Nat) : Bool {
   let vec = List.empty<Nat>();
-  List.size(vec) == 0
+  vec.size() == 0
 };
 
 func testInit(n : Nat) : Bool {
   let vec = List.repeat<Nat>(1, n);
-  List.size(vec) == n and (n == 0 or (List.at(vec, 0) == 1 and List.at(vec, n - 1 : Nat) == 1))
+  vec.size() == n and (n == 0 or (List.at(vec, 0) == 1 and List.at(vec, n - 1 : Nat) == 1))
 };
 
 func testAdd(n : Nat) : Bool {
   if (n == 0) return true;
   let vec = List.empty<Nat>();
   for (i in Nat.range(0, n)) {
-    List.add(vec, i)
+    vec.add(i)
   };
 
-  if (List.size(vec) != n) {
-    Debug.print("Size mismatch: expected " # Nat.toText(n) # ", got " # Nat.toText(List.size(vec)));
+  if (vec.size() != n) {
+    Debug.print("Size mismatch: expected " # Nat.toText(n) # ", got " # Nat.toText(vec.size()));
     return false
   };
 
@@ -969,13 +969,13 @@ func testRemoveLast(n : Nat) : Bool {
 
   while (i > 0) {
     i -= 1;
-    let last = List.removeLast(vec);
+    let last = vec.removeLast();
     if (last != ?i) {
       Debug.print("Unexpected value removed: expected ?" # Nat.toText(i) # ", got " # debug_show (last));
       return false
     };
     if (List.size(vec) != i) {
-      Debug.print("Unexpected size after removal: expected " # Nat.toText(i) # ", got " # Nat.toText(List.size(vec)));
+      Debug.print("Unexpected size after removal: expected " # Nat.toText(i) # ", got " # Nat.toText(vec.size()));
       return false
     }
   };
@@ -987,7 +987,7 @@ func testRemoveLast(n : Nat) : Bool {
   };
 
   if (List.size(vec) != 0) {
-    Debug.print("List should be empty, but has size " # Nat.toText(List.size(vec)));
+    Debug.print("List should be empty, but has size " # Nat.toText(vec.size()));
     return false
   };
 
@@ -1045,60 +1045,60 @@ func testPut(n : Nat) : Bool {
   if (n == 0) {
     true
   } else {
-    List.put(vec, n - 1 : Nat, 100);
-    List.at(vec, n - 1 : Nat) == 100
+    vec.put(n - 1 : Nat, 100);
+    vec.at(n - 1 : Nat) == 100
   }
 };
 
 func testClear(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
-  List.clear(vec);
-  List.size(vec) == 0
+  vec.clear();
+  vec.size() == 0
 };
 
 func testClone(n : Nat) : Bool {
   let vec1 = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
-  let vec2 = List.clone(vec1);
-  List.equal(vec1, vec2, Nat.equal)
+  let vec2 = vec1.clone();
+  vec1.equal(vec2, Nat.equal)
 };
 
 func testMap(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
-  let mapped = List.map<Nat, Nat>(vec, func(x) = x * 2);
-  List.equal(mapped, List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i * 2)), Nat.equal)
+  let mapped = vec.map<Nat, Nat>(func(x) = x * 2);
+  mapped.equal(List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i * 2)), Nat.equal)
 };
 
 func testIndexOf(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(2 * n, func(i) = i % n));
   if (n == 0) {
-    List.indexOf(vec, Nat.equal, 0) == null
+    vec.indexOf(Nat.equal, 0) == null
   } else {
     var allCorrect = true;
     for (i in Nat.range(0, n)) {
-      let index = List.indexOf(vec, Nat.equal, i);
+      let index = vec.indexOf(Nat.equal, i);
       if (index != ?i) {
         allCorrect := false;
         Debug.print("indexOf failed for i = " # Nat.toText(i) # ", expected ?" # Nat.toText(i) # ", got " # debug_show (index))
       }
     };
-    allCorrect and List.indexOf(vec, Nat.equal, n) == null
+    allCorrect and vec.indexOf(Nat.equal, n) == null
   }
 };
 
 func testLastIndexOf(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(2 * n, func(i) = i % n));
   if (n == 0) {
-    List.lastIndexOf(vec, Nat.equal, 0) == null
+    vec.lastIndexOf(Nat.equal, 0) == null
   } else {
     var allCorrect = true;
     for (i in Nat.range(0, n)) {
-      let index = List.lastIndexOf(vec, Nat.equal, i);
+      let index = vec.lastIndexOf(Nat.equal, i);
       if (index != ?(n + i)) {
         allCorrect := false;
         Debug.print("lastIndexOf failed for i = " # Nat.toText(i) # ", expected ?" # Nat.toText(n + i) # ", got " # debug_show (index))
       }
     };
-    allCorrect and List.lastIndexOf(vec, Nat.equal, n) == null
+    allCorrect and vec.lastIndexOf(Nat.equal, n) == null
   }
 };
 
@@ -1107,20 +1107,20 @@ func testContains(n : Nat) : Bool {
 
   // Check if it contains all elements from 0 to n-1
   for (i in Nat.range(1, n + 1)) {
-    if (not List.contains(vec, Nat.equal, i)) {
+    if (not vec.contains(Nat.equal, i)) {
       Debug.print("List should contain " # Nat.toText(i) # " but it doesn't");
       return false
     }
   };
 
   // Check if it doesn't contain n (which should be out of range)
-  if (List.contains(vec, Nat.equal, n + 1)) {
+  if (vec.contains(Nat.equal, n + 1)) {
     Debug.print("List shouldn't contain " # Nat.toText(n + 1) # " but it does");
     return false
   };
 
   // Check if it doesn't contain n+1 (another out of range value)
-  if (List.contains(vec, Nat.equal, n + 2)) {
+  if (vec.contains(Nat.equal, n + 2)) {
     Debug.print("List shouldn't contain " # Nat.toText(n + 2) # " but it does");
     return false
   };
@@ -1129,55 +1129,55 @@ func testContains(n : Nat) : Bool {
 };
 func testReverse(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
-  List.reverseInPlace(vec);
-  List.equal(vec, List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = n - 1 - i)), Nat.equal)
+  vec.reverseInPlace();
+  vec.equal(List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = n - 1 - i)), Nat.equal)
 };
 
 func testSort(n : Nat) : Bool {
   let vec = List.fromArray<Int>(Array.tabulate<Int>(n, func(i) = (i * 123) % 100 - 50));
-  List.sort(vec, Int.compare);
-  List.equal(vec, List.fromArray<Int>(Array.sort(Array.tabulate<Int>(n, func(i) = (i * 123) % 100 - 50), Int.compare)), Int.equal)
+  vec.sort(Int.compare);
+  vec.equal(List.fromArray<Int>(Array.sort(Array.tabulate<Int>(n, func(i) = (i * 123) % 100 - 50), Int.compare)), Int.equal)
 };
 
 func testToArray(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
-  Array.equal(List.toArray(vec), Array.tabulate<Nat>(n, func(i) = i), Nat.equal)
+  Array.equal(vec.toArray(), Array.tabulate<Nat>(n, func(i) = i), Nat.equal)
 };
 
 func testFromIter(n : Nat) : Bool {
   let iter = Nat.range(1, n + 1);
   let vec = List.fromIter<Nat>(iter);
-  List.equal(vec, List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i + 1)), Nat.equal)
+  vec.equal(List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i + 1)), Nat.equal)
 };
 
 func testFoldLeft(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i + 1));
-  List.foldLeft<Text, Nat>(vec, "", func(acc, x) = acc # Nat.toText(x)) == Array.foldLeft<Nat, Text>(Array.tabulate<Nat>(n, func(i) = i + 1), "", func(acc, x) = acc # Nat.toText(x))
+  vec.foldLeft("", func(acc, x) = acc # Nat.toText(x)) == Array.foldLeft<Nat, Text>(Array.tabulate<Nat>(n, func(i) = i + 1), "", func(acc, x) = acc # Nat.toText(x))
 };
 
 func testFoldRight(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i + 1));
-  List.foldRight<Nat, Text>(vec, "", func(x, acc) = Nat.toText(x) # acc) == Array.foldRight<Nat, Text>(Array.tabulate<Nat>(n, func(i) = i + 1), "", func(x, acc) = Nat.toText(x) # acc)
+  vec.foldRight("", func(x, acc) = Nat.toText(x) # acc) == Array.foldRight<Nat, Text>(Array.tabulate<Nat>(n, func(i) = i + 1), "", func(x, acc) = Nat.toText(x) # acc)
 };
 
 func testFilter(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
 
-  let evens = List.filter<Nat>(vec, func x = x % 2 == 0);
+  let evens = vec.filter(func x = x % 2 == 0);
   let expectedEvens = List.fromArray<Nat>(Array.tabulate<Nat>((n + 1) / 2, func(i) = i * 2));
-  if (not List.equal<Nat>(evens, expectedEvens, Nat.equal)) {
+  if (not evens.equal(expectedEvens, Nat.equal)) {
     Debug.print("Filter evens failed");
     return false
   };
 
-  let none = List.filter<Nat>(vec, func _ = false);
-  if (not List.isEmpty(none)) {
+  let none = vec.filter(func _ = false);
+  if (not none.isEmpty()) {
     Debug.print("Filter none failed");
     return false
   };
 
-  let all = List.filter<Nat>(vec, func _ = true);
-  if (not List.equal<Nat>(all, vec, Nat.equal)) {
+  let all = vec.filter(func _ = true);
+  if (not all.equal(vec, Nat.equal)) {
     Debug.print("Filter all failed");
     return false
   };
@@ -1188,21 +1188,21 @@ func testFilter(n : Nat) : Bool {
 func testFilterMap(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
 
-  let doubledEvens = List.filterMap<Nat, Nat>(vec, func x = if (x % 2 == 0) ?(x * 2) else null);
+  let doubledEvens = vec.filterMap<Nat, Nat>(func x = if (x % 2 == 0) ?(x * 2) else null);
   let expectedDoubledEvens = List.fromArray<Nat>(Array.tabulate<Nat>((n + 1) / 2, func(i) = i * 4));
-  if (not List.equal<Nat>(doubledEvens, expectedDoubledEvens, Nat.equal)) {
+  if (not doubledEvens.equal(expectedDoubledEvens, Nat.equal)) {
     Debug.print("FilterMap doubled evens failed");
     return false
   };
 
-  let none = List.filterMap<Nat, Nat>(vec, func _ = null);
-  if (not List.isEmpty(none)) {
+  let none = vec.filterMap<Nat, Nat>(func _ = null);
+  if (not none.isEmpty()) {
     Debug.print("FilterMap none failed");
     return false
   };
 
-  let all = List.filterMap<Nat, Nat>(vec, func x = ?x);
-  if (not List.equal<Nat>(all, vec, Nat.equal)) {
+  let all = vec.filterMap<Nat, Nat>(func x = ?x);
+  if (not all.equal<Nat>(vec, Nat.equal)) {
     Debug.print("FilterMap all failed");
     return false
   };
@@ -1249,20 +1249,20 @@ Test.suite(
 
         var blockSize = list.blocks.size();
         var sizes = List.empty<(Nat, Nat)>();
-        List.add(sizes, (blockSize, 0));
+        sizes.add(blockSize, 0);
 
         let expectedSize = 100_000;
         for (i in Nat.range(0, expectedSize)) {
-          List.add(list, i);
+          list.add(i);
 
           let size = list.blocks.size();
           assert blockSize <= size;
           if (blockSize < size) {
             blockSize := size;
-            List.add(sizes, (blockSize, List.size(list)))
+            sizes.add(blockSize, list.size())
           }
         };
-        Test.expect.nat(List.size(list)).equal(expectedSize);
+        Test.expect.nat(list.size()).equal(expectedSize);
 
         // Check how block size grows with the number of elements
         let expectedBlockResizes = [
@@ -1286,7 +1286,7 @@ Test.suite(
           (512, 32_769),
           (768, 65_537)
         ];
-        Test.expect.array<(Nat, Nat)>(List.toArray(sizes), Tuple2.makeToText(Nat.toText, Nat.toText), Tuple2.makeEqual<Nat, Nat>(Nat.equal, Nat.equal)).equal(expectedBlockResizes)
+        Test.expect.array<(Nat, Nat)>(sizes.toArray(), Tuple2.makeToText(Nat.toText, Nat.toText), Tuple2.makeEqual<Nat, Nat>(Nat.equal, Nat.equal)).equal(expectedBlockResizes)
       }
     )
   }

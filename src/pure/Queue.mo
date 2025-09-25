@@ -40,6 +40,7 @@ module {
 
   /// Double-ended queue data type.
   public type Queue<T> = Types.Pure.Queue<T>;
+  public type Self<T> = Queue<T>;
 
   /// Create a new empty queue.
   ///

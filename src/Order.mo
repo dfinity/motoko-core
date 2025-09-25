@@ -6,6 +6,7 @@ module {
 
   /// A type to represent an order.
   public type Order = Types.Order;
+  public type Self = Order;
 
   /// Check if an order is #less.
   public func isLess(order : Order) : Bool {

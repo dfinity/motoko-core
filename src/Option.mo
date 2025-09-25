@@ -29,6 +29,8 @@ import Types "Types";
 
 module {
 
+  public type Self<T> = ?T;
+
   /// Unwraps an optional value, with a default value, i.e. `get(?x, d) = x` and
   /// `get(null, d) = d`.
   public func get<T>(x : ?T, default : T) : T = switch x {

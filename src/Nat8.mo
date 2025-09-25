@@ -15,6 +15,7 @@ module {
 
   /// 8-bit natural numbers.
   public type Nat8 = Prim.Types.Nat8;
+  public type Self = Nat8;
 
   /// Maximum 8-bit natural number. `2 ** 8 - 1`.
   ///

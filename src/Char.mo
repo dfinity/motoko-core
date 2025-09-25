@@ -31,6 +31,8 @@ module {
   /// Characters represented as Unicode code points.
   public type Char = Prim.Types.Char;
 
+  public type Self = Char;
+
   /// Convert character `char` to a word containing its Unicode scalar value.
   ///
   /// Example:
