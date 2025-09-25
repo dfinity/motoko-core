@@ -101,7 +101,12 @@ module {
       var size : Nat
     }
   };
-  public type Set<T> = Set.Set<T>;
+
+  public type Set<T, C <: (T, T) -> Order> = {
+    var root : Set.Node<T>;
+    var size : Nat;
+    cmp : C;
+  };
 
   public module Map {
     public type Node<K, V> = {

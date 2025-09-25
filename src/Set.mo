@@ -43,8 +43,9 @@ import BTreeHelper "internal/BTreeHelper";
 module {
   let btreeOrder = 32; // Should be >= 4 and <= 512.
 
-  public type Set<T> = Types.Set.Set<T>;
-  public type Self<T> = Set<T>;
+  type Cmp<T> = (T, T) -> Order.Order;
+  public type Set<T, C <: Cmp<T>> = Types.Set<T, C>;
+  public type Self<T> = Set<T, Cmp<T>>;
   type Node<T> = Types.Set.Node<T>;
   type Data<T> = Types.Set.Data<T>;
   type Internal<T> = Types.Set.Internal<T>;
@@ -72,7 +73,7 @@ module {
   /// assuming that the `compare` function implements an `O(1)` comparison.
   ///
   /// Note: Creates `O(n * log(n))` temporary objects that will be collected as garbage.
-  public func toPure<T>(set : Set<T>, compare : (T, T) -> Order.Order) : PureSet.Set<T> {
+  public func toPure<T>(set : Self<T>, compare : (T, T) -> Order.Order) : PureSet.Set<T> {
     PureSet.fromIter(values(set), compare)
   };
 
@@ -96,7 +97,7 @@ module {
   /// Space: `O(n)`.
   /// where `n` denotes the number of elements stored in the set and
   /// assuming that the `compare` function implements an `O(1)` comparison.
-  public func fromPure<T>(set : PureSet.Set<T>, compare : (T, T) -> Order.Order) : Set<T> {
+  public func fromPure<T, C <: Cmp<T>>(set : PureSet.Set<T>, compare : C) : Set<T, C> {
     fromIter(PureSet.values(set), compare)
   };
 
@@ -119,10 +120,11 @@ module {
   /// Runtime: `O(n)`.
   /// Space: `O(n)`.
   /// where `n` denotes the number of elements stored in the set.
-  public func clone<T>(set : Set<T>) : Set<T> {
+  public func clone<T, C <: Cmp<T>>(set : Set<T, C>) : Set<T, C> {
     {
       var root = cloneNode(set.root);
-      var size = set.size
+      var size = set.size;
+      cmp = set.cmp;
     }
   };
 
@@ -141,7 +143,7 @@ module {
   ///
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
-  public func empty<T>() : Set<T> {
+  public func empty<T, C <: Cmp<T>>(cmp : C) : Set<T, C> {
     {
       var root = #leaf({
         data = {
@@ -149,7 +151,8 @@ module {
           var count = 0
         }
       });
-      var size = 0
+      var size = 0;
+      cmp;
     }
   };
 
@@ -167,13 +170,14 @@ module {
   ///
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
-  public func singleton<T>(element : T) : Set<T> {
+  public func singleton<T, C <: Cmp<T>>(compare : C, element : T) : Set<T, C> {
     let elements = VarArray.repeat<?T>(null, btreeOrder - 1);
     elements[0] := ?element;
     {
       var root =
       #leaf({ data = { elements; var count = 1 } });
-      var size = 1
+      var size = 1;
+      cmp = compare
     }
   };
 
@@ -198,8 +202,8 @@ module {
   ///
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
-  public func clear<T>(set : Set<T>) {
-    let emptySet = empty<T>();
+  public func clear<T>(set : Self<T>) {
+    let emptySet = empty<T, Cmp<T>>(set.cmp);
     set.root := emptySet.root;
     set.size := 0
   };
@@ -225,7 +229,7 @@ module {
   ///
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
-  public func isEmpty<T>(set : Set<T>) : Bool {
+  public func isEmpty<T>(set : Self<T>) : Bool {
     set.size == 0
   };
 
@@ -248,7 +252,7 @@ module {
   ///
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
-  public func size<T>(set : Set<T>) : Nat {
+  public func size<T>(set : Self<T>) : Nat {
     set.size
   };
 
@@ -271,7 +275,7 @@ module {
   ///
   /// Runtime: `O(n)`.
   /// Space: `O(1)`.
-  public func equal<T>(set1 : Set<T>, set2 : Set<T>, compare : (T, T) -> Types.Order) : Bool {
+  public func equal<T, C <: Cmp<T>>(set1 : Set<T, C>, set2 : Set<T, C>) : Bool {
     if (set1.size != set2.size) return false;
     // TODO: optimize
     let iterator1 = values(set1);
@@ -284,7 +288,7 @@ module {
           return true
         };
         case (?element1, ?element2) {
-          if (not (compare(element1, element2) == #equal)) {
+          if (not (set1.cmp(element1, element2) == #equal)) {
             return false
           }
         };
@@ -315,12 +319,12 @@ module {
   /// Space: `O(1)`.
   /// where `n` denotes the number of elements stored in the set and
   /// assuming that the `compare` function implements an `O(1)` comparison.
-  public func contains<T>(set : Set<T>, compare : (T, T) -> Order.Order, element : T) : Bool {
+  public func contains<T>(set : Self<T>, element : T) : Bool {
     switch (set.root) {
       case (#internal(internalNode)) {
-        containsInInternal(internalNode, compare, element)
+        containsInInternal(internalNode, set.cmp, element)
       };
-      case (#leaf(leafNode)) { containsInLeaf(leafNode, compare, element) }
+      case (#leaf(leafNode)) { containsInLeaf(leafNode, set.cmp, element) }
     }
   };
 
@@ -346,8 +350,8 @@ module {
   /// Space: `O(log(n))`.
   /// where `n` denotes the number of elements stored in the set and
   /// assuming that the `compare` function implements an `O(1)` comparison.
-  public func add<T>(set : Set<T>, compare : (T, T) -> Order.Order, element : T) {
-    ignore insert(set, compare, element)
+  public func add<T>(set : Self<T>, element : T) {
+    ignore insert(set, element)
   };
 
   /// Insert a new element in the set.
@@ -372,7 +376,8 @@ module {
   /// Space: `O(log(n))`.
   /// where `n` denotes the number of elements stored in the set and
   /// assuming that the `compare` function implements an `O(1)` comparison.
-  public func insert<T>(set : Set<T>, compare : (T, T) -> Order.Order, element : T) : Bool {
+  public func insert<T>(set : Self<T>, element : T) : Bool {
+    let compare = set.cmp;
     let insertResult = switch (set.root) {
       case (#leaf(leafNode)) {
         leafInsertHelper<T>(leafNode, btreeOrder, compare, element)
@@ -436,8 +441,8 @@ module {
   /// assuming that the `compare` function implements an `O(1)` comparison.
   ///
   /// Note: Creates `O(log(n))` objects that will be collected as garbage.
-  public func remove<T>(set : Set<T>, compare : (T, T) -> Order.Order, element : T) : () {
-    ignore delete(set, compare, element)
+  public func remove<T>(set : Self<T>,  element : T) : () {
+    ignore delete(set, element)
   };
 
   /// Deletes an element from a set.
@@ -466,7 +471,8 @@ module {
   /// assuming that the `compare` function implements an `O(1)` comparison.
   ///
   /// Note: Creates `O(log(n))` objects that will be collected as garbage.
-  public func delete<T>(set : Set<T>, compare : (T, T) -> Order.Order, element : T) : Bool {
+  public func delete<T>(set : Self<T>, element : T) : Bool {
+    let compare = set.cmp;
     let deleted = switch (set.root) {
       case (#leaf(leafNode)) {
         // TODO: think about how this can be optimized so don't have to do two steps (search and then insert)?
@@ -532,7 +538,7 @@ module {
   /// Runtime: `O(log(n))`.
   /// Space: `O(1)`.
   /// where `n` denotes the number of elements stored in the set.
-  public func max<T>(set : Set<T>) : ?T {
+  public func max<T>(set : Self<T>) : ?T {
     reverseValues(set).next()
   };
 
@@ -557,7 +563,7 @@ module {
   /// Runtime: `O(log(n))`.
   /// Space: `O(1)`.
   /// where `n` denotes the number of elements stored in the set.
-  public func min<T>(set : Set<T>) : ?T {
+  public func min<T>(set : Self<T>) : ?T {
     values(set).next()
   };
 
@@ -585,7 +591,7 @@ module {
   /// where `n` denotes the number of elements stored in the set.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func values<T>(set : Set<T>) : Types.Iter<T> {
+  public func values<T>(set : Self<T>) : Types.Iter<T> {
     switch (set.root) {
       case (#leaf(leafNode)) { return leafElements(leafNode) };
       case (#internal(internalNode)) { internalElements(internalNode) }
@@ -614,13 +620,12 @@ module {
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
   public func valuesFrom<T>(
-    set : Set<T>,
-    compare : (T, T) -> Order.Order,
+    set : Self<T>,
     element : T
   ) : Types.Iter<T> {
     switch (set.root) {
-      case (#leaf(leafNode)) leafElementsFrom(leafNode, compare, element);
-      case (#internal(internalNode)) internalElementsFrom(internalNode, compare, element)
+      case (#leaf(leafNode)) leafElementsFrom(leafNode, set.cmp, element);
+      case (#internal(internalNode)) internalElementsFrom(internalNode, set.cmp, element)
     }
   };
 
@@ -648,7 +653,7 @@ module {
   /// where `n` denotes the number of elements stored in the set.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func reverseValues<T>(set : Set<T>) : Types.Iter<T> {
+  public func reverseValues<T>(set : Self<T>) : Types.Iter<T> {
     switch (set.root) {
       case (#leaf(leafNode)) { return reverseLeafElements(leafNode) };
       case (#internal(internalNode)) { reverseInternalElements(internalNode) }
@@ -677,13 +682,12 @@ module {
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
   public func reverseValuesFrom<T>(
-    set : Set<T>,
-    compare : (T, T) -> Order.Order,
+    set : Self<T>,
     element : T
   ) : Types.Iter<T> {
     switch (set.root) {
-      case (#leaf(leafNode)) reverseLeafElementsFrom(leafNode, compare, element);
-      case (#internal(internalNode)) reverseInternalElementsFrom(internalNode, compare, element)
+      case (#leaf(leafNode)) reverseLeafElementsFrom(leafNode, set.cmp, element);
+      case (#internal(internalNode)) reverseInternalElementsFrom(internalNode, set.cmp, element)
     }
   };
 
@@ -707,10 +711,10 @@ module {
   /// Space: `O(n)`.
   /// where `n` denotes the number of elements returned by the iterator and
   /// assuming that the `compare` function implements an `O(1)` comparison.
-  public func fromIter<T>(iter : Types.Iter<T>, compare : (T, T) -> Order.Order) : Set<T> {
-    let set = empty<T>();
+  public func fromIter<T, C <: Cmp<T>>(iter : Types.Iter<T>, compare : C) : Set<T, C> {
+    let set = empty<T, C>(compare);
     for (element in iter) {
-      add(set, compare, element)
+      add(set, element)
     };
     set
   };
@@ -736,11 +740,12 @@ module {
   /// Space: `O(1)` retained memory plus garbage, see the note below.
   /// where `m` and `n` denote the number of elements stored in the sets `set1` and `set2`, respectively,
   /// and assuming that the `compare` function implements an `O(1)` comparison.
-  public func isSubset<T>(set1 : Set<T>, set2 : Set<T>, compare : (T, T) -> Order.Order) : Bool {
+  public func isSubset<T>(set1 : Self<T>, set2 : Self<T>) : Bool {
+    // this could be more efficent with same ordering..
     if (set1.size > set2.size) { return false };
     // TODO: optimize
     for (element in values(set1)) {
-      if (not contains(set2, compare, element)) {
+      if (not contains(set2, element)) {
         return false
       }
     };
@@ -770,11 +775,11 @@ module {
   /// Space: `O(1)` retained memory plus garbage, see the note below.
   /// where `m` and `n` denote the number of elements stored in the sets `set1` and `set2`, respectively,
   /// and assuming that the `compare` function implements an `O(1)` comparison.
-  public func union<T>(set1 : Set<T>, set2 : Set<T>, compare : (T, T) -> Order.Order) : Set<T> {
-    let result = clone<T>(set1);
+  public func union<T, C <: Cmp<T>>(set1 : Set<T, C>, set2 : Set<T, Cmp<T>>) : Set<T, C> {
+    let result = clone<T, C>(set1);
     for (element in values(set2)) {
-      if (not contains(result, compare, element)) {
-        add(result, compare, element)
+      if (not contains(result, element)) {
+        add(result, element)
       }
     };
     result
@@ -801,11 +806,11 @@ module {
   /// Space: `O(1)` retained memory plus garbage, see the note below.
   /// where `m` and `n` denote the number of elements stored in the sets `set1` and `set2`, respectively,
   /// and assuming that the `compare` function implements an `O(1)` comparison.
-  public func intersection<T>(set1 : Set<T>, set2 : Set<T>, compare : (T, T) -> Order.Order) : Set<T> {
-    let result = empty<T>();
+  public func intersection<T, C <: Cmp<T>>(set1 : Set<T, C>, set2 : Set<T, Cmp<T>>) : Set<T, C> {
+    let result = empty<T, C>(set1.cmp);
     for (element in values(set1)) {
-      if (contains(set2, compare, element)) {
-        add(result, compare, element)
+      if (contains(set2, element)) {
+        add(result, element)
       }
     };
     result
@@ -832,11 +837,11 @@ module {
   /// Space: `O(1)` retained memory plus garbage, see the note below.
   /// where `m` and `n` denote the number of elements stored in the sets `set1` and `set2`, respectively,
   /// and assuming that the `compare` function implements an `O(1)` comparison.
-  public func difference<T>(set1 : Set<T>, set2 : Set<T>, compare : (T, T) -> Order.Order) : Set<T> {
-    let result = empty<T>();
+  public func difference<T, C <: Cmp<T>>(set1 : Set<T, C>, set2 : Set<T, Cmp<T>>) : Set<T, C> {
+    let result = empty<T, C>(set1.cmp);
     for (element in values(set1)) {
-      if (not contains(set2, compare, element)) {
-        add(result, compare, element)
+      if (not contains(set2, element)) {
+        add(result, element)
       }
     };
     result
@@ -862,9 +867,9 @@ module {
   /// Space: `O(1)` retained memory plus garbage, see the note below.
   /// where `m` and `n` denote the number of elements in `set` and `iter`, respectively,
   /// and assuming that the `compare` function implements an `O(1)` comparison.
-  public func addAll<T>(set : Set<T>, compare : (T, T) -> Order.Order, iter : Types.Iter<T>) {
+  public func addAll<T>(set : Self<T>, iter : Types.Iter<T>) {
     for (element in iter) {
-      add(set, compare, element)
+      add(set, element)
     }
   };
 
@@ -889,10 +894,10 @@ module {
   /// Space: `O(1)` retained memory plus garbage, see the note below.
   /// where `m` and `n` denote the number of elements in `set` and `iter`, respectively,
   /// and assuming that the `compare` function implements an `O(1)` comparison.
-  public func deleteAll<T>(set : Set<T>, compare : (T, T) -> Order.Order, iter : Types.Iter<T>) : Bool {
+  public func deleteAll<T>(set : Self<T>, iter : Types.Iter<T>) : Bool {
     var deleted = false;
     for (element in iter) {
-      deleted := delete(set, compare, element) or deleted // order matters!
+      deleted := delete(set, element) or deleted // order matters!
     };
     deleted
   };
@@ -919,10 +924,10 @@ module {
   /// Space: `O(1)` retained memory plus garbage, see the note below.
   /// where `m` and `n` denote the number of elements in `set` and `iter`, respectively,
   /// and assuming that the `compare` function implements an `O(1)` comparison.
-  public func insertAll<T>(set : Set<T>, compare : (T, T) -> Order.Order, iter : Types.Iter<T>) : Bool {
+  public func insertAll<T>(set : Self<T>, iter : Types.Iter<T>) : Bool {
     var inserted = false;
     for (element in iter) {
-      inserted := insert(set, compare, element) or inserted // order matters!
+      inserted := insert(set, element) or inserted // order matters!
     };
     inserted
   };
@@ -945,11 +950,10 @@ module {
   ///   assert sizeChanged;
   /// }
   /// ```
-  public func retainAll<T>(set : Set<T>, compare : (T, T) -> Order.Order, predicate : T -> Bool) : Bool {
+  public func retainAll<T>(set : Self<T>, predicate : T -> Bool) : Bool {
     let array = Array.fromIter<T>(values(set));
     deleteAll(
       set,
-      compare,
       Iter.filter<T>(array.vals(), func(element : T) : Bool = not predicate(element))
     )
   };
@@ -978,7 +982,7 @@ module {
   /// where `n` denotes the number of elements stored in the set.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func forEach<T>(set : Set<T>, operation : T -> ()) {
+  public func forEach<T>(set : Self<T>, operation : T -> ()) {
     for (element in values(set)) {
       operation(element)
     }
@@ -1008,11 +1012,11 @@ module {
   /// Space: `O(n)`.
   /// where `n` denotes the number of elements stored in the set and
   /// assuming that the `compare` function implements an `O(1)` comparison.
-  public func filter<T>(set : Set<T>, compare : (T, T) -> Order.Order, criterion : T -> Bool) : Set<T> {
-    let result = empty<T>();
+  public func filter<T, C <: Cmp<T>>(set : Set<T, C>, criterion : T -> Bool) : Set<T, C> {
+    let result = empty<T, C>(set.cmp);
     for (element in values(set)) {
       if (criterion(element)) {
-        add(result, compare, element)
+        add(result, element)
       }
     };
     result
@@ -1044,11 +1048,11 @@ module {
   /// assuming that the `compare` function implements an `O(1)` comparison.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func map<T1, T2>(set : Set<T1>, compare : (T2, T2) -> Order.Order, project : T1 -> T2) : Set<T2> {
-    let result = empty<T2>();
+  public func map<T1, T2, C <: Cmp<T2>>(set : Self<T1>, compare : C, project : T1 -> T2) : Set<T2, C> {
+    let result = empty<T2, C>(compare);
     for (element1 in values(set)) {
       let element2 = project(element1);
-      add(result, compare, element2)
+      add(result, element2)
     };
     result
   };
@@ -1084,12 +1088,12 @@ module {
   /// where `n` denotes the number of elements stored in the set.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func filterMap<T1, T2>(set : Set<T1>, compare : (T2, T2) -> Order.Order, project : T1 -> ?T2) : Set<T2> {
-    let result = empty<T2>();
+  public func filterMap<T1, T2, C <: Cmp<T2>>(set : Self<T1>, compare : C, project : T1 -> ?T2) : Set<T2, C> {
+    let result = empty<T2, C>(compare);
     for (element1 in values(set)) {
       switch (project(element1)) {
         case null {};
-        case (?element2) add(result, compare, element2)
+        case (?element2) add(result, element2)
       }
     };
     result
@@ -1123,7 +1127,7 @@ module {
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
   public func foldLeft<T, A>(
-    set : Set<T>,
+    set : Self<T>,
     base : A,
     combine : (A, T) -> A
   ) : A {
@@ -1162,7 +1166,7 @@ module {
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
   public func foldRight<T, A>(
-    set : Set<T>,
+    set : Self<T>,
     base : A,
     combine : (T, A) -> A
   ) : A {
@@ -1199,11 +1203,11 @@ module {
   /// Space: `O(1)` retained memory plus garbage, see the note below.
   /// where `n` denotes the number of elements stored in the iterated sets,
   /// and assuming that the `compare` function implements an `O(1)` comparison.
-  public func join<T>(setIterator : Types.Iter<Set<T>>, compare : (T, T) -> Order.Order) : Set<T> {
-    let result = empty<T>();
+  public func join<T, C <: Cmp<T>>(setIterator : Types.Iter<Set<T,Cmp<T>>>, compare : C) : Set<T, C> {
+    let result = empty<T, C>(compare);
     for (set in setIterator) {
       for (element in values(set)) {
-        add(result, compare, element)
+        add(result, element)
       }
     };
     result
@@ -1241,11 +1245,11 @@ module {
   /// Space: `O(1)` retained memory plus garbage, see the note below.
   /// where `n` denotes the number of elements stored in all the sub-sets,
   /// and assuming that the `compare` function implements an `O(1)` comparison.
-  public func flatten<T>(setOfSets : Set<Set<T>>, compare : (T, T) -> Order.Order) : Set<T> {
-    let result = empty<T>();
+  public func flatten<T, C <: Cmp<T>>(setOfSets : Self<Self<T>>, compare : C) : Set<T, C> {
+    let result = empty<T, C>(compare);
     for (subSet in values(setOfSets)) {
       for (element in values(subSet)) {
-        add(result, compare, element)
+        add(result, element)
       }
     };
     result
@@ -1275,7 +1279,7 @@ module {
   /// where `n` denotes the number of elements stored in the set.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func all<T>(set : Set<T>, predicate : T -> Bool) : Bool {
+  public func all<T>(set : Self<T>, predicate : T -> Bool) : Bool {
     // TODO optimize, avoiding iterator
     for (element in values(set)) {
       if (not predicate(element)) {
@@ -1309,7 +1313,7 @@ module {
   /// where `n` denotes the number of elements stored in the set.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func any<T>(set : Set<T>, predicate : T -> Bool) : Bool {
+  public func any<T>(set : Self<T>, predicate : T -> Bool) : Bool {
     // TODO optimize, avoiding iterator
     for (element in values(set)) {
       if (predicate(element)) {
@@ -1322,7 +1326,8 @@ module {
   /// Internal sanity check function.
   /// Can be used to check that elements have been inserted with a consistent comparison function.
   /// Traps if the internal set structure is invalid.
-  public func assertValid<T>(set : Set<T>, compare : (T, T) -> Order.Order) {
+  public func assertValid<T, C <: Cmp<T>>(set : Set<T, C>) {
+    let compare = set.cmp;
     func checkIteration(iterator : Types.Iter<T>, order : Order.Order) {
       switch (iterator.next()) {
         case null {};
@@ -1368,7 +1373,7 @@ module {
   /// assuming that `elementFormat` has runtime and space costs of `O(1)`.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func toText<T>(set : Set<T>, elementFormat : T -> Text) : Text {
+  public func toText<T>(set : Self<T>, elementFormat : T -> Text) : Text {
     var text = "Set{";
     var sep = "";
     for (element in values(set)) {
@@ -1414,7 +1419,8 @@ module {
   /// assuming that `compare` has runtime and space costs of `O(1)`.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func compare<T>(set1 : Set<T>, set2 : Set<T>, compare : (T, T) -> Order.Order) : Order.Order {
+  public func compare<T, C <: Cmp<T>>(set1 : Set<T, C>, set2 : Set<T, C>) : Order.Order {
+    let compare = set1.cmp;
     let iterator1 = values(set1);
     let iterator2 = values(set2);
     loop {
