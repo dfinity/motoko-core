@@ -46,7 +46,7 @@ module {
   let btreeOrder = 32; // Should be >= 4 and <= 512.
 
   public type Map<K, V> = Types.Map<K, V>;
-  public type Sel<K, V> = Map<K, V>;
+  public type Self<K, V> = Map<K, V>;
 
   type Node<K, V> = Types.Map.Node<K, V>;
   type Data<K, V> = Types.Map.Data<K, V>;
