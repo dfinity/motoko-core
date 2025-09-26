@@ -913,10 +913,8 @@
       "public func isEmpty<T>(priorityQueue : PriorityQueue<T>) : Bool",
       "public func peek<T>(priorityQueue : PriorityQueue<T>) : ?T",
       "public func pop<T>( priorityQueue : PriorityQueue<T>, compare : (T, T) -> Order.Order ) : ?T",
-      "public func popBetter<T>( priorityQueue : PriorityQueue<T>, compare : (T, T) -> Order.Order ) : ?T",
       "public type PriorityQueue<T>",
       "public func push<T>( priorityQueue : PriorityQueue<T>, compare : (T, T) -> Order.Order, element : T )",
-      "public func pushBetter<T>( priorityQueue : PriorityQueue<T>, compare : (T, T) -> Order.Order, element : T )",
       "public func singleton<T>(element : T) : PriorityQueue<T>",
       "public func size<T>(priorityQueue : PriorityQueue<T>) : Nat"
     ]
