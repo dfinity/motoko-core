@@ -138,27 +138,6 @@ module {
     List.add(heap, element);
     var index = List.size(heap) - 1;
     while (index > 0) {
-      switch (compare(List.at(heap, index), List.at(heap, (index - 1) / 2))) {
-        case (#greater) {
-          swapHeapElements(heap, index, (index - 1) / 2);
-          index := (index - 1) / 2
-        };
-        case _ return
-      }
-    }
-  };
-
-  // Optimized version.
-  // Main optimization is using the hole technique to avoid copies.
-  public func pushBetter<T>(
-    priorityQueue : PriorityQueue<T>,
-    compare : (T, T) -> Order.Order,
-    element : T
-  ) {
-    let heap = priorityQueue.heap;
-    List.add(heap, element);
-    var index = List.size(heap) - 1;
-    while (index > 0) {
       let parentId = (index - 1) / 2;
       let parentVal = List.at(heap, parentId);
       if (compare(element, parentVal) == #greater) {
@@ -211,39 +190,6 @@ module {
     if (List.isEmpty(heap)) {
       return null
     };
-    let lastIndex = List.size(heap) - 1;
-    swapHeapElements(heap, 0, lastIndex);
-    var index = 0;
-    loop {
-      var best = index;
-      let left = 2 * index + 1;
-      if (left < lastIndex and compare(List.at(heap, left), List.at(heap, best)) == #greater) {
-        best := left
-      };
-      let right = left + 1;
-      if (right < lastIndex and compare(List.at(heap, right), List.at(heap, best)) == #greater) {
-        best := right
-      };
-      if (best == index) {
-        return List.removeLast(heap)
-      };
-      swapHeapElements(heap, index, best);
-      index := best
-    }
-  };
-
-  // Optimized version.
-  // Main optimization is using the hole technique to avoid copies.
-  // N.B.: the control flow could be slightly optimized further, but the difference in speed
-  // is minimal while the impact on readability would be significant.
-  public func popBetter<T>(
-    priorityQueue : PriorityQueue<T>,
-    compare : (T, T) -> Order.Order
-  ) : ?T {
-    let heap = priorityQueue.heap;
-    if (List.isEmpty(heap)) {
-      return null
-    };
     let top = List.get(heap, 0);
     let lastIndex = List.size(heap) - 1;
     let lastElem = List.at(heap, lastIndex);
@@ -276,13 +222,5 @@ module {
       List.put(heap, index, bestElem);
       index := best
     }
-  };
-
-  /// Swaps two elements in the heap at the given indices.
-  /// Internal helper function.
-  func swapHeapElements<T>(heap : Types.List<T>, id1 : Nat, id2 : Nat) {
-    let aux = List.at(heap, id1);
-    List.put(heap, id1, List.at(heap, id2));
-    List.put(heap, id2, aux)
   }
 }
