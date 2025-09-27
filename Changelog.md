@@ -3,6 +3,7 @@
 * internal: updates `matchers` dev-dependency (#394)
 * Add support for Weak references (#388).
 * Clarify difference between `List` and `pure/List` in doc comments (#386).
+* Optimize methods in `List<T>` (#337).
 
 ## 1.0.0
 
