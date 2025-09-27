@@ -561,6 +561,10 @@ module {
     values(set).next()
   };
 
+  public func toArray<T>(set : Set<T>) : [T] {
+    Iter.toArray(values(set))
+  };
+
   /// Returns an iterator over the elements in the set,
   /// traversing the elements in the ascending order.
   ///
