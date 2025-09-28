@@ -12,8 +12,6 @@ import Array "../src/Array";
 
 let { run; test; suite } = Suite;
 
-let compare = Nat.compare;
-let toText = Nat.toText;
 run(
   suite(
     "empty",
