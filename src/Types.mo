@@ -65,7 +65,7 @@ module {
     public type Queue<T> = {
       var front : ?Node<T>;
       var back : ?Node<T>;
-      var size : Nat
+      var size_ : Nat
     };
 
     public type Node<T> = {
