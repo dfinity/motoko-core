@@ -52,7 +52,7 @@ assert VarArray.equal(varArray, [var 0, 1, 3], Nat.equal);</code></pre>
 
 <p>Runtime: O(size)</p>
 <p>Space: O(1)</p>
-</p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">array1</span> : [<span class="type">T</span>], <br/>  <span class="parameter">array2</span> : [<span class="type">T</span>], <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Tests if two arrays contain equal values (i.e. they represent the same
+</p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">array1</span> : [<span class="type">T</span>], <br/>  <span class="parameter">array2</span> : [<span class="type">T</span>], <br/>  <span class="parameter">equal</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>)<br/>) : <span class="type">Bool</span></code></h4><p><p>Tests if two arrays contain equal values (i.e. they represent the same
 list of elements). Uses <code>equal</code> to compare elements in the arrays.</p>
 <pre><code>motoko include=import
 // Use the equal function from the Nat module to compare Nats
@@ -406,7 +406,7 @@ assert VarArray.equal(slice2, [var 2, 3, 4], Nat.equal);</code></pre>
 
 <p>Runtime: O(toExclusive - fromInclusive)</p>
 <p>Space: O(toExclusive - fromInclusive)</p>
-</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">array</span> : [<span class="type">T</span>], <span class="parameter">f</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>) : <span class="type">Text</span></code></h4><p><p>Converts the array to its textual representation using <code>f</code> to convert each element to <code>Text</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">array</span> : [<span class="type">T</span>], <span class="parameter">f</span> : (<span class="parameter">implicit</span> : (<span class="parameter">toText</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>))) : <span class="type">Text</span></code></h4><p><p>Converts the array to its textual representation using <code>f</code> to convert each element to <code>Text</code>.</p>
 <pre><code>motoko include=import
 import Nat &quot;mo:core/Nat&quot;;
 

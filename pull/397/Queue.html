@@ -357,7 +357,7 @@ persistent actor {
 <p>Runtime: O(n)
 Space: O(1)
 <code>n</code> denotes the number of elements stored in the queue.</p>
-</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">queue</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">format</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>) : <span class="type">Text</span></code></h4><p><p>Converts a queue to its string representation using the provided element formatter.</p>
+</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">queue</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">format</span> : (<span class="parameter">implicit</span> : (<span class="parameter">toText</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>))) : <span class="type">Text</span></code></h4><p><p>Converts a queue to its string representation using the provided element formatter.</p>
 <p>Example:</p>
 <pre class="motoko"><code class="motoko">import Queue &quot;mo:core/Queue&quot;;
 import Nat &quot;mo:core/Nat&quot;;
@@ -370,7 +370,7 @@ persistent actor {
 <p>Runtime: O(n)
 Space: O(n)
 <code>n</code> denotes the number of elements stored in the queue.</p>
-</p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">queue1</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">queue2</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">compare</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a><br/>) : <a href="Order.html#type.Order"><span class="type">Order.Order</span></a></code></h4><p><p>Compares two queues using the provided comparison function.
+</p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">queue1</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">queue2</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">compare</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>)<br/>) : <a href="Order.html#type.Order"><span class="type">Order.Order</span></a></code></h4><p><p>Compares two queues using the provided comparison function.
 Returns #less, #equal, or #greater.</p>
 <p>Example:</p>
 <pre class="motoko"><code class="motoko">import Queue &quot;mo:core/Queue&quot;;

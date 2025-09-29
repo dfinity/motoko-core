@@ -178,7 +178,7 @@ List.put(list, 0, 20); // overwrites 10 at index 0 with 20
 assert List.toArray(list) == [20];</code></pre>
 
 <p>Runtime: <code>O(1)</code></p>
-</p></div><div class="declaration"><h4 class="function" id="sort"><code><span class="keyword">public func </span><span class="fnname">sort</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">compare</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>)</code></h4><p><p>Sorts the elements in the list according to <code>compare</code>.
+</p></div><div class="declaration"><h4 class="function" id="sort"><code><span class="keyword">public func </span><span class="fnname">sort</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">compare</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>))</code></h4><p><p>Sorts the elements in the list according to <code>compare</code>.
 Sort is deterministic, stable, and in-place.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -262,7 +262,7 @@ assert List.findLastIndex&lt;Nat&gt;(list, func(i) { i &gt; 5 }) == null;</code>
 
 <p>Runtime: <code>O(size)</code></p>
 <p>*Runtime and space assumes that <code>predicate</code> runs in <code>O(1)</code> time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="binarySearch"><code><span class="keyword">public func </span><span class="fnname">binarySearch</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">compare</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>, <br/>  <span class="parameter">element</span> : <span class="type">T</span><br/>) : {#found : <span class="type">Nat</span>; #insertionIndex : <span class="type">Nat</span>}</code></h4><p><p>Performs binary search on a sorted list to find the index of the <code>element</code>.
+</p></div><div class="declaration"><h4 class="function" id="binarySearch"><code><span class="keyword">public func </span><span class="fnname">binarySearch</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">compare</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>), <br/>  <span class="parameter">element</span> : <span class="type">T</span><br/>) : {#found : <span class="type">Nat</span>; #insertionIndex : <span class="type">Nat</span>}</code></h4><p><p>Performs binary search on a sorted list to find the index of the <code>element</code>.
 Returns <code>#found(index)</code> if the element is found, or <code>#insertionIndex(index)</code> with the index
 where the element would be inserted according to the ordering if not found.</p>
 <p>If there are multiple equal elements, no guarantee is made about which index is returned.
@@ -564,7 +564,7 @@ assert List.contains&lt;Nat&gt;(list, Nat.equal, 2);</code></pre>
 <p>Runtime: <code>O(size)</code></p>
 <p>Space: <code>O(1)</code></p>
 <p>*Runtime and space assumes that <code>equal</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="max"><code><span class="keyword">public func </span><span class="fnname">max</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">compare</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>) : ?<span class="type">T</span></code></h4><p><p>Returns the greatest element in the list according to the ordering defined by <code>compare</code>.
+</p></div><div class="declaration"><h4 class="function" id="max"><code><span class="keyword">public func </span><span class="fnname">max</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">compare</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>)) : ?<span class="type">T</span></code></h4><p><p>Returns the greatest element in the list according to the ordering defined by <code>compare</code>.
 Returns <code>null</code> if the list is empty.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -580,7 +580,7 @@ assert List.max&lt;Nat&gt;(List.empty&lt;Nat&gt;(), Nat.compare) == null;</code>
 <p>Runtime: <code>O(size)</code></p>
 <p>Space: <code>O(1)</code></p>
 <p>*Runtime and space assumes that <code>compare</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="min"><code><span class="keyword">public func </span><span class="fnname">min</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">compare</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>) : ?<span class="type">T</span></code></h4><p><p>Returns the least element in the list according to the ordering defined by <code>compare</code>.
+</p></div><div class="declaration"><h4 class="function" id="min"><code><span class="keyword">public func </span><span class="fnname">min</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">compare</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>)) : ?<span class="type">T</span></code></h4><p><p>Returns the least element in the list according to the ordering defined by <code>compare</code>.
 Returns <code>null</code> if the list is empty.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -613,7 +613,7 @@ assert List.equal&lt;Nat&gt;(list1, list2, Nat.equal);</code></pre>
 <p>Runtime: <code>O(size)</code></p>
 <p>Space: <code>O(1)</code></p>
 <p>*Runtime and space assumes that <code>equal</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">list1</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">list2</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">compare</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a><br/>) : <a href="Order.html#type.Order"><span class="type">Order.Order</span></a></code></h4><p><p>Compares two lists lexicographically using the provided <code>compare</code> function.
+</p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">list1</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">list2</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">compare</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>)<br/>) : <a href="Order.html#type.Order"><span class="type">Order.Order</span></a></code></h4><p><p>Compares two lists lexicographically using the provided <code>compare</code> function.
 Elements are compared pairwise until a difference is found or one list ends.
 If all elements compare equal, the shorter list is considered less than the longer list.</p>
 <p>Example:</p>
@@ -631,7 +631,7 @@ assert List.compare&lt;Nat&gt;(list2, list3, Nat.compare) == #greater;</code></p
 <p>Runtime: <code>O(size)</code></p>
 <p>Space: <code>O(1)</code></p>
 <p>*Runtime and space assumes that <code>compare</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">f</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>) : <span class="type">Text</span></code></h4><p><p>Creates a textual representation of <code>list</code>, using <code>toText</code> to recursively
+</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">f</span> : (<span class="parameter">implicit</span> : (<span class="parameter">toText</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>))) : <span class="type">Text</span></code></h4><p><p>Creates a textual representation of <code>list</code>, using <code>toText</code> to recursively
 convert the elements into Text.</p>
 <p>Example:</p>
 <pre><code>motoko include=import

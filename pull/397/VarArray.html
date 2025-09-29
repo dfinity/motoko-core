@@ -456,7 +456,7 @@ assert VarArray.equal(slice2, [var 2, 3, 4], Nat.equal);</code></pre>
 
 <p>Runtime: O(toExclusive - fromInclusive)</p>
 <p>Space: O(toExclusive - fromInclusive)</p>
-</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">array</span> : [<span class="keyword">var </span><span class="type">T</span>], <span class="parameter">f</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>) : <span class="type">Text</span></code></h4><p><p>Converts the mutable array to its textual representation using <code>f</code> to convert each element to <code>Text</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">array</span> : [<span class="keyword">var </span><span class="type">T</span>], <span class="parameter">f</span> : (<span class="parameter">implicit</span> : (<span class="parameter">toText</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>))) : <span class="type">Text</span></code></h4><p><p>Converts the mutable array to its textual representation using <code>f</code> to convert each element to <code>Text</code>.</p>
 <pre><code>motoko include=import
 import Nat &quot;mo:core/Nat&quot;;
 
