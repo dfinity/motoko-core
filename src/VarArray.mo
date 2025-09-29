@@ -1170,7 +1170,7 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func toText<T>(array : [var T], f : (implicit : T -> Text)) : Text {
+  public func toText<T>(array : [var T], f : (implicit : (toText : T -> Text))) : Text {
     let size = array.size();
     if (size == 0) { return "[var]" };
     var text = "[var ";
