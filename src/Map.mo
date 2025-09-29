@@ -129,7 +129,7 @@ module {
   public func clone<K, V>(map : Map<K, V>) : Map<K, V> {
     {
       var root = cloneNode(map.root);
-      var size = map.size
+      var size_ = map.size_
     }
   };
 
@@ -155,7 +155,7 @@ module {
           var count = 0
         }
       });
-      var size = 0
+      var size_ = 0
     }
   };
 
@@ -179,7 +179,7 @@ module {
     kvs[0] := ?(key, value);
     {
       var root = #leaf { data = { kvs; var count = 1 } };
-      var size = 1
+      var size_ = 1
     }
   };
 
@@ -207,7 +207,7 @@ module {
   public func clear<K, V>(map : Map<K, V>) {
     let emptyMap = empty<K, V>();
     map.root := emptyMap.root;
-    map.size := 0
+    map.size_ := 0
   };
 
   /// Determines whether a key-value map is empty.
@@ -231,7 +231,7 @@ module {
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
   public func isEmpty<K, V>(map : Map<K, V>) : Bool {
-    map.size == 0
+    map.size_ == 0
   };
 
   /// Return the number of entries in a key-value map.
@@ -255,7 +255,7 @@ module {
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
   public func size<K, V>(map : Map<K, V>) : Nat {
-    map.size
+    map.size_
   };
 
   /// Test whether two imperative maps have equal entries.
@@ -460,7 +460,7 @@ module {
       case (#insert(ov)) {
         switch (ov) {
           // if inserted a value that was not previously there, increment the tree size counter
-          case null { map.size += 1 };
+          case null { map.size_ += 1 };
           case _ {}
         };
         ov
@@ -479,7 +479,7 @@ module {
           children
         };
         // promotion always comes from inserting a new element, so increment the tree size counter
-        map.size += 1;
+        map.size_ += 1;
 
         null
       }
@@ -619,7 +619,7 @@ module {
           case (#keyFound(deleteIndex)) {
             leafNode.data.count -= 1;
             let (_, deletedValue) = BTreeHelper.deleteAndShift<(K, V)>(leafNode.data.kvs, deleteIndex);
-            map.size -= 1;
+            map.size_ -= 1;
             ?deletedValue
           };
           case _ { null }
@@ -647,7 +647,7 @@ module {
         };
         switch (deletedValueResult) {
           // if deleted a value from the BTree, decrement the size
-          case (?deletedValue) { map.size -= 1 };
+          case (?deletedValue) { map.size_ -= 1 };
           case null {}
         };
         deletedValueResult
@@ -1047,7 +1047,7 @@ module {
   public func map<K, V1, V2>(map : Map<K, V1>, project : (K, V1) -> V2) : Map<K, V2> {
     {
       var root = mapNode(map.root, project);
-      var size = map.size
+      var size_ = map.size_
     }
   };
 
