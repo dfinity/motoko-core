@@ -60,7 +60,7 @@ persistent actor {
 
 <p>Runtime: <code>O(1)</code> in Release profile (compiled with <code>--release</code> flag), <code>O(size)</code> otherwise.</p>
 <p>Space: <code>O(1)</code>.</p>
-</p></div><div class="declaration"><h4 class="function" id="contains"><code><span class="keyword">public func </span><span class="fnname">contains</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">queue</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>, <br/>  <span class="parameter">item</span> : <span class="type">T</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Check if a queue contains a specific element.
+</p></div><div class="declaration"><h4 class="function" id="contains"><code><span class="keyword">public func </span><span class="fnname">contains</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">queue</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">equal</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>), <br/>  <span class="parameter">item</span> : <span class="type">T</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Check if a queue contains a specific element.
 Returns true if the queue contains an element equal to <code>item</code> according to the <code>equal</code> function.</p>
 <p>Note: The order in which elements are visited is undefined, for performance reasons.</p>
 <p>Example:</p>
@@ -225,7 +225,7 @@ persistent actor {
 
 <p>Runtime: O(size)</p>
 <p>Space: O(size)</p>
-</p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">queue1</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">queue2</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Compare two queues for equality using the provided equality function.</p>
+</p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">queue1</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">queue2</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">equal</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>)<br/>) : <span class="type">Bool</span></code></h4><p><p>Compare two queues for equality using the provided equality function.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 import Nat &quot;mo:core/Nat&quot;;

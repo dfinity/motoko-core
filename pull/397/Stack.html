@@ -142,7 +142,7 @@ persistent actor {
 
 <p>Runtime: O(1)
 Space: O(1)</p>
-</p></div><div class="declaration"><h4 class="function" id="contains"><code><span class="keyword">public func </span><span class="fnname">contains</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>, <br/>  <span class="parameter">element</span> : <span class="type">T</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Returns true if the stack contains the specified element.
+</p></div><div class="declaration"><h4 class="function" id="contains"><code><span class="keyword">public func </span><span class="fnname">contains</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">equal</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>), <br/>  <span class="parameter">element</span> : <span class="type">T</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Returns true if the stack contains the specified element.
 Uses the provided equality function to compare elements.</p>
 <p>Example:</p>
 <pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
@@ -375,7 +375,7 @@ persistent actor {
 Space: O(n)
 where <code>n</code> denotes the number of elements stored on the stack and
 assuming that <code>project</code> has O(1) costs.</p>
-</p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">stack1</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">stack2</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Compares two stacks for equality using the provided equality function.</p>
+</p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">stack1</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">stack2</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">equal</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>)<br/>) : <span class="type">Bool</span></code></h4><p><p>Compares two stacks for equality using the provided equality function.</p>
 <p>Example:</p>
 <pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
 import Nat &quot;mo:core/Nat&quot;;

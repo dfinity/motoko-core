@@ -169,7 +169,7 @@ let found = Iter.findIndex&lt;Char&gt;(iter, func(x) { x == 'C' });
 assert found == ?2;</code></pre><p>Runtime: O(size)</p>
 <p>Space: O(1)</p>
 <p>*Runtime and space assumes that <code>predicate</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="contains"><code><span class="keyword">public func </span><span class="fnname">contains</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">iter</span> : <a href="#type.Iter"><span class="type">Iter</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>, <br/>  <span class="parameter">value</span> : <span class="type">T</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Checks if an element is produced by an iterator.
+</p></div><div class="declaration"><h4 class="function" id="contains"><code><span class="keyword">public func </span><span class="fnname">contains</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">iter</span> : <a href="#type.Iter"><span class="type">Iter</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">equal</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>), <br/>  <span class="parameter">value</span> : <span class="type">T</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Checks if an element is produced by an iterator.
 It stops consuming elements from the original iterator as soon as the predicate returns true.</p>
 <pre><code>motoko include=import
 import Nat &quot;mo:core/Nat&quot;;
