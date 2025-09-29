@@ -357,7 +357,7 @@ persistent actor {
 <p>Runtime: O(n)
 Space: O(1)
 <code>n</code> denotes the number of elements stored in the queue.</p>
-</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">queue</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">format</span> : (<span class="parameter">implicit</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>)) : <span class="type">Text</span></code></h4><p><p>Converts a queue to its string representation using the provided element formatter.</p>
+</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">queue</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">format</span> : (<span class="parameter">implicit</span> : (<span class="parameter">toText</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>))) : <span class="type">Text</span></code></h4><p><p>Converts a queue to its string representation using the provided element formatter.</p>
 <p>Example:</p>
 <pre class="motoko"><code class="motoko">import Queue &quot;mo:core/Queue&quot;;
 import Nat &quot;mo:core/Nat&quot;;

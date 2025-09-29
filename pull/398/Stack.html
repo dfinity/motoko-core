@@ -405,7 +405,7 @@ persistent actor {
 <p>Runtime: O(n)
 Space: O(n)
 where <code>n</code> denotes the number of iterated elements.</p>
-</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">format</span> : (<span class="parameter">implicit</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>)) : <span class="type">Text</span></code></h4><p><p>Converts the stack to its string representation using the provided
+</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">format</span> : (<span class="parameter">implicit</span> : (<span class="parameter">toText</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>))) : <span class="type">Text</span></code></h4><p><p>Converts the stack to its string representation using the provided
 element formatting function.</p>
 <p>Example:</p>
 <pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
