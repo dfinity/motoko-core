@@ -884,7 +884,7 @@ module {
   ///
   /// Runtime: `O(n)`.
   /// Space: `O(1)`.
-  public func equal<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit : (K, K) -> Order.Order), equalValue : (implicit : (V, V) -> Bool)) : Bool {
+  public func equal<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), equal : (implicit : (V, V) -> Bool)) : Bool {
     if (map1.size != map2.size) {
       return false
     };
@@ -898,7 +898,7 @@ module {
           return true
         };
         case (?(key1, value1), ?(key2, value2)) {
-          if (not (compareKey(key1, key2) == #equal) or not equalValue(value1, value2)) {
+          if (not (compare(key1, key2) == #equal) or not equal(value1, value2)) {
             return false
           }
         };
@@ -947,7 +947,7 @@ module {
   /// assuming that `compareKey` and `compareValue` have runtime and space costs of `O(1)`.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit : (K, K) -> Order.Order), compareValue : (implicit : (V, V) -> Order.Order)) : Order.Order {
+  public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit : (compare : (K, K) -> Order.Order)), compareValue : (implicit : (compare : (V, V) -> Order.Order))) : Order.Order {
     let iterator1 = entries(map1);
     let iterator2 = entries(map2);
     loop {

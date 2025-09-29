@@ -1717,7 +1717,7 @@ module {
   /// Space: `O(size)`
   ///
   /// *Runtime and space assumes that `toText` runs in O(1) time and space.
-  public func toText<T>(list : List<T>, f : (implicit : T -> Text)) : Text {
+  public func toText<T>(list : List<T>, f : (implicit : (toText : T -> Text))) : Text {
     let vsize : Int = size(list);
     let next = values_(list).unsafe_next;
     var i = 0;
