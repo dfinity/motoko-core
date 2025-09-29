@@ -202,29 +202,7 @@ Can be declared <code>stable</code> for orthogonal persistence.</p>
 Main author: Andrii Stepanov
 Contributors: Timo Hanke (timohanke), Andy Gura (andygura), react0r-com</p>
 <pre><code>motoko name=import
-import List &quot;mo:core/List&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Map.html">Map</a><div class="index-item-comment"><p>An imperative key-value map based on order/comparison of the keys.
-The map data structure type is stable and can be used for orthogonal persistence.</p>
-<p>Example:</p>
-<pre class="motoko"><code class="motoko">import Map &quot;mo:core/Map&quot;;
-import Nat &quot;mo:core/Nat&quot;;
-
-persistent actor {
-  // creation
-  let map = Map.empty&lt;Nat, Text&gt;();
-  // insertion
-  Map.add(map, Nat.compare, 0, &quot;Zero&quot;);
-  // retrieval
-  assert Map.get(map, Nat.compare, 0) == ?&quot;Zero&quot;;
-  assert Map.get(map, Nat.compare, 1) == null;
-  // removal
-  Map.remove(map, Nat.compare, 0);
-  assert Map.isEmpty(map);
-}</code></pre>
-
-<p>The internal implementation is a B-tree with order 32.</p>
-<p>Performance:</p>
-<ul><li>Runtime: <code>O(log(n))</code> worst case cost per insertion, removal, and retrieval operation.</li><li>Space: <code>O(n)</code> for storing the entire map.
-<code>n</code> denotes the number of key-value entries stored in the map.</li></ul></div></li><li class="index-item"><a class="index-item-link" href="Nat.html">Nat</a><div class="index-item-comment"><p>Natural numbers with infinite precision.</p>
+import List &quot;mo:core/List&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Nat.html">Nat</a><div class="index-item-comment"><p>Natural numbers with infinite precision.</p>
 <p>Most operations on natural numbers (e.g. addition) are available as built-in operators (e.g. <code>1 + 1</code>).
 This module provides equivalent functions and <code>Text</code> conversion.</p>
 <p>Import from the core package to use this module.</p>
