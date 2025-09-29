@@ -63,7 +63,7 @@ module {
   public func equal<Ok, Err>(
     result1 : Result<Ok, Err>,
     result2 : Result<Ok, Err>,
-    equalOk : (implicit : (equal : Ok, Ok) -> Bool)),
+    equalOk : (implicit : (equal : Ok, Ok) -> Bool),
     equalErr : (implicit : (equal : (Err, Err) -> Bool))
   ) : Bool {
     switch (result1, result2) {

@@ -41,7 +41,7 @@
       "public func sliceToVarArray<T>(array : [T], fromInclusive : Int, toExclusive : Int) : [var T]",
       "public func sort<T>(array : [T], compare : (implicit : (T, T) -> Order.Order)) : [T]",
       "public func tabulate<T>(size : Nat, generator : Nat -> T) : [T]",
-      "public func toText<T>(array : [T], f : (implicit : T -> Text)) : Text",
+      "public func toText<T>(array : [T], f : (implicit : (toText : T -> Text))) : Text",
       "public func toVarArray<T>(array : [T]) : [var T]",
       "public func values<T>(array : [T]) : Types.Iter<T>"
     ]
@@ -573,7 +573,7 @@
       "public func sort<T>(list : List<T>, compare : (implicit : (T, T) -> Order.Order))",
       "public func toArray<T>(list : List<T>) : [T]",
       "public func toPure<T>(list : List<T>) : PureList.List<T>",
-      "public func toText<T>(list : List<T>, f : (implicit : T -> Text)) : Text",
+      "public func toText<T>(list : List<T>, f : (implicit : (toText : T -> Text))) : Text",
       "public func toVarArray<T>(list : List<T>) : [var T]",
       "public func values<T>(list : List<T>) : Iter.Iter<T>"
     ]
@@ -587,7 +587,8 @@
       "public func assertValid<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order))",
       "public func clear<K, V>(map : Map<K, V>)",
       "public func clone<K, V>(map : Map<K, V>) : Map<K, V>",
-      "public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit : (K, K) -> Order.Order), compareValue : (implicit : (V, V) -> Order.Order)) : Order.Order",
+      "public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit : (compare : (K, K) -> Order.Order)), compareValue : (implicit : (compare : (V, V) -> Order.Order))) : Order.Order",
+      "public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit (compare : (K, K) -> Order.Order)), compareValue : (implicit : (compare : (V, V) -> Order.Order))) : Order.Order",
       "public func containsKey<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : Bool",
       "public func delete<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : Bool",
       "public func empty<K, V>() : Map<K, V>",
@@ -620,7 +621,7 @@
       "public func take<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : ?V",
       "public func toArray<K, V>(map : Map<K, V>) : [(K, V)]",
       "public func toPure<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order)) : PureMap.Map<K, V>",
-      "public func toText<K, V>(map : Map<K, V>, keyFormat : (implicit (toText : K -> Text)), valueFormat : (implicit : (toText : V -> Text))) : Text",
+      "public func toText<K, V>(map : Map<K, V>, keyFormat : (implicit : (toText : K -> Text)), valueFormat : (implicit : (toText : V -> Text))) : Text",
       "public func values<K, V>(map : Map<K, V>) : Types.Iter<V>"
     ]
   },
@@ -873,8 +874,8 @@
     "exports": [
       "public func apply<T, R>(x : ?T, f : ?(T -> R)) : ?R",
       "public func chain<T, R>(x : ?T, f : T -> ?R) : ?R",
-      "public func compare<T>(x : ?T, y : ?T, cmp : (implicit : (T, T) -> Types.Order)) : Types.Order",
-      "public func equal<T>(x : ?T, y : ?T, eq : (implicit : (T, T) -> Bool)) : Bool",
+      "public func compare<T>(x : ?T, y : ?T, cmp : (implicit : (compare : (T, T) -> Types.Order))) : Types.Order",
+      "public func equal<T>(x : ?T, y : ?T, eq : (implicit : (equal : (T, T) -> Bool))) : Bool",
       "public func flatten<T>(x : ??T) : ?T",
       "public func forEach<T>(x : ?T, f : T -> ())",
       "public func get<T>(x : ?T, default : T) : T",
@@ -958,7 +959,7 @@
       "public func size<T>(queue : Queue<T>) : Nat",
       "public func toArray<T>(queue : Queue<T>) : [T]",
       "public func toPure<T>(queue : Queue<T>) : PureQueue.Queue<T>",
-      "public func toText<T>(queue : Queue<T>, format : (implicit : T -> Text)) : Text",
+      "public func toText<T>(queue : Queue<T>, format : (implicit : (toText : T -> Text))) : Text",
       "public func values<T>(queue : Queue<T>) : Iter.Iter<T>"
     ]
   },
@@ -1014,8 +1015,8 @@
       "public func assertErr(result : Result<Any, Any>)",
       "public func assertOk(result : Result<Any, Any>)",
       "public func chain<Ok1, Ok2, Err>( result : Result<Ok1, Err>, f : Ok1 -> Result<Ok2, Err> ) : Result<Ok2, Err>",
-      "public func compare<Ok, Err>( result1 : Result<Ok, Err>, result2 : Result<Ok, Err>, compareOk : (implicit : (Ok, Ok) -> Order.Order), compareErr : (implicit : (Err, Err) -> Order.Order) ) : Order.Order",
-      "public func equal<Ok, Err>( result1 : Result<Ok, Err>, result2 : Result<Ok, Err>, equalOk : (implicit : (Ok, Ok) -> Bool), equalErr : (implicit : (Err, Err) -> Bool) ) : Bool",
+      "public func compare<Ok, Err>( result1 : Result<Ok, Err>, result2 : Result<Ok, Err>, compareOk : (implicit : (compare : (Ok, Ok) -> Order.Order)), compareErr : (implicit : (compare : (Err, Err) -> Order.Order)) ) : Order.Order",
+      "public func equal<Ok, Err>( result1 : Result<Ok, Err>, result2 : Result<Ok, Err>, equalOk : (implicit : (equal : Ok, Ok) -> Bool)), equalErr : (implicit : (equal : (Err, Err) -> Bool)) ) : Bool",
       "public func flatten<Ok, Err>( result : Result<Result<Ok, Err>, Err> ) : Result<Ok, Err>",
       "public func forErr<Ok, Err>(result : Result<Ok, Err>, f : Err -> ())",
       "public func forOk<Ok, Err>(result : Result<Ok, Err>, f : Ok -> ())",
@@ -1117,7 +1118,7 @@
       "public type Stack<T>",
       "public func tabulate<T>(size : Nat, generator : Nat -> T) : Stack<T>",
       "public func toPure<T>(stack : Stack<T>) : PureList.List<T>",
-      "public func toText<T>(stack : Stack<T>, format : (implicit : T -> Text)) : Text",
+      "public func toText<T>(stack : Stack<T>, format : (implicit : (toText : T -> Text))) : Text",
       "public func values<T>(stack : Stack<T>) : Types.Iter<T>"
     ]
   },
@@ -1125,7 +1126,7 @@
     "name": "Text",
     "exports": [
       "public func compare(t1 : Text, t2 : Text) : Order.Order",
-      "public func compareWith( t1 : Text, t2 : Text, cmp : (implicit : (Char, Char) -> Order.Order) ) : Order.Order",
+      "public func compareWith( t1 : Text, t2 : Text, cmp : (implicit : (compare : (Char, Char) -> Order.Order)) ) : Order.Order",
       "public func concat(t1 : Text, t2 : Text) : Text",
       "public func contains(t : Text, p : Pattern) : Bool",
       "public let decodeUtf8 : Blob -> ?Text",
@@ -1275,7 +1276,7 @@
       "public func sort<T>(array : [var T], compare : (implicit : (T, T) -> Order.Order)) : [var T]",
       "public func sortInPlace<T>(array : [var T], compare : (implicit : (T, T) -> Order.Order)) : ()",
       "public func tabulate<T>(size : Nat, generator : Nat -> T) : [var T]",
-      "public func toText<T>(array : [var T], f : (implicit : T -> Text)) : Text",
+      "public func toText<T>(array : [var T], f : (implicit : (toText : T -> Text))) : Text",
       "public func values<T>(array : [var T]) : Types.Iter<T>"
     ]
   },
@@ -1367,12 +1368,12 @@
       "public func all<K, V>(map : Map<K, V>, pred : (K, V) -> Bool) : Bool",
       "public func any<K, V>(map : Map<K, V>, pred : (K, V) -> Bool) : Bool",
       "public func assertValid<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order)) : ()",
-      "public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit : (K, K) -> Order.Order), compareValue : (implicit : (V, V) -> Order.Order)) : Order.Order",
+      "public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit : (compare : (K, K) -> Order.Order)), compareValue : (implicit : (compare : (V, V) -> Order.Order))) : Order.Order",
       "public func containsKey<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : Bool",
       "public func delete<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : (Map<K, V>, Bool)",
       "public func empty<K, V>() : Map<K, V>",
       "public func entries<K, V>(map : Map<K, V>) : Iter.Iter<(K, V)>",
-      "public func equal<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit : (K, K) -> Order.Order), equalValue : (implicit : (V, V) -> Bool)) : Bool",
+      "public func equal<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), equal : (implicit : (V, V) -> Bool)) : Bool",
       "public func filter<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), criterion : (K, V) -> Bool) : Map<K, V>",
       "public func filterMap<K, V1, V2>(map : Map<K, V1>, compare : (implicit : (K, K) -> Order.Order), f : (K, V1) -> ?V2) : Map<K, V2>",
       "public func foldLeft<K, V, A>( map : Map<K, V>, base : A, combine : (A, K, V) -> A ) : A",
@@ -1437,7 +1438,7 @@
       "public func all<T>(queue : Queue<T>, predicate : T -> Bool) : Bool",
       "public func any<T>(queue : Queue<T>, predicate : T -> Bool) : Bool",
       "public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, comparison : (implicit : (compare : (T, T) -> Types.Order))) : Types.Order",
-      "public func contains<T>(queue : Queue<T>, eq : (implicit : (T, T) -> Bool), item : T) : Bool",
+      "public func contains<T>(queue : Queue<T>, eq : (implicit : (equal : (T, T) -> Bool)), item : T) : Bool",
       "public func empty<T>() : Queue<T>",
       "public func equal<T>(queue1 : Queue<T>, queue2 : Queue<T>, equality : (implicit : (equal : (T, T) -> Bool))) : Bool",
       "public func filter<T>(queue : Queue<T>, predicate : T -> Bool) : Queue<T>",
