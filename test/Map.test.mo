@@ -301,6 +301,7 @@ run(
         "to text",
         do {
           let map = Map.empty<Nat, Text>();
+          // TODO: Doesn't seem to be working as advertised
           map.toText()
         },
         M.equals(T.text("Map{}"))
