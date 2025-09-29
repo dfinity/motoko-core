@@ -631,7 +631,7 @@ assert List.compare&lt;Nat&gt;(list2, list3, Nat.compare) == #greater;</code></p
 <p>Runtime: <code>O(size)</code></p>
 <p>Space: <code>O(1)</code></p>
 <p>*Runtime and space assumes that <code>compare</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">f</span> : (<span class="parameter">implicit</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>)) : <span class="type">Text</span></code></h4><p><p>Creates a textual representation of <code>list</code>, using <code>toText</code> to recursively
+</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">f</span> : (<span class="parameter">implicit</span> : (<span class="parameter">toText</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>))) : <span class="type">Text</span></code></h4><p><p>Creates a textual representation of <code>list</code>, using <code>toText</code> to recursively
 convert the elements into Text.</p>
 <p>Example:</p>
 <pre><code>motoko include=import

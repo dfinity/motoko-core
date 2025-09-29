@@ -68,7 +68,7 @@ persistent actor {
 
 <p>Runtime: <code>O(1)</code>.</p>
 <p>Space: <code>O(1)</code>.</p>
-</p></div><div class="declaration"><h4 class="function" id="contains"><code><span class="keyword">public func </span><span class="fnname">contains</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">queue</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">eq</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>), <br/>  <span class="parameter">item</span> : <span class="type">T</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Test if a queue contains a given value.
+</p></div><div class="declaration"><h4 class="function" id="contains"><code><span class="keyword">public func </span><span class="fnname">contains</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">queue</span> : <a href="#type.Queue"><span class="type">Queue</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">eq</span> : (<span class="parameter">implicit</span> : (<span class="parameter">equal</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>)), <br/>  <span class="parameter">item</span> : <span class="type">T</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Test if a queue contains a given value.
 Returns true if the queue contains the item, otherwise false.</p>
 <p>Note: The order in which elements are visited is undefined, for performance reasons.</p>
 <p>Example:</p>
