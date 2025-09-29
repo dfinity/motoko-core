@@ -620,7 +620,7 @@
       "public func take<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : ?V",
       "public func toArray<K, V>(map : Map<K, V>) : [(K, V)]",
       "public func toPure<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order)) : PureMap.Map<K, V>",
-      "public func toText<K, V>(map : Map<K, V>, toText : (implicit : K -> Text), valueFormat : V -> Text) : Text",
+      "public func toText<K, V>(map : Map<K, V>, toText : (implicit : K -> Text), valueFormat : (implicit : V -> Text)) : Text",
       "public func values<K, V>(map : Map<K, V>) : Types.Iter<V>"
     ]
   },
@@ -873,8 +873,8 @@
     "exports": [
       "public func apply<A, B>(x : ?A, f : ?(A -> B)) : ?B",
       "public func chain<A, B>(x : ?A, f : A -> ?B) : ?B",
-      "public func compare<A>(x : ?A, y : ?A, cmp : (A, A) -> Types.Order) : Types.Order",
-      "public func equal<A>(x : ?A, y : ?A, eq : (A, A) -> Bool) : Bool",
+      "public func compare<A>(x : ?A, y : ?A, cmp : (implicit : (A, A) -> Types.Order)) : Types.Order",
+      "public func equal<A>(x : ?A, y : ?A, eq : (implicit : (A, A) -> Bool)) : Bool",
       "public func flatten<A>(x : ??A) : ?A",
       "public func forEach<A>(x : ?A, f : A -> ())",
       "public func get<T>(x : ?T, default : T) : T",
@@ -884,7 +884,7 @@
       "public func map<A, B>(x : ?A, f : A -> B) : ?B",
       "public type Self<T>",
       "public func some<A>(x : A) : ?A",
-      "public func toText<A>(x : ?A, toText : A -> Text) : Text",
+      "public func toText<A>(x : ?A, toText : (implicit : A -> Text)) : Text",
       "public func unwrap<T>(x : ?T) : T"
     ]
   },
@@ -1014,8 +1014,8 @@
       "public func assertErr(result : Result<Any, Any>)",
       "public func assertOk(result : Result<Any, Any>)",
       "public func chain<Ok1, Ok2, Err>( result : Result<Ok1, Err>, f : Ok1 -> Result<Ok2, Err> ) : Result<Ok2, Err>",
-      "public func compare<Ok, Err>( result1 : Result<Ok, Err>, result2 : Result<Ok, Err>, compareOk : (Ok, Ok) -> Order.Order, compareErr : (Err, Err) -> Order.Order ) : Order.Order",
-      "public func equal<Ok, Err>( result1 : Result<Ok, Err>, result2 : Result<Ok, Err>, equalOk : (Ok, Ok) -> Bool, equalErr : (Err, Err) -> Bool ) : Bool",
+      "public func compare<Ok, Err>( result1 : Result<Ok, Err>, result2 : Result<Ok, Err>, compareOk : (implicit : (Ok, Ok) -> Order.Order), compareErr : (implicit : (Err, Err) -> Order.Order) ) : Order.Order",
+      "public func equal<Ok, Err>( result1 : Result<Ok, Err>, result2 : Result<Ok, Err>, equalOk : (implicit : (Ok, Ok) -> Bool), equalErr : (implicit : (Err, Err) -> Bool) ) : Bool",
       "public func flatten<Ok, Err>( result : Result<Result<Ok, Err>, Err> ) : Result<Ok, Err>",
       "public func forErr<Ok, Err>(result : Result<Ok, Err>, f : Err -> ())",
       "public func forOk<Ok, Err>(result : Result<Ok, Err>, f : Ok -> ())",
@@ -1125,7 +1125,7 @@
     "name": "Text",
     "exports": [
       "public func compare(t1 : Text, t2 : Text) : Order.Order",
-      "public func compareWith( t1 : Text, t2 : Text, cmp : (Char, Char) -> Order.Order ) : Order.Order",
+      "public func compareWith( t1 : Text, t2 : Text, cmp : (implicit : (Char, Char) -> Order.Order) ) : Order.Order",
       "public func concat(t1 : Text, t2 : Text) : Text",
       "public func contains(t : Text, p : Pattern) : Bool",
       "public let decodeUtf8 : Blob -> ?Text",
@@ -1395,7 +1395,7 @@
       "public func size<K, V>(map : Map<K, V>) : Nat",
       "public func swap<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K, value : V) : (Map<K, V>, ?V)",
       "public func take<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : (Map<K, V>, ?V)",
-      "public func toText<K, V>(map : Map<K, V>, keyFormat : (implicit : K -> Text), valueFormat : V -> Text) : Text",
+      "public func toText<K, V>(map : Map<K, V>, keyFormat : (implicit : K -> Text), valueFormat : (implicit : V -> Text)) : Text",
       "public func values<K, V>(map : Map<K, V>) : Iter.Iter<V>"
     ]
   },
