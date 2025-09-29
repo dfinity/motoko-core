@@ -301,8 +301,7 @@ run(
         "to text",
         do {
           let map = Map.empty<Nat, Text>();
-          // NOTE: Can't currently also make toText for value implicit because of name overlap
-          map.toText(func(value) { value })
+          map.toText()
         },
         M.equals(T.text("Map{}"))
       ),
