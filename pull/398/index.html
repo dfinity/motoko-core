@@ -202,7 +202,29 @@ Can be declared <code>stable</code> for orthogonal persistence.</p>
 Main author: Andrii Stepanov
 Contributors: Timo Hanke (timohanke), Andy Gura (andygura), react0r-com</p>
 <pre><code>motoko name=import
-import List &quot;mo:core/List&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Nat.html">Nat</a><div class="index-item-comment"><p>Natural numbers with infinite precision.</p>
+import List &quot;mo:core/List&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Map.html">Map</a><div class="index-item-comment"><p>An imperative key-value map based on order/comparison of the keys.
+The map data structure type is stable and can be used for orthogonal persistence.</p>
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import Map &quot;mo:core/Map&quot;;
+import Nat &quot;mo:core/Nat&quot;;
+
+persistent actor {
+  // creation
+  let map = Map.empty&lt;Nat, Text&gt;();
+  // insertion
+  Map.add(map, Nat.compare, 0, &quot;Zero&quot;);
+  // retrieval
+  assert Map.get(map, Nat.compare, 0) == ?&quot;Zero&quot;;
+  assert Map.get(map, Nat.compare, 1) == null;
+  // removal
+  Map.remove(map, Nat.compare, 0);
+  assert Map.isEmpty(map);
+}</code></pre>
+
+<p>The internal implementation is a B-tree with order 32.</p>
+<p>Performance:</p>
+<ul><li>Runtime: <code>O(log(n))</code> worst case cost per insertion, removal, and retrieval operation.</li><li>Space: <code>O(n)</code> for storing the entire map.
+<code>n</code> denotes the number of key-value entries stored in the map.</li></ul></div></li><li class="index-item"><a class="index-item-link" href="Nat.html">Nat</a><div class="index-item-comment"><p>Natural numbers with infinite precision.</p>
 <p>Most operations on natural numbers (e.g. addition) are available as built-in operators (e.g. <code>1 + 1</code>).
 This module provides equivalent functions and <code>Text</code> conversion.</p>
 <p>Import from the core package to use this module.</p>
@@ -324,7 +346,13 @@ increase <code>--max-stable-pages</code> as desired, approaching the IC maximum 
 All applications should reserve at least one page for stable variable data, even when no stable variables are used.</p>
 <p>Usage:</p>
 <pre><code>motoko no-repl name=import
-import Region &quot;mo:core/Region&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Runtime.html">Runtime</a><div class="index-item-comment"><p>Runtime utilities.
+import Region &quot;mo:core/Region&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Result.html">Result</a><div class="index-item-comment"><p>Module for error handling with the Result type.</p>
+<p>The Result type is used for returning and propagating errors. It has two variants:
+<code>#ok(Ok)</code>, representing success and containing a value, and <code>#err(Err)</code>, representing
+error and containing an error value.</p>
+<p>Import from the core package to use this module.</p>
+<pre><code>motoko name=import
+import Result &quot;mo:core/Result&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Runtime.html">Runtime</a><div class="index-item-comment"><p>Runtime utilities.
 These functions were originally part of the <code>Debug</code> module.</p>
 <pre><code>motoko name=import
 import Runtime &quot;mo:core/Runtime&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Set.html">Set</a><div class="index-item-comment"><p>Imperative (mutable) sets based on order/comparison of elements.
