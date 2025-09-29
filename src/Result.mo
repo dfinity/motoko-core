@@ -63,8 +63,8 @@ module {
   public func equal<Ok, Err>(
     result1 : Result<Ok, Err>,
     result2 : Result<Ok, Err>,
-    equalOk : (Ok, Ok) -> Bool,
-    equalErr : (Err, Err) -> Bool
+    equalOk : (implicit : (equal : Ok, Ok) -> Bool),
+    equalErr : (implicit : (equal : (Err, Err) -> Bool))
   ) : Bool {
     switch (result1, result2) {
       case (#ok(ok1), #ok(ok2)) {
@@ -96,8 +96,8 @@ module {
   public func compare<Ok, Err>(
     result1 : Result<Ok, Err>,
     result2 : Result<Ok, Err>,
-    compareOk : (Ok, Ok) -> Order.Order,
-    compareErr : (Err, Err) -> Order.Order
+    compareOk : (implicit : (compare : (Ok, Ok) -> Order.Order)),
+    compareErr : (implicit : (compare : (Err, Err) -> Order.Order))
   ) : Order.Order {
     switch (result1, result2) {
       case (#ok(ok1), #ok(ok2)) {

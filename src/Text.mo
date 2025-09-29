@@ -903,7 +903,7 @@ module {
   public func compareWith(
     t1 : Text,
     t2 : Text,
-    cmp : (Char, Char) -> Order.Order
+    cmp : (implicit : (compare : (Char, Char) -> Order.Order))
   ) : Order.Order {
     let cs1 = t1.chars();
     let cs2 = t2.chars();
