@@ -270,7 +270,7 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and assuming
   /// that `equal` has O(1) costs.
-  public func contains<T>(stack : Stack<T>, equal : (T, T) -> Bool, element : T) : Bool {
+  public func contains<T>(stack : Stack<T>, equal : (implicit : (T, T) -> Bool), element : T) : Bool {
     for (existing in values(stack)) {
       if (equal(existing, element)) {
         return true
@@ -674,7 +674,7 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `equal` has O(1) costs.
-  public func equal<T>(stack1 : Stack<T>, stack2 : Stack<T>, equal : (T, T) -> Bool) : Bool {
+  public func equal<T>(stack1 : Stack<T>, stack2 : Stack<T>, equal : (implicit : (T, T) -> Bool)) : Bool {
     if (size(stack1) != size(stack2)) {
       return false
     };

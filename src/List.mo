@@ -625,7 +625,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// *Runtime and space assumes that `equal` runs in `O(1)` time and space.
-  public func indexOf<T>(list : List<T>, equal : (T, T) -> Bool, element : T) : ?Nat {
+  public func indexOf<T>(list : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : ?Nat {
     // inlining would save 10 instructions per entry
     findIndex<T>(list, func(x) = equal(element, x))
   };
@@ -646,7 +646,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// *Runtime and space assumes that `equal` runs in `O(1)` time and space.
-  public func lastIndexOf<T>(list : List<T>, equal : (T, T) -> Bool, element : T) : ?Nat {
+  public func lastIndexOf<T>(list : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : ?Nat {
     // inlining would save 10 instructions per entry
     findLastIndex<T>(list, func(x) = equal(element, x))
   };
@@ -1548,7 +1548,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func contains<T>(list : List<T>, equal : (T, T) -> Bool, element : T) : Bool {
+  public func contains<T>(list : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : Bool {
     Option.isSome(indexOf(list, equal, element))
   };
 
@@ -1643,7 +1643,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func equal<T>(list1 : List<T>, list2 : List<T>, equal : (T, T) -> Bool) : Bool {
+  public func equal<T>(list1 : List<T>, list2 : List<T>, equal : (implicit : (T, T) -> Bool)) : Bool {
     let size1 = size(list1);
 
     if (size1 != size(list2)) return false;
