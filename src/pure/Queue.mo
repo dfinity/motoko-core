@@ -579,7 +579,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(size)`
-  public func toText<T>(queue : Queue<T>, f : T -> Text) : Text {
+  public func toText<T>(queue : Queue<T>, f : (implicit : T -> Text)) : Text {
     var text = "PureQueue[";
     func add(item : T) {
       if (text.size() > 10) text #= ", ";
@@ -608,7 +608,7 @@ module {
   /// Space: `O(size)`
   ///
   /// *Runtime and space assumes that argument `compareItem` runs in `O(1)` time and space.
-  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, compareItem : (T, T) -> Order.Order) : Order.Order {
+  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, compareItem : (implicit : (T, T) -> Order.Order)) : Order.Order {
     let (i1, i2) = (values queue1, values queue2);
     loop switch (i1.next(), i2.next()) {
       case (?v1, ?v2) switch (compareItem(v1, v2)) {

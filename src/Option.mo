@@ -40,7 +40,7 @@ module {
 
   /// Unwraps an optional value using a function, or returns the default, i.e.
   /// `option(?x, f, d) = f x` and `option(null, f, d) = d`.
-  public func getMapped<A, B>(x : ?A, f : A -> B, default : B) : B = switch x {
+  public func getMapped<T, R>(x : ?T, f : T -> R, default : R) : R = switch x {
     case null { default };
     case (?x_) { f(x_) }
   };
@@ -51,7 +51,7 @@ module {
   /// assert Option.map<Nat, Nat>(?42, func x = x + 1) == ?43;
   /// assert Option.map<Nat, Nat>(null, func x = x + 1) == null;
   /// ```
-  public func map<A, B>(x : ?A, f : A -> B) : ?B = switch x {
+  public func map<T, R>(x : ?T, f : T -> R) : ?R = switch x {
     case null { null };
     case (?x_) { ?f(x_) }
   };
@@ -67,14 +67,14 @@ module {
   /// Option.forEach(null, func (x : Nat) { counter += x });
   /// assert counter == 5;
   /// ```
-  public func forEach<A>(x : ?A, f : A -> ()) = switch x {
+  public func forEach<T>(x : ?T, f : T -> ()) = switch x {
     case null {};
     case (?x_) { f(x_) }
   };
 
   /// Applies an optional function to an optional value. Returns `null` if at
   /// least one of the arguments is `null`.
-  public func apply<A, B>(x : ?A, f : ?(A -> B)) : ?B {
+  public func apply<T, R>(x : ?T, f : ?(T -> R)) : ?R {
     switch (f, x) {
       case (?f_, ?x_) { ?f_(x_) };
       case (_, _) { null }
@@ -83,7 +83,7 @@ module {
 
   /// Applies a function to an optional value. Returns `null` if the argument is
   /// `null`, or the function returns `null`.
-  public func chain<A, B>(x : ?A, f : A -> ?B) : ?B {
+  public func chain<T, R>(x : ?T, f : T -> ?R) : ?R {
     switch (x) {
       case (?x_) { f(x_) };
       case (null) { null }
@@ -97,8 +97,8 @@ module {
   /// assert Option.flatten(?(null)) == null;
   /// assert Option.flatten(null) == null;
   /// ```
-  public func flatten<A>(x : ??A) : ?A {
-    chain<?A, A>(x, func(x_ : ?A) : ?A = x_)
+  public func flatten<T>(x : ??T) : ?T {
+    chain<?T, T>(x, func(x_ : ?T) : ?T = x_)
   };
 
   /// Creates an optional value from a definite value.
@@ -106,7 +106,7 @@ module {
   /// import Option "mo:core/Option";
   /// assert Option.some(42) == ?42;
   /// ```
-  public func some<A>(x : A) : ?A = ?x;
+  public func some<T>(x : T) : ?T = ?x;
 
   /// Returns true if the argument is not `null`, otherwise returns false.
   public func isSome(x : ?Any) : Bool {
@@ -119,7 +119,7 @@ module {
   };
 
   /// Returns true if the optional arguments are equal according to the equality function provided, otherwise returns false.
-  public func equal<A>(x : ?A, y : ?A, eq : (A, A) -> Bool) : Bool = switch (x, y) {
+  public func equal<T>(x : ?T, y : ?T, eq : (implicit : (T, T) -> Bool)) : Bool = switch (x, y) {
     case (null, null) { true };
     case (?x_, ?y_) { eq(x_, y_) };
     case (_, _) { false }
@@ -132,7 +132,7 @@ module {
   /// - `#less` if the first value is `null` and the second is not,
   /// - `#greater` if the first value is not `null` and the second is,
   /// - the result of the comparison function when both values are not `null`.
-  public func compare<A>(x : ?A, y : ?A, cmp : (A, A) -> Types.Order) : Types.Order = switch (x, y) {
+  public func compare<T>(x : ?T, y : ?T, cmp : (implicit : (T, T) -> Types.Order)) : Types.Order = switch (x, y) {
     case (null, null) #equal;
     case (null, _) #less;
     case (_, null) #greater;
@@ -148,7 +148,7 @@ module {
   };
 
   /// Returns the textural representation of an optional value for debugging purposes.
-  public func toText<A>(x : ?A, toText : A -> Text) : Text = switch x {
+  public func toText<T>(x : ?T, toText : (implicit : T -> Text)) : Text = switch x {
     case null { "null" };
     case (?x_) { "?" # toText(x_) }
   };

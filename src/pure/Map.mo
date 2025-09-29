@@ -856,7 +856,7 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `keyFormat` and `valueFormat` run in O(1) time and space.
-  public func toText<K, V>(map : Map<K, V>, keyFormat : K -> Text, valueFormat : V -> Text) : Text {
+  public func toText<K, V>(map : Map<K, V>, keyFormat : (implicit : K -> Text), valueFormat : V -> Text) : Text {
     var text = "PureMap{";
     var sep = "";
     for ((k, v) in entries(map)) {

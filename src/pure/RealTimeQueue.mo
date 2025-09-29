@@ -596,7 +596,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(size)`
-  public func equal<T>(queue1 : Queue<T>, queue2 : Queue<T>, equality : (T, T) -> Bool) : Bool {
+  public func equal<T>(queue1 : Queue<T>, queue2 : Queue<T>, equality : (implicit : (T, T) -> Bool)) : Bool {
     if (size(queue1) != size(queue2)) {
       return false
     };
@@ -625,7 +625,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(size)`
-  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, comparison : (T, T) -> Types.Order) : Types.Order = switch (popFront queue1, popFront queue2) {
+  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, comparison : (implicit : (T, T) -> Types.Order)) : Types.Order = switch (popFront queue1, popFront queue2) {
     case (null, null) #equal;
     case (null, _) #less;
     case (_, null) #greater;
@@ -829,7 +829,7 @@ module {
   /// Space: `O(size)`
   ///
   /// *Runtime and space assumes that f runs in `O(1)` time and space.
-  public func toText<T>(queue : Queue<T>, f : T -> Text) : Text {
+  public func toText<T>(queue : Queue<T>, f : (implicit : T -> Text)) : Text {
     var text = "RealTimeQueue[";
     var first = true;
     for (t in values queue) {

@@ -943,7 +943,7 @@ module {
   /// assuming that `elementFormat` has runtime and space costs of `O(1)`.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func toText<T>(set : Set<T>, elementFormat : T -> Text) : Text {
+  public func toText<T>(set : Set<T>, elementFormat : (implicit : T -> Text)) : Text {
     var text = "PureSet{";
     var sep = "";
     for (element in values(set)) {
