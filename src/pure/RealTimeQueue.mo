@@ -158,7 +158,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(1)`
-  public func contains<T>(queue : Queue<T>, eq : (T, T) -> Bool, item : T) : Bool = switch queue {
+  public func contains<T>(queue : Queue<T>, eq : (implicit : (T, T) -> Bool), item : T) : Bool = switch queue {
     case (#empty) false;
     case (#one(x)) eq(x, item);
     case (#two(x, y)) eq(x, item) or eq(y, item);
