@@ -41,7 +41,7 @@
       "public func sliceToVarArray<T>(array : [T], fromInclusive : Int, toExclusive : Int) : [var T]",
       "public func sort<T>(array : [T], compare : (implicit : (T, T) -> Order.Order)) : [T]",
       "public func tabulate<T>(size : Nat, generator : Nat -> T) : [T]",
-      "public func toText<T>(array : [T], f : (implicit : T -> Text)) : Text",
+      "public func toText<T>(array : [T], f : (implicit : (toText : T -> Text))) : Text",
       "public func toVarArray<T>(array : [T]) : [var T]",
       "public func values<T>(array : [T]) : Types.Iter<T>"
     ]
@@ -573,7 +573,7 @@
       "public func sort<T>(list : List<T>, compare : (implicit : (T, T) -> Order.Order))",
       "public func toArray<T>(list : List<T>) : [T]",
       "public func toPure<T>(list : List<T>) : PureList.List<T>",
-      "public func toText<T>(list : List<T>, f : (implicit : T -> Text)) : Text",
+      "public func toText<T>(list : List<T>, f : (implicit : (toText : T -> Text))) : Text",
       "public func toVarArray<T>(list : List<T>) : [var T]",
       "public func values<T>(list : List<T>) : Iter.Iter<T>"
     ]
@@ -587,7 +587,7 @@
       "public func assertValid<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order))",
       "public func clear<K, V>(map : Map<K, V>)",
       "public func clone<K, V>(map : Map<K, V>) : Map<K, V>",
-      "public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit : (K, K) -> Order.Order), compareValue : (implicit : (V, V) -> Order.Order)) : Order.Order",
+      "public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit : (compare : (K, K) -> Order.Order)), compareValue : (implicit : (compare : (V, V) -> Order.Order))) : Order.Order",
       "public func containsKey<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : Bool",
       "public func delete<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : Bool",
       "public func empty<K, V>() : Map<K, V>",
@@ -873,8 +873,8 @@
     "exports": [
       "public func apply<T, R>(x : ?T, f : ?(T -> R)) : ?R",
       "public func chain<T, R>(x : ?T, f : T -> ?R) : ?R",
-      "public func compare<T>(x : ?T, y : ?T, cmp : (implicit : (T, T) -> Types.Order)) : Types.Order",
-      "public func equal<T>(x : ?T, y : ?T, eq : (implicit : (T, T) -> Bool)) : Bool",
+      "public func compare<T>(x : ?T, y : ?T, cmp : (implicit : (compare : (T, T) -> Types.Order))) : Types.Order",
+      "public func equal<T>(x : ?T, y : ?T, eq : (implicit : (equal : (T, T) -> Bool))) : Bool",
       "public func flatten<T>(x : ??T) : ?T",
       "public func forEach<T>(x : ?T, f : T -> ())",
       "public func get<T>(x : ?T, default : T) : T",
@@ -958,7 +958,7 @@
       "public func size<T>(queue : Queue<T>) : Nat",
       "public func toArray<T>(queue : Queue<T>) : [T]",
       "public func toPure<T>(queue : Queue<T>) : PureQueue.Queue<T>",
-      "public func toText<T>(queue : Queue<T>, format : (implicit : T -> Text)) : Text",
+      "public func toText<T>(queue : Queue<T>, format : (implicit : (toText : T -> Text))) : Text",
       "public func values<T>(queue : Queue<T>) : Iter.Iter<T>"
     ]
   },
@@ -1014,7 +1014,7 @@
       "public func assertErr(result : Result<Any, Any>)",
       "public func assertOk(result : Result<Any, Any>)",
       "public func chain<Ok1, Ok2, Err>( result : Result<Ok1, Err>, f : Ok1 -> Result<Ok2, Err> ) : Result<Ok2, Err>",
-      "public func compare<Ok, Err>( result1 : Result<Ok, Err>, result2 : Result<Ok, Err>, compareOk : (implicit : (Ok, Ok) -> Order.Order), compareErr : (implicit : (Err, Err) -> Order.Order) ) : Order.Order",
+      "public func compare<Ok, Err>( result1 : Result<Ok, Err>, result2 : Result<Ok, Err>, compareOk : (implicit : (compare : (Ok, Ok) -> Order.Order)), compareErr : (implicit : (compare :(Err, Err) -> Order.Order))) : Order.Order",
       "public func equal<Ok, Err>( result1 : Result<Ok, Err>, result2 : Result<Ok, Err>, equalOk : (implicit : (Ok, Ok) -> Bool), equalErr : (implicit : (Err, Err) -> Bool) ) : Bool",
       "public func flatten<Ok, Err>( result : Result<Result<Ok, Err>, Err> ) : Result<Ok, Err>",
       "public func forErr<Ok, Err>(result : Result<Ok, Err>, f : Err -> ())",

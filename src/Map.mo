@@ -1260,7 +1260,7 @@ module {
   /// assuming that `keyFormat` and `valueFormat` have runtime and space costs of `O(1)`.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func toText<K, V>(map : Map<K, V>, toText : (implicit : K -> Text), valueFormat : (implicit : V -> Text)) : Text {
+  public func toText<K, V>(map : Map<K, V>, keyFormat : (implicit (toText : K -> Text)), valueFormat : (implicit : (toText : V -> Text))) : Text {
     var text = "Map{";
     var sep = "";
     for ((key, value) in entries(map)) {

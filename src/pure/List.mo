@@ -686,7 +686,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `equalItem` runs in O(1) time and space.
-  public func equal<T>(list1 : List<T>, list2 : List<T>, equalItem : (implicit : (T, T) -> Bool)) : Bool = switch (list1, list2) {
+  public func equal<T>(list1 : List<T>, list2 : List<T>, equalItem : (implicit : (equal : (T, T) -> Bool))) : Bool = switch (list1, list2) {
     case (null, null) true;
     case (?(h1, t1), ?(h2, t2)) equalItem(h1, h2) and equal(t1, t2, equalItem);
     case _ false
@@ -711,7 +711,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that argument `compare` runs in O(1) time and space.
-  public func compare<T>(list1 : List<T>, list2 : List<T>, compareItem : (implicit : (T, T) -> Order.Order)) : Order.Order = switch (list1, list2) {
+  public func compare<T>(list1 : List<T>, list2 : List<T>, compareItem : (implicit : (compare : (T, T) -> Order.Order))) : Order.Order = switch (list1, list2) {
     case (?(h1, t1), ?(h2, t2)) switch (compareItem(h1, h2)) {
       case (#equal) compare(t1, t2, compareItem);
       case o o
