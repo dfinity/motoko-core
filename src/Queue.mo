@@ -736,7 +736,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(n)
   /// `n` denotes the number of elements stored in the queue.
-  public func toText<T>(queue : Queue<T>, format : (implicit : T -> Text)) : Text {
+  public func toText<T>(queue : Queue<T>, format : (implicit : (toText : T -> Text))) : Text {
     var text = "Queue[";
     var sep = "";
     for (element in values(queue)) {
