@@ -98,7 +98,7 @@ module {
 
     public type Set<T> = {
       var root : Node<T>;
-      var size : Nat
+      var size_ : Nat
     }
   };
   public type Set<T> = Set.Set<T>;
@@ -125,7 +125,7 @@ module {
 
     public type Map<K, V> = {
       var root : Node<K, V>;
-      var size : Nat
+      var size_ : Nat
     }
   };
 

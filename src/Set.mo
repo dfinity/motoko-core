@@ -122,7 +122,7 @@ module {
   public func clone<T>(set : Set<T>) : Set<T> {
     {
       var root = cloneNode(set.root);
-      var size = set.size
+      var size_ = set.size_
     }
   };
 
@@ -149,7 +149,7 @@ module {
           var count = 0
         }
       });
-      var size = 0
+      var size_ = 0
     }
   };
 
@@ -173,7 +173,7 @@ module {
     {
       var root =
       #leaf({ data = { elements; var count = 1 } });
-      var size = 1
+      var size_ = 1
     }
   };
 
@@ -201,7 +201,7 @@ module {
   public func clear<T>(set : Set<T>) {
     let emptySet = empty<T>();
     set.root := emptySet.root;
-    set.size := 0
+    set.size_ := 0
   };
 
   /// Determines whether a set is empty.
@@ -226,7 +226,7 @@ module {
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
   public func isEmpty<T>(set : Set<T>) : Bool {
-    set.size == 0
+    set.size_ == 0
   };
 
   /// Return the number of elements in a set.
@@ -249,7 +249,7 @@ module {
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
   public func size<T>(set : Set<T>) : Nat {
-    set.size
+    set.size_
   };
 
   /// Test whether two imperative sets are equal.
@@ -272,7 +272,7 @@ module {
   /// Runtime: `O(n)`.
   /// Space: `O(1)`.
   public func equal<T>(set1 : Set<T>, set2 : Set<T>, compare : (implicit : (T, T) -> Types.Order)) : Bool {
-    if (set1.size != set2.size) return false;
+    if (set1.size_ != set2.size_) return false;
     // TODO: optimize
     let iterator1 = values(set1);
     let iterator2 = values(set2);
@@ -385,7 +385,7 @@ module {
     switch (insertResult) {
       case (#inserted) {
         // if inserted an element that was not previously there, increment the tree size counter
-        set.size += 1;
+        set.size_ += 1;
         true
       };
       case (#existent) {
@@ -403,7 +403,7 @@ module {
           children
         });
         // promotion always comes from inserting a new element, so increment the tree size counter
-        set.size += 1;
+        set.size_ += 1;
         true
       }
     }
@@ -474,7 +474,7 @@ module {
           case (#elementFound(deleteIndex)) {
             leafNode.data.count -= 1;
             ignore BTreeHelper.deleteAndShift<T>(leafNode.data.elements, deleteIndex);
-            set.size -= 1;
+            set.size_ -= 1;
             true
           };
           case _ { false }
@@ -503,7 +503,7 @@ module {
         };
         if (deletedElement) {
           // if deleted an element from the BTree, decrement the size
-          set.size -= 1
+          set.size_ -= 1
         };
         deletedElement
       }
@@ -741,7 +741,7 @@ module {
   /// where `m` and `n` denote the number of elements stored in the sets `set1` and `set2`, respectively,
   /// and assuming that the `compare` function implements an `O(1)` comparison.
   public func isSubset<T>(set1 : Set<T>, set2 : Set<T>, compare : (implicit : (T, T) -> Order.Order)) : Bool {
-    if (set1.size > set2.size) { return false };
+    if (set1.size_ > set2.size_) { return false };
     // TODO: optimize
     for (element in values(set1)) {
       if (not contains(set2, compare, element)) {
