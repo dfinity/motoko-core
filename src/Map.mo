@@ -1311,7 +1311,11 @@ module {
   /// assuming that `compareKey` and `compareValue` have runtime and space costs of `O(1)`.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
+<<<<<<< HEAD
   public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit : (compare : (K, K) -> Order.Order)), compareValue : (implicit : (compare : (V, V) -> Order.Order))) : Order.Order {
+=======
+  public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit (compare : (K, K) -> Order.Order)), compareValue : (implicit : (compare : (V, V) -> Order.Order))) : Order.Order {
+>>>>>>> be3b5fc944135966eca165ab59ad70fdc6654adc
     let iterator1 = entries(map1);
     let iterator2 = entries(map2);
     loop {

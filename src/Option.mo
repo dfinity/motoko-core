@@ -119,7 +119,7 @@ module {
   };
 
   /// Returns true if the optional arguments are equal according to the equality function provided, otherwise returns false.
-  public func equal<T>(x : ?T, y : ?T, eq : (implicit : (T, T) -> Bool)) : Bool = switch (x, y) {
+  public func equal<T>(x : ?T, y : ?T, eq : (implicit : (equal : (T, T) -> Bool))) : Bool = switch (x, y) {
     case (null, null) { true };
     case (?x_, ?y_) { eq(x_, y_) };
     case (_, _) { false }
@@ -132,7 +132,7 @@ module {
   /// - `#less` if the first value is `null` and the second is not,
   /// - `#greater` if the first value is not `null` and the second is,
   /// - the result of the comparison function when both values are not `null`.
-  public func compare<T>(x : ?T, y : ?T, cmp : (implicit : (T, T) -> Types.Order)) : Types.Order = switch (x, y) {
+  public func compare<T>(x : ?T, y : ?T, cmp : (implicit : (compare : (T, T) -> Types.Order))) : Types.Order = switch (x, y) {
     case (null, null) #equal;
     case (null, _) #less;
     case (_, null) #greater;
