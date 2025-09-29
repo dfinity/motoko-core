@@ -99,7 +99,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func equal<T>(array1 : [var T], array2 : [var T], equal : (T, T) -> Bool) : Bool {
+  public func equal<T>(array1 : [var T], array2 : [var T], equal : (implicit : (T, T) -> Bool)) : Bool {
     let size1 = array1.size();
     let size2 = array2.size();
     if (size1 != size2) {
@@ -202,7 +202,7 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sort<T>(array : [var T], compare : (T, T) -> Order.Order) : [var T] {
+  public func sort<T>(array : [var T], compare : (implicit : (T, T) -> Order.Order)) : [var T] {
     let newArray = clone(array);
     sortInPlace(newArray, compare);
     newArray
@@ -222,7 +222,7 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sortInPlace<T>(array : [var T], compare : (T, T) -> Order.Order) : () {
+  public func sortInPlace<T>(array : [var T], compare : (implicit : (T, T) -> Order.Order)) : () {
     // Stable merge sort in a bottom-up iterative style. Same algorithm as the sort in Buffer.
     let size = array.size();
     if (size == 0) {
@@ -945,7 +945,7 @@ module {
   /// Runtime: O(array.size())
   ///
   /// Space: O(1)
-  public func indexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T) : ?Nat = nextIndexOf<T>(array, equal, element, 0);
+  public func indexOf<T>(array : [var T], equal : (implicit : (T, T) -> Bool), element : T) : ?Nat = nextIndexOf<T>(array, equal, element, 0);
 
   /// Returns the index of the next occurence of `element` in the `array` starting from the `from` index (inclusive).
   ///
@@ -963,7 +963,7 @@ module {
   /// Runtime: O(array.size())
   ///
   /// Space: O(1)
-  public func nextIndexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T, fromInclusive : Nat) : ?Nat {
+  public func nextIndexOf<T>(array : [var T], equal : (implicit : (T, T) -> Bool), element : T, fromInclusive : Nat) : ?Nat {
     var index = fromInclusive;
     let size = array.size();
     while (index < size) {
@@ -991,7 +991,7 @@ module {
   /// Runtime: O(array.size())
   ///
   /// Space: O(1)
-  public func lastIndexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T) : ?Nat = prevIndexOf<T>(array, equal, element, array.size());
+  public func lastIndexOf<T>(array : [var T], equal : (implicit : (T, T) -> Bool), element : T) : ?Nat = prevIndexOf<T>(array, equal, element, array.size());
 
   /// Returns the index of the previous occurence of `element` in the `array` starting from the `from` index (exclusive).
   ///
@@ -1006,7 +1006,7 @@ module {
   ///
   /// Runtime: O(array.size());
   /// Space: O(1);
-  public func prevIndexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T, fromExclusive : Nat) : ?Nat {
+  public func prevIndexOf<T>(array : [var T], equal : (implicit : (T, T) -> Bool), element : T, fromExclusive : Nat) : ?Nat {
     var i = fromExclusive;
     while (i > 0) {
       i -= 1;
@@ -1209,7 +1209,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func compare<T>(array1 : [var T], array2 : [var T], compare : (T, T) -> Order.Order) : Order.Order {
+  public func compare<T>(array1 : [var T], array2 : [var T], compare : (implicit : (T, T) -> Order.Order)) : Order.Order {
     let size1 = array1.size();
     let size2 = array2.size();
     var i = 0;
@@ -1245,7 +1245,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func binarySearch<T>(array : [var T], compare : (T, T) -> Order.Order, element : T) : {
+  public func binarySearch<T>(array : [var T], compare : (implicit : (T, T) -> Order.Order), element : T) : {
     #found : Nat;
     #insertionIndex : Nat
   } {

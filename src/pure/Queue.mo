@@ -125,7 +125,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(1)`
-  public func contains<T>(queue : Queue<T>, equal : (T, T) -> Bool, item : T) : Bool = List.contains(queue.0, equal, item) or List.contains(queue.2, equal, item);
+  public func contains<T>(queue : Queue<T>, equal : (implicit : (T, T) -> Bool), item : T) : Bool = List.contains(queue.0, equal, item) or List.contains(queue.2, equal, item);
 
   /// Inspect the optional element on the front end of a queue.
   /// Returns `null` if `queue` is empty. Otherwise, the front element of `queue`.
@@ -401,7 +401,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func equal<T>(queue1 : Queue<T>, queue2 : Queue<T>, equal : (T, T) -> Bool) : Bool {
+  public func equal<T>(queue1 : Queue<T>, queue2 : Queue<T>, equal : (implicit : (T, T) -> Bool)) : Bool {
     if (queue1.1 != queue2.1) {
       return false
     };

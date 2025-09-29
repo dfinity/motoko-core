@@ -99,7 +99,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func contains<T>(list : List<T>, equal : (T, T) -> Bool, item : T) : Bool = switch list {
+  public func contains<T>(list : List<T>, equal : (implicit : (T, T) -> Bool), item : T) : Bool = switch list {
     case (?(h, t)) equal(h, item) or contains(t, equal, item);
     case _ false
   };

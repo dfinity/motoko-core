@@ -532,7 +532,7 @@ module {
   /// let iter = [1, 2, 3, 4].values();
   /// assert Iter.contains<Nat>(iter, Nat.equal, 2);
   /// ```
-  public func contains<T>(iter : Iter<T>, equal : (T, T) -> Bool, value : T) : Bool {
+  public func contains<T>(iter : Iter<T>, equal : (implicit : (T, T) -> Bool), value : T) : Bool {
     for (x in iter) {
       if (equal(x, value)) return true
     };
