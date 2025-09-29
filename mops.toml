@@ -23,5 +23,5 @@ base-0-14-13 = "https://github.com/dfinity/motoko-base#moc-0.14.13@794174a307975
 moc = "0.16.1"
 
 [toolchain]
-moc = "0.16.1"
+moc = "0.16.3-implicits-2"
 wasmtime = "35.0.0"
