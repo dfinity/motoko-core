@@ -770,7 +770,7 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `compare` has O(1) costs.
-  public func compare<T>(stack1 : Stack<T>, stack2 : Stack<T>, compare : (T, T) -> Order.Order) : Order.Order {
+  public func compare<T>(stack1 : Stack<T>, stack2 : Stack<T>, compare : (implicit : (T, T) -> Order.Order)) : Order.Order {
     let iterator1 = values(stack1);
     let iterator2 = values(stack2);
     loop {

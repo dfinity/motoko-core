@@ -657,7 +657,7 @@ module {
   /// Space: O(size(l1) + size(l2))
   ///
   /// *Runtime and space assumes that `lessThanOrEqual` runs in O(1) time and space.
-  public func merge<T>(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Order.Order) : List<T> = (
+  public func merge<T>(list1 : List<T>, list2 : List<T>, compare : (implicit : (T, T) -> Order.Order)) : List<T> = (
     func go(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Order.Order, acc : List<T>) : List<T> = switch (list1, list2) {
       case ((null, l) or (l, null)) reverse(revAppend(l, acc));
       case (?(h1, t1), ?(h2, t2)) switch (compare(h1, h2)) {

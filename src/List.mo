@@ -596,7 +596,7 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sort<T>(list : List<T>, compare : (T, T) -> Order.Order) {
+  public func sort<T>(list : List<T>, compare : (implicit : (T, T) -> Order.Order)) {
     if (size(list) < 2) return;
     let arr = toVarArray(list);
     VarArray.sortInPlace(arr, compare);
@@ -785,7 +785,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in `O(1)` time and space.
-  public func binarySearch<T>(list : List<T>, compare : (T, T) -> Order.Order, element : T) : {
+  public func binarySearch<T>(list : List<T>, compare : (implicit : (T, T) -> Order.Order), element : T) : {
     #found : Nat;
     #insertionIndex : Nat
   } {
@@ -1572,7 +1572,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func max<T>(list : List<T>, compare : (T, T) -> Order.Order) : ?T {
+  public func max<T>(list : List<T>, compare : (implicit : (T, T) -> Order.Order)) : ?T {
     if (isEmpty(list)) return null;
 
     var maxSoFar = at(list, 0);
@@ -1607,7 +1607,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func min<T>(list : List<T>, compare : (T, T) -> Order.Order) : ?T {
+  public func min<T>(list : List<T>, compare : (implicit : (T, T) -> Order.Order)) : ?T {
     if (isEmpty(list)) return null;
 
     var minSoFar = at(list, 0);
@@ -1681,7 +1681,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func compare<T>(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Order.Order) : Order.Order {
+  public func compare<T>(list1 : List<T>, list2 : List<T>, compare : (implicit : (T, T) -> Order.Order)) : Order.Order {
     let size1 = size(list1);
     let size2 = size(list2);
     let minSize = if (size1 < size2) { size1 } else { size2 };
