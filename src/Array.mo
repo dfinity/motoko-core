@@ -122,7 +122,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func equal<T>(array1 : [T], array2 : [T], equal : (T, T) -> Bool) : Bool {
+  public func equal<T>(array1 : [T], array2 : [T], equal : (implicit : (T, T) -> Bool)) : Bool {
     let size1 = array1.size();
     let size2 = array2.size();
     if (size1 != size2) {
@@ -1032,7 +1032,7 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func toText<T>(array : [T], f : T -> Text) : Text {
+  public func toText<T>(array : [T], f : (implicit : (toText : T -> Text))) : Text {
     let size = array.size();
     if (size == 0) { return "[]" };
     var text = "[";

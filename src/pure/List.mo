@@ -657,7 +657,7 @@ module {
   /// Space: O(size(l1) + size(l2))
   ///
   /// *Runtime and space assumes that `lessThanOrEqual` runs in O(1) time and space.
-  public func merge<T>(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Order.Order) : List<T> = (
+  public func merge<T>(list1 : List<T>, list2 : List<T>, compare : (implicit : (T, T) -> Order.Order)) : List<T> = (
     func go(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Order.Order, acc : List<T>) : List<T> = switch (list1, list2) {
       case ((null, l) or (l, null)) reverse(revAppend(l, acc));
       case (?(h1, t1), ?(h2, t2)) switch (compare(h1, h2)) {
@@ -686,7 +686,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `equalItem` runs in O(1) time and space.
-  public func equal<T>(list1 : List<T>, list2 : List<T>, equalItem : (T, T) -> Bool) : Bool = switch (list1, list2) {
+  public func equal<T>(list1 : List<T>, list2 : List<T>, equalItem : (implicit : (equal : (T, T) -> Bool))) : Bool = switch (list1, list2) {
     case (null, null) true;
     case (?(h1, t1), ?(h2, t2)) equalItem(h1, h2) and equal(t1, t2, equalItem);
     case _ false
@@ -711,7 +711,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that argument `compare` runs in O(1) time and space.
-  public func compare<T>(list1 : List<T>, list2 : List<T>, compareItem : (T, T) -> Order.Order) : Order.Order = switch (list1, list2) {
+  public func compare<T>(list1 : List<T>, list2 : List<T>, compareItem : (implicit : (compare : (T, T) -> Order.Order))) : Order.Order = switch (list1, list2) {
     case (?(h1, t1), ?(h2, t2)) switch (compareItem(h1, h2)) {
       case (#equal) compare(t1, t2, compareItem);
       case o o
@@ -1068,7 +1068,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func toText<T>(list : List<T>, f : T -> Text) : Text {
+  public func toText<T>(list : List<T>, f : (implicit : T -> Text)) : Text {
     var text = "PureList[";
     var first = true;
     forEach(

@@ -1272,11 +1272,11 @@ module {
   /// assuming that `keyFormat` and `valueFormat` have runtime and space costs of `O(1)`.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func toText<K, V>(map : Map<K, V>, toText : (implicit : K -> Text), valueFormat : V -> Text) : Text {
+  public func toText<K, V>(map : Map<K, V>, keyFormat : (implicit : (toText : K -> Text)), valueFormat : (implicit : (toText : V -> Text))) : Text {
     var text = "Map{";
     var sep = "";
     for ((key, value) in entries(map)) {
-      text #= sep # "(" # toText(key) # ", " # valueFormat(value) # ")";
+      text #= sep # "(" # keyFormat(key) # ", " # valueFormat(value) # ")";
       sep := ", "
     };
     text # "}"
@@ -1323,7 +1323,7 @@ module {
   /// assuming that `compareKey` and `compareValue` have runtime and space costs of `O(1)`.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (K, K) -> Order.Order, compareValue : (V, V) -> Order.Order) : Order.Order {
+  public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit : (compare : (K, K) -> Order.Order)), compareValue : (implicit : (compare : (V, V) -> Order.Order))) : Order.Order {
     let iterator1 = entries(map1);
     let iterator2 = entries(map2);
     loop {
@@ -2326,7 +2326,7 @@ module {
     /// * compare - the comparator used to perform the search
     /// * searchKey - the key being compared against in the search
     /// * maxIndex - the right-most index (bound) from which to begin the search
-    public func binarySearchNode<K, V>(array : [var ?(K, V)], compare : (K, K) -> Order.Order, searchKey : K, maxIndex : Nat) : SearchResult {
+    public func binarySearchNode<K, V>(array : [var ?(K, V)], compare : (implicit : (K, K) -> Order.Order), searchKey : K, maxIndex : Nat) : SearchResult {
       // TODO: get rid of this check?
       // Trap if array is size 0 (should not happen)
       if (array.size() == 0) {

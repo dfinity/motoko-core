@@ -748,7 +748,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(n)
   /// `n` denotes the number of elements stored in the queue.
-  public func toText<T>(queue : Queue<T>, format : T -> Text) : Text {
+  public func toText<T>(queue : Queue<T>, format : (implicit : (toText : T -> Text))) : Text {
     var text = "Queue[";
     var sep = "";
     for (element in values(queue)) {
@@ -777,7 +777,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(1)
   /// `n` denotes the number of elements stored in the queue.
-  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, compare : (T, T) -> Order.Order) : Order.Order {
+  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, compare : (implicit : (T, T) -> Order.Order)) : Order.Order {
     let iterator1 = values(queue1);
     let iterator2 = values(queue2);
     loop {
