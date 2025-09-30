@@ -1,0 +1,226 @@
+/// A mutable priority queue of elements.
+/// Always returns the element with the highest priority first,
+/// as determined by a user-provided comparison function.
+///
+/// Typical use cases include:
+/// * Task scheduling (highest-priority task first)
+/// * Event simulation
+/// * Pathfinding algorithms (e.g. Dijkstra, A*)
+///
+/// Example:
+/// ```motoko
+/// import PriorityQueue "mo:core/PriorityQueue";
+/// import Nat "mo:core/Nat";
+///
+/// persistent actor {
+///   let pq = PriorityQueue.empty<Nat>();
+///   PriorityQueue.push(pq, Nat.compare, 5);
+///   PriorityQueue.push(pq, Nat.compare, 10);
+///   PriorityQueue.push(pq, Nat.compare, 3);
+///   assert PriorityQueue.pop(pq, Nat.compare) == ?10;
+///   assert PriorityQueue.pop(pq, Nat.compare) == ?5;
+///   assert PriorityQueue.pop(pq, Nat.compare) == ?3;
+///   assert PriorityQueue.pop(pq, Nat.compare) == null;
+/// }
+/// ```
+///
+/// Internally implemented as a binary heap stored in a core library `List`.
+///
+/// Performance:
+/// * Runtime: `O(log n)` for `push` and `pop` (amortized).
+/// * Runtime: `O(1)` for `peek`, `clear`, `size`, and `isEmpty`.
+/// * Space: `O(n)`, where `n` is the number of stored elements.
+///
+/// Implementation note (due to `List`):
+/// * There is an additive memory overhead of `O(sqrt(n))`.
+/// * For `push` and `pop`, the amortized time is `O(log n)`,
+///   but the worst case can involve an extra `O(sqrt(n))` step.
+import List "List";
+import Types "Types";
+import Order "Order";
+import Prim "mo:⛔";
+
+module {
+  public type PriorityQueue<T> = Types.PriorityQueue<T>;
+
+  /// Returns an empty priority queue.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import PriorityQueue "mo:core/PriorityQueue";
+  ///
+  /// let pq = PriorityQueue.empty<Nat>();
+  /// assert PriorityQueue.isEmpty(pq);
+  /// ```
+  ///
+  /// Runtime: `O(1)`. Space: `O(1)`.
+  public func empty<T>() : PriorityQueue<T> = {
+    heap = List.empty<T>()
+  };
+
+  /// Returns a priority queue containing a single element.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import PriorityQueue "mo:core/PriorityQueue";
+  ///
+  /// let pq = PriorityQueue.singleton<Nat>(42);
+  /// assert PriorityQueue.peek(pq) == ?42;
+  /// ```
+  ///
+  /// Runtime: `O(1)`. Space: `O(1)`.
+  public func singleton<T>(element : T) : PriorityQueue<T> = {
+    heap = List.singleton(element)
+  };
+
+  /// Returns the number of elements in the priority queue.
+  ///
+  /// Runtime: `O(1)`.
+  public func size<T>(priorityQueue : PriorityQueue<T>) : Nat = List.size(priorityQueue.heap);
+
+  /// Returns `true` iff the priority queue is empty.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import PriorityQueue "mo:core/PriorityQueue";
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let pq = PriorityQueue.empty<Nat>();
+  /// assert PriorityQueue.isEmpty(pq);
+  /// PriorityQueue.push(pq, Nat.compare, 5);
+  /// assert not PriorityQueue.isEmpty(pq);
+  /// ```
+  ///
+  /// Runtime: `O(1)`. Space: `O(1)`.
+  public func isEmpty<T>(priorityQueue : PriorityQueue<T>) : Bool = List.isEmpty(priorityQueue.heap);
+
+  /// Removes all elements from the priority queue.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import PriorityQueue "mo:core/PriorityQueue";
+  /// import Nat "mo:core/Nat";
+  ///
+  ///
+  /// let pq = PriorityQueue.empty<Nat>();
+  /// PriorityQueue.push(pq, Nat.compare, 5);
+  /// PriorityQueue.push(pq, Nat.compare, 10);
+  /// assert not PriorityQueue.isEmpty(pq);
+  /// PriorityQueue.clear(pq);
+  /// assert PriorityQueue.isEmpty(pq);
+  /// ```
+  ///
+  /// Runtime: `O(1)`. Space: `O(1)`.
+  public func clear<T>(priorityQueue : PriorityQueue<T>) = List.clear(priorityQueue.heap);
+
+  /// Inserts a new element into the priority queue.
+  ///
+  /// `compare` – comparison function that defines priority ordering.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import PriorityQueue "mo:core/PriorityQueue";
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let pq = PriorityQueue.empty<Nat>();
+  /// PriorityQueue.push(pq, Nat.compare, 5);
+  /// PriorityQueue.push(pq, Nat.compare, 10);
+  /// assert PriorityQueue.peek(pq) == ?10;
+  /// ```
+  ///
+  /// Runtime: `O(log n)`. Space: `O(1)`.
+  public func push<T>(
+    priorityQueue : PriorityQueue<T>,
+    compare : (T, T) -> Order.Order,
+    element : T
+  ) {
+    let heap = priorityQueue.heap;
+    List.add(heap, element);
+    var index = List.size(heap) - 1;
+    while (index > 0) {
+      let parentId = (index - 1) / 2;
+      let parentVal = List.at(heap, parentId);
+      if (compare(element, parentVal) == #greater) {
+        List.put(heap, index, parentVal);
+        index := parentId
+      } else {
+        List.put(heap, index, element);
+        return
+      }
+    };
+    List.put(heap, 0, element)
+  };
+
+  /// Returns the element with the highest priority, without removing it.
+  /// Returns `null` if the queue is empty.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import PriorityQueue "mo:core/PriorityQueue";
+  ///
+  /// let pq = PriorityQueue.singleton<Nat>(42);
+  /// assert PriorityQueue.peek(pq) == ?42;
+  /// ```
+  ///
+  /// Runtime: `O(1)`. Space: `O(1)`.
+  public func peek<T>(priorityQueue : PriorityQueue<T>) : ?T = List.get(priorityQueue.heap, 0);
+
+  /// Removes and returns the element with the highest priority.
+  /// Returns `null` if the queue is empty.
+  ///
+  /// `compare` – comparison function that defines priority ordering.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import PriorityQueue "mo:core/PriorityQueue";
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let pq = PriorityQueue.empty<Nat>();
+  /// PriorityQueue.push(pq, Nat.compare, 5);
+  /// PriorityQueue.push(pq, Nat.compare, 10);
+  /// assert PriorityQueue.pop(pq, Nat.compare) == ?10;
+  /// ```
+  ///
+  /// Runtime: `O(log n)`. Space: `O(1)`.
+  public func pop<T>(
+    priorityQueue : PriorityQueue<T>,
+    compare : (T, T) -> Order.Order
+  ) : ?T {
+    let heap = priorityQueue.heap;
+    if (List.isEmpty(heap)) {
+      return null
+    };
+    let top = List.get(heap, 0);
+    let lastIndex = List.size(heap) - 1;
+    let lastElem = List.at(heap, lastIndex);
+
+    var index = 0;
+    loop {
+      var best = lastIndex;
+      let left = 2 * index + 1;
+      var bestElem = lastElem;
+      if (left < lastIndex) {
+        let leftElem = List.at(heap, left);
+        if (compare(leftElem, lastElem) == #greater) {
+          best := left;
+          bestElem := leftElem
+        }
+      };
+      let right = left + 1;
+      if (right < lastIndex) {
+        let rightElem = List.at(heap, right);
+        if (compare(rightElem, bestElem) == #greater) {
+          best := right;
+          bestElem := rightElem
+        }
+      };
+      if (best == lastIndex) {
+        List.put(heap, index, lastElem);
+        ignore List.removeLast(heap);
+        return top
+      };
+      List.put(heap, index, bestElem);
+      index := best
+    }
+  }
+}

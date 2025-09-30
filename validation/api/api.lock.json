@@ -928,6 +928,20 @@
     ]
   },
   {
+    "name": "PriorityQueue",
+    "exports": [
+      "public func clear<T>(priorityQueue : PriorityQueue<T>)",
+      "public func empty<T>() : PriorityQueue<T>",
+      "public func isEmpty<T>(priorityQueue : PriorityQueue<T>) : Bool",
+      "public func peek<T>(priorityQueue : PriorityQueue<T>) : ?T",
+      "public func pop<T>( priorityQueue : PriorityQueue<T>, compare : (T, T) -> Order.Order ) : ?T",
+      "public type PriorityQueue<T>",
+      "public func push<T>( priorityQueue : PriorityQueue<T>, compare : (T, T) -> Order.Order, element : T )",
+      "public func singleton<T>(element : T) : PriorityQueue<T>",
+      "public func size<T>(priorityQueue : PriorityQueue<T>) : Nat"
+    ]
+  },
+  {
     "name": "Queue",
     "exports": [
       "public func all<T>(queue : Queue<T>, predicate : T -> Bool) : Bool",
@@ -1220,6 +1234,7 @@
       "public type Order",
       "public type Pattern",
       "public type Principal",
+      "public type PriorityQueue<T>",
       "public type Queue<T>",
       "public type Region",
       "public type Result<T, E>",
