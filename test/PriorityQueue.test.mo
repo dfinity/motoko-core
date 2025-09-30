@@ -1,5 +1,5 @@
 import PriorityQueue "../src/PriorityQueue";
-import PriorityQueueSet "../src/internal/PriorityQueueSet";
+import PriorityQueueSet "../bench/utils/PriorityQueueSet";
 import Nat "../src/Nat";
 import Iter "../src/Iter";
 import Runtime "../src/Runtime";

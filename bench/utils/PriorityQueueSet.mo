@@ -1,4 +1,7 @@
 /// A mutable priority queue of elements.
+/// !!! In contrast to the implementation in `src/PriorityQueue.mo`, this one
+/// is a wrapper over `Set`. !!!
+///
 /// Always returns the element with the highest priority first,
 /// as determined by a user-provided comparison function.
 ///
@@ -10,10 +13,10 @@
 /// * Runtime: `O(log n)` for `push`, `pop` and `peek`.
 /// * Runtime: `O(1)` for `clear`, `size`, and `isEmpty`.
 /// * Space: `O(n)`, where `n` is the number of stored elements.
-import Set "../Set";
-import Order "../Order";
-import Nat "../Nat";
-import { Tuple2 } "../Tuples";
+import Set "../../src/Set";
+import Order "../../src/Order";
+import Nat "../../src/Nat";
+import { Tuple2 } "../../src/Tuples";
 
 module {
   public type PriorityQueue<T> = {

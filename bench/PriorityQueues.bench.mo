@@ -3,7 +3,7 @@ import Bench "mo:bench";
 import Array "../src/Array";
 import Nat "../src/Nat";
 import PriorityQueue "../src/PriorityQueue";
-import PriorityQueueSet "../src/internal/PriorityQueueSet";
+import PriorityQueueSet "utils/PriorityQueueSet";
 import Random "../src/Random";
 import Runtime "../src/Runtime";
 import Map "../src/Map";
