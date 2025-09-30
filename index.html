@@ -285,7 +285,34 @@ persistent actor {
 <p>Then, you can use this module to work with the <code>Principal</code>.</p>
 <p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
-import Principal &quot;mo:core/Principal&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Queue.html">Queue</a><div class="index-item-comment"><p>A mutable double-ended queue of elements.
+import Principal &quot;mo:core/Principal&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="PriorityQueue.html">PriorityQueue</a><div class="index-item-comment"><p>A mutable priority queue of elements.
+Always returns the element with the highest priority first,
+as determined by a user-provided comparison function.</p>
+<p>Typical use cases include:</p>
+<ul><li>Task scheduling (highest-priority task first)</li><li>Event simulation</li><li>Pathfinding algorithms (e.g. Dijkstra, A*)</li></ul>
+
+<p>Example:</p>
+<pre class="motoko"><code class="motoko">import PriorityQueue &quot;mo:core/PriorityQueue&quot;;
+import Nat &quot;mo:core/Nat&quot;;
+
+persistent actor {
+  let pq = PriorityQueue.empty&lt;Nat&gt;();
+  PriorityQueue.push(pq, Nat.compare, 5);
+  PriorityQueue.push(pq, Nat.compare, 10);
+  PriorityQueue.push(pq, Nat.compare, 3);
+  assert PriorityQueue.pop(pq, Nat.compare) == ?10;
+  assert PriorityQueue.pop(pq, Nat.compare) == ?5;
+  assert PriorityQueue.pop(pq, Nat.compare) == ?3;
+  assert PriorityQueue.pop(pq, Nat.compare) == null;
+}</code></pre>
+
+<p>Internally implemented as a binary heap stored in a core library <code>List</code>.</p>
+<p>Performance:</p>
+<ul><li>Runtime: <code>O(log n)</code> for <code>push</code> and <code>pop</code> (amortized).</li><li>Runtime: <code>O(1)</code> for <code>peek</code>, <code>clear</code>, <code>size</code>, and <code>isEmpty</code>.</li><li>Space: <code>O(n)</code>, where <code>n</code> is the number of stored elements.</li></ul>
+
+<p>Implementation note (due to <code>List</code>):</p>
+<ul><li>There is an additive memory overhead of <code>O(sqrt(n))</code>.</li><li>For <code>push</code> and <code>pop</code>, the amortized time is <code>O(log n)</code>,
+ but the worst case can involve an extra <code>O(sqrt(n))</code> step.</li></ul></div></li><li class="index-item"><a class="index-item-link" href="Queue.html">Queue</a><div class="index-item-comment"><p>A mutable double-ended queue of elements.
 The queue has two ends, front and back.
 Elements can be added and removed at the two ends.</p>
 <p>This can be used for different use cases, such as:</p>
