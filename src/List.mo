@@ -48,7 +48,7 @@ module {
       ImperativeList.removeLast(inner)
     };
 
-    public func sort(compare : persistent (T, T) -> Order.Order) {
+    public func sort(compare : persistent(T, T) -> Order.Order) {
       ImperativeList.sort(inner, compare)
     };
 
@@ -70,6 +70,10 @@ module {
 
     public func lastIndexOf(equal : (T, T) -> Bool, element : T) : ?Nat {
       ImperativeList.lastIndexOf(inner, equal, element)
+    };
+
+    public func find(predicate : T -> Bool) : ?T {
+      ImperativeList.find(inner, predicate)
     };
 
     public func findIndex(predicate : T -> Bool) : ?Nat {
