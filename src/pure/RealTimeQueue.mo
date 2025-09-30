@@ -158,17 +158,17 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(1)`
-  public func contains<T>(queue : Queue<T>, eq : (implicit : (equal : (T, T) -> Bool)), item : T) : Bool = switch queue {
+  public func contains<T>(queue : Queue<T>, equal : (implicit : (T, T) -> Bool), item : T) : Bool = switch queue {
     case (#empty) false;
-    case (#one(x)) eq(x, item);
-    case (#two(x, y)) eq(x, item) or eq(y, item);
-    case (#three(x, y, z)) eq(x, item) or eq(y, item) or eq(z, item);
-    case (#idles(((l1, l2), _), ((r1, r2), _))) List.contains(l1, eq, item) or List.contains(l2, eq, item) or List.contains(r2, eq, item) or List.contains(r1, eq, item); // note that the order of the right stack is reversed, but for this operation it does not matter
+    case (#one(x)) equal(x, item);
+    case (#two(x, y)) equal(x, item) or equal(y, item);
+    case (#three(x, y, z)) equal(x, item) or equal(y, item) or equal(z, item);
+    case (#idles(((l1, l2), _), ((r1, r2), _))) List.contains(l1, equal, item) or List.contains(l2, equal, item) or List.contains(r2, equal, item) or List.contains(r1, equal, item); // note that the order of the right stack is reversed, but for this operation it does not matter
     case (#rebal(_, big, small)) {
       let (extraB, _, (oldB1, oldB2), _) = BigState.current(big);
       let (extraS, _, (oldS1, oldS2), _) = SmallState.current(small);
       // note that the order of one of the stacks is reversed (depending on the `direction` field), but for this operation it does not matter
-      List.contains(extraB, eq, item) or List.contains(oldB1, eq, item) or List.contains(oldB2, eq, item) or List.contains(extraS, eq, item) or List.contains(oldS1, eq, item) or List.contains(oldS2, eq, item)
+      List.contains(extraB, equal, item) or List.contains(oldB1, equal, item) or List.contains(oldB2, equal, item) or List.contains(extraS, equal, item) or List.contains(oldS1, equal, item) or List.contains(oldS2, equal, item)
     }
   };
 
@@ -596,16 +596,16 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(size)`
-  public func equal<T>(queue1 : Queue<T>, queue2 : Queue<T>, equality : (implicit : (equal : (T, T) -> Bool))) : Bool {
+  public func equal<T>(queue1 : Queue<T>, queue2 : Queue<T>, equal : (implicit : (T, T) -> Bool)) : Bool {
     if (size(queue1) != size(queue2)) {
       return false
     };
-    func go(queue1 : Queue<T>, queue2 : Queue<T>, equality : (T, T) -> Bool) : Bool = switch (popFront queue1, popFront queue2) {
+    func go(queue1 : Queue<T>, queue2 : Queue<T>, equal : (T, T) -> Bool) : Bool = switch (popFront queue1, popFront queue2) {
       case (null, null) true;
-      case (?(x1, tail1), ?(x2, tail2)) equality(x1, x2) and go(tail1, tail2, equality); // Note that this is tail recursive (`and` is expanded to `if`).
+      case (?(x1, tail1), ?(x2, tail2)) equal(x1, x2) and go(tail1, tail2, equal); // Note that this is tail recursive (`and` is expanded to `if`).
       case _ false
     };
-    go(queue1, queue2, equality)
+    go(queue1, queue2, equal)
   };
 
   /// Compare two queues lexicographically using a provided comparison function to compare their elements.
@@ -625,13 +625,13 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(size)`
-  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, comparison : (implicit : (compare : (T, T) -> Types.Order))) : Types.Order = switch (popFront queue1, popFront queue2) {
+  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, compareItem : (implicit : (compare : (T, T) -> Types.Order))) : Types.Order = switch (popFront queue1, popFront queue2) {
     case (null, null) #equal;
     case (null, _) #less;
     case (_, null) #greater;
     case (?(x1, queue1Tail), ?(x2, queue2Tail)) {
-      switch (comparison(x1, x2)) {
-        case (#equal) compare(queue1Tail, queue2Tail, comparison);
+      switch (compareItem(x1, x2)) {
+        case (#equal) compare(queue1Tail, queue2Tail, compareItem);
         case order order
       }
     }
