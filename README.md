@@ -148,6 +148,62 @@ Saving results to .bench/ListBufferNewArray.bench.json
 
 <details>
 
+<summary>bench/PriorityQueues.bench.mo $({\color{gray}0\%})$</summary>
+
+### Different priority queue implementations
+
+_Compare the performance of the following priority queue implementations:
+- `PriorityQueue`: Binary heap implementation over `List`.
+- `PriorityQueueSet`: Wrapper over `Set<(T, Nat)>`._
+
+
+Instructions: ${\color{gray}0\\%}$
+Heap: ${\color{gray}0\\%}$
+Stable Memory: ${\color{gray}0\\%}$
+Garbage Collection: ${\color{gray}0\\%}$
+
+
+**Instructions**
+
+|                                           | A) PriorityQueue | B) PriorityQueueSet |
+| :---------------------------------------- | ---------------: | ------------------: |
+| 1.) 100000 operations (push:pop = 1:1)    |      597_528_283 |         522_729_861 |
+| 2.) 100000 operations (push:pop = 2:1)    |      742_952_999 |         809_693_415 |
+| 3.) 100000 operations (push:pop = 10:1)   |      357_911_737 |         873_181_028 |
+| 4.) 100000 operations (only push)         |      192_422_882 |         886_824_792 |
+| 5.) 50000 pushes, then 50000 pops         |      776_632_572 |         961_776_534 |
+| 6.) 50000 pushes, then 25000 "pop;push"es |      529_475_053 |         922_137_111 |
+
+
+**Heap**
+
+|                                           | A) PriorityQueue | B) PriorityQueueSet |
+| :---------------------------------------- | ---------------: | ------------------: |
+| 1.) 100000 operations (push:pop = 1:1)    |            272 B |               272 B |
+| 2.) 100000 operations (push:pop = 2:1)    |            272 B |               272 B |
+| 3.) 100000 operations (push:pop = 10:1)   |            272 B |               272 B |
+| 4.) 100000 operations (only push)         |            272 B |               272 B |
+| 5.) 50000 pushes, then 50000 pops         |            272 B |               272 B |
+| 6.) 50000 pushes, then 25000 "pop;push"es |            272 B |               272 B |
+
+
+**Garbage Collection**
+
+|                                           | A) PriorityQueue | B) PriorityQueueSet |
+| :---------------------------------------- | ---------------: | ------------------: |
+| 1.) 100000 operations (push:pop = 1:1)    |        15.03 MiB |           17.43 MiB |
+| 2.) 100000 operations (push:pop = 2:1)    |        19.73 MiB |           19.32 MiB |
+| 3.) 100000 operations (push:pop = 10:1)   |         8.67 MiB |           12.64 MiB |
+| 4.) 100000 operations (only push)         |         3.87 MiB |            9.96 MiB |
+| 5.) 50000 pushes, then 50000 pops         |        22.03 MiB |            26.2 MiB |
+| 6.) 50000 pushes, then 25000 "pop;push"es |        14.22 MiB |           18.44 MiB |
+
+
+</details>
+Saving results to .bench/PriorityQueues.bench.json
+
+<details>
+
 <summary>bench/PureListStackSafety.bench.mo $({\color{gray}0\%})$</summary>
 
 ### List Stack safety
