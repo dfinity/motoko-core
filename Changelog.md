@@ -1,6 +1,7 @@
 ## Next
 
-* internal: updates `matchers` dev-dependency (#394)
+* internal: updates `matchers` dev-dependency (#394).
+* Add `PriorityQueue` (#392).
 * Add support for Weak references (#388).
 * Clarify difference between `List` and `pure/List` in doc comments (#386).
 
