@@ -72,7 +72,7 @@ module {
     case (#system_fatal or #system_transient or #destination_invalid or #call_error _) true;
     case _ false
   };
-  
+
   /// Returns whether retrying to send a message may result in success.
   ///
   /// Example:
