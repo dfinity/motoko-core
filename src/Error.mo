@@ -19,11 +19,11 @@ module {
   ///   #system_transient;
   ///   // Destination invalid.
   ///   #destination_invalid;
-  ///   // Canister trapped.
+  ///   // Canister error (e.g., trap, no response).
   ///   #canister_error;
   ///   // Explicit reject by canister code.
   ///   #canister_reject;
-  ///   // Response unknown due to missed deadline.
+  ///   // Response unknown; system stopped waiting for it (e.g., timed out, or system under high load).
   ///   #system_unknown;
   ///   // Future error code (with unrecognized numeric code).
   ///   #future : Nat32;
