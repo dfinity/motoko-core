@@ -131,6 +131,7 @@
       "public let code : (error : Error) -> ErrorCode",
       "public type Error",
       "public type ErrorCode",
+      "public func isCleanReject(error : Error) : Bool",
       "public func isRetryPossible(error : Error) : Bool",
       "public let message : (error : Error) -> Text",
       "public let reject : (message : Text) -> Error"
