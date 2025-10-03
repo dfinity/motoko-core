@@ -68,7 +68,8 @@ module {
 
   /// Checks if the error is a clean reject.
   /// A clean reject means that there must be no state changes on the callee side.
-  //  See `isRetryPossible` for example usage.
+  /// Note that a return value of `false` does not imply the state has been mutated.
+  ///  See `isRetryPossible` for example usage.
   public func isCleanReject(error : Error) : Bool = switch (code error) {
     case (#system_fatal or #system_transient or #destination_invalid or #call_error _) true;
     case _ false
@@ -103,7 +104,7 @@ module {
   ///         Debug.print("Immediate retry may succeed. Consider retrying now.");
   ///       }
   ///
-  ///       // Check if the previous call is clean (did not mutate state).
+  ///       // Check if the failed call is clean (guaranteed not to have mutated state).
   ///       if (Error.isClean e) {
   ///         Debug.print("Previous call did not mutate state: safe to retry.");
   ///       } else {
