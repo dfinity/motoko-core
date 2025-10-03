@@ -54,6 +54,7 @@ module {
 
   /// 64-bit floating point number type.
   public type Float = Prim.Types.Float;
+  public type Self = Float;
 
   /// Ratio of the circumference of a circle to its diameter.
   /// Note: Limited precision.

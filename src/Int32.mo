@@ -15,6 +15,7 @@ module {
 
   /// 32-bit signed integers.
   public type Int32 = Prim.Types.Int32;
+  public type Self = Int32;
 
   /// Minimum 32-bit integer value, `-2 ** 31`.
   ///
