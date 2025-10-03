@@ -88,6 +88,13 @@ suite(
     );
 
     test(
+      "reverseValues",
+      func() {
+        assert Iter.toArray(Queue.reverseValues(Queue.empty<Nat>())) == []
+      }
+    );
+
+    test(
       "equal",
       func() {
         assert Queue.equal(Queue.empty<Nat>(), Queue.empty<Nat>(), Nat.equal)
@@ -605,6 +612,21 @@ suite(
         };
         assert counter == numberOfSteps;
         expect.nat(Queue.size(queue)).equal((numberOfSteps + 1) / 2)
+      }
+    );
+
+    test(
+      "reverseValues",
+      func() {
+        let queue = Queue.empty<Nat>();
+        for (number in Nat.range(0, numberOfSteps)) {
+          Queue.pushBack(queue, number)
+        };
+        var index = 0;
+        for (number in Queue.reverseValues(queue)) {
+          index += 1;
+          assert number == numberOfSteps - index;
+        }
       }
     )
   }

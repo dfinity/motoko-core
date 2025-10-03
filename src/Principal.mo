@@ -213,7 +213,7 @@ module {
   /// let principal2 = Principal.fromText("un4fu-tqaaa-aaaab-qadjq-cai");
   /// assert Principal.compare(principal1, principal2) == #equal;
   /// ```
-  public func compare(principal1 : Principal, principal2 : Principal) : {
+  public persistent func compare(principal1 : Principal, principal2 : Principal) : {
     #less;
     #equal;
     #greater
