@@ -68,7 +68,7 @@ module {
 
   /// Checks if the error is a clean reject.
   /// A clean reject means that there must be no state changes on the callee side.
-  //  See `isRetryPossible` for usage example.
+  //  See `isRetryPossible` for example usage.
   public func isCleanReject(error : Error) : Bool = switch (code error) {
     case (#system_fatal or #system_transient or #destination_invalid or #call_error _) true;
     case _ false
