@@ -105,7 +105,7 @@ module {
   ///       };
   ///
   ///       // Check if the failed call is clean (guaranteed not to have mutated state).
-  ///       if (Error.isClean e) {
+  ///       if (Error.isCleanReject e) {
   ///         Debug.print("Previous call did not mutate state: safe to retry.");
   ///       } else {
   ///         Debug.print("Previous call may have mutated state: retry with caution.");
