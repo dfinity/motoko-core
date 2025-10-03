@@ -102,7 +102,7 @@ module {
   ///       // Check if an immediate retry might succeed.
   ///       if (Error.isRetryPossible e) {
   ///         Debug.print("Immediate retry may succeed. Consider retrying now.");
-  ///       }
+  ///       };
   ///
   ///       // Check if the failed call is clean (guaranteed not to have mutated state).
   ///       if (Error.isClean e) {
