@@ -15,6 +15,7 @@ module {
 
   /// 16-bit natural numbers.
   public type Nat16 = Prim.Types.Nat16;
+  public type Self = Nat16;
 
   /// Maximum 16-bit natural number. `2 ** 16 - 1`.
   ///

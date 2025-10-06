@@ -21,6 +21,7 @@ import Runtime "../Runtime";
 module {
 
   public type List<T> = Types.Pure.List<T>;
+  public type Self<T> = List<T>;
 
   /// Create an empty list.
   ///

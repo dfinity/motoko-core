@@ -44,6 +44,7 @@ module {
   let btreeOrder = 32; // Should be >= 4 and <= 512.
 
   public type Set<T> = Types.Set.Set<T>;
+  public type Self<T> = Set<T>;
   type Node<T> = Types.Set.Node<T>;
   type Data<T> = Types.Set.Data<T>;
   type Internal<T> = Types.Set.Internal<T>;
@@ -558,6 +559,10 @@ module {
   /// where `n` denotes the number of elements stored in the set.
   public func min<T>(set : Set<T>) : ?T {
     values(set).next()
+  };
+
+  public func toArray<T>(set : Set<T>) : [T] {
+    Iter.toArray(values(set))
   };
 
   /// Returns an iterator over the elements in the set,

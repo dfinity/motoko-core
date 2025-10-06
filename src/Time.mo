@@ -35,6 +35,7 @@ module {
 
   /// Quantity of time expressed in `#days`, `#hours`, `#minutes`, `#seconds`, `#milliseconds`, or `#nanoseconds`.
   public type Duration = Types.Duration;
+  public type Self = Duration;
 
   /// Current system time given as nanoseconds since 1970-01-01. The system guarantees that:
   ///
