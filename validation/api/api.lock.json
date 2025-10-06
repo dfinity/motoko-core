@@ -62,6 +62,7 @@
       "public func less(blob1 : Blob, blob2 : Blob) : Bool",
       "public func lessOrEqual(blob1 : Blob, blob2 : Blob) : Bool",
       "public func notEqual(blob1 : Blob, blob2 : Blob) : Bool",
+      "public type Self",
       "public func size(blob : Blob) : Nat",
       "public func toArray(blob : Blob) : [Nat8]",
       "public func toVarArray(blob : Blob) : [var Nat8]"
