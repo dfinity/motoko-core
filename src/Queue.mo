@@ -111,7 +111,7 @@ module {
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
   public func empty<T>() : Queue<T> {
-    { var front = null; var back = null; var size = 0 }
+    { var front = null; var back = null; var size_ = 0 }
   };
 
   /// Creates a new queue with a single element.
@@ -152,7 +152,7 @@ module {
   public func clear<T>(queue : Queue<T>) {
     queue.front := null;
     queue.back := null;
-    queue.size := 0
+    queue.size_ := 0
   };
 
   /// Creates a deep copy of the queue.
@@ -196,7 +196,7 @@ module {
   /// Runtime: O(1)
   /// Space: O(1)
   public func size<T>(queue : Queue<T>) : Nat {
-    queue.size
+    queue.size_
   };
 
   /// Returns `true` if the queue contains no elements.
@@ -214,7 +214,7 @@ module {
   /// Runtime: O(1)
   /// Space: O(1)
   public func isEmpty<T>(queue : Queue<T>) : Bool {
-    queue.size == 0
+    queue.size_ == 0
   };
 
   /// Checks if an element exists in the queue using the provided equality function.
@@ -233,7 +233,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(1)
   /// `n` denotes the number of elements stored in the queue.
-  public func contains<T>(queue : Queue<T>, equal : (T, T) -> Bool, element : T) : Bool {
+  public func contains<T>(queue : Queue<T>, equal : (implicit : (T, T) -> Bool), element : T) : Bool {
     for (existing in values(queue)) {
       if (equal(existing, element)) {
         return true
@@ -316,7 +316,7 @@ module {
       case null queue.back := ?node;
       case (?_) {}
     };
-    queue.size += 1
+    queue.size_ += 1
   };
 
   /// Adds an element to the back of the queue.
@@ -349,7 +349,7 @@ module {
       case null queue.front := ?node;
       case (?_) {}
     };
-    queue.size += 1
+    queue.size_ += 1
   };
 
   /// Removes and returns the first element in the queue.
@@ -377,7 +377,7 @@ module {
           case null { queue.back := null };
           case (?newFirst) { newFirst.previous := null }
         };
-        queue.size -= 1;
+        queue.size_ -= 1;
         ?first.value
       }
     }
@@ -408,7 +408,7 @@ module {
           case null { queue.front := null };
           case (?newLast) { newLast.next := null }
         };
-        queue.size -= 1;
+        queue.size_ -= 1;
         ?last.value
       }
     }
@@ -483,7 +483,7 @@ module {
   public func toArray<T>(queue : Queue<T>) : [T] {
     let iter = values(queue);
     Array.tabulate<T>(
-      queue.size,
+      queue.size_,
       func(i) {
         switch (iter.next()) {
           case null { Prim.trap("Queue.toArray(): unexpected end of iterator") };
@@ -697,7 +697,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(1)
   /// `n` denotes the number of elements stored in the queue.
-  public func equal<T>(queue1 : Queue<T>, queue2 : Queue<T>, equal : (T, T) -> Bool) : Bool {
+  public func equal<T>(queue1 : Queue<T>, queue2 : Queue<T>, equal : (implicit : (T, T) -> Bool)) : Bool {
     if (size(queue1) != size(queue2)) {
       return false
     };
@@ -736,7 +736,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(n)
   /// `n` denotes the number of elements stored in the queue.
-  public func toText<T>(queue : Queue<T>, format : T -> Text) : Text {
+  public func toText<T>(queue : Queue<T>, format : (implicit : (toText : T -> Text))) : Text {
     var text = "Queue[";
     var sep = "";
     for (element in values(queue)) {
@@ -765,7 +765,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(1)
   /// `n` denotes the number of elements stored in the queue.
-  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, compare : (T, T) -> Order.Order) : Order.Order {
+  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, compare : (implicit : (T, T) -> Order.Order)) : Order.Order {
     let iterator1 = values(queue1);
     let iterator2 = values(queue2);
     loop {
