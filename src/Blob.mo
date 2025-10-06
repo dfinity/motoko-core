@@ -38,6 +38,7 @@ import Order "Order";
 module {
 
   public type Blob = Prim.Types.Blob;
+  public type Self = Blob;
 
   /// Returns an empty `Blob` (equivalent to `""`).
   ///

@@ -65,7 +65,7 @@ module {
     public type Queue<T> = {
       var front : ?Node<T>;
       var back : ?Node<T>;
-      var size : Nat
+      var size_ : Nat
     };
 
     public type Node<T> = {
@@ -75,6 +75,13 @@ module {
     }
   };
   public type Queue<T> = Queue.Queue<T>;
+
+  public module PriorityQueue {
+    public type PriorityQueue<T> = {
+      heap : List<T>
+    }
+  };
+  public type PriorityQueue<T> = PriorityQueue.PriorityQueue<T>;
 
   public module Set {
     public type Node<T> = {
