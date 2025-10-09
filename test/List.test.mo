@@ -1249,7 +1249,7 @@ Test.suite(
 
         var blockSize = list.blocks.size();
         var sizes = List.empty<(Nat, Nat)>();
-        sizes.add(blockSize, 0);
+        sizes.add((blockSize, 0));
 
         let expectedSize = 100_000;
         for (i in Nat.range(0, expectedSize)) {
@@ -1259,7 +1259,7 @@ Test.suite(
           assert blockSize <= size;
           if (blockSize < size) {
             blockSize := size;
-            sizes.add(blockSize, list.size())
+            sizes.add((blockSize, list.size()))
           }
         };
         Test.expect.nat(list.size()).equal(expectedSize);
