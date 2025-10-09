@@ -34,6 +34,7 @@
       "public func range<T>(array : [T], fromInclusive : Int, toExclusive : Int) : Types.Iter<T>",
       "public func repeat<T>(item : T, size : Nat) : [T]",
       "public func reverse<T>(array : [T]) : [T]",
+      "public type Self<T>",
       "public func singleton<T>(element : T) : [T]",
       "public func size<T>(array : [T]) : Nat",
       "public func sliceToArray<T>(array : [T], fromInclusive : Int, toExclusive : Int) : [T]",
@@ -61,6 +62,7 @@
       "public func less(blob1 : Blob, blob2 : Blob) : Bool",
       "public func lessOrEqual(blob1 : Blob, blob2 : Blob) : Bool",
       "public func notEqual(blob1 : Blob, blob2 : Blob) : Bool",
+      "public type Self",
       "public func size(blob : Blob) : Nat",
       "public func toArray(blob : Blob) : [Nat8]",
       "public func toVarArray(blob : Blob) : [var Nat8]"
@@ -77,6 +79,7 @@
       "public func logicalNot(bool : Bool) : Bool",
       "public func logicalOr(a : Bool, b : Bool) : Bool",
       "public func logicalXor(a : Bool, b : Bool) : Bool",
+      "public type Self",
       "public func toText(bool : Bool) : Text"
     ]
   },
@@ -104,6 +107,7 @@
       "public func less(a : Char, b : Char) : Bool",
       "public func lessOrEqual(a : Char, b : Char) : Bool",
       "public func notEqual(a : Char, b : Char) : Bool",
+      "public type Self",
       "public let toNat32 : (char : Char) -> Nat32",
       "public let toText : (char : Char) -> Text"
     ]
@@ -133,7 +137,8 @@
       "public type ErrorCode",
       "public func isRetryPossible(error : Error) : Bool",
       "public let message : (error : Error) -> Text",
-      "public let reject : (message : Text) -> Error"
+      "public let reject : (message : Text) -> Error",
+      "public type Self"
     ]
   },
   {
@@ -173,6 +178,7 @@
       "public let pi : Float",
       "public func pow(x : Float, y : Float) : Float",
       "public func rem(x : Float, y : Float) : Float",
+      "public type Self",
       "public let sin : (x : Float) -> Float",
       "public let sqrt : (x : Float) -> Float",
       "public func sub(x : Float, y : Float) : Float",
@@ -217,6 +223,7 @@
       "public func rangeByInclusive(from : Int, to : Int, step : Int) : Iter.Iter<Int>",
       "public func rangeInclusive(from : Int, to : Int) : Iter.Iter<Int>",
       "public func rem(x : Int, y : Int) : Int",
+      "public type Self",
       "public func sub(x : Int, y : Int) : Int",
       "public func toNat(int : Int) : Nat",
       "public func toText(x : Int) : Text"
@@ -271,6 +278,7 @@
       "public func range(fromInclusive : Int16, toExclusive : Int16) : Iter.Iter<Int16>",
       "public func rangeInclusive(from : Int16, to : Int16) : Iter.Iter<Int16>",
       "public func rem(x : Int16, y : Int16) : Int16",
+      "public type Self",
       "public func sub(x : Int16, y : Int16) : Int16",
       "public func subWrap(x : Int16, y : Int16) : Int16",
       "public let toInt : Int16 -> Int",
@@ -329,6 +337,7 @@
       "public func range(fromInclusive : Int32, toExclusive : Int32) : Iter.Iter<Int32>",
       "public func rangeInclusive(from : Int32, to : Int32) : Iter.Iter<Int32>",
       "public func rem(x : Int32, y : Int32) : Int32",
+      "public type Self",
       "public func sub(x : Int32, y : Int32) : Int32",
       "public func subWrap(x : Int32, y : Int32) : Int32",
       "public let toInt : Int32 -> Int",
@@ -386,6 +395,7 @@
       "public func range(fromInclusive : Int64, toExclusive : Int64) : Iter.Iter<Int64>",
       "public func rangeInclusive(from : Int64, to : Int64) : Iter.Iter<Int64>",
       "public func rem(x : Int64, y : Int64) : Int64",
+      "public type Self",
       "public func sub(x : Int64, y : Int64) : Int64",
       "public func subWrap(x : Int64, y : Int64) : Int64",
       "public let toInt : Int64 -> Int",
@@ -441,6 +451,7 @@
       "public func range(fromInclusive : Int8, toExclusive : Int8) : Iter.Iter<Int8>",
       "public func rangeInclusive(from : Int8, to : Int8) : Iter.Iter<Int8>",
       "public func rem(x : Int8, y : Int8) : Int8",
+      "public type Self",
       "public func sub(x : Int8, y : Int8) : Int8",
       "public func subWrap(x : Int8, y : Int8) : Int8",
       "public let toInt : Int8 -> Int",
@@ -491,6 +502,7 @@
       "public func reverse<T>(iter : Iter<T>) : Iter<T>",
       "public func scanLeft<T, R>(iter : Iter<T>, initial : R, combine : (R, T) -> R) : Iter<R>",
       "public func scanRight<T, R>(iter : Iter<T>, initial : R, combine : (T, R) -> R) : Iter<R>",
+      "public type Self<T>",
       "public func singleton<T>(value : T) : Iter<T>",
       "public func size<T>(iter : Iter<T>) : Nat",
       "public func sort<T>(iter : Iter<T>, compare : (T, T) -> Order.Order) : Iter<T>",
@@ -556,6 +568,7 @@
       "public func reverseForEachEntry<T>(list : List<T>, f : (Nat, T) -> ())",
       "public func reverseInPlace<T>(list : List<T>)",
       "public func reverseValues<T>(list : List<T>) : Iter.Iter<T>",
+      "public type Self<T>",
       "public func singleton<T>(element : T) : List<T>",
       "public func size<T>(list : List<T>) : Nat",
       "public func sort<T>(list : List<T>, compare : (T, T) -> Order.Order)",
@@ -587,8 +600,10 @@
       "public func foldLeft<K, V, A>( map : Map<K, V>, base : A, combine : (A, K, V) -> A ) : A",
       "public func foldRight<K, V, A>( map : Map<K, V>, base : A, combine : (K, V, A) -> A ) : A",
       "public func forEach<K, V>(map : Map<K, V>, operation : (K, V) -> ())",
+      "public func fromArray<K, V>(array : [(K, V)], compare : (K, K) -> Order.Order) : Map<K, V>",
       "public func fromIter<K, V>(iter : Types.Iter<(K, V)>, compare : (K, K) -> Order.Order) : Map<K, V>",
       "public func fromPure<K, V>(map : PureMap.Map<K, V>, compare : (K, K) -> Order.Order) : Map<K, V>",
+      "public func fromVarArray<K, V>(array : [var (K, V)], compare : (K, K) -> Order.Order) : Map<K, V>",
       "public func get<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K) : ?V",
       "public func insert<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K, value : V) : Bool",
       "public func isEmpty<K, V>(map : Map<K, V>) : Bool",
@@ -601,12 +616,15 @@
       "public func replace<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K, value : V) : ?V",
       "public func reverseEntries<K, V>(map : Map<K, V>) : Types.Iter<(K, V)>",
       "public func reverseEntriesFrom<K, V>( map : Map<K, V>, compare : (K, K) -> Order.Order, key : K ) : Types.Iter<(K, V)>",
+      "public type Self<K, V>",
       "public func singleton<K, V>(key : K, value : V) : Map<K, V>",
       "public func size<K, V>(map : Map<K, V>) : Nat",
       "public func swap<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K, value : V) : ?V",
       "public func take<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K) : ?V",
+      "public func toArray<K, V>(map : Map<K, V>) : [(K, V)]",
       "public func toPure<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order) : PureMap.Map<K, V>",
       "public func toText<K, V>(map : Map<K, V>, keyFormat : K -> Text, valueFormat : V -> Text) : Text",
+      "public func toVarArray<K, V>(map : Map<K, V>) : [var (K, V)]",
       "public func values<K, V>(map : Map<K, V>) : Types.Iter<V>"
     ]
   },
@@ -637,6 +655,7 @@
       "public func rangeByInclusive(from : Nat, to : Nat, step : Int) : Iter.Iter<Nat>",
       "public func rangeInclusive(from : Nat, to : Nat) : Iter.Iter<Nat>",
       "public func rem(x : Nat, y : Nat) : Nat",
+      "public type Self",
       "public func sub(x : Nat, y : Nat) : Nat",
       "public func toInt(nat : Nat) : Int",
       "public let toText : Nat -> Text"
@@ -687,6 +706,7 @@
       "public func range(fromInclusive : Nat16, toExclusive : Nat16) : Iter.Iter<Nat16>",
       "public func rangeInclusive(from : Nat16, to : Nat16) : Iter.Iter<Nat16>",
       "public func rem(x : Nat16, y : Nat16) : Nat16",
+      "public type Self",
       "public func sub(x : Nat16, y : Nat16) : Nat16",
       "public func subWrap(x : Nat16, y : Nat16) : Nat16",
       "public let toNat : Nat16 -> Nat",
@@ -740,6 +760,7 @@
       "public func range(fromInclusive : Nat32, toExclusive : Nat32) : Iter.Iter<Nat32>",
       "public func rangeInclusive(from : Nat32, to : Nat32) : Iter.Iter<Nat32>",
       "public func rem(x : Nat32, y : Nat32) : Nat32",
+      "public type Self",
       "public func sub(x : Nat32, y : Nat32) : Nat32",
       "public func subWrap(x : Nat32, y : Nat32) : Nat32",
       "public let toNat : Nat32 -> Nat",
@@ -792,6 +813,7 @@
       "public func range(fromInclusive : Nat64, toExclusive : Nat64) : Iter.Iter<Nat64>",
       "public func rangeInclusive(from : Nat64, to : Nat64) : Iter.Iter<Nat64>",
       "public func rem(x : Nat64, y : Nat64) : Nat64",
+      "public type Self",
       "public func sub(x : Nat64, y : Nat64) : Nat64",
       "public func subWrap(x : Nat64, y : Nat64) : Nat64",
       "public let toNat : Nat64 -> Nat",
@@ -842,6 +864,7 @@
       "public func range(fromInclusive : Nat8, toExclusive : Nat8) : Iter.Iter<Nat8>",
       "public func rangeInclusive(from : Nat8, to : Nat8) : Iter.Iter<Nat8>",
       "public func rem(x : Nat8, y : Nat8) : Nat8",
+      "public type Self",
       "public func sub(x : Nat8, y : Nat8) : Nat8",
       "public func subWrap(x : Nat8, y : Nat8) : Nat8",
       "public let toNat : Nat8 -> Nat",
@@ -863,6 +886,7 @@
       "public func isNull(x : ?Any) : Bool",
       "public func isSome(x : ?Any) : Bool",
       "public func map<A, B>(x : ?A, f : A -> B) : ?B",
+      "public type Self<T>",
       "public func some<A>(x : A) : ?A",
       "public func toText<A>(x : ?A, toText : A -> Text) : Text",
       "public func unwrap<T>(x : ?T) : T"
@@ -876,7 +900,8 @@
       "public func isEqual(order : Order) : Bool",
       "public func isGreater(order : Order) : Bool",
       "public func isLess(order : Order) : Bool",
-      "public type Order"
+      "public type Order",
+      "public type Self"
     ]
   },
   {
@@ -900,6 +925,7 @@
       "public func lessOrEqual(principal1 : Principal, principal2 : Principal) : Bool",
       "public func notEqual(principal1 : Principal, principal2 : Principal) : Bool",
       "public type Principal",
+      "public type Self",
       "public func toBlob(p : Principal) : Blob",
       "public func toLedgerAccount(principal : Principal, subAccount : ?Blob) : Blob",
       "public func toText(p : Principal) : Text"
@@ -922,6 +948,7 @@
       "public func fromArray<T>(array : [T]) : Queue<T>",
       "public func fromIter<T>(iter : Iter.Iter<T>) : Queue<T>",
       "public func fromPure<T>(pureQueue : PureQueue.Queue<T>) : Queue<T>",
+      "public func fromVarArray<T>(array : [var T]) : Queue<T>",
       "public func isEmpty<T>(queue : Queue<T>) : Bool",
       "public func map<T, U>(queue : Queue<T>, project : T -> U) : Queue<U>",
       "public func peekBack<T>(queue : Queue<T>) : ?T",
@@ -931,11 +958,14 @@
       "public func pushBack<T>(queue : Queue<T>, element : T)",
       "public func pushFront<T>(queue : Queue<T>, element : T)",
       "public type Queue<T>",
+      "public func reverseValues<T>(queue : Queue<T>) : Iter.Iter<T>",
+      "public type Self<T>",
       "public func singleton<T>(element : T) : Queue<T>",
       "public func size<T>(queue : Queue<T>) : Nat",
       "public func toArray<T>(queue : Queue<T>) : [T]",
       "public func toPure<T>(queue : Queue<T>) : PureQueue.Queue<T>",
       "public func toText<T>(queue : Queue<T>, format : T -> Text) : Text",
+      "public func toVarArray<T>(queue : Queue<T>) : [var T]",
       "public func values<T>(queue : Queue<T>) : Iter.Iter<T>"
     ]
   },
@@ -1003,6 +1033,7 @@
       "public func mapErr<Ok, Err1, Err2>( result : Result<Ok, Err1>, f : Err1 -> Err2 ) : Result<Ok, Err2>",
       "public func mapOk<Ok1, Ok2, Err>( result : Result<Ok1, Err>, f : Ok1 -> Ok2 ) : Result<Ok2, Err>",
       "public type Result<Ok, Err>",
+      "public type Self<Ok, Err>",
       "public func toOption<Ok, Err>(result : Result<Ok, Err>) : ?Ok",
       "public func toUpper<Ok, Err>( result : Result<Ok, Err> ) : { #Ok : Ok; #Err : Err }"
     ]
@@ -1037,6 +1068,7 @@
       "public func foldLeft<T, A>( set : Set<T>, base : A, combine : (A, T) -> A ) : A",
       "public func foldRight<T, A>( set : Set<T>, base : A, combine : (T, A) -> A ) : A",
       "public func forEach<T>(set : Set<T>, operation : T -> ())",
+      "public func fromArray<T>(array : [T], compare : (T, T) -> Order.Order) : Set<T>",
       "public func fromIter<T>(iter : Types.Iter<T>, compare : (T, T) -> Order.Order) : Set<T>",
       "public func fromPure<T>(set : PureSet.Set<T>, compare : (T, T) -> Order.Order) : Set<T>",
       "public func insert<T>(set : Set<T>, compare : (T, T) -> Order.Order, element : T) : Bool",
@@ -1052,9 +1084,11 @@
       "public func retainAll<T>(set : Set<T>, compare : (T, T) -> Order.Order, predicate : T -> Bool) : Bool",
       "public func reverseValues<T>(set : Set<T>) : Types.Iter<T>",
       "public func reverseValuesFrom<T>( set : Set<T>, compare : (T, T) -> Order.Order, element : T ) : Types.Iter<T>",
+      "public type Self<T>",
       "public type Set<T>",
       "public func singleton<T>(element : T) : Set<T>",
       "public func size<T>(set : Set<T>) : Nat",
+      "public func toArray<T>(set : Set<T>) : [T]",
       "public func toPure<T>(set : Set<T>, compare : (T, T) -> Order.Order) : PureSet.Set<T>",
       "public func toText<T>(set : Set<T>, elementFormat : T -> Text) : Text",
       "public func union<T>(set1 : Set<T>, set2 : Set<T>, compare : (T, T) -> Order.Order) : Set<T>",
@@ -1076,8 +1110,10 @@
       "public func filter<T>(stack : Stack<T>, predicate : T -> Bool) : Stack<T>",
       "public func filterMap<T, U>(stack : Stack<T>, project : T -> ?U) : Stack<U>",
       "public func forEach<T>(stack : Stack<T>, operation : T -> ())",
+      "public func fromArray<T>(array : [T]) : Stack<T>",
       "public func fromIter<T>(iter : Types.Iter<T>) : Stack<T>",
       "public func fromPure<T>(list : PureList.List<T>) : Stack<T>",
+      "public func fromVarArray<T>(array : [var T]) : Stack<T>",
       "public func get<T>(stack : Stack<T>, position : Nat) : ?T",
       "public func isEmpty<T>(stack : Stack<T>) : Bool",
       "public func map<T, U>(stack : Stack<T>, project : T -> U) : Stack<U>",
@@ -1085,12 +1121,16 @@
       "public func pop<T>(stack : Stack<T>) : ?T",
       "public func push<T>(stack : Stack<T>, value : T)",
       "public func reverse<T>(stack : Stack<T>)",
+      "public func reverseValues<T>(stack : Stack<T>) : Iter.Iter<T>",
+      "public type Self<T>",
       "public func singleton<T>(element : T) : Stack<T>",
       "public func size<T>(stack : Stack<T>) : Nat",
       "public type Stack<T>",
       "public func tabulate<T>(size : Nat, generator : Nat -> T) : Stack<T>",
+      "public func toArray<T>(stack : Stack<T>) : [T]",
       "public func toPure<T>(stack : Stack<T>) : PureList.List<T>",
       "public func toText<T>(stack : Stack<T>, format : T -> Text) : Text",
+      "public func toVarArray<T>(stack : Stack<T>) : [var T]",
       "public func values<T>(stack : Stack<T>) : Types.Iter<T>"
     ]
   },
@@ -1122,6 +1162,7 @@
       "public type Pattern",
       "public func replace(t : Text, p : Pattern, r : Text) : Text",
       "public func reverse(t : Text) : Text",
+      "public type Self",
       "public func size(t : Text) : Nat",
       "public func split(t : Text, p : Pattern) : Iter.Iter<Text>",
       "public func startsWith(t : Text, p : Pattern) : Bool",
@@ -1145,6 +1186,7 @@
     "exports": [
       "public type Duration",
       "public let now : () -> Time",
+      "public type Self",
       "public type Time",
       "public type TimerId",
       "public func toNanoseconds(duration : Duration) : Nat"
@@ -1155,6 +1197,7 @@
     "exports": [
       "public let cancelTimer : TimerId -> ()",
       "public func recurringTimer<system>(duration : Time.Duration, job : () -> async ()) : TimerId",
+      "public type Self",
       "public func setTimer<system>(duration : Time.Duration, job : () -> async ()) : TimerId",
       "public type TimerId"
     ]
@@ -1237,6 +1280,7 @@
       "public func repeat<T>(item : T, size : Nat) : [var T]",
       "public func reverse<T>(array : [var T]) : [var T]",
       "public func reverseInPlace<T>(array : [var T]) : ()",
+      "public type Self<T>",
       "public func singleton<T>(element : T) : [var T]",
       "public func size<T>(array : [var T]) : Nat",
       "public func sliceToArray<T>(array : [var T], fromInclusive : Int, toExclusive : Int) : [T]",
@@ -1253,7 +1297,9 @@
     "exports": [
       "public func allocate<T>(obj : T) : WeakReference<T>",
       "public func get<T>(weakRef : WeakReference<T>) : ?T",
-      "public func isLive<T>(weakRef : WeakReference<T>) : Bool"
+      "public func isLive<T>(weakRef : WeakReference<T>) : Bool",
+      "public type Self<T>",
+      "public type WeakReference<T>"
     ]
   },
   {
@@ -1313,6 +1359,7 @@
       "public func pushFront<T>(list : List<T>, item : T) : List<T>",
       "public func repeat<T>(item : T, n : Nat) : List<T>",
       "public func reverse<T>(list : List<T>) : List<T>",
+      "public type Self<T>",
       "public func singleton<T>(item : T) : List<T>",
       "public func size<T>(list : List<T>) : Nat",
       "public func split<T>(list : List<T>, n : Nat) : (List<T>, List<T>)",
@@ -1356,6 +1403,7 @@
       "public func remove<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K) : Map<K, V>",
       "public func replace<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K, value : V) : (Map<K, V>, ?V)",
       "public func reverseEntries<K, V>(map : Map<K, V>) : Iter.Iter<(K, V)>",
+      "public type Self<K, V>",
       "public func singleton<K, V>(key : K, value : V) : Map<K, V>",
       "public func size<K, V>(map : Map<K, V>) : Nat",
       "public func swap<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K, value : V) : (Map<K, V>, ?V)",
@@ -1388,6 +1436,7 @@
       "public func pushFront<T>(queue : Queue<T>, element : T) : Queue<T>",
       "public type Queue<T>",
       "public func reverse<T>(queue : Queue<T>) : Queue<T>",
+      "public type Self<T>",
       "public func singleton<T>(item : T) : Queue<T>",
       "public func size<T>(queue : Queue<T>) : Nat",
       "public func toArray<T>(queue : Queue<T>) : [T]",
@@ -1418,6 +1467,7 @@
       "public func pushFront<T>(queue : Queue<T>, element : T) : Queue<T>",
       "public type Queue<T>",
       "public func reverse<T>(queue : Queue<T>) : Queue<T>",
+      "public type Self<T>",
       "public func singleton<T>(element : T) : Queue<T>",
       "public func size<T>(queue : Queue<T>) : Nat",
       "public func toText<T>(queue : Queue<T>, f : T -> Text) : Text",
@@ -1454,6 +1504,7 @@
       "public func min<T>(s : Set<T>) : ?T",
       "public func remove<T>(set : Set<T>, compare : (T, T) -> Order.Order, element : T) : Set<T>",
       "public func reverseValues<T>(set : Set<T>) : Iter.Iter<T>",
+      "public type Self<T>",
       "public type Set<T>",
       "public func singleton<T>(element : T) : Set<T>",
       "public func size<T>(set : Set<T>) : Nat",
