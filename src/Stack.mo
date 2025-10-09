@@ -480,7 +480,6 @@ module {
     }
   };
 
-
   public func reverseValues<T>(stack : Stack<T>) : Iter.Iter<T> {
     values(stack).reverse()
   };
