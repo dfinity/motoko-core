@@ -596,7 +596,7 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sort<T>(list : List<T>, compare : (implicit : (T, T) -> Order.Order)) {
+  public func sort<T>(list : List<T>, compare : (T, T) -> Order.Order)) {
     if (size(list) < 2) return;
     let arr = toVarArray(list);
     VarArray.sortInPlace(arr, compare);
@@ -625,7 +625,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// *Runtime and space assumes that `equal` runs in `O(1)` time and space.
-  public func indexOf<T>(list : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : ?Nat {
+  public func indexOf<T>(list : List<T>, equal : (T, T) -> Bool), element : T) : ?Nat {
     // inlining would save 10 instructions per entry
     findIndex<T>(list, func(x) = equal(element, x))
   };
@@ -646,7 +646,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// *Runtime and space assumes that `equal` runs in `O(1)` time and space.
-  public func lastIndexOf<T>(list : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : ?Nat {
+  public func lastIndexOf<T>(list : List<T>, equal : (T, T) -> Bool), element : T) : ?Nat {
     // inlining would save 10 instructions per entry
     findLastIndex<T>(list, func(x) = equal(element, x))
   };
@@ -785,7 +785,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in `O(1)` time and space.
-  public func binarySearch<T>(list : List<T>, compare : (implicit : (T, T) -> Order.Order), element : T) : {
+  public func binarySearch<T>(list : List<T>, compare : (T, T) -> Order.Order), element : T) : {
     #found : Nat;
     #insertionIndex : Nat
   } {
@@ -1548,7 +1548,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func contains<T>(list : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : Bool {
+  public func contains<T>(list : List<T>, equal : (T, T) -> Bool), element : T) : Bool {
     Option.isSome(indexOf(list, equal, element))
   };
 
@@ -1572,7 +1572,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func max<T>(list : List<T>, compare : (implicit : (T, T) -> Order.Order)) : ?T {
+  public func max<T>(list : List<T>, compare : (T, T) -> Order.Order)) : ?T {
     if (isEmpty(list)) return null;
 
     var maxSoFar = at(list, 0);
@@ -1607,7 +1607,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func min<T>(list : List<T>, compare : (implicit : (T, T) -> Order.Order)) : ?T {
+  public func min<T>(list : List<T>, compare : (T, T) -> Order.Order)) : ?T {
     if (isEmpty(list)) return null;
 
     var minSoFar = at(list, 0);
@@ -1643,7 +1643,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func equal<T>(list1 : List<T>, list2 : List<T>, equal : (implicit : (T, T) -> Bool)) : Bool {
+  public func equal<T>(list1 : List<T>, list2 : List<T>, equal : (T, T) -> Bool)) : Bool {
     let size1 = size(list1);
 
     if (size1 != size(list2)) return false;
@@ -1681,7 +1681,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func compare<T>(list1 : List<T>, list2 : List<T>, compare : (implicit : (T, T) -> Order.Order)) : Order.Order {
+  public func compare<T>(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Order.Order)) : Order.Order {
     let size1 = size(list1);
     let size2 = size(list2);
     let minSize = if (size1 < size2) { size1 } else { size2 };
@@ -1717,7 +1717,7 @@ module {
   /// Space: `O(size)`
   ///
   /// *Runtime and space assumes that `toText` runs in O(1) time and space.
-  public func toText<T>(list : List<T>, f : (implicit : (toText : T -> Text))) : Text {
+  public func toText<T>(list : List<T>, f : (toText : T -> Text))) : Text {
     let vsize : Int = size(list);
     let next = values_(list).unsafe_next;
     var i = 0;

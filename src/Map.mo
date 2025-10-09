@@ -659,7 +659,7 @@ module {
   public func toArray<K, V>(map : Map<K, V>) : [(K, V)] {
     Iter.toArray(entries(map))
   };
-
+  
   public func toVarArray<K, V>(map : Map<K, V>) : [var (K, V)] {
     Iter.toVarArray(entries(map))
   };
@@ -911,7 +911,7 @@ module {
       }
     }
   };
-
+  
   public func fromArray<K, V>(array : [(K, V)], compare : (K, K) -> Order.Order) : Map<K, V> {
     fromIter(array.values(), compare)
   };
@@ -919,7 +919,6 @@ module {
   public func fromVarArray<K, V>(array : [var (K, V)], compare : (K, K) -> Order.Order) : Map<K, V> {
     fromIter(array.values(), compare)
   };
-
   /// Create a mutable key-value map with the entries obtained from an iterator.
   ///
   /// Example:
