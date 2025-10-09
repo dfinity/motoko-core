@@ -660,6 +660,10 @@ module {
     Iter.toArray(entries(map))
   };
 
+  public func toVarArray<K, V>(map : Map<K, V>) : [var (K, V)] {
+    Iter.toVarArray(entries(map))
+  };
+
   /// Retrieves the key-value pair from the map with the maximum key.
   /// If the map is empty, returns `null`.
   ///
@@ -936,6 +940,14 @@ module {
       add(map, compare, key, value)
     };
     map
+  };
+
+  public func fromArray<K, V>(array : [(K, V)], compare : (K, K) -> Order.Order) : Map<K, V> {
+    fromIter(array.values(), compare)
+  };
+
+  public func fromVarArray<K, V>(array : [var (K, V)], compare : (K, K) -> Order.Order) : Map<K, V> {
+    fromIter(array.values(), compare)
   };
 
   /// Apply an operation on each key-value pair contained in the map.
