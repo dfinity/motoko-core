@@ -100,6 +100,10 @@ module {
     fromIter(PureSet.values(set), compare)
   };
 
+  public func fromArray<T>(array : [T], compare : (T, T) -> Order.Order) : Set<T> {
+    fromIter(array.values(), compare)
+  };
+
   /// Create a copy of the mutable set.
   ///
   /// Example:

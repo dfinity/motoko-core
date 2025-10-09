@@ -29,6 +29,7 @@
 // TODO: optimize or re-use pure/List operations (e.g. for `any` etc)
 
 import Order "Order";
+import Iter "Iter";
 import Types "Types";
 import PureList "pure/List";
 
@@ -61,6 +62,14 @@ module {
   /// where `n` denotes the number of elements stored in the stack.
   public func toPure<T>(stack : Stack<T>) : PureList.List<T> {
     stack.top
+  };
+
+  public func toArray<T>(stack : Stack<T>) : [T] {
+    values(stack).toArray()
+  };
+
+  public func toVarArray<T>(stack : Stack<T>) : [var T] {
+    values(stack).toVarArray()
   };
 
   /// Convert an immutable, purely functional list to a mutable stack.
@@ -96,6 +105,14 @@ module {
         }
       }
     }
+  };
+
+  public func fromVarArray<T>(array : [var T]) : Stack<T> {
+    fromIter(array.values())
+  };
+
+  public func fromArray<T>(array : [T]) : Stack<T> {
+    fromIter(array.values())
   };
 
   /// Create a new empty mutable stack.
@@ -461,6 +478,11 @@ module {
         }
       }
     }
+  };
+
+
+  public func reverseValues<T>(stack : Stack<T>) : Iter.Iter<T> {
+    values(stack).reverse()
   };
 
   /// Returns true if all elements in the stack satisfy the predicate.
