@@ -942,7 +942,7 @@ module {
     map
   };
 
-  public func fromArray<K, V>(array : [(K, V)], compare : (K, K) -> Order.Order) : Map<K, V> {
+  public func fromArray<K, V>(array : [(K, V)], compare : (implicit : (K, K) -> Order.Order)) : Map<K, V> {
     fromIter(array.values(), compare)
   };
 
