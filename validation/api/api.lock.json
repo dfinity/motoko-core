@@ -600,10 +600,8 @@
       "public func foldLeft<K, V, A>( map : Map<K, V>, base : A, combine : (A, K, V) -> A ) : A",
       "public func foldRight<K, V, A>( map : Map<K, V>, base : A, combine : (K, V, A) -> A ) : A",
       "public func forEach<K, V>(map : Map<K, V>, operation : (K, V) -> ())",
-      "public func fromArray<K, V>(array : [(K, V)], compare : (K, K) -> Order.Order) : Map<K, V>",
       "public func fromIter<K, V>(iter : Types.Iter<(K, V)>, compare : (implicit : (K, K) -> Order.Order)) : Map<K, V>",
       "public func fromPure<K, V>(map : PureMap.Map<K, V>, compare : (implicit : (K, K) -> Order.Order)) : Map<K, V>",
-      "public func fromVarArray<K, V>(array : [var (K, V)], compare : (K, K) -> Order.Order) : Map<K, V>",
       "public func get<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : ?V",
       "public func insert<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K, value : V) : Bool",
       "public func isEmpty<K, V>(map : Map<K, V>) : Bool",
@@ -624,7 +622,6 @@
       "public func toArray<K, V>(map : Map<K, V>) : [(K, V)]",
       "public func toPure<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order)) : PureMap.Map<K, V>",
       "public func toText<K, V>(map : Map<K, V>, keyFormat : (implicit : (toText : K -> Text)), valueFormat : (implicit : (toText : V -> Text))) : Text",
-      "public func toVarArray<K, V>(map : Map<K, V>) : [var (K, V)]",
       "public func values<K, V>(map : Map<K, V>) : Types.Iter<V>"
     ]
   },
@@ -972,14 +969,12 @@
       "public func pushBack<T>(queue : Queue<T>, element : T)",
       "public func pushFront<T>(queue : Queue<T>, element : T)",
       "public type Queue<T>",
-      "public func reverseValues<T>(queue : Queue<T>) : Iter.Iter<T>",
       "public type Self<T>",
       "public func singleton<T>(element : T) : Queue<T>",
       "public func size<T>(queue : Queue<T>) : Nat",
       "public func toArray<T>(queue : Queue<T>) : [T]",
       "public func toPure<T>(queue : Queue<T>) : PureQueue.Queue<T>",
       "public func toText<T>(queue : Queue<T>, format : (implicit : (toText : T -> Text))) : Text",
-      "public func toVarArray<T>(queue : Queue<T>) : [var T]",
       "public func values<T>(queue : Queue<T>) : Iter.Iter<T>"
     ]
   },
@@ -1082,7 +1077,6 @@
       "public func foldLeft<T, A>( set : Set<T>, base : A, combine : (A, T) -> A ) : A",
       "public func foldRight<T, A>( set : Set<T>, base : A, combine : (T, A) -> A ) : A",
       "public func forEach<T>(set : Set<T>, operation : T -> ())",
-      "public func fromArray<T>(array : [T], compare : (T, T) -> Order.Order) : Set<T>",
       "public func fromIter<T>(iter : Types.Iter<T>, compare : (implicit : (T, T) -> Order.Order)) : Set<T>",
       "public func fromPure<T>(set : PureSet.Set<T>, compare : (implicit : (T, T) -> Order.Order)) : Set<T>",
       "public func insert<T>(set : Set<T>, compare : (implicit : (T, T) -> Order.Order), element : T) : Bool",
@@ -1135,7 +1129,6 @@
       "public func pop<T>(stack : Stack<T>) : ?T",
       "public func push<T>(stack : Stack<T>, value : T)",
       "public func reverse<T>(stack : Stack<T>)",
-      "public func reverseValues<T>(stack : Stack<T>) : Iter.Iter<T>",
       "public type Self<T>",
       "public func singleton<T>(element : T) : Stack<T>",
       "public func size<T>(stack : Stack<T>) : Nat",
@@ -1144,7 +1137,6 @@
       "public func toArray<T>(stack : Stack<T>) : [T]",
       "public func toPure<T>(stack : Stack<T>) : PureList.List<T>",
       "public func toText<T>(stack : Stack<T>, format : (implicit : (toText : T -> Text))) : Text",
-      "public func toVarArray<T>(stack : Stack<T>) : [var T]",
       "public func values<T>(stack : Stack<T>) : Types.Iter<T>"
     ]
   },
