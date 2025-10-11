@@ -778,6 +778,19 @@ module {
   /// Returns whether a mutable array is empty, i.e. contains zero elements.
   public func isEmpty<T>(array : [var T]) : Bool = array.size() == 0;
 
+  /// Transforms an immutable array into a mutable array.
+  ///
+  /// ```motoko include=import
+  /// let array = [0, 1, 2];
+  /// let varArray = VarArray.fromArray<Nat>(array);
+  /// assert varArray.size() == 3;
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  public func fromArray<T>(array : [T]) : [var T] = Prim.Array_tabulateVar<T>(array.size(), func i = array[i]);
+
   /// Converts an iterator to a mutable array.
   public func fromIter<T>(iter : Types.Iter<T>) : [var T] {
     var list : Types.Pure.List<T> = null;
@@ -1155,6 +1168,20 @@ module {
     };
     Prim.Array_tabulateVar<T>(end - start, func i = array[start + i])
   };
+
+  /// Transforms a mutable array into an immutable array.
+  ///
+  /// ```motoko include=import
+  /// let varArray = [var 0, 1, 2];
+  /// varArray[2] := 3;
+  /// let array = VarArray.toArray<Nat>(varArray);
+  /// assert array == [0, 1, 3];
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  public func toArray<T>(varArray : [var T]) : [T] = Prim.Array_tabulate<T>(varArray.size(), func i = varArray[i]);
 
   /// Converts the mutable array to its textual representation using `f` to convert each element to `Text`.
   ///

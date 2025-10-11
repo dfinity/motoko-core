@@ -1279,6 +1279,7 @@
       "public func foldLeft<T, A>(array : [var T], base : A, combine : (A, T) -> A) : A",
       "public func foldRight<T, A>(array : [var T], base : A, combine : (T, A) -> A) : A",
       "public func forEach<T>(array : [var T], f : T -> ())",
+      "public func fromArray<T>(array : [T]) : [var T]",
       "public func fromIter<T>(iter : Types.Iter<T>) : [var T]",
       "public func indexOf<T>(array : [var T], equal : (implicit : (T, T) -> Bool), element : T) : ?Nat",
       "public func isEmpty<T>(array : [var T]) : Bool",
@@ -1303,6 +1304,7 @@
       "public func sort<T>(array : [var T], compare : (implicit : (T, T) -> Order.Order)) : [var T]",
       "public func sortInPlace<T>(array : [var T], compare : (implicit : (T, T) -> Order.Order)) : ()",
       "public func tabulate<T>(size : Nat, generator : Nat -> T) : [var T]",
+      "public func toArray<T>(varArray : [var T]) : [T]",
       "public func toText<T>(array : [var T], f : (implicit : (toText : T -> Text))) : Text",
       "public func values<T>(array : [var T]) : Types.Iter<T>"
     ]
