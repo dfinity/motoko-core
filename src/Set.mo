@@ -100,7 +100,7 @@ module {
     fromIter(PureSet.values(set), compare)
   };
 
-  public func fromArray<T>(array : [T], compare : (T, T) -> Order.Order) : Set<T> {
+  public func fromArray<T>(array : [T], compare : (implicit : (T, T) -> Order.Order)) : Set<T> {
     fromIter(array.values(), compare)
   };
 
