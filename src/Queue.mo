@@ -462,6 +462,10 @@ module {
     queue
   };
 
+  public func fromVarArray<T>(array : [var T]) : Queue<T> {
+    fromIter(array.values())
+  };
+
   /// Creates a new immutable array containing all elements from the queue.
   /// Elements appear in the same order as in the queue (front to back).
   ///
@@ -491,6 +495,10 @@ module {
         }
       }
     )
+  };
+
+  public func toVarArray<T>(queue : Queue<T>) : [var T] {
+    Array.toVarArray(toArray(queue))
   };
 
   /// Returns an iterator over the elements in the queue.
@@ -525,6 +533,10 @@ module {
         }
       }
     }
+  };
+
+  public func reverseValues<T>(queue : Queue<T>) : Iter.Iter<T> {
+    Iter.reverse(values(queue))
   };
 
   /// Tests whether all elements in the queue satisfy the given predicate.
