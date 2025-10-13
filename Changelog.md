@@ -1,5 +1,6 @@
 ## Next
 
+* Add `isCleanReject` to `Error`, align reject code order with IC interface specification and improve comments (#401).
 * internal: updates `matchers` dev-dependency (#394).
 * Add `PriorityQueue` (#392).
 * Add support for Weak references (#388).
