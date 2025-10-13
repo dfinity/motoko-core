@@ -31,6 +31,8 @@ module {
   /// Booleans with constants `true` and `false`.
   public type Bool = Prim.Types.Bool;
 
+  public type Self = Bool;
+
   /// Returns `a and b`.
   ///
   /// Example:

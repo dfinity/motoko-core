@@ -16,6 +16,7 @@ module {
 
   /// 64-bit signed integers.
   public type Int64 = Prim.Types.Int64;
+  public type Self = Int64;
 
   /// Minimum 64-bit integer value, `-2 ** 63`.
   ///

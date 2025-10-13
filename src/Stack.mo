@@ -29,12 +29,14 @@
 // TODO: optimize or re-use pure/List operations (e.g. for `any` etc)
 
 import Order "Order";
+import Iter "Iter";
 import Types "Types";
 import PureList "pure/List";
 
 module {
   type List<T> = Types.Pure.List<T>;
   public type Stack<T> = Types.Stack<T>;
+  public type Self<T> = Stack<T>;
 
   /// Convert a mutable stack to an immutable, purely functional list.
   /// Please note that functional lists are ordered like stacks (FIFO).
@@ -60,6 +62,14 @@ module {
   /// where `n` denotes the number of elements stored in the stack.
   public func toPure<T>(stack : Stack<T>) : PureList.List<T> {
     stack.top
+  };
+
+  public func toArray<T>(stack : Stack<T>) : [T] {
+    values(stack).toArray()
+  };
+
+  public func toVarArray<T>(stack : Stack<T>) : [var T] {
+    values(stack).toVarArray()
   };
 
   /// Convert an immutable, purely functional list to a mutable stack.
@@ -95,6 +105,14 @@ module {
         }
       }
     }
+  };
+
+  public func fromVarArray<T>(array : [var T]) : Stack<T> {
+    fromIter(array.values())
+  };
+
+  public func fromArray<T>(array : [T]) : Stack<T> {
+    fromIter(array.values())
   };
 
   /// Create a new empty mutable stack.
@@ -269,13 +287,17 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and assuming
   /// that `equal` has O(1) costs.
-  public func contains<T>(stack : Stack<T>, equal : (T, T) -> Bool, element : T) : Bool {
+  public func contains<T>(stack : Stack<T>, equal : (implicit : (T, T) -> Bool), element : T) : Bool {
     for (existing in values(stack)) {
       if (equal(existing, element)) {
         return true
       }
     };
     false
+  };
+
+  public func reverseValues<T>(stack : Stack<T>) : Iter.Iter<T> {
+    values(stack).reverse()
   };
 
   /// Pushes a new element onto the top of the stack.
@@ -673,7 +695,7 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `equal` has O(1) costs.
-  public func equal<T>(stack1 : Stack<T>, stack2 : Stack<T>, equal : (T, T) -> Bool) : Bool {
+  public func equal<T>(stack1 : Stack<T>, stack2 : Stack<T>, equal : (implicit : (T, T) -> Bool)) : Bool {
     if (size(stack1) != size(stack2)) {
       return false
     };
@@ -740,7 +762,7 @@ module {
   /// Space: O(n)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `format` has O(1) costs.
-  public func toText<T>(stack : Stack<T>, format : T -> Text) : Text {
+  public func toText<T>(stack : Stack<T>, format : (implicit : (toText : T -> Text))) : Text {
     var text = "Stack[";
     var sep = "";
     for (element in values(stack)) {
@@ -769,7 +791,7 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `compare` has O(1) costs.
-  public func compare<T>(stack1 : Stack<T>, stack2 : Stack<T>, compare : (T, T) -> Order.Order) : Order.Order {
+  public func compare<T>(stack1 : Stack<T>, stack2 : Stack<T>, compare : (implicit : (T, T) -> Order.Order)) : Order.Order {
     let iterator1 = values(stack1);
     let iterator2 = values(stack2);
     loop {

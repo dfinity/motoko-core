@@ -38,7 +38,6 @@
 import List "List";
 import Types "Types";
 import Order "Order";
-import Prim "mo:⛔";
 
 module {
   public type PriorityQueue<T> = Types.PriorityQueue<T>;
@@ -131,14 +130,14 @@ module {
   /// Runtime: `O(log n)`. Space: `O(1)`.
   public func push<T>(
     priorityQueue : PriorityQueue<T>,
-    compare : (T, T) -> Order.Order,
+    compare : (implicit : (T, T) -> Order.Order),
     element : T
   ) {
     let heap = priorityQueue.heap;
     List.add(heap, element);
-    var index = List.size(heap) - 1;
+    var index : Nat = List.size(heap) - 1;
     while (index > 0) {
-      let parentId = (index - 1) / 2;
+      let parentId = (index - 1) : Nat / 2;
       let parentVal = List.at(heap, parentId);
       if (compare(element, parentVal) == #greater) {
         List.put(heap, index, parentVal);
@@ -184,14 +183,14 @@ module {
   /// Runtime: `O(log n)`. Space: `O(1)`.
   public func pop<T>(
     priorityQueue : PriorityQueue<T>,
-    compare : (T, T) -> Order.Order
+    compare : (implicit : (T, T) -> Order.Order)
   ) : ?T {
     let heap = priorityQueue.heap;
     if (List.isEmpty(heap)) {
       return null
     };
     let top = List.get(heap, 0);
-    let lastIndex = List.size(heap) - 1;
+    let lastIndex : Nat = List.size(heap) - 1;
     let lastElem = List.at(heap, lastIndex);
 
     var index = 0;

@@ -11,9 +11,10 @@
 import Prim "mo:⛔"
 
 module {
-  type WeakReference<T> = {
+  public type WeakReference<T> = {
     ref : weak T
   };
+  public type Self<T> = WeakReference<T>;
 
   public func allocate<T>(obj : T) : WeakReference<T> {
     return { ref = Prim.allocWeakRef<T>(obj) }

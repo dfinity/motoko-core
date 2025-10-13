@@ -39,6 +39,7 @@ import Types "Types";
 module {
 
   public type Principal = Prim.Types.Principal;
+  public type Self = Principal;
 
   /// Get the `Principal` identifier of an actor.
   ///

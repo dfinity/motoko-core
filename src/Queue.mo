@@ -38,6 +38,7 @@ import Prim "mo:⛔";
 
 module {
   public type Queue<T> = Types.Queue.Queue<T>;
+  public type Self<T> = Queue<T>;
 
   type Node<T> = Types.Queue.Node<T>;
 
@@ -232,7 +233,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(1)
   /// `n` denotes the number of elements stored in the queue.
-  public func contains<T>(queue : Queue<T>, equal : (T, T) -> Bool, element : T) : Bool {
+  public func contains<T>(queue : Queue<T>, equal : (implicit : (T, T) -> Bool), element : T) : Bool {
     for (existing in values(queue)) {
       if (equal(existing, element)) {
         return true
@@ -461,6 +462,10 @@ module {
     queue
   };
 
+  public func fromVarArray<T>(array : [var T]) : Queue<T> {
+    fromIter(array.values())
+  };
+
   /// Creates a new immutable array containing all elements from the queue.
   /// Elements appear in the same order as in the queue (front to back).
   ///
@@ -490,6 +495,10 @@ module {
         }
       }
     )
+  };
+
+  public func toVarArray<T>(queue : Queue<T>) : [var T] {
+    Array.toVarArray(toArray(queue))
   };
 
   /// Returns an iterator over the elements in the queue.
@@ -524,6 +533,10 @@ module {
         }
       }
     }
+  };
+
+  public func reverseValues<T>(queue : Queue<T>) : Iter.Iter<T> {
+    Iter.reverse(values(queue))
   };
 
   /// Tests whether all elements in the queue satisfy the given predicate.
@@ -696,7 +709,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(1)
   /// `n` denotes the number of elements stored in the queue.
-  public func equal<T>(queue1 : Queue<T>, queue2 : Queue<T>, equal : (T, T) -> Bool) : Bool {
+  public func equal<T>(queue1 : Queue<T>, queue2 : Queue<T>, equal : (implicit : (T, T) -> Bool)) : Bool {
     if (size(queue1) != size(queue2)) {
       return false
     };
@@ -735,7 +748,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(n)
   /// `n` denotes the number of elements stored in the queue.
-  public func toText<T>(queue : Queue<T>, format : T -> Text) : Text {
+  public func toText<T>(queue : Queue<T>, format : (implicit : (toText : T -> Text))) : Text {
     var text = "Queue[";
     var sep = "";
     for (element in values(queue)) {
@@ -764,7 +777,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(1)
   /// `n` denotes the number of elements stored in the queue.
-  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, compare : (T, T) -> Order.Order) : Order.Order {
+  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, compare : (implicit : (T, T) -> Order.Order)) : Order.Order {
     let iterator1 = values(queue1);
     let iterator2 = values(queue2);
     loop {
