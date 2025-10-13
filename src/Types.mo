@@ -65,7 +65,7 @@ module {
     public type Queue<T> = {
       var front : ?Node<T>;
       var back : ?Node<T>;
-      var size_ : Nat
+      var size : Nat
     };
 
     public type Node<T> = {
@@ -105,7 +105,7 @@ module {
 
     public type Set<T> = {
       var root : Node<T>;
-      var size_ : Nat
+      var size : Nat
     }
   };
   public type Set<T> = Set.Set<T>;
@@ -132,7 +132,7 @@ module {
 
     public type Map<K, V> = {
       var root : Node<K, V>;
-      var size_ : Nat
+      var size : Nat
     }
   };
 

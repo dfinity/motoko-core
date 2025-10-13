@@ -111,7 +111,7 @@ module {
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
   public func empty<T>() : Queue<T> {
-    { var front = null; var back = null; var size_ = 0 }
+    { var front = null; var back = null; var size = 0 }
   };
 
   /// Creates a new queue with a single element.
@@ -152,7 +152,7 @@ module {
   public func clear<T>(queue : Queue<T>) {
     queue.front := null;
     queue.back := null;
-    queue.size_ := 0
+    queue.size := 0
   };
 
   /// Creates a deep copy of the queue.
@@ -196,7 +196,7 @@ module {
   /// Runtime: O(1)
   /// Space: O(1)
   public func size<T>(queue : Queue<T>) : Nat {
-    queue.size_
+    queue.size
   };
 
   /// Returns `true` if the queue contains no elements.
@@ -214,7 +214,7 @@ module {
   /// Runtime: O(1)
   /// Space: O(1)
   public func isEmpty<T>(queue : Queue<T>) : Bool {
-    queue.size_ == 0
+    queue.size == 0
   };
 
   /// Checks if an element exists in the queue using the provided equality function.
@@ -316,7 +316,7 @@ module {
       case null queue.back := ?node;
       case (?_) {}
     };
-    queue.size_ += 1
+    queue.size += 1
   };
 
   /// Adds an element to the back of the queue.
@@ -349,7 +349,7 @@ module {
       case null queue.front := ?node;
       case (?_) {}
     };
-    queue.size_ += 1
+    queue.size += 1
   };
 
   /// Removes and returns the first element in the queue.
@@ -377,7 +377,7 @@ module {
           case null { queue.back := null };
           case (?newFirst) { newFirst.previous := null }
         };
-        queue.size_ -= 1;
+        queue.size -= 1;
         ?first.value
       }
     }
@@ -408,7 +408,7 @@ module {
           case null { queue.front := null };
           case (?newLast) { newLast.next := null }
         };
-        queue.size_ -= 1;
+        queue.size -= 1;
         ?last.value
       }
     }
@@ -487,7 +487,7 @@ module {
   public func toArray<T>(queue : Queue<T>) : [T] {
     let iter = values(queue);
     Array.tabulate<T>(
-      queue.size_,
+      queue.size,
       func(i) {
         switch (iter.next()) {
           case null { Prim.trap("Queue.toArray(): unexpected end of iterator") };
