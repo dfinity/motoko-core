@@ -270,7 +270,7 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and assuming
   /// that `equal` has O(1) costs.
-  public func contains<T>(stack : Stack<T>, equal : (T, T) -> Bool, element : T) : Bool {
+  public func contains<T>(stack : Stack<T>, equal : (implicit : (T, T) -> Bool), element : T) : Bool {
     for (existing in values(stack)) {
       if (equal(existing, element)) {
         return true
@@ -674,7 +674,7 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `equal` has O(1) costs.
-  public func equal<T>(stack1 : Stack<T>, stack2 : Stack<T>, equal : (T, T) -> Bool) : Bool {
+  public func equal<T>(stack1 : Stack<T>, stack2 : Stack<T>, equal : (implicit : (T, T) -> Bool)) : Bool {
     if (size(stack1) != size(stack2)) {
       return false
     };
@@ -741,7 +741,7 @@ module {
   /// Space: O(n)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `format` has O(1) costs.
-  public func toText<T>(stack : Stack<T>, format : T -> Text) : Text {
+  public func toText<T>(stack : Stack<T>, format : (implicit : (toText : T -> Text))) : Text {
     var text = "Stack[";
     var sep = "";
     for (element in values(stack)) {
@@ -770,7 +770,7 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `compare` has O(1) costs.
-  public func compare<T>(stack1 : Stack<T>, stack2 : Stack<T>, compare : (T, T) -> Order.Order) : Order.Order {
+  public func compare<T>(stack1 : Stack<T>, stack2 : Stack<T>, compare : (implicit : (T, T) -> Order.Order)) : Order.Order {
     let iterator1 = values(stack1);
     let iterator2 = values(stack2);
     loop {

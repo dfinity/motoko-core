@@ -141,7 +141,7 @@ module {
   /// Space: `O(1)`.
   /// where `n` denotes the number of key-value entries stored in the map and
   /// assuming that the `compare` function implements an `O(1)` comparison.
-  public func containsKey<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K) : Bool = Internal.contains(map.root, compare, key);
+  public func containsKey<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : Bool = Internal.contains(map.root, compare, key);
 
   /// Given, `map` ordered by `compare`, return the value associated with key `key` if present and `null` otherwise.
   ///
@@ -162,7 +162,7 @@ module {
   /// Space: `O(1)`.
   /// where `n` denotes the number of key-value entries stored in the map and
   /// assuming that the `compare` function implements an `O(1)` comparison.
-  public func get<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K) : ?V = Internal.get(map.root, compare, key);
+  public func get<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : ?V = Internal.get(map.root, compare, key);
 
   /// Given `map` ordered by `compare`, insert a mapping from `key` to `value`.
   /// Returns the modified map and `true` if the key is new to map, otherwise `false`.
@@ -195,7 +195,7 @@ module {
   /// Note: The returned map shares with the `m` most of the tree nodes.
   /// Garbage collecting one of maps (e.g. after an assignment `m := Map.add(m, cmp, k, v)`)
   /// causes collecting `O(log(n))` nodes.
-  public func insert<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K, value : V) : (Map<K, V>, Bool) {
+  public func insert<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K, value : V) : (Map<K, V>, Bool) {
     switch (swap(map, compare, key, value)) {
       case (map1, null) (map1, true);
       case (map1, _) (map1, false)
@@ -231,7 +231,7 @@ module {
   /// Note: The returned map shares with the `m` most of the tree nodes.
   /// Garbage collecting one of maps (e.g. after an assignment `m := Map.add(m, cmp, k, v)`)
   /// causes collecting `O(log(n))` nodes.
-  public func add<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K, value : V) : Map<K, V> {
+  public func add<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K, value : V) : Map<K, V> {
     swap(map, compare, key, value).0
   };
 
@@ -268,7 +268,7 @@ module {
   /// Note: The returned map shares with the `m` most of the tree nodes.
   /// Garbage collecting one of maps (e.g. after an assignment `m := Map.swap(m, Nat.compare, k, v).0`)
   /// causes collecting `O(log(n))` nodes.
-  public func swap<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K, value : V) : (Map<K, V>, ?V) {
+  public func swap<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K, value : V) : (Map<K, V>, ?V) {
     switch (Internal.swap(map.root, compare, key, value)) {
       case (t, null) { ({ root = t; size = map.size + 1 }, null) };
       case (t, v) { ({ root = t; size = map.size }, v) }
@@ -302,7 +302,7 @@ module {
   /// Space: `O(log(n))`.
   /// where `n` denotes the number of key-value entries stored in the map and
   /// assuming that the `compare` function implements an `O(1)` comparison.
-  public func replace<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K, value : V) : (Map<K, V>, ?V) {
+  public func replace<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K, value : V) : (Map<K, V>, ?V) {
     // TODO: Could be optimized in future
     if (containsKey(map, compare, key)) {
       swap(map, compare, key, value)
@@ -338,7 +338,7 @@ module {
   /// Note: The returned map shares with the `m` most of the tree nodes.
   /// Garbage collecting one of maps (e.g. after an assignment `map := Map.delete(map, compare, k).0`)
   /// causes collecting `O(log(n))` nodes.
-  public func remove<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K) : Map<K, V> {
+  public func remove<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : Map<K, V> {
     switch (Internal.remove(map.root, compare, key)) {
       case (_, null) map;
       case (t, ?_) { { root = t; size = map.size - 1 } }
@@ -378,7 +378,7 @@ module {
   /// Note: The returned map shares with the `m` most of the tree nodes.
   /// Garbage collecting one of maps (e.g. after an assignment `map := Map.delete(map, compare, k).0`)
   /// causes collecting `O(log(n))` nodes.
-  public func delete<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K) : (Map<K, V>, Bool) {
+  public func delete<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : (Map<K, V>, Bool) {
     switch (Internal.remove(map.root, compare, key)) {
       case (_, null) { (map, false) };
       case (t, ?_) { ({ root = t; size = map.size - 1 }, true) }
@@ -417,7 +417,7 @@ module {
   /// Note: The returned map shares with the `m` most of the tree nodes.
   /// Garbage collecting one of maps (e.g. after an assignment `map := Map.remove(map, compare, key)`)
   /// causes collecting `O(log(n))` nodes.
-  public func take<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, key : K) : (Map<K, V>, ?V) {
+  public func take<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : (Map<K, V>, ?V) {
     switch (Internal.remove(map.root, compare, key)) {
       case (t, null) { ({ root = t; size = map.size }, null) };
       case (t, v) { ({ root = t; size = map.size - 1 }, v) }
@@ -595,7 +595,7 @@ module {
   /// assuming that the `compare` function implements an `O(1)` comparison.
   ///
   /// Note: Creates `O(n * log(n))` temporary objects that will be collected as garbage.
-  public func fromIter<K, V>(iter : Iter.Iter<(K, V)>, compare : (K, K) -> Order.Order) : Map<K, V> = Internal.fromIter(iter, compare);
+  public func fromIter<K, V>(iter : Iter.Iter<(K, V)>, compare : (implicit : (K, K) -> Order.Order)) : Map<K, V> = Internal.fromIter(iter, compare);
 
   /// Given a `map` and function `f`, creates a new map by applying `f` to each entry in the map `m`. Each entry
   /// `(k, v)` in the old map is transformed into a new entry `(k, v2)`, where
@@ -799,7 +799,7 @@ module {
   /// Space: `O(n)`.
   /// where `n` denotes the number of key-value entries stored in the map and
   /// assuming that the `compare` function implements an `O(1)` comparison.
-  public func filter<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order, criterion : (K, V) -> Bool) : Map<K, V> = Internal.filter(map, compare, criterion);
+  public func filter<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), criterion : (K, V) -> Bool) : Map<K, V> = Internal.filter(map, compare, criterion);
 
   /// Given a `map`, comparison `compare` and function `f`,
   /// constructs a new map ordered by `compare`, by applying `f` to each entry in `map`.
@@ -833,11 +833,11 @@ module {
   /// assuming that the `compare` function implements an `O(1)` comparison.
   ///
   /// Note: Creates `O(n * log(n))` temporary objects that will be collected as garbage.
-  public func filterMap<K, V1, V2>(map : Map<K, V1>, compare : (K, K) -> Order.Order, f : (K, V1) -> ?V2) : Map<K, V2> = Internal.mapFilter(map, compare : (K, K) -> Order.Order, f);
+  public func filterMap<K, V1, V2>(map : Map<K, V1>, compare : (implicit : (K, K) -> Order.Order), f : (K, V1) -> ?V2) : Map<K, V2> = Internal.mapFilter(map, compare : (K, K) -> Order.Order, f);
 
   /// Validate the representation invariants of the given `map`.
   /// Assert if any invariants are violated.
-  public func assertValid<K, V>(map : Map<K, V>, compare : (K, K) -> Order.Order) : () = Internal.validate(map, compare);
+  public func assertValid<K, V>(map : Map<K, V>, compare : (implicit : (K, K) -> Order.Order)) : () = Internal.validate(map, compare);
 
   /// Converts the `map` to its textual representation using `keyFormat` and `valueFormat` to convert each key and value to `Text`.
   ///
@@ -856,7 +856,7 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `keyFormat` and `valueFormat` run in O(1) time and space.
-  public func toText<K, V>(map : Map<K, V>, keyFormat : K -> Text, valueFormat : V -> Text) : Text {
+  public func toText<K, V>(map : Map<K, V>, keyFormat : (implicit : (toText : K -> Text)), valueFormat : (implicit : (toText : V -> Text))) : Text {
     var text = "PureMap{";
     var sep = "";
     for ((k, v) in entries(map)) {
@@ -884,7 +884,7 @@ module {
   ///
   /// Runtime: `O(n)`.
   /// Space: `O(1)`.
-  public func equal<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (K, K) -> Order.Order, equalValue : (V, V) -> Bool) : Bool {
+  public func equal<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), equal : (implicit : (V, V) -> Bool)) : Bool {
     if (map1.size != map2.size) {
       return false
     };
@@ -898,7 +898,7 @@ module {
           return true
         };
         case (?(key1, value1), ?(key2, value2)) {
-          if (not (compareKey(key1, key2) == #equal) or not equalValue(value1, value2)) {
+          if (not (compare(key1, key2) == #equal) or not equal(value1, value2)) {
             return false
           }
         };
@@ -947,7 +947,7 @@ module {
   /// assuming that `compareKey` and `compareValue` have runtime and space costs of `O(1)`.
   ///
   /// Note: Creates `O(log(n))` temporary objects that will be collected as garbage.
-  public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (K, K) -> Order.Order, compareValue : (V, V) -> Order.Order) : Order.Order {
+  public func compare<K, V>(map1 : Map<K, V>, map2 : Map<K, V>, compareKey : (implicit : (compare : (K, K) -> Order.Order)), compareValue : (implicit : (compare : (V, V) -> Order.Order))) : Order.Order {
     let iterator1 = entries(map1);
     let iterator2 = entries(map2);
     loop {
