@@ -811,7 +811,7 @@ run(
     [
       test(
         "sort",
-        do { list.sort(Nat.compare); list.toArray() },
+        do { list.sortInPlace(Nat.compare); list.toArray() },
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] |> M.equals(T.array(T.natTestable, _))
       )
     ]
@@ -1134,9 +1134,15 @@ func testReverse(n : Nat) : Bool {
 };
 
 func testSort(n : Nat) : Bool {
-  let vec = List.fromArray<Int>(Array.tabulate<Int>(n, func(i) = (i * 123) % 100 - 50));
-  vec.sort(Int.compare);
-  vec.equal(List.fromArray<Int>(Array.sort(Array.tabulate<Int>(n, func(i) = (i * 123) % 100 - 50), Int.compare)), Int.equal)
+  let array = Array.tabulate<Int>(n, func(i) = (i * 123) % 100 - 50);
+  let vec = List.fromArray<Int>(array);
+
+  let sorted = vec.sort(Int.compare);
+  vec.sortInPlace(Int.compare);
+
+  let expected = List.fromArray<Int>(Array.sort(array, Int.compare));
+
+  vec.equal(expected, Int.equal) and sorted.equal(expected, Int.equal)
 };
 
 func testToArray(n : Nat) : Bool {
