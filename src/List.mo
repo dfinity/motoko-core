@@ -629,6 +629,51 @@ module {
     fromVarArray(array)
   };
 
+  /// Checks whether the `list` is sorted.
+  ///
+  /// Example:
+  /// ```
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([1, 2, 3]);
+  /// assert List.isSorted(list);
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  public func isSorted<T>(list : List<T>, compare : (T, T) -> Order.Order) : Bool {
+    var prev = switch (first(list)) {
+      case (?x) x;
+      case _ return true
+    };
+
+    let blocks = list.blocks;
+    let blockCount = blocks.size();
+
+    var i = 2;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return true;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) switch (compare(x, prev)) {
+            case (#greater or #equal) prev := x;
+            case (#less) return false
+          };
+          case null return true
+        };
+        j += 1
+      };
+      i += 1
+    };
+
+    true
+  };
+
   /// Finds the first index of `element` in `list` using equality of elements defined
   /// by `equal`. Returns `null` if `element` is not found.
   ///
