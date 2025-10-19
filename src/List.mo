@@ -1552,6 +1552,55 @@ module {
     }
   };
 
+  /// Executes the closure over a slice of `list` starting at `fromInclusive` up to (but not including) `toExclusive`.
+  ///
+  /// ```motoko include=import
+  /// import Debug "mo:core/Debug";
+  ///
+  /// let list = List.fromArray<Nat>([1, 2, 3, 4, 5]);
+  /// List.forEachRange<Nat>(list, func x = Debug.print(Nat.toText(x)), 1, 2); // prints 2 and 3
+  /// ```
+  ///
+  /// Runtime: `O(toExclusive - fromExclusive)`
+  ///
+  /// Space: `O(1)`
+  public func forEachRange<T>(list : List<T>, f : T -> (), fromInclusive : Nat, toExclusive : Nat) {
+    if (not (fromInclusive <= toExclusive and toExclusive <= size(list))) Prim.trap("Invalid range");
+
+    func traverseBlock(block : [var ?T], f : T -> (), from : Nat, to : Nat) {
+      var i = from;
+      while (i < to) {
+        switch (block[i]) {
+          case (?value) f(value);
+          case null Prim.trap(INTERNAL_ERROR)
+        };
+        i += 1
+      }
+    };
+
+    let (fromBlock, fromElement) = locate(fromInclusive);
+    let (toBlock, toElement) = locate(toExclusive);
+
+    let blocks = list.blocks;
+    let sz = blocks.size();
+
+    if (fromBlock == toBlock) {
+      if (fromBlock < sz) traverseBlock(blocks[fromBlock], f, fromElement, toElement);
+      return
+    };
+
+    traverseBlock(blocks[fromBlock], f, fromElement, blocks[fromBlock].size());
+
+    var i = fromBlock + 1;
+    let to = Nat.min(toBlock, sz);
+    while (i < to) {
+      traverseBlock(blocks[i], f, 0, blocks[i].size());
+      i += 1
+    };
+
+    if (toBlock < sz) traverseBlock(blocks[toBlock], f, 0, toElement)
+  };
+
   /// Returns true if the list contains the specified element according to the provided
   /// equality function. Uses the provided `equal` function to compare elements.
   ///
