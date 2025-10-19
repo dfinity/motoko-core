@@ -1,5 +1,6 @@
 ## Next
 
+* Add `fill` to `List` (#410).
 * Add `isCleanReject` to `Error`, align reject code order with IC interface specification and improve comments (#401).
 * internal: updates `matchers` dev-dependency (#394).
 * Add `PriorityQueue` (#392).
