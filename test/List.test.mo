@@ -922,6 +922,20 @@ func testInit(n : Nat) : Bool {
   List.size(vec) == n and (n == 0 or (List.at(vec, 0) == 1 and List.at(vec, n - 1 : Nat) == 1))
 };
 
+func testFill(n : Nat) : Bool {
+  let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func i = i + 1));
+  List.fill(vec, 42);
+  if (List.size(vec) != n) {
+    Debug.print("Fill failed: expected size " # Nat.toText(n) # ", got " # Nat.toText(List.size(vec)));
+    return false
+  };
+  if (not List.all<Nat>(vec, func x = x == 42)) {
+    Debug.print("Fill failed");
+    return false
+  };
+  true
+};
+
 func testAdd(n : Nat) : Bool {
   if (n == 0) return true;
   let vec = List.empty<Nat>();
@@ -1220,6 +1234,7 @@ func testFilterMap(n : Nat) : Bool {
 func runAllTests() {
   runTest("testNew", testNew);
   runTest("testInit", testInit);
+  runTest("testFill", testFill);
   runTest("testAdd", testAdd);
   runTest("testAddAll", testAddAll);
   runTest("testRemoveLast", testRemoveLast);

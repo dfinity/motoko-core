@@ -100,6 +100,39 @@ module {
     }
   };
 
+  /// Fills all elements in the list with the given value.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let list = List.fromArray<Nat>([1, 2, 3]);
+  /// List.fill(list, 0); // fills the list with 0
+  /// assert List.toArray(list) == [0, 0, 0];
+  /// ```
+  ///
+  /// Runtime: `O(size)`
+  ///
+  /// Space: `O(1)`
+  public func fill<T>(list : List<T>, value : T) {
+    let blocks = list.blocks;
+    let blockCount = blocks.size();
+    let blockIndex = list.blockIndex;
+    let elementIndex = list.elementIndex;
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = if (i == blockIndex) elementIndex else db.size();
+      if (sz == 0) return;
+
+      var j = 0;
+      while (j < sz) {
+        db[j] := ?value;
+        j += 1
+      };
+      i += 1
+    }
+  };
+
   /// Converts a mutable `List` to a purely functional `PureList`.
   ///
   /// Example:
