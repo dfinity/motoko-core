@@ -68,12 +68,20 @@ module {
 
   /// Checks if the error is a clean reject.
   /// A clean reject means that there must be no state changes on the callee side.
+  /// Note that a return value of `false` does not imply the state has been mutated.
+  ///  See `isRetryPossible` for example usage.
   public func isCleanReject(error : Error) : Bool = switch (code error) {
     case (#system_fatal or #system_transient or #destination_invalid or #call_error _) true;
     case _ false
   };
 
-  /// Returns whether retrying to send a message may result in success.
+  /// Determines if the failed call can be retried immediately within the update method
+  /// that's handling the error, as opposed to relying on a background timer or heartbeat.
+  ///
+  /// A return value of `true` indicates that an immediate retry *might* succeed, i.e., not result in another error.
+  /// However, the caller is responsible for ensuring that retries are safe in their specific context.
+  /// For idempotent methods, immediate retries are generally safe. For non-idempotent ones,
+  /// checking `isCleanReject` before retrying is recommended.
   ///
   /// Example:
   /// ```motoko
@@ -88,15 +96,23 @@ module {
   ///   public func example(callableActor : CallableActor) {
   ///     try {
   ///       await (with timeout = 3) callableActor.call();
-  ///     }
-  ///     catch e {
+  ///     } catch e {
+  ///       Debug.print(Error.message e);
+  ///
+  ///       // Check if an immediate retry might succeed.
   ///       if (Error.isRetryPossible e) {
-  ///         Debug.print(Error.message e);
+  ///         Debug.print("Immediate retry may succeed. Consider retrying now.");
+  ///       };
+  ///
+  ///       // Check if the failed call is clean (guaranteed not to have mutated state).
+  ///       if (Error.isCleanReject e) {
+  ///         Debug.print("Previous call did not mutate state: safe to retry.");
+  ///       } else {
+  ///         Debug.print("Previous call may have mutated state: retry with caution.");
   ///       }
   ///     }
   ///   }
   /// }
-  ///
   /// ```
   public func isRetryPossible(error : Error) : Bool = switch (code error) {
     case (#system_transient or #system_unknown) true;
