@@ -1132,7 +1132,7 @@
     "name": "Text",
     "exports": [
       "public func compare(self : Text, other : Text) : Order.Order",
-      "public func compareWith( self : Text, other : Text, compare : (Char, Char) -> Order.Order, ) : Order.Order",
+      "public func compareWith( self : Text, other : Text, compare : (Char, Char) -> Order.Order ) : Order.Order",
       "public func concat(self : Text, other : Text) : Text",
       "public func contains(self : Text, p : Pattern) : Bool",
       "public func decodeUtf8(self : Blob) : ?Text",
