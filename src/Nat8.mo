@@ -15,7 +15,6 @@ module {
 
   /// 8-bit natural numbers.
   public type Nat8 = Prim.Types.Nat8;
-  public type Self = Nat8;
 
   /// Maximum 8-bit natural number. `2 ** 8 - 1`.
   ///
@@ -31,7 +30,7 @@ module {
   /// ```motoko include=import
   /// assert Nat8.toNat(123) == (123 : Nat);
   /// ```
-  public let toNat : Nat8 -> Nat = Prim.nat8ToNat;
+  public func toNat(self : Nat8) : Nat = Prim.nat8ToNat(self);
 
   /// Converts an unsigned integer with infinite precision to an 8-bit unsigned integer.
   ///
@@ -59,7 +58,7 @@ module {
   /// ```motoko include=import
   /// assert Nat8.toNat16(123) == (123 : Nat16);
   /// ```
-  public let toNat16 : Nat8 -> Nat16 = Prim.nat8ToNat16;
+  public func toNat16(self : Nat8) : Nat16 = Prim.nat8ToNat16(self);
 
   /// Converts a signed integer with infinite precision to an 8-bit unsigned integer.
   ///

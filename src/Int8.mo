@@ -15,7 +15,6 @@ module {
 
   /// 8-bit signed integers.
   public type Int8 = Prim.Types.Int8;
-  public type Self = Int8;
 
   /// Minimum 8-bit integer value, `-2 ** 7`.
   ///
