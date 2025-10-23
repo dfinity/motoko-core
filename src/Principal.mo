@@ -39,7 +39,6 @@ import Types "Types";
 module {
 
   public type Principal = Prim.Types.Principal;
-  public type Self = Principal;
 
   /// Get the `Principal` identifier of an actor.
   ///
@@ -62,11 +61,11 @@ module {
   /// let account = Principal.toLedgerAccount(principal, ?subAccount);
   /// assert account == "\8C\5C\20\C6\15\3F\7F\51\E2\0D\0F\0F\B5\08\51\5B\47\65\63\A9\62\B4\A9\91\5F\4F\02\70\8A\ED\4F\82";
   /// ```
-  public func toLedgerAccount(principal : Principal, subAccount : ?Blob) : Blob {
+  public func toLedgerAccount(self : Principal, subAccount : ?Blob) : Blob {
     let sha224 = SHA224();
     let accountSeparator : Blob = "\0Aaccount-id";
     sha224.writeBlob(accountSeparator);
-    sha224.writeBlob(toBlob(principal));
+    sha224.writeBlob(toBlob(self));
     switch subAccount {
       case (?subAccount) {
         sha224.writeBlob(subAccount)
@@ -93,7 +92,7 @@ module {
   /// let blob = Principal.toBlob(principal);
   /// assert blob == "\00\00\00\00\00\30\00\D3\01\01";
   /// ```
-  public func toBlob(p : Principal) : Blob = Prim.blobOfPrincipal p;
+  public func toBlob(self : Principal) : Blob = Prim.blobOfPrincipal self;
 
   /// Converts a `Blob` (bytes) representation of a `Principal` to a `Principal` value.
   ///
@@ -103,7 +102,7 @@ module {
   /// let principal = Principal.fromBlob(blob);
   /// assert Principal.toText(principal) == "un4fu-tqaaa-aaaab-qadjq-cai";
   /// ```
-  public func fromBlob(b : Blob) : Principal = Prim.principalOfBlob b;
+  public func fromBlob(self : Blob) : Principal = Prim.principalOfBlob self;
 
   /// Converts a `Principal` to its `Text` representation.
   ///
@@ -112,7 +111,7 @@ module {
   /// let principal = Principal.fromText("un4fu-tqaaa-aaaab-qadjq-cai");
   /// assert Principal.toText(principal) == "un4fu-tqaaa-aaaab-qadjq-cai";
   /// ```
-  public func toText(p : Principal) : Text = debug_show (p);
+  public func toText(self : Principal) : Text = debug_show (self);
 
   /// Converts a `Text` representation of a `Principal` to a `Principal` value.
   ///
@@ -180,8 +179,8 @@ module {
   /// let principal = Principal.fromText("un4fu-tqaaa-aaaab-qadjq-cai");
   /// assert not Principal.isReserved(principal);
   /// ```
-  public func isReserved(p : Principal) : Bool {
-    let byteArray = toByteArray(p);
+  public func isReserved(self : Principal) : Bool {
+    let byteArray = toByteArray(self);
 
     byteArray.size() >= 0 and byteArray.size() <= 29 and isLastByte(byteArray, 127)
   };
@@ -193,7 +192,7 @@ module {
   /// let principal = Principal.fromText("un4fu-tqaaa-aaaab-qadjq-cai");
   /// assert not Principal.isController(principal);
   /// ```
-  public func isController(p : Principal) : Bool = Prim.isController p;
+  public func isController(self : Principal) : Bool = Prim.isController self;
 
   /// Hashes the given principal by hashing its `Blob` representation.
   ///
@@ -202,7 +201,7 @@ module {
   /// let principal = Principal.fromText("un4fu-tqaaa-aaaab-qadjq-cai");
   /// assert Principal.hash(principal) == 2_742_573_646;
   /// ```
-  public func hash(principal : Principal) : Types.Hash = Blob.hash(Prim.blobOfPrincipal(principal));
+  public func hash(self : Principal) : Types.Hash = Blob.hash(Prim.blobOfPrincipal(self));
 
   /// General purpose comparison function for `Principal`. Returns the `Order` (
   /// either `#less`, `#equal`, or `#greater`) of comparing `principal1` with
@@ -214,14 +213,14 @@ module {
   /// let principal2 = Principal.fromText("un4fu-tqaaa-aaaab-qadjq-cai");
   /// assert Principal.compare(principal1, principal2) == #equal;
   /// ```
-  public func compare(principal1 : Principal, principal2 : Principal) : {
+  public func compare(self : Principal, other : Principal) : {
     #less;
     #equal;
     #greater
   } {
-    if (principal1 < principal2) {
+    if (self < other) {
       #less
-    } else if (principal1 == principal2) {
+    } else if (self == other) {
       #equal
     } else {
       #greater
@@ -250,8 +249,8 @@ module {
   /// let principal2 = Principal.fromBlob("\04");
   /// assert Principal.equal(principal1, principal2);
   /// ```
-  public func equal(principal1 : Principal, principal2 : Principal) : Bool {
-    principal1 == principal2
+  public func equal(self : Principal, other : Principal) : Bool {
+    self == other
   };
 
   /// Inequality function for Principal types.
@@ -269,8 +268,8 @@ module {
   /// to the existing `!=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `!=`
   /// as a function value at the moment.
-  public func notEqual(principal1 : Principal, principal2 : Principal) : Bool {
-    principal1 != principal2
+  public func notEqual(self : Principal, other : Principal) : Bool {
+    self != other
   };
 
   /// "Less than" function for Principal types.
@@ -288,8 +287,8 @@ module {
   /// to the existing `<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<`
   /// as a function value at the moment.
-  public func less(principal1 : Principal, principal2 : Principal) : Bool {
-    principal1 < principal2
+  public func less(self : Principal, other : Principal) : Bool {
+    self < other
   };
 
   /// "Less than or equal to" function for Principal types.
@@ -307,8 +306,8 @@ module {
   /// to the existing `<=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<=`
   /// as a function value at the moment.
-  public func lessOrEqual(principal1 : Principal, principal2 : Principal) : Bool {
-    principal1 <= principal2
+  public func lessOrEqual(self : Principal, other : Principal) : Bool {
+    self <= other
   };
 
   /// "Greater than" function for Principal types.
@@ -326,8 +325,8 @@ module {
   /// to the existing `>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>`
   /// as a function value at the moment.
-  public func greater(principal1 : Principal, principal2 : Principal) : Bool {
-    principal1 > principal2
+  public func greater(self : Principal, other : Principal) : Bool {
+    self > other
   };
 
   /// "Greater than or equal to" function for Principal types.
@@ -345,8 +344,8 @@ module {
   /// to the existing `>=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>=`
   /// as a function value at the moment.
-  public func greaterOrEqual(principal1 : Principal, principal2 : Principal) : Bool {
-    principal1 >= principal2
+  public func greaterOrEqual(self : Principal, other : Principal) : Bool {
+    self >= other
   };
 
   /**

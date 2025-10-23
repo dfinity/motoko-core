@@ -16,7 +16,6 @@ module {
 
   /// 64-bit signed integers.
   public type Int64 = Prim.Types.Int64;
-  public type Self = Int64;
 
   /// Minimum 64-bit integer value, `-2 ** 63`.
   ///
@@ -40,7 +39,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.toInt(123_456) == (123_456 : Int);
   /// ```
-  public let toInt : Int64 -> Int = Prim.int64ToInt;
+  public func toInt(self : Int64) : Int = Prim.int64ToInt(self);
 
   /// Converts a signed integer with infinite precision to a 64-bit signed integer.
   ///
@@ -70,7 +69,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.toInt32(-123_456) == (-123_456 : Int32);
   /// ```
-  public let toInt32 : Int64 -> Int32 = Prim.int64ToInt32;
+  public func toInt32(self : Int64) : Int32 = Prim.int64ToInt32(self);
 
   /// Converts a signed integer with infinite precision to a 64-bit signed integer.
   ///
@@ -100,7 +99,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.toNat64(-1) == (18_446_744_073_709_551_615 : Nat64); // underflow
   /// ```
-  public let toNat64 : Int64 -> Nat64 = Prim.int64ToNat64;
+  public func toNat64(self : Int64) : Nat64 = Prim.int64ToNat64(self);
 
   /// Returns the Text representation of `x`. Textual representation _do not_
   /// contain underscores to represent commas.
@@ -110,8 +109,8 @@ module {
   /// ```motoko include=import
   /// assert Int64.toText(-123456) == "-123456";
   /// ```
-  public func toText(x : Int64) : Text {
-    Int.toText(toInt(x))
+  public func toText(self : Int64) : Text {
+    Int.toText(toInt(self))
   };
 
   /// Returns the absolute value of `x`.
@@ -122,8 +121,8 @@ module {
   /// ```motoko include=import
   /// assert Int64.abs(-123456) == +123_456;
   /// ```
-  public func abs(x : Int64) : Int64 {
-    fromInt(Int.abs(toInt(x)))
+  public func abs(self : Int64) : Int64 {
+    fromInt(Int.abs(toInt(self)))
   };
 
   /// Returns the minimum of `x` and `y`.
@@ -132,8 +131,8 @@ module {
   /// ```motoko include=import
   /// assert Int64.min(+2, -3) == -3;
   /// ```
-  public func min(x : Int64, y : Int64) : Int64 {
-    if (x < y) { x } else { y }
+  public func min(self : Int64, other : Int64) : Int64 {
+    if (self < other) { self } else { other }
   };
 
   /// Returns the maximum of `x` and `y`.
@@ -142,8 +141,8 @@ module {
   /// ```motoko include=import
   /// assert Int64.max(+2, -3) == +2;
   /// ```
-  public func max(x : Int64, y : Int64) : Int64 {
-    if (x < y) { y } else { x }
+  public func max(self : Int64, other : Int64) : Int64 {
+    if (self < other) { other } else { self }
   };
 
   /// Equality function for Int64 types.
@@ -165,7 +164,7 @@ module {
   /// let b : Int64 = 123;
   /// assert not Int64.equal(a, b);
   /// ```
-  public func equal(x : Int64, y : Int64) : Bool { x == y };
+  public func equal(self : Int64, other : Int64) : Bool { self == other };
 
   /// Inequality function for Int64 types.
   /// This is equivalent to `x != y`.
@@ -179,7 +178,7 @@ module {
   /// to the existing `!=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `!=`
   /// as a function value at the moment.
-  public func notEqual(x : Int64, y : Int64) : Bool { x != y };
+  public func notEqual(self : Int64, other : Int64) : Bool { self != other };
 
   /// "Less than" function for Int64 types.
   /// This is equivalent to `x < y`.
@@ -193,7 +192,7 @@ module {
   /// to the existing `<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<`
   /// as a function value at the moment.
-  public func less(x : Int64, y : Int64) : Bool { x < y };
+  public func less(self : Int64, other : Int64) : Bool { self < other };
 
   /// "Less than or equal" function for Int64 types.
   /// This is equivalent to `x <= y`.
@@ -207,7 +206,7 @@ module {
   /// to the existing `<=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<=`
   /// as a function value at the moment.
-  public func lessOrEqual(x : Int64, y : Int64) : Bool { x <= y };
+  public func lessOrEqual(self : Int64, other : Int64) : Bool { self <= other };
 
   /// "Greater than" function for Int64 types.
   /// This is equivalent to `x > y`.
@@ -221,7 +220,7 @@ module {
   /// to the existing `>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>`
   /// as a function value at the moment.
-  public func greater(x : Int64, y : Int64) : Bool { x > y };
+  public func greater(self : Int64, other : Int64) : Bool { self > other };
 
   /// "Greater than or equal" function for Int64 types.
   /// This is equivalent to `x >= y`.
@@ -235,7 +234,9 @@ module {
   /// to the existing `>=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>=`
   /// as a function value at the moment.
-  public func greaterOrEqual(x : Int64, y : Int64) : Bool { x >= y };
+  public func greaterOrEqual(self : Int64, other : Int64) : Bool {
+    self >= other
+  };
 
   /// General-purpose comparison function for `Int64`. Returns the `Order` (
   /// either `#less`, `#equal`, or `#greater`) of comparing `x` with `y`.
@@ -252,8 +253,10 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.sort([1, -2, -3] : [Int64], Int64.compare) == [-3, -2, 1];
   /// ```
-  public func compare(x : Int64, y : Int64) : Order.Order {
-    if (x < y) { #less } else if (x == y) { #equal } else { #greater }
+  public func compare(self : Int64, other : Int64) : Order.Order {
+    if (self < other) { #less } else if (self == other) { #equal } else {
+      #greater
+    }
   };
 
   /// Returns the negation of `x`, `-x`.
@@ -269,7 +272,7 @@ module {
   /// to the existing `-` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `-`
   /// as a function value at the moment.
-  public func neg(x : Int64) : Int64 { -x };
+  public func neg(self : Int64) : Int64 { -self };
 
   /// Returns the sum of `x` and `y`, `x + y`.
   ///
@@ -290,7 +293,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int64, Int64>([1, -2, -3], 0, Int64.add) == -4;
   /// ```
-  public func add(x : Int64, y : Int64) : Int64 { x + y };
+  public func add(self : Int64, other : Int64) : Int64 { self + other };
 
   /// Returns the difference of `x` and `y`, `x - y`.
   ///
@@ -311,7 +314,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int64, Int64>([1, -2, -3], 0, Int64.sub) == 4;
   /// ```
-  public func sub(x : Int64, y : Int64) : Int64 { x - y };
+  public func sub(self : Int64, other : Int64) : Int64 { self - other };
 
   /// Returns the product of `x` and `y`, `x * y`.
   ///
@@ -332,7 +335,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int64, Int64>([1, -2, -3], 1, Int64.mul) == 6;
   /// ```
-  public func mul(x : Int64, y : Int64) : Int64 { x * y };
+  public func mul(self : Int64, other : Int64) : Int64 { self * other };
 
   /// Returns the signed integer division of `x` by `y`, `x / y`.
   /// Rounds the quotient towards zero, which is the same as truncating the decimal places of the quotient.
@@ -348,7 +351,7 @@ module {
   /// to the existing `/` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `/`
   /// as a function value at the moment.
-  public func div(x : Int64, y : Int64) : Int64 { x / y };
+  public func div(self : Int64, other : Int64) : Int64 { self / other };
 
   /// Returns the remainder of the signed integer division of `x` by `y`, `x % y`,
   /// which is defined as `x - x / y * y`.
@@ -364,7 +367,7 @@ module {
   /// to the existing `%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `%`
   /// as a function value at the moment.
-  public func rem(x : Int64, y : Int64) : Int64 { x % y };
+  public func rem(self : Int64, other : Int64) : Int64 { self % other };
 
   /// Returns `x` to the power of `y`, `x ** y`.
   ///
@@ -379,7 +382,7 @@ module {
   /// to the existing `**` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `**`
   /// as a function value at the moment.
-  public func pow(x : Int64, y : Int64) : Int64 { x ** y };
+  public func pow(self : Int64, other : Int64) : Int64 { self ** other };
 
   /// Returns the bitwise negation of `x`, `^x`.
   ///
@@ -392,7 +395,7 @@ module {
   /// to the existing `^` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `^`
   /// as a function value at the moment.
-  public func bitnot(x : Int64) : Int64 { ^x };
+  public func bitnot(self : Int64) : Int64 { ^self };
 
   /// Returns the bitwise "and" of `x` and `y`, `x & y`.
   ///
@@ -405,7 +408,7 @@ module {
   /// to the existing `&` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `&`
   /// as a function value at the moment.
-  public func bitand(x : Int64, y : Int64) : Int64 { x & y };
+  public func bitand(self : Int64, other : Int64) : Int64 { self & other };
 
   /// Returns the bitwise "or" of `x` and `y`, `x | y`.
   ///
@@ -418,7 +421,7 @@ module {
   /// to the existing `|` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `|`
   /// as a function value at the moment.
-  public func bitor(x : Int64, y : Int64) : Int64 { x | y };
+  public func bitor(self : Int64, other : Int64) : Int64 { self | other };
 
   /// Returns the bitwise "exclusive or" of `x` and `y`, `x ^ y`.
   ///
@@ -431,7 +434,7 @@ module {
   /// to the existing `^` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `^`
   /// as a function value at the moment.
-  public func bitxor(x : Int64, y : Int64) : Int64 { x ^ y };
+  public func bitxor(self : Int64, other : Int64) : Int64 { self ^ other };
 
   /// Returns the bitwise left shift of `x` by `y`, `x << y`.
   /// The right bits of the shift filled with zeros.
@@ -449,7 +452,9 @@ module {
   /// to the existing `<<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<`
   /// as a function value at the moment.
-  public func bitshiftLeft(x : Int64, y : Int64) : Int64 { x << y };
+  public func bitshiftLeft(self : Int64, other : Int64) : Int64 {
+    self << other
+  };
 
   /// Returns the signed bitwise right shift of `x` by `y`, `x >> y`.
   /// The sign bit is retained and the left side is filled with the sign bit.
@@ -467,7 +472,9 @@ module {
   /// to the existing `>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>>`
   /// as a function value at the moment.
-  public func bitshiftRight(x : Int64, y : Int64) : Int64 { x >> y };
+  public func bitshiftRight(self : Int64, other : Int64) : Int64 {
+    self >> other
+  };
 
   /// Returns the bitwise left rotatation of `x` by `y`, `x <<> y`.
   /// Each left-overflowing bit is inserted again on the right side.
@@ -486,7 +493,7 @@ module {
   /// to the existing `<<>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<>`
   /// as a function value at the moment.
-  public func bitrotLeft(x : Int64, y : Int64) : Int64 { x <<> y };
+  public func bitrotLeft(self : Int64, other : Int64) : Int64 { self <<> other };
 
   /// Returns the bitwise right rotation of `x` by `y`, `x <>> y`.
   /// Each right-underflowing bit is inserted again on the right side.
@@ -504,7 +511,9 @@ module {
   /// to the existing `<>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<>>`
   /// as a function value at the moment.
-  public func bitrotRight(x : Int64, y : Int64) : Int64 { x <>> y };
+  public func bitrotRight(self : Int64, other : Int64) : Int64 {
+    self <>> other
+  };
 
   /// Returns the value of bit `p` in `x`, `x & 2**p == 2**p`.
   /// If `p >= 64`, the semantics is the same as for `bittest(x, p % 64)`.
@@ -514,8 +523,8 @@ module {
   /// ```motoko include=import
   /// assert Int64.bittest(128, 7);
   /// ```
-  public func bittest(x : Int64, p : Nat) : Bool {
-    Prim.btstInt64(x, Prim.intToInt64(p))
+  public func bittest(self : Int64, p : Nat) : Bool {
+    Prim.btstInt64(self, Prim.intToInt64(p))
   };
 
   /// Returns the value of setting bit `p` in `x` to `1`.
@@ -525,8 +534,8 @@ module {
   /// ```motoko include=import
   /// assert Int64.bitset(0, 7) == +128;
   /// ```
-  public func bitset(x : Int64, p : Nat) : Int64 {
-    x | (1 << Prim.intToInt64(p))
+  public func bitset(self : Int64, p : Nat) : Int64 {
+    self | (1 << Prim.intToInt64(p))
   };
 
   /// Returns the value of clearing bit `p` in `x` to `0`.
@@ -536,8 +545,8 @@ module {
   /// ```motoko include=import
   /// assert Int64.bitclear(-1, 7) == -129;
   /// ```
-  public func bitclear(x : Int64, p : Nat) : Int64 {
-    x & ^(1 << Prim.intToInt64(p))
+  public func bitclear(self : Int64, p : Nat) : Int64 {
+    self & ^(1 << Prim.intToInt64(p))
   };
 
   /// Returns the value of flipping bit `p` in `x`.
@@ -547,8 +556,8 @@ module {
   /// ```motoko include=import
   /// assert Int64.bitflip(255, 7) == +127;
   /// ```
-  public func bitflip(x : Int64, p : Nat) : Int64 {
-    x ^ (1 << Prim.intToInt64(p))
+  public func bitflip(self : Int64, p : Nat) : Int64 {
+    self ^ (1 << Prim.intToInt64(p))
   };
 
   /// Returns the count of non-zero bits in `x`.
@@ -557,7 +566,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.bitcountNonZero(0xffff) == +16;
   /// ```
-  public let bitcountNonZero : (x : Int64) -> Int64 = Prim.popcntInt64;
+  public func bitcountNonZero(self : Int64) : Int64 = Prim.popcntInt64(self);
 
   /// Returns the count of leading zero bits in `x`.
   ///
@@ -565,7 +574,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.bitcountLeadingZero(0x8000_0000) == +32;
   /// ```
-  public let bitcountLeadingZero : (x : Int64) -> Int64 = Prim.clzInt64;
+  public func bitcountLeadingZero(self : Int64) : Int64 = Prim.clzInt64(self);
 
   /// Returns the count of trailing zero bits in `x`.
   ///
@@ -573,7 +582,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.bitcountTrailingZero(0x0201_0000) == +16;
   /// ```
-  public let bitcountTrailingZero : (x : Int64) -> Int64 = Prim.ctzInt64;
+  public func bitcountTrailingZero(self : Int64) : Int64 = Prim.ctzInt64(self);
 
   /// Returns the upper (i.e. most significant), lower (least significant)
   /// and in-between bytes of `x`.
@@ -582,7 +591,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.explode 0x33772266aa885511 == (51, 119, 34, 102, 170, 136, 85, 17);
   /// ```
-  public let explode : (x : Int64) -> (msb : Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeInt64;
+  public func explode(self : Int64) : (msb : Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeInt64(self);
 
   /// Returns the sum of `x` and `y`, `x +% y`.
   ///
@@ -597,7 +606,7 @@ module {
   /// to the existing `+%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `+%`
   /// as a function value at the moment.
-  public func addWrap(x : Int64, y : Int64) : Int64 { x +% y };
+  public func addWrap(self : Int64, other : Int64) : Int64 { self +% other };
 
   /// Returns the difference of `x` and `y`, `x -% y`.
   ///
@@ -612,7 +621,7 @@ module {
   /// to the existing `-%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `-%`
   /// as a function value at the moment.
-  public func subWrap(x : Int64, y : Int64) : Int64 { x -% y };
+  public func subWrap(self : Int64, other : Int64) : Int64 { self -% other };
 
   /// Returns the product of `x` and `y`, `x *% y`. Wraps on overflow.
   ///
@@ -627,7 +636,7 @@ module {
   /// to the existing `*%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `*%`
   /// as a function value at the moment.
-  public func mulWrap(x : Int64, y : Int64) : Int64 { x *% y };
+  public func mulWrap(self : Int64, other : Int64) : Int64 { self *% other };
 
   /// Returns `x` to the power of `y`, `x **% y`.
   ///
@@ -643,7 +652,7 @@ module {
   /// to the existing `**%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `**%`
   /// as a function value at the moment.
-  public func powWrap(x : Int64, y : Int64) : Int64 { x **% y };
+  public func powWrap(self : Int64, other : Int64) : Int64 { self **% other };
 
   /// Returns an iterator over `Int64` values from the first to second argument with an exclusive upper bound.
   /// ```motoko include=import
@@ -663,12 +672,12 @@ module {
   /// let iter = Int64.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(fromInclusive : Int64, toExclusive : Int64) : Iter.Iter<Int64> {
-    if (fromInclusive >= toExclusive) {
+  public func range(self : Int64, toExclusive : Int64) : Iter.Iter<Int64> {
+    if (self >= toExclusive) {
       Iter.empty()
     } else {
       object {
-        var n = fromInclusive;
+        var n = self;
         public func next() : ?Int64 {
           if (n == toExclusive) {
             null
@@ -700,12 +709,12 @@ module {
   /// let iter = Int64.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(from : Int64, to : Int64) : Iter.Iter<Int64> {
-    if (from > to) {
+  public func rangeInclusive(self : Int64, to : Int64) : Iter.Iter<Int64> {
+    if (self > to) {
       Iter.empty()
     } else {
       object {
-        var n = from;
+        var n = self;
         var done = false;
         public func next() : ?Int64 {
           if (done) {
