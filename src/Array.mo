@@ -1128,10 +1128,4 @@ module {
     };
     #insertionIndex left
   };
-
-  /// Converts anything into an Array that can be turned into an iter via a `values` implicit.
-  public func intoArray<C, T>(self : C, values : (implicit : C -> Types.Iter<T>)) : [T] {
-    fromIter(values(self))
-  };
-
 }

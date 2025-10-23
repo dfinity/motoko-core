@@ -136,8 +136,8 @@ module {
   /// ```motoko include=import
   /// assert Int16.abs(-12345) == +12_345;
   /// ```
-  public func abs(x : Int16) : Int16 {
-    fromInt(Int.abs(toInt(x)))
+  public func abs(self : Int16) : Int16 {
+    fromInt(Int.abs(toInt(self)))
   };
 
   /// Returns the minimum of `x` and `y`.

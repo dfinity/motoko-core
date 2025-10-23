@@ -1105,8 +1105,8 @@ module {
   /// The maximum number of elements in a `List` is 2^32.
   ///
   /// Runtime: `O(size)`, where n is the size of iter.
-  public func addAll<T>(list : List<T>, iter : Iter.Iter<T>) {
-    for (element in iter) add(list, element)
+  public func addAll<T>(self : List<T>, iter : Iter.Iter<T>) {
+    for (element in iter) add(self, element)
   };
 
   /// Creates a new immutable array containing all elements from the list.
@@ -1573,8 +1573,8 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func contains<T>(list : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : Bool {
-    Option.isSome(indexOf(list, equal, element))
+  public func contains<T>(self : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : Bool {
+    Option.isSome(indexOf(self, equal, element))
   };
 
   /// Returns the greatest element in the list according to the ordering defined by `compare`.
@@ -1597,12 +1597,12 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func max<T>(list : List<T>, compare : (implicit : (T, T) -> Order.Order)) : ?T {
-    if (isEmpty(list)) return null;
+  public func max<T>(self : List<T>, compare : (implicit : (T, T) -> Order.Order)) : ?T {
+    if (isEmpty(self)) return null;
 
-    var maxSoFar = at(list, 0);
+    var maxSoFar = at(self, 0);
     forEach<T>(
-      list,
+      self,
       func(x) = switch (compare(x, maxSoFar)) {
         case (#greater) maxSoFar := x;
         case _ {}
@@ -1632,12 +1632,12 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func min<T>(list : List<T>, compare : (implicit : (T, T) -> Order.Order)) : ?T {
-    if (isEmpty(list)) return null;
+  public func min<T>(self : List<T>, compare : (implicit : (T, T) -> Order.Order)) : ?T {
+    if (isEmpty(self)) return null;
 
-    var minSoFar = at(list, 0);
+    var minSoFar = at(self, 0);
     forEach<T>(
-      list,
+      self,
       func(x) = switch (compare(x, minSoFar)) {
         case (#less) minSoFar := x;
         case _ {}

@@ -38,7 +38,7 @@ module {
   /// ```motoko include=import
   /// assert Int8.toInt(123) == (123 : Int);
   /// ```
-  public let toInt : Int8 -> Int = Prim.int8ToInt;
+  public func toInt(self : Int8) : Int = Prim.int8ToInt(self);
 
   /// Converts a signed integer with infinite precision to an 8-bit signed integer.
   ///
@@ -76,7 +76,7 @@ module {
   /// ```motoko include=import
   /// assert Int8.toInt16(123) == (+123 : Int16);
   /// ```
-  public let toInt16 : Int8 -> Int16 = Prim.int8ToInt16;
+  public func toInt16(self : Int8) : Int16 = Prim.int8ToInt16(self);
 
   /// Converts an unsigned 8-bit integer to a signed 8-bit integer.
   ///
@@ -96,7 +96,7 @@ module {
   /// ```motoko include=import
   /// assert Int8.toNat8(-1) == (255 : Nat8); // underflow
   /// ```
-  public let toNat8 : Int8 -> Nat8 = Prim.int8ToNat8;
+  public func toNat8(self : Int8) : Nat8 = Prim.int8ToNat8(self);
 
   /// Converts an integer number to its textual representation.
   ///
@@ -104,8 +104,8 @@ module {
   /// ```motoko include=import
   /// assert Int8.toText(-123) == "-123";
   /// ```
-  public func toText(x : Int8) : Text {
-    Int.toText(toInt(x))
+  public func toText(self : Int8) : Text {
+    Int.toText(toInt(self))
   };
 
   /// Returns the absolute value of `x`.
@@ -116,8 +116,8 @@ module {
   /// ```motoko include=import
   /// assert Int8.abs(-123) == +123;
   /// ```
-  public func abs(x : Int8) : Int8 {
-    fromInt(Int.abs(toInt(x)))
+  public func abs(self : Int8) : Int8 {
+    fromInt(Int.abs(toInt(self)))
   };
 
   /// Returns the minimum of `x` and `y`.
@@ -126,8 +126,8 @@ module {
   /// ```motoko include=import
   /// assert Int8.min(+2, -3) == -3;
   /// ```
-  public func min(x : Int8, y : Int8) : Int8 {
-    if (x < y) { x } else { y }
+  public func min(self : Int8, other : Int8) : Int8 {
+    if (self < other) { self } else { other }
   };
 
   /// Returns the maximum of `x` and `y`.
@@ -136,8 +136,8 @@ module {
   /// ```motoko include=import
   /// assert Int8.max(+2, -3) == +2;
   /// ```
-  public func max(x : Int8, y : Int8) : Int8 {
-    if (x < y) { y } else { x }
+  public func max(self : Int8, other : Int8) : Int8 {
+    if (self < other) { other } else { self }
   };
 
   /// Equality function for Int8 types.
@@ -159,7 +159,7 @@ module {
   /// let b : Int8 = 123;
   /// assert not Int8.equal(a, b);
   /// ```
-  public func equal(x : Int8, y : Int8) : Bool { x == y };
+  public func equal(self : Int8, other : Int8) : Bool { self == other };
 
   /// Inequality function for Int8 types.
   /// This is equivalent to `x != y`.
@@ -173,7 +173,7 @@ module {
   /// to the existing `!=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `!=`
   /// as a function value at the moment.
-  public func notEqual(x : Int8, y : Int8) : Bool { x != y };
+  public func notEqual(self : Int8, other : Int8) : Bool { self != other };
 
   /// "Less than" function for Int8 types.
   /// This is equivalent to `x < y`.
@@ -187,7 +187,7 @@ module {
   /// to the existing `<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<`
   /// as a function value at the moment.
-  public func less(x : Int8, y : Int8) : Bool { x < y };
+  public func less(self : Int8, other : Int8) : Bool { self < other };
 
   /// "Less than or equal" function for Int8 types.
   /// This is equivalent to `x <= y`.
@@ -201,7 +201,7 @@ module {
   /// to the existing `<=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<=`
   /// as a function value at the moment.
-  public func lessOrEqual(x : Int8, y : Int8) : Bool { x <= y };
+  public func lessOrEqual(self : Int8, other : Int8) : Bool { self <= other };
 
   /// "Greater than" function for Int8 types.
   /// This is equivalent to `x > y`.
@@ -215,7 +215,7 @@ module {
   /// to the existing `>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>`
   /// as a function value at the moment.
-  public func greater(x : Int8, y : Int8) : Bool { x > y };
+  public func greater(self : Int8, other : Int8) : Bool { self > other };
 
   /// "Greater than or equal" function for Int8 types.
   /// This is equivalent to `x >= y`.
@@ -229,7 +229,7 @@ module {
   /// to the existing `>=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>=`
   /// as a function value at the moment.
-  public func greaterOrEqual(x : Int8, y : Int8) : Bool { x >= y };
+  public func greaterOrEqual(self : Int8, other : Int8) : Bool { self >= other };
 
   /// General-purpose comparison function for `Int8`. Returns the `Order` (
   /// either `#less`, `#equal`, or `#greater`) of comparing `x` with `y`.
@@ -246,8 +246,8 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.sort([1, -2, -3] : [Int8], Int8.compare) == [-3, -2, 1];
   /// ```
-  public func compare(x : Int8, y : Int8) : Order.Order {
-    if (x < y) { #less } else if (x == y) { #equal } else { #greater }
+  public func compare(self : Int8, other : Int8) : Order.Order {
+    if (self < other) { #less } else if (self == other) { #equal } else { #greater }
   };
 
   /// Returns the negation of `x`, `-x`.
@@ -263,7 +263,7 @@ module {
   /// to the existing `-` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `-`
   /// as a function value at the moment.
-  public func neg(x : Int8) : Int8 { -x };
+  public func neg(self : Int8) : Int8 { -self };
 
   /// Returns the sum of `x` and `y`, `x + y`.
   ///
@@ -284,7 +284,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int8, Int8>([1, -2, -3], 0, Int8.add) == -4;
   /// ```
-  public func add(x : Int8, y : Int8) : Int8 { x + y };
+  public func add(self : Int8, other : Int8) : Int8 { self + other };
 
   /// Returns the difference of `x` and `y`, `x - y`.
   ///
@@ -305,7 +305,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int8, Int8>([1, -2, -3], 0, Int8.sub) == 4;
   /// ```
-  public func sub(x : Int8, y : Int8) : Int8 { x - y };
+  public func sub(self : Int8, other : Int8) : Int8 { self - other };
 
   /// Returns the product of `x` and `y`, `x * y`.
   ///
@@ -326,7 +326,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int8, Int8>([1, -2, -3], 1, Int8.mul) == 6;
   /// ```
-  public func mul(x : Int8, y : Int8) : Int8 { x * y };
+  public func mul(self : Int8, other : Int8) : Int8 { self * other };
 
   /// Returns the signed integer division of `x` by `y`, `x / y`.
   /// Rounds the quotient towards zero, which is the same as truncating the decimal places of the quotient.
@@ -342,7 +342,7 @@ module {
   /// to the existing `/` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `/`
   /// as a function value at the moment.
-  public func div(x : Int8, y : Int8) : Int8 { x / y };
+  public func div(self : Int8, other : Int8) : Int8 { self / other };
 
   /// Returns the remainder of the signed integer division of `x` by `y`, `x % y`,
   /// which is defined as `x - x / y * y`.
@@ -358,7 +358,7 @@ module {
   /// to the existing `%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `%`
   /// as a function value at the moment.
-  public func rem(x : Int8, y : Int8) : Int8 { x % y };
+  public func rem(self : Int8, other : Int8) : Int8 { self % other };
 
   /// Returns `x` to the power of `y`, `x ** y`.
   ///
@@ -373,7 +373,7 @@ module {
   /// to the existing `**` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `**`
   /// as a function value at the moment.
-  public func pow(x : Int8, y : Int8) : Int8 { x ** y };
+  public func pow(self : Int8, other : Int8) : Int8 { self ** other };
 
   /// Returns the bitwise negation of `x`, `^x`.
   ///
@@ -386,7 +386,7 @@ module {
   /// to the existing `^` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `^`
   /// as a function value at the moment.
-  public func bitnot(x : Int8) : Int8 { ^x };
+  public func bitnot(self : Int8) : Int8 { ^self };
 
   /// Returns the bitwise "and" of `x` and `y`, `x & y`.
   ///
@@ -399,7 +399,7 @@ module {
   /// to the existing `&` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `&`
   /// as a function value at the moment.
-  public func bitand(x : Int8, y : Int8) : Int8 { x & y };
+  public func bitand(self : Int8, other : Int8) : Int8 { self & other };
 
   /// Returns the bitwise "or" of `x` and `y`, `x | y`.
   ///
@@ -412,7 +412,7 @@ module {
   /// to the existing `|` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `|`
   /// as a function value at the moment.
-  public func bitor(x : Int8, y : Int8) : Int8 { x | y };
+  public func bitor(self : Int8, other : Int8) : Int8 { self | other };
 
   /// Returns the bitwise "exclusive or" of `x` and `y`, `x ^ y`.
   ///
@@ -425,7 +425,7 @@ module {
   /// to the existing `^` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `^`
   /// as a function value at the moment.
-  public func bitxor(x : Int8, y : Int8) : Int8 { x ^ y };
+  public func bitxor(self : Int8, other : Int8) : Int8 { self ^ other };
 
   /// Returns the bitwise left shift of `x` by `y`, `x << y`.
   /// The right bits of the shift filled with zeros.
@@ -443,7 +443,7 @@ module {
   /// to the existing `<<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<`
   /// as a function value at the moment.
-  public func bitshiftLeft(x : Int8, y : Int8) : Int8 { x << y };
+  public func bitshiftLeft(self : Int8, other : Int8) : Int8 { self << other };
 
   /// Returns the signed bitwise right shift of `x` by `y`, `x >> y`.
   /// The sign bit is retained and the left side is filled with the sign bit.
@@ -461,7 +461,7 @@ module {
   /// to the existing `>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>>`
   /// as a function value at the moment.
-  public func bitshiftRight(x : Int8, y : Int8) : Int8 { x >> y };
+  public func bitshiftRight(self : Int8, other : Int8) : Int8 { self >> other };
 
   /// Returns the bitwise left rotatation of `x` by `y`, `x <<> y`.
   /// Each left-overflowing bit is inserted again on the right side.
@@ -479,7 +479,7 @@ module {
   /// to the existing `<<>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<>`
   /// as a function value at the moment.
-  public func bitrotLeft(x : Int8, y : Int8) : Int8 { x <<> y };
+  public func bitrotLeft(self : Int8, other : Int8) : Int8 { self <<> other };
 
   /// Returns the bitwise right rotation of `x` by `y`, `x <>> y`.
   /// Each right-underflowing bit is inserted again on the right side.
@@ -497,7 +497,7 @@ module {
   /// to the existing `<>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<>>`
   /// as a function value at the moment.
-  public func bitrotRight(x : Int8, y : Int8) : Int8 { x <>> y };
+  public func bitrotRight(self : Int8, other : Int8) : Int8 { self <>> other };
 
   /// Returns the value of bit `p` in `x`, `x & 2**p == 2**p`.
   /// If `p >= 8`, the semantics is the same as for `bittest(x, p % 8)`.
@@ -507,8 +507,8 @@ module {
   /// ```motoko include=import
   /// assert Int8.bittest(64, 6);
   /// ```
-  public func bittest(x : Int8, p : Nat) : Bool {
-    Prim.btstInt8(x, Prim.intToInt8(p))
+  public func bittest(self : Int8, p : Nat) : Bool {
+    Prim.btstInt8(self, Prim.intToInt8(p))
   };
 
   /// Returns the value of setting bit `p` in `x` to `1`.
@@ -518,8 +518,8 @@ module {
   /// ```motoko include=import
   /// assert Int8.bitset(0, 6) == +64;
   /// ```
-  public func bitset(x : Int8, p : Nat) : Int8 {
-    x | (1 << Prim.intToInt8(p))
+  public func bitset(self : Int8, p : Nat) : Int8 {
+    self | (1 << Prim.intToInt8(p))
   };
 
   /// Returns the value of clearing bit `p` in `x` to `0`.
@@ -529,8 +529,8 @@ module {
   /// ```motoko include=import
   /// assert Int8.bitclear(-1, 6) == -65;
   /// ```
-  public func bitclear(x : Int8, p : Nat) : Int8 {
-    x & ^(1 << Prim.intToInt8(p))
+  public func bitclear(self : Int8, p : Nat) : Int8 {
+    self & ^(1 << Prim.intToInt8(p))
   };
 
   /// Returns the value of flipping bit `p` in `x`.
@@ -540,8 +540,8 @@ module {
   /// ```motoko include=import
   /// assert Int8.bitflip(127, 6) == +63;
   /// ```
-  public func bitflip(x : Int8, p : Nat) : Int8 {
-    x ^ (1 << Prim.intToInt8(p))
+  public func bitflip(self : Int8, p : Nat) : Int8 {
+    self ^ (1 << Prim.intToInt8(p))
   };
 
   /// Returns the count of non-zero bits in `x`.
@@ -550,7 +550,7 @@ module {
   /// ```motoko include=import
   /// assert Int8.bitcountNonZero(0x0f) == +4;
   /// ```
-  public let bitcountNonZero : (x : Int8) -> Int8 = Prim.popcntInt8;
+  public func bitcountNonZero(self : Int8) : Int8 = Prim.popcntInt8(self);
 
   /// Returns the count of leading zero bits in `x`.
   ///
@@ -558,7 +558,7 @@ module {
   /// ```motoko include=import
   /// assert Int8.bitcountLeadingZero(0x08) == +4;
   /// ```
-  public let bitcountLeadingZero : (x : Int8) -> Int8 = Prim.clzInt8;
+  public func bitcountLeadingZero(self : Int8) : Int8 = Prim.clzInt8(self);
 
   /// Returns the count of trailing zero bits in `x`.
   ///
@@ -566,7 +566,7 @@ module {
   /// ```motoko include=import
   /// assert Int8.bitcountTrailingZero(0x10) == +4;
   /// ```
-  public let bitcountTrailingZero : (x : Int8) -> Int8 = Prim.ctzInt8;
+  public func bitcountTrailingZero(self : Int8) : Int8 = Prim.ctzInt8(self);
 
   /// Returns the sum of `x` and `y`, `x +% y`.
   ///
@@ -581,7 +581,7 @@ module {
   /// to the existing `+%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `+%`
   /// as a function value at the moment.
-  public func addWrap(x : Int8, y : Int8) : Int8 { x +% y };
+  public func addWrap(self : Int8, other : Int8) : Int8 { self +% other };
 
   /// Returns the difference of `x` and `y`, `x -% y`.
   ///
@@ -596,7 +596,7 @@ module {
   /// to the existing `-%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `-%`
   /// as a function value at the moment.
-  public func subWrap(x : Int8, y : Int8) : Int8 { x -% y };
+  public func subWrap(self : Int8, other : Int8) : Int8 { self -% other };
 
   /// Returns the product of `x` and `y`, `x *% y`. Wraps on overflow.
   ///
@@ -611,7 +611,7 @@ module {
   /// to the existing `*%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `*%`
   /// as a function value at the moment.
-  public func mulWrap(x : Int8, y : Int8) : Int8 { x *% y };
+  public func mulWrap(self : Int8, other : Int8) : Int8 { self *% other };
 
   /// Returns `x` to the power of `y`, `x **% y`.
   ///
@@ -627,7 +627,7 @@ module {
   /// to the existing `**%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `**%`
   /// as a function value at the moment.
-  public func powWrap(x : Int8, y : Int8) : Int8 { x **% y };
+  public func powWrap(self : Int8, other : Int8) : Int8 { self **% other };
 
   /// Returns an iterator over `Int8` values from the first to second argument with an exclusive upper bound.
   /// ```motoko include=import
@@ -647,12 +647,12 @@ module {
   /// let iter = Int8.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(fromInclusive : Int8, toExclusive : Int8) : Iter.Iter<Int8> {
-    if (fromInclusive >= toExclusive) {
+  public func range(self : Int8, toExclusive : Int8) : Iter.Iter<Int8> {
+    if (self >= toExclusive) {
       Iter.empty()
     } else {
       object {
-        var n = fromInclusive;
+        var n = self;
         public func next() : ?Int8 {
           if (n == toExclusive) {
             null
@@ -684,12 +684,12 @@ module {
   /// let iter = Int8.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(from : Int8, to : Int8) : Iter.Iter<Int8> {
-    if (from > to) {
+  public func rangeInclusive(self : Int8, to : Int8) : Iter.Iter<Int8> {
+    if (self > to) {
       Iter.empty()
     } else {
       object {
-        var n = from;
+        var n = self;
         var done = false;
         public func next() : ?Int8 {
           if (done) {
