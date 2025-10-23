@@ -424,7 +424,7 @@ let list = List.fromIter&lt;Nat&gt;(iter);
 assert Iter.toArray(List.values(list)) == [1, 1, 1];</code></pre>
 
 <p>Runtime: <code>O(size)</code></p>
-</p></div><div class="declaration"><h4 class="function" id="addAll"><code><span class="keyword">public func </span><span class="fnname">addAll</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">iter</span> : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<span class="type">T</span>&gt;)</code></h4><p><p>Adds all elements from the provided iterator to the end of the list.
+</p></div><div class="declaration"><h4 class="function" id="addAll"><code><span class="keyword">public func </span><span class="fnname">addAll</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">iter</span> : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<span class="type">T</span>&gt;)</code></h4><p><p>Adds all elements from the provided iterator to the end of the list.
 Elements are added in the order they are returned by the iterator.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -564,7 +564,7 @@ List.reverseForEach&lt;Nat&gt;(list, func (x) {
 <p>Runtime: <code>O(size)</code></p>
 <p>Space: <code>O(size)</code></p>
 <p>*Runtime and space assumes that <code>f</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="contains"><code><span class="keyword">public func </span><span class="fnname">contains</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">equal</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>), <br/>  <span class="parameter">element</span> : <span class="type">T</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Returns true if the list contains the specified element according to the provided
+</p></div><div class="declaration"><h4 class="function" id="contains"><code><span class="keyword">public func </span><span class="fnname">contains</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">equal</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>), <br/>  <span class="parameter">element</span> : <span class="type">T</span><br/>) : <span class="type">Bool</span></code></h4><p><p>Returns true if the list contains the specified element according to the provided
 equality function. Uses the provided <code>equal</code> function to compare elements.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -580,7 +580,7 @@ assert List.contains&lt;Nat&gt;(list, Nat.equal, 2);</code></pre>
 <p>Runtime: <code>O(size)</code></p>
 <p>Space: <code>O(1)</code></p>
 <p>*Runtime and space assumes that <code>equal</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="max"><code><span class="keyword">public func </span><span class="fnname">max</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">compare</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>)) : ?<span class="type">T</span></code></h4><p><p>Returns the greatest element in the list according to the ordering defined by <code>compare</code>.
+</p></div><div class="declaration"><h4 class="function" id="max"><code><span class="keyword">public func </span><span class="fnname">max</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">compare</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>)) : ?<span class="type">T</span></code></h4><p><p>Returns the greatest element in the list according to the ordering defined by <code>compare</code>.
 Returns <code>null</code> if the list is empty.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -596,7 +596,7 @@ assert List.max&lt;Nat&gt;(List.empty&lt;Nat&gt;(), Nat.compare) == null;</code>
 <p>Runtime: <code>O(size)</code></p>
 <p>Space: <code>O(1)</code></p>
 <p>*Runtime and space assumes that <code>compare</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="min"><code><span class="keyword">public func </span><span class="fnname">min</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">compare</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>)) : ?<span class="type">T</span></code></h4><p><p>Returns the least element in the list according to the ordering defined by <code>compare</code>.
+</p></div><div class="declaration"><h4 class="function" id="min"><code><span class="keyword">public func </span><span class="fnname">min</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">compare</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <a href="Order.html#type.Order"><span class="type">Order.Order</span></a>)) : ?<span class="type">T</span></code></h4><p><p>Returns the least element in the list according to the ordering defined by <code>compare</code>.
 Returns <code>null</code> if the list is empty.</p>
 <p>Example:</p>
 <pre><code>motoko include=import

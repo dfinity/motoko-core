@@ -47,7 +47,7 @@ assert Int16.toNat16(-1) == (65_535 : Nat16); // underflow</code></pre></p></div
 contain underscores to represent commas.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.toText(-12345) == &quot;-12345&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="abs"><code><span class="keyword">public func </span><span class="fnname">abs</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the absolute value of <code>x</code>.</p>
+assert Int16.toText(-12345) == &quot;-12345&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="abs"><code><span class="keyword">public func </span><span class="fnname">abs</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the absolute value of <code>x</code>.</p>
 <p>Traps when <code>x == -2 ** 15</code> (the minimum <code>Int16</code> value).</p>
 <p>Example:</p>
 <pre><code>motoko include=import
