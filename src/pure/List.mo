@@ -122,7 +122,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(1)
-  public func get<T>(self : List<T>, n : Nat) : ?T = switch self {
+  public func get<T>(list : List<T>, n : Nat) : ?T = switch list {
     case (?(h, t)) if (n == 0) ?h else get(t, n - 1 : Nat);
     case null null
   };
@@ -225,7 +225,7 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func forEach<T>(self : List<T>, f : T -> ()) = switch self {
+  public func forEach<T>(list : List<T>, f : T -> ()) = switch list {
     case (?(h, t)) { f h; forEach(t, f) };
     case null ()
   };
@@ -248,12 +248,12 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func map<T1, T2>(self : List<T1>, f : T1 -> T2) : List<T2> = (
+  public func map<T1, T2>(list : List<T1>, f : T1 -> T2) : List<T2> = (
     func go(list : List<T1>, f : T1 -> T2, acc : List<T2>) : List<T2> = switch list {
       case (?(h, t)) go(t, f, ?(f h, acc));
       case null reverse acc
     }
-  )(self, f, null);
+  )(list, f, null);
 
   /// Create a new list with only those elements of the original list for which
   /// the given function (often called the _predicate_) returns true.
@@ -427,12 +427,12 @@ module {
   /// Runtime: O(size*size)
   ///
   /// Space: O(size*size)
-  public func flatten<T>(self : List<List<T>>) : List<T> = (
+  public func flatten<T>(list : List<List<T>>) : List<T> = (
     func go(lists : List<List<T>>, acc : List<T>) : List<T> = switch lists {
       case (?(list, t)) go(t, revAppend(list, acc));
       case null reverse acc
     }
-  )(self, null);
+  )(list, null);
 
   /// Returns the first `n` elements of the given list.
   /// If the given list has fewer than `n` elements, this function returns
@@ -685,7 +685,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `equalItem` runs in O(1) time and space.
-  public func equal<T>(self : List<T>, other : List<T>, equalItem : (implicit : (equal : (T, T) -> Bool))) : Bool = switch (self, other) {
+  public func equal<T>(list1 : List<T>, list2 : List<T>, equalItem : (implicit : (equal : (T, T) -> Bool))) : Bool = switch (list1, list2) {
     case (null, null) true;
     case (?(h1, t1), ?(h2, t2)) equalItem(h1, h2) and equal(t1, t2, equalItem);
     case _ false
@@ -710,7 +710,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that argument `compare` runs in O(1) time and space.
-  public func compare<T>(self : List<T>, other : List<T>, compareItem : (implicit : (compare : (T, T) -> Order.Order))) : Order.Order = switch (self, other) {
+  public func compare<T>(list1 : List<T>, list2 : List<T>, compareItem : (implicit : (compare : (T, T) -> Order.Order))) : Order.Order = switch (list1, list2) {
     case (?(h1, t1), ?(h2, t2)) switch (compareItem(h1, h2)) {
       case (#equal) compare(t1, t2, compareItem);
       case o o
@@ -1067,11 +1067,11 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func toText<T>(self : List<T>, f : (implicit : T -> Text)) : Text {
+  public func toText<T>(list : List<T>, f : (implicit : T -> Text)) : Text {
     var text = "PureList[";
     var first = true;
     forEach(
-      self,
+      list,
       func(item : T) {
         if first {
           first := false
