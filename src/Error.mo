@@ -103,4 +103,6 @@ module {
     case _ false
   };
 
+  let _ = 0; // Temporary for CI
+
 }
