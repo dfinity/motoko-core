@@ -722,6 +722,36 @@ let suite = Suite.suite(
         }
       },
       M.equals(T.bool(true))
+    ),
+    Suite.test(
+      "isSorted empty array",
+      VarArray.isSorted<Nat>([var], Nat.compare),
+      M.equals(T.bool(true))
+    ),
+    Suite.test(
+      "isSorted single element",
+      VarArray.isSorted<Nat>([var 42], Nat.compare),
+      M.equals(T.bool(true))
+    ),
+    Suite.test(
+      "isSorted already sorted",
+      VarArray.isSorted<Nat>([var 1, 2, 3, 4, 5], Nat.compare),
+      M.equals(T.bool(true))
+    ),
+    Suite.test(
+      "isSorted with duplicates",
+      VarArray.isSorted<Nat>([var 1, 2, 2, 3, 3, 3], Nat.compare),
+      M.equals(T.bool(true))
+    ),
+    Suite.test(
+      "isSorted not sorted",
+      VarArray.isSorted<Nat>([var 1, 3, 2, 4, 5], Nat.compare),
+      M.equals(T.bool(false))
+    ),
+    Suite.test(
+      "isSorted reverse sorted",
+      VarArray.isSorted<Nat>([var 5, 4, 3, 2, 1], Nat.compare),
+      M.equals(T.bool(false))
     )
   ]
 );
