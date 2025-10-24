@@ -541,6 +541,7 @@
       "public func get<T>(list : List<T>, index : Nat) : ?T",
       "public func indexOf<T>(list : List<T>, equal : (T, T) -> Bool, element : T) : ?Nat",
       "public func isEmpty<T>(list : List<T>) : Bool",
+      "public func isSorted<T>(list : List<T>, compare : (T, T) -> Order.Order) : Bool",
       "public func keys<T>(list : List<T>) : Iter.Iter<Nat>",
       "public func last<T>(list : List<T>) : ?T",
       "public func lastIndexOf<T>(list : List<T>, equal : (T, T) -> Bool, element : T) : ?Nat",

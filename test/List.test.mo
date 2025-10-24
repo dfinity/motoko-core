@@ -1145,6 +1145,22 @@ func testSort(n : Nat) : Bool {
   List.equal(vec, expected, Int.equal) and List.equal(sorted, expected, Int.equal)
 };
 
+func testIsSorted(n : Nat) : Bool {
+  let sorted = List.fromArray<Nat>(Array.tabulate<Nat>(n, func i = i));
+  if (not List.isSorted(sorted, Nat.compare)) {
+    Debug.print("isSorted fails on " # List.toText(sorted, Nat.toText));
+    return false
+  };
+
+  let notSorted = List.fromArray<Nat>(Array.tabulate<Nat>(n, func i = n - i - 1));
+  if (List.size(notSorted) >= 2 and List.isSorted(notSorted, Nat.compare)) {
+    Debug.print("isSorted fails on " # List.toText(notSorted, Nat.toText));
+    return false
+  };
+
+  true
+};
+
 func testToArray(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
   Array.equal(List.toArray(vec), Array.tabulate<Nat>(n, func(i) = i), Nat.equal)
@@ -1234,6 +1250,7 @@ func runAllTests() {
   runTest("testContains", testContains);
   runTest("testReverse", testReverse);
   runTest("testSort", testSort);
+  runTest("testIsSorted", testIsSorted);
   runTest("testToArray", testToArray);
   runTest("testFromIter", testFromIter);
   runTest("testFoldLeft", testFoldLeft);
