@@ -526,6 +526,40 @@ module {
     }
   };
 
+  /// Returns an iterator over the elements in the queue, in reverse order.
+  /// Iterates from back to front.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import Queue "mo:core/Queue";
+  /// persistent actor {
+  ///   let queue = Queue.fromIter<Text>(["A", "B", "C"].values());
+  ///   transient let iter = Queue.reverseValues(queue);
+  ///   assert iter.next() == ?"C";
+  ///   assert iter.next() == ?"B";
+  ///   assert iter.next() == ?"A";
+  ///   assert iter.next() == null;
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(1) for iterator creation, O(n) for full iteration
+  /// Space: O(1)
+  public func reverseValues<T>(queue : Queue<T>) : Iter.Iter<T> {
+    object {
+      var current = queue.back;
+
+      public func next() : ?T {
+        switch (current) {
+          case null null;
+          case (?node) {
+            current := node.previous;
+            ?node.value
+          }
+        }
+      }
+    }
+  };
+
   /// Tests whether all elements in the queue satisfy the given predicate.
   ///
   /// Example:
