@@ -109,6 +109,18 @@ module {
     ?(if (isNegative) { -n } else { n })
   };
 
+  /// Conversion to Float. May result in `Inf`.
+  ///
+  /// Note: The floating point number may be imprecise for large or small Int values.
+  /// Returns `inf` if the integer is greater than the maximum floating point number.
+  /// Returns `-inf` if the integer is less than the minimum floating point number.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Int.toFloat(-123) == -123.0;
+  /// ```
+  public let toFloat : Int -> Float = Prim.intToFloat;
+
   /// Converts an integer to a natural number. Traps if the integer is negative.
   ///
   /// Example:
