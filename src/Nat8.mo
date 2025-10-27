@@ -213,7 +213,9 @@ module {
   /// assert Array.sort([2, 3, 1] : [Nat8], Nat8.compare) == [1, 2, 3];
   /// ```
   public func compare(self : Nat8, other : Nat8) : Order.Order {
-    if (self < other) { #less } else if (self == other) { #equal } else { #greater }
+    if (self < other) { #less } else if (self == other) { #equal } else {
+      #greater
+    }
   };
 
   /// Returns the sum of `x` and `y`, `x + y`.

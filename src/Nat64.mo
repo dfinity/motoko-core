@@ -200,7 +200,9 @@ module {
   /// to the existing `>=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>=`
   /// as a function value at the moment.
-  public func greaterOrEqual(self : Nat64, other : Nat64) : Bool { self >= other };
+  public func greaterOrEqual(self : Nat64, other : Nat64) : Bool {
+    self >= other
+  };
 
   /// General purpose comparison function for `Nat64`. Returns the `Order` (
   /// either `#less`, `#equal`, or `#greater`) of comparing `x` with `y`.
@@ -218,7 +220,9 @@ module {
   /// assert Array.sort([2, 3, 1] : [Nat64], Nat64.compare) == [1, 2, 3];
   /// ```
   public func compare(self : Nat64, other : Nat64) : Order.Order {
-    if (self < other) { #less } else if (self == other) { #equal } else { #greater }
+    if (self < other) { #less } else if (self == other) { #equal } else {
+      #greater
+    }
   };
 
   /// Returns the sum of `x` and `y`, `x + y`.
@@ -396,7 +400,9 @@ module {
   /// to the existing `<<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<`
   /// as a function value at the moment.
-  public func bitshiftLeft(self : Nat64, other : Nat64) : Nat64 { self << other };
+  public func bitshiftLeft(self : Nat64, other : Nat64) : Nat64 {
+    self << other
+  };
 
   /// Returns the bitwise shift right of `x` by `y`, `x >> y`.
   ///
@@ -410,7 +416,9 @@ module {
   /// to the existing `>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>>`
   /// as a function value at the moment.
-  public func bitshiftRight(self : Nat64, other : Nat64) : Nat64 { self >> other };
+  public func bitshiftRight(self : Nat64, other : Nat64) : Nat64 {
+    self >> other
+  };
 
   /// Returns the bitwise rotate left of `x` by `y`, `x <<> y`.
   ///
@@ -438,7 +446,9 @@ module {
   /// to the existing `<>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<>>`
   /// as a function value at the moment.
-  public func bitrotRight(self : Nat64, other : Nat64) : Nat64 { self <>> other };
+  public func bitrotRight(self : Nat64, other : Nat64) : Nat64 {
+    self <>> other
+  };
 
   /// Returns the value of bit `p mod 64` in `x`, `(x & 2^(p mod 64)) == 2^(p mod 64)`.
   /// This is equivalent to checking if the `p`-th bit is set in `x`, using 0 indexing.

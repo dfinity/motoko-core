@@ -247,7 +247,9 @@ module {
   /// assert Array.sort([1, -2, -3] : [Int8], Int8.compare) == [-3, -2, 1];
   /// ```
   public func compare(self : Int8, other : Int8) : Order.Order {
-    if (self < other) { #less } else if (self == other) { #equal } else { #greater }
+    if (self < other) { #less } else if (self == other) { #equal } else {
+      #greater
+    }
   };
 
   /// Returns the negation of `x`, `-x`.
