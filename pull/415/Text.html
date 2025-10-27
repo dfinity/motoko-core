@@ -232,12 +232,12 @@ assert text == &quot;good day&quot;;</code></pre></p></div><div class="declarati
 WARNING: Unicode compliant only when compiled, not interpreted.</p>
 <pre><code>motoko include=import
 let text = Text.toUpper(&quot;Good Day&quot;);
-assert text == &quot;GOOD DAY&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="toNat"><code><span class="keyword">public func </span><span class="fnname">toNat</span>(<span class="parameter">text</span> : <a href="#type.Text"><span class="type">Text</span></a>) : ?<span class="type">Nat</span></code></h4><p><p>Creates a natural number from its textual representation. Returns <code>null</code>
+assert text == &quot;GOOD DAY&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="toNat"><code><span class="keyword">public func </span><span class="fnname">toNat</span>(<span class="parameter">self</span> : <a href="#type.Text"><span class="type">Text</span></a>) : ?<span class="type">Nat</span></code></h4><p><p>Creates a natural number from its textual representation. Returns <code>null</code>
 if the input is not a valid natural number.</p>
 <p>The textual representation <em>must not</em> contain underscores.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Text.toNat(&quot;1234&quot;) == ?1234;</code></pre></p></div><div class="declaration"><h4 class="function" id="toInt"><code><span class="keyword">public func </span><span class="fnname">toInt</span>(<span class="parameter">text</span> : <a href="#type.Text"><span class="type">Text</span></a>) : ?<span class="type">Int</span></code></h4><p><p>Creates a integer from its textual representation. Returns <code>null</code>
+assert Text.toNat(&quot;1234&quot;) == ?1234;</code></pre></p></div><div class="declaration"><h4 class="function" id="toInt"><code><span class="keyword">public func </span><span class="fnname">toInt</span>(<span class="parameter">self</span> : <a href="#type.Text"><span class="type">Text</span></a>) : ?<span class="type">Int</span></code></h4><p><p>Creates a integer from its textual representation. Returns <code>null</code>
 if the input is not a valid integer.</p>
 <p>The textual representation <em>must not</em> contain underscores but may
 begin with a '+' or '-' character.</p>

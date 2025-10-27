@@ -17,7 +17,7 @@ if the input is not a valid natural number.</p>
 assert Nat.fromText(&quot;1234&quot;) == ?1234;</code></pre></p></div><div class="declaration"><h4 class="function" id="fromInt"><code><span class="keyword">public func </span><span class="fnname">fromInt</span>(<span class="parameter">int</span> : <span class="type">Int</span>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Converts an integer to a natural number. Traps if the integer is negative.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Nat.fromInt(1234) == (1234 : Nat);</code></pre></p></div><div class="declaration"><h4 class="function" id="toFloat"><code><span class="keyword">public func </span><span class="fnname">toFloat</span>(<span class="parameter">nat</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Float</span></code></h4><p><p>Conversion to Float. May result in <code>Inf</code>.</p>
+assert Nat.fromInt(1234) == (1234 : Nat);</code></pre></p></div><div class="declaration"><h4 class="function" id="toFloat"><code><span class="keyword">public func </span><span class="fnname">toFloat</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Float</span></code></h4><p><p>Conversion to Float. May result in <code>Inf</code>.</p>
 <p>Note: The floating point number may be imprecise for large or small Nat values.
 Returns <code>inf</code> if the nat is greater than the maximum floating point number.</p>
 <p>Example:</p>
