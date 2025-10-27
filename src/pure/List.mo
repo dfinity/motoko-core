@@ -122,7 +122,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(1)
-  public func get<T>(list : List<T>, n : Nat) : ?T = switch list {
+  public func get<T>(self : List<T>, n : Nat) : ?T = switch self {
     case (?(h, t)) if (n == 0) ?h else get(t, n - 1 : Nat);
     case null null
   };
@@ -225,7 +225,7 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func forEach<T>(list : List<T>, f : T -> ()) = switch list {
+  public func forEach<T>(self : List<T>, f : T -> ()) = switch self {
     case (?(h, t)) { f h; forEach(t, f) };
     case null ()
   };
@@ -248,8 +248,8 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func map<T1, T2>(list : List<T1>, f : T1 -> T2) : List<T2> = (
-    func go(list : List<T1>, f : T1 -> T2, acc : List<T2>) : List<T2> = switch list {
+  public func map<T1, T2>(self : List<T1>, f : T1 -> T2) : List<T2> = (
+    func go(list : List<T1>, f : T1 -> T2, acc : List<T2>) : List<T2> = switch self {
       case (?(h, t)) go(t, f, ?(f h, acc));
       case null reverse acc
     }
@@ -427,12 +427,12 @@ module {
   /// Runtime: O(size*size)
   ///
   /// Space: O(size*size)
-  public func flatten<T>(list : List<List<T>>) : List<T> = (
+  public func flatten<T>(self : List<List<T>>) : List<T> = (
     func go(lists : List<List<T>>, acc : List<T>) : List<T> = switch lists {
       case (?(list, t)) go(t, revAppend(list, acc));
       case null reverse acc
     }
-  )(list, null);
+  )(self, null);
 
   /// Returns the first `n` elements of the given list.
   /// If the given list has fewer than `n` elements, this function returns
@@ -1067,11 +1067,11 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func toText<T>(list : List<T>, f : (implicit : T -> Text)) : Text {
+  public func toText<T>(self : List<T>, f : (implicit : T -> Text)) : Text {
     var text = "PureList[";
     var first = true;
     forEach(
-      list,
+      self,
       func(item : T) {
         if first {
           first := false
