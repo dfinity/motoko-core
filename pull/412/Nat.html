@@ -5,7 +5,7 @@ This module provides equivalent functions and <code>Text</code> conversion.</p>
 <p>Import from the core package to use this module.</p>
 <pre><code>motoko name=import
 import Nat &quot;mo:core/Nat&quot;;</code></pre><div class="declaration"><h4 class="type-declaration" id="type.Nat"><span class="keyword">type </span><span class="type">Nat</span> = <span class="type">Prim.Types.Nat</span></h4><p><p>Infinite precision natural numbers.</p>
-</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>(<span class="parameter">_</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Text</span></code></h4><p><p>Converts a natural number to its textual representation. Textual
+</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Text</span></code></h4><p><p>Converts a natural number to its textual representation. Textual
 representation <em>do not</em> contain underscores to represent commas.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
