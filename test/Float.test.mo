@@ -1547,7 +1547,7 @@ run(
       ),
       test(
         "exp positive",
-        Float.format(20.12345678901, #exp 9 ),
+        Float.format(20.12345678901, #exp 9),
         M.anyOf([M.equals(T.text("2.012345679e1")), M.equals(T.text("2.012345679e+01"))])
       ),
       test(
