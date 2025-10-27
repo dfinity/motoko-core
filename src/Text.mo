@@ -802,7 +802,7 @@ module {
           return if (matchSize == 0) {
             self
           } else {
-            fromIter(cs1) # fromChar(c) # fromIter(self.chars())
+            fromIter(cs1) # fromChar(c) # fromIter(cs)
           }
         }
       }
