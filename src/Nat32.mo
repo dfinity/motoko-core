@@ -108,6 +108,13 @@ module {
     Nat.toText(toNat(x))
   };
 
+  /// Convert a Nat32 `char` to a Char in its Unicode representation.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let unicode = Nat32.toChar(65);
+  /// assert unicode == 'A';
+  /// ```
   public let toChar : (self : Nat32) -> Char = Prim.nat32ToChar;
 
   /// Returns the minimum of `x` and `y`.
