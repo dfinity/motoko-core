@@ -58,7 +58,7 @@ assert not Char.isUpper('a');</code></pre></p></div><div class="declaration"><h4
 <pre><code>motoko include=import
 assert Char.isAlphabetic('A');
 assert Char.isAlphabetic('漢');
-assert not Char.isAlphabetic('1');</code></pre></p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>(<span class="parameter">a</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">b</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>a == b</code>.</p>
+assert not Char.isAlphabetic('1');</code></pre></p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>(<span class="parameter">self</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">other</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>a == b</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Char.equal('A', 'A');
@@ -67,7 +67,7 @@ assert not Char.equal('A', 'B');</code></pre>
 <p>Note: The reason why this function is defined in this library (in addition
 to the existing <code>==</code> operator) is so that you can use it as a function value
 to pass to a higher order function.</p>
-</p></div><div class="declaration"><h4 class="function" id="notEqual"><code><span class="keyword">public func </span><span class="fnname">notEqual</span>(<span class="parameter">a</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">b</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>a != b</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="notEqual"><code><span class="keyword">public func </span><span class="fnname">notEqual</span>(<span class="parameter">self</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">other</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>a != b</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Char.notEqual('A', 'B');
@@ -76,7 +76,7 @@ assert not Char.notEqual('A', 'A');</code></pre>
 <p>Note: The reason why this function is defined in this library (in addition
 to the existing <code>!=</code> operator) is so that you can use it as a function value
 to pass to a higher order function.</p>
-</p></div><div class="declaration"><h4 class="function" id="less"><code><span class="keyword">public func </span><span class="fnname">less</span>(<span class="parameter">a</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">b</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>a &lt; b</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="less"><code><span class="keyword">public func </span><span class="fnname">less</span>(<span class="parameter">self</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">other</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>a &lt; b</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Char.less('A', 'B');
@@ -85,7 +85,7 @@ assert not Char.less('B', 'A');</code></pre>
 <p>Note: The reason why this function is defined in this library (in addition
 to the existing <code>&lt;</code> operator) is so that you can use it as a function value
 to pass to a higher order function.</p>
-</p></div><div class="declaration"><h4 class="function" id="lessOrEqual"><code><span class="keyword">public func </span><span class="fnname">lessOrEqual</span>(<span class="parameter">a</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">b</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>a &lt;= b</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="lessOrEqual"><code><span class="keyword">public func </span><span class="fnname">lessOrEqual</span>(<span class="parameter">self</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">other</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>a &lt;= b</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Char.lessOrEqual('A', 'A');
@@ -95,7 +95,7 @@ assert not Char.lessOrEqual('B', 'A');</code></pre>
 <p>Note: The reason why this function is defined in this library (in addition
 to the existing <code>&lt;=</code> operator) is so that you can use it as a function value
 to pass to a higher order function.</p>
-</p></div><div class="declaration"><h4 class="function" id="greater"><code><span class="keyword">public func </span><span class="fnname">greater</span>(<span class="parameter">a</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">b</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>a &gt; b</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="greater"><code><span class="keyword">public func </span><span class="fnname">greater</span>(<span class="parameter">self</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">other</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>a &gt; b</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Char.greater('B', 'A');
@@ -104,7 +104,7 @@ assert not Char.greater('A', 'B');</code></pre>
 <p>Note: The reason why this function is defined in this library (in addition
 to the existing <code>&gt;</code> operator) is so that you can use it as a function value
 to pass to a higher order function.</p>
-</p></div><div class="declaration"><h4 class="function" id="greaterOrEqual"><code><span class="keyword">public func </span><span class="fnname">greaterOrEqual</span>(<span class="parameter">a</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">b</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>a &gt;= b</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="greaterOrEqual"><code><span class="keyword">public func </span><span class="fnname">greaterOrEqual</span>(<span class="parameter">self</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">other</span> : <a href="#type.Char"><span class="type">Char</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>a &gt;= b</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Char.greaterOrEqual('B', 'A');
@@ -114,7 +114,7 @@ assert not Char.greaterOrEqual('A', 'B');</code></pre>
 <p>Note: The reason why this function is defined in this library (in addition
 to the existing <code>&gt;=</code> operator) is so that you can use it as a function value
 to pass to a higher order function.</p>
-</p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>(<span class="parameter">a</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">b</span> : <a href="#type.Char"><span class="type">Char</span></a>) : {#less; #equal; #greater}</code></h4><p><p>Returns the order of <code>a</code> and <code>b</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>(<span class="parameter">self</span> : <a href="#type.Char"><span class="type">Char</span></a>, <span class="parameter">other</span> : <a href="#type.Char"><span class="type">Char</span></a>) : {#less; #equal; #greater}</code></h4><p><p>Returns the order of <code>a</code> and <code>b</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Char.compare('A', 'B') == #less;
