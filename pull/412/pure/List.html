@@ -49,7 +49,7 @@ persistent actor {
 <p>Runtime: O(size)</p>
 <p>Space: O(1)</p>
 <p>*Runtime and space assumes that <code>equal</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="get"><code><span class="keyword">public func </span><span class="fnname">get</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">n</span> : <span class="type">Nat</span>) : ?<span class="type">T</span></code></h4><p><p>Access any item in a list, zero-based.</p>
+</p></div><div class="declaration"><h4 class="function" id="get"><code><span class="keyword">public func </span><span class="fnname">get</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">n</span> : <span class="type">Nat</span>) : ?<span class="type">T</span></code></h4><p><p>Access any item in a list, zero-based.</p>
 <p>NOTE: Indexing into a list is a linear operation, and usually an
 indication that a list might not be the best data structure
 to use.</p>
@@ -107,7 +107,7 @@ persistent actor {
 
 <p>Runtime: O(size)</p>
 <p>Space: O(size)</p>
-</p></div><div class="declaration"><h4 class="function" id="forEach"><code><span class="keyword">public func </span><span class="fnname">forEach</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">f</span> : <span class="type">T</span> -&gt; ())</code></h4><p><p>Call the given function for its side effect, with each list element in turn.</p>
+</p></div><div class="declaration"><h4 class="function" id="forEach"><code><span class="keyword">public func </span><span class="fnname">forEach</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">f</span> : <span class="type">T</span> -&gt; ())</code></h4><p><p>Call the given function for its side effect, with each list element in turn.</p>
 <p>Example:</p>
 <pre class="motoko"><code class="motoko">import List &quot;mo:core/pure/List&quot;;
 
@@ -121,7 +121,7 @@ persistent actor {
 <p>Runtime: O(size)</p>
 <p>Space: O(size)</p>
 <p>*Runtime and space assumes that <code>f</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="map"><code><span class="keyword">public func </span><span class="fnname">map</span>&lt;<span class="type">T1</span>, <span class="type">T2</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T1</span>&gt;, <span class="parameter">f</span> : <span class="type">T1</span> -&gt; <span class="type">T2</span>) : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T2</span>&gt;</code></h4><p><p>Call the given function <code>f</code> on each list element and collect the results
+</p></div><div class="declaration"><h4 class="function" id="map"><code><span class="keyword">public func </span><span class="fnname">map</span>&lt;<span class="type">T1</span>, <span class="type">T2</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T1</span>&gt;, <span class="parameter">f</span> : <span class="type">T1</span> -&gt; <span class="type">T2</span>) : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T2</span>&gt;</code></h4><p><p>Call the given function <code>f</code> on each list element and collect the results
 in a new list.</p>
 <p>Example:</p>
 <pre class="motoko"><code class="motoko">import List &quot;mo:core/pure/List&quot;;
@@ -219,7 +219,7 @@ persistent actor {
 
 <p>Runtime: O(size*size)</p>
 <p>Space: O(size*size)</p>
-</p></div><div class="declaration"><h4 class="function" id="flatten"><code><span class="keyword">public func </span><span class="fnname">flatten</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;&gt;) : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;</code></h4><p><p>Flatten, or repatedly concatenate, a list of lists as a list.</p>
+</p></div><div class="declaration"><h4 class="function" id="flatten"><code><span class="keyword">public func </span><span class="fnname">flatten</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;&gt;) : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;</code></h4><p><p>Flatten, or repatedly concatenate, a list of lists as a list.</p>
 <p>Example:</p>
 <pre class="motoko"><code class="motoko">import List &quot;mo:core/pure/List&quot;;
 
@@ -568,7 +568,7 @@ persistent actor {
 
 <p>Runtime: O(size)</p>
 <p>Space: O(size)</p>
-</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">f</span> : (<span class="parameter">implicit</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>)) : <span class="type">Text</span></code></h4><p><p>Convert a list to a text representation using the provided function to convert each element to text.
+</p></div><div class="declaration"><h4 class="function" id="toText"><code><span class="keyword">public func </span><span class="fnname">toText</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">f</span> : (<span class="parameter">implicit</span> : <span class="type">T</span> -&gt; <span class="type">Text</span>)) : <span class="type">Text</span></code></h4><p><p>Convert a list to a text representation using the provided function to convert each element to text.
 The resulting text will be in the format &quot;[element1, element2, ...]&quot;.</p>
 <p>Example:</p>
 <pre class="motoko"><code class="motoko">import List &quot;mo:core/pure/List&quot;;
