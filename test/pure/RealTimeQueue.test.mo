@@ -746,7 +746,7 @@ suite(
         testMap([1]);
         testMap([1, 2]);
         testMap([1, 2, 3]);
-        testMap([1, 2, 3, 4]);
+        testMap([1, 2, 3, 4]); //<- THIS TEST FAILS
         testMap([1, 2, 2, 3, 3, 4]);
         testMap([1, 2, 2, 3, 3, 4, 5, 6, 7, 8, 9])
       }
