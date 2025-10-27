@@ -51,7 +51,7 @@ module {
   /// let char = Char.fromNat32(unicode);
   /// assert char == 'A';
   /// ```
-  public let fromNat32 : (nat32 : Nat32) -> Char = Prim.nat32ToChar;
+  public func fromNat32(nat32 : Nat32) : Char = Prim.nat32ToChar(nat32);
 
   /// TODO: Should this go into Nat32 instead? Un-dotted use `Char.toChar(23)` is weird.
   public func toChar(self : Nat32) : Char = Prim.nat32ToChar(self);
@@ -133,7 +133,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `==` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func equal(a : Char, b : Char) : Bool { a == b };
+  public func equal(self : Char, other : Char) : Bool { self == other };
 
   /// Returns `a != b`.
   ///
@@ -146,7 +146,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `!=` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func notEqual(a : Char, b : Char) : Bool { a != b };
+  public func notEqual(self : Char, other : Char) : Bool { self != other };
 
   /// Returns `a < b`.
   ///
@@ -159,7 +159,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `<` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func less(a : Char, b : Char) : Bool { a < b };
+  public func less(self : Char, other : Char) : Bool { self < other };
 
   /// Returns `a <= b`.
   ///
@@ -173,7 +173,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `<=` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func lessOrEqual(a : Char, b : Char) : Bool { a <= b };
+  public func lessOrEqual(self : Char, other : Char) : Bool { self <= other };
 
   /// Returns `a > b`.
   ///
@@ -186,7 +186,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `>` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func greater(a : Char, b : Char) : Bool { a > b };
+  public func greater(self : Char, other : Char) : Bool { self > other };
 
   /// Returns `a >= b`.
   ///
@@ -200,7 +200,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `>=` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func greaterOrEqual(a : Char, b : Char) : Bool { a >= b };
+  public func greaterOrEqual(self : Char, other : Char) : Bool { self >= other };
 
   /// Returns the order of `a` and `b`.
   ///
@@ -210,8 +210,10 @@ module {
   /// assert Char.compare('B', 'A') == #greater;
   /// assert Char.compare('A', 'A') == #equal;
   /// ```
-  public func compare(a : Char, b : Char) : { #less; #equal; #greater } {
-    if (a < b) { #less } else if (a == b) { #equal } else { #greater }
+  public func compare(self : Char, other : Char) : { #less; #equal; #greater } {
+    if (self < other) { #less } else if (self == other) { #equal } else {
+      #greater
+    }
   };
 
 }
