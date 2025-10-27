@@ -253,7 +253,7 @@ module {
       case (?(h, t)) go(t, f, ?(f h, acc));
       case null reverse acc
     }
-  )(list, f, null);
+  )(self, f, null);
 
   /// Create a new list with only those elements of the original list for which
   /// the given function (often called the _predicate_) returns true.
