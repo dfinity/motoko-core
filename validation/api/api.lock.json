@@ -226,6 +226,7 @@
       "public func rem(x : Int, y : Int) : Int",
       "public type Self",
       "public func sub(x : Int, y : Int) : Int",
+      "public let toFloat : Int -> Float",
       "public func toNat(int : Int) : Nat",
       "public func toText(x : Int) : Text"
     ]
@@ -659,6 +660,7 @@
       "public func rem(x : Nat, y : Nat) : Nat",
       "public type Self",
       "public func sub(x : Nat, y : Nat) : Nat",
+      "public func toFloat(nat : Nat) : Float",
       "public func toInt(nat : Nat) : Int",
       "public let toText : Nat -> Text"
     ]
@@ -765,6 +767,7 @@
       "public type Self",
       "public func sub(x : Nat32, y : Nat32) : Nat32",
       "public func subWrap(x : Nat32, y : Nat32) : Nat32",
+      "public let toChar : (self : Nat32) -> Char",
       "public let toNat : Nat32 -> Nat",
       "public func toNat16(x : Nat32) : Nat16",
       "public func toNat64(x : Nat32) : Nat64",
@@ -1186,9 +1189,11 @@
       "public func stripStart(t : Text, p : Pattern) : ?Text",
       "public type Text",
       "public func toArray(t : Text) : [Char]",
+      "public func toInt(text : Text) : ?Int",
       "public func toIter(t : Text) : Iter.Iter<Char>",
       "public func tokens(t : Text, p : Pattern) : Iter.Iter<Text>",
       "public let toLower : Text -> Text",
+      "public func toNat(text : Text) : ?Nat",
       "public func toText(t : Text) : Text",
       "public let toUpper : Text -> Text",
       "public func toVarArray(t : Text) : [var Char]",
