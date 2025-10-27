@@ -25,8 +25,8 @@ module {
   /// ```motoko include=import
   /// assert Int.abs(-12) == 12;
   /// ```
-  public func abs(self : Int) : Nat {
-    Prim.abs(self)
+  public func abs(x : Int) : Nat {
+    Prim.abs(x)
   };
 
   /// Converts an integer number to its textual representation. Textual

@@ -196,7 +196,7 @@
   {
     "name": "Int",
     "exports": [
-      "public func abs(self : Int) : Nat",
+      "public func abs(x : Int) : Nat",
       "public func add(self : Int, other : Int) : Int",
       "public func compare(self : Int, other : Int) : Order.Order",
       "public func div(self : Int, other : Int) : Int",
