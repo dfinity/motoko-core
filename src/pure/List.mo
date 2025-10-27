@@ -249,7 +249,7 @@ module {
   /// Space: O(size)
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
   public func map<T1, T2>(self : List<T1>, f : T1 -> T2) : List<T2> = (
-    func go(list : List<T1>, f : T1 -> T2, acc : List<T2>) : List<T2> = switch self {
+    func go(list : List<T1>, f : T1 -> T2, acc : List<T2>) : List<T2> = switch list {
       case (?(h, t)) go(t, f, ?(f h, acc));
       case null reverse acc
     }
