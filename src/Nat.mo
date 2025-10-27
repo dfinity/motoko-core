@@ -27,7 +27,7 @@ module {
   /// ```motoko include=import
   /// assert Nat.toText(1234) == "1234";
   /// ```
-  public let toText : Nat -> Text = Int.toText;
+  public func toText(self : Nat) : Text { Int.toText(self) };
 
   /// Creates a natural number from its textual representation. Returns `null`
   /// if the input is not a valid natural number.
