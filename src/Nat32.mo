@@ -108,6 +108,8 @@ module {
     Nat.toText(toNat(x))
   };
 
+  public let toChar : (self : Nat32) -> Char = Prim.nat32ToChar;
+
   /// Returns the minimum of `x` and `y`.
   ///
   /// Example:
