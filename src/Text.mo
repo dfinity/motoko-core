@@ -966,12 +966,12 @@ module {
   /// ```motoko include=import
   /// assert Text.toNat("1234") == ?1234;
   /// ```
-  public func toNat(text : Text) : ?Nat {
-    if (text == "") {
+  public func toNat(self : Text) : ?Nat {
+    if (self == "") {
       return null
     };
     var n = 0;
-    for (c in text.chars()) {
+    for (c in self.chars()) {
       if (Char.isDigit(c)) {
         let charAsNat = Prim.nat32ToNat(Prim.charToNat32(c) -% Prim.charToNat32('0'));
         n := n * 10 + charAsNat
@@ -992,15 +992,15 @@ module {
   /// ```motoko include=import
   /// assert Text.toInt("-1234") == ?-1234;
   /// ```
-  public func toInt(text : Text) : ?Int {
-    if (text == "") {
+  public func toInt(self : Text) : ?Int {
+    if (self == "") {
       return null
     };
     var n = 0;
     var isFirst = true;
     var isNegative = false;
     var hasDigits = false;
-    for (c in text.chars()) {
+    for (c in self.chars()) {
       if (isFirst and c == '+') {
         // Skip character
       } else if (isFirst and c == '-') {

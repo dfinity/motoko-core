@@ -78,8 +78,8 @@ module {
   /// ```motoko include=import
   /// assert Nat.toFloat(123) == 123.0;
   /// ```
-  public func toFloat(nat : Nat) : Float {
-    Int.toFloat(nat : Int)
+  public func toFloat(self : Nat) : Float {
+    Int.toFloat(self : Int)
   };
 
   /// Converts a natural number to an integer.
