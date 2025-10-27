@@ -957,6 +957,69 @@ module {
   /// ```
   public let toUpper : Text -> Text = Prim.textUppercase;
 
+  /// Creates a natural number from its textual representation. Returns `null`
+  /// if the input is not a valid natural number.
+  ///
+  /// The textual representation _must not_ contain underscores.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Text.toNat("1234") == ?1234;
+  /// ```
+  public func toNat(text : Text) : ?Nat {
+    if (text == "") {
+      return null
+    };
+    var n = 0;
+    for (c in text.chars()) {
+      if (Char.isDigit(c)) {
+        let charAsNat = Prim.nat32ToNat(Prim.charToNat32(c) -% Prim.charToNat32('0'));
+        n := n * 10 + charAsNat
+      } else {
+        return null
+      }
+    };
+    ?n
+  };
+
+  /// Creates a integer from its textual representation. Returns `null`
+  /// if the input is not a valid integer.
+  ///
+  /// The textual representation _must not_ contain underscores but may
+  /// begin with a '+' or '-' character.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Text.toInt("-1234") == ?-1234;
+  /// ```
+  public func toInt(text : Text) : ?Int {
+    if (text == "") {
+      return null
+    };
+    var n = 0;
+    var isFirst = true;
+    var isNegative = false;
+    var hasDigits = false;
+    for (c in text.chars()) {
+      if (isFirst and c == '+') {
+        // Skip character
+      } else if (isFirst and c == '-') {
+        isNegative := true
+      } else if (Char.isDigit(c)) {
+        hasDigits := true;
+        let charAsNat = Prim.nat32ToNat(Prim.charToNat32(c) -% Prim.charToNat32('0'));
+        n := n * 10 + charAsNat
+      } else {
+        return null
+      };
+      isFirst := false
+    };
+    if (not hasDigits) {
+      return null
+    };
+    ?(if (isNegative) { -n } else { n })
+  };
+
   /// Returns the given text value unchanged.
   /// This function is provided for consistency with other modules.
   ///
