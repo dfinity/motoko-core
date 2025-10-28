@@ -49,17 +49,17 @@ assert Principal.toText(principal) == &quot;un4fu-tqaaa-aaaab-qadjq-cai&quot;;</
 <pre><code>motoko include=import
 let principal = Principal.fromText(&quot;un4fu-tqaaa-aaaab-qadjq-cai&quot;);
 assert Principal.toText(principal) == &quot;un4fu-tqaaa-aaaab-qadjq-cai&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="anonymous"><code><span class="keyword">public func </span><span class="fnname">anonymous</span>() : <a href="#type.Principal"><span class="type">Principal</span></a></code></h4><p><p>Constructs and returns the anonymous principal.</p>
-</p></div><div class="declaration"><h4 class="function" id="isAnonymous"><code><span class="keyword">public func </span><span class="fnname">isAnonymous</span>(<span class="parameter">p</span> : <a href="#type.Principal"><span class="type">Principal</span></a>) : <span class="type">Bool</span></code></h4><p><p>Checks if the given principal represents an anonymous user.</p>
+</p></div><div class="declaration"><h4 class="function" id="isAnonymous"><code><span class="keyword">public func </span><span class="fnname">isAnonymous</span>(<span class="parameter">self</span> : <a href="#type.Principal"><span class="type">Principal</span></a>) : <span class="type">Bool</span></code></h4><p><p>Checks if the given principal represents an anonymous user.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 let principal = Principal.fromText(&quot;un4fu-tqaaa-aaaab-qadjq-cai&quot;);
-assert not Principal.isAnonymous(principal);</code></pre></p></div><div class="declaration"><h4 class="function" id="isCanister"><code><span class="keyword">public func </span><span class="fnname">isCanister</span>(<span class="parameter">p</span> : <a href="#type.Principal"><span class="type">Principal</span></a>) : <span class="type">Bool</span></code></h4><p><p>Checks if the given principal is a canister.</p>
+assert not Principal.isAnonymous(principal);</code></pre></p></div><div class="declaration"><h4 class="function" id="isCanister"><code><span class="keyword">public func </span><span class="fnname">isCanister</span>(<span class="parameter">self</span> : <a href="#type.Principal"><span class="type">Principal</span></a>) : <span class="type">Bool</span></code></h4><p><p>Checks if the given principal is a canister.</p>
 <p>The last byte for opaque principal ids must be 0x01
 https://internetcomputer.org/docs/current/references/ic-interface-spec#principal</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 let principal = Principal.fromText(&quot;un4fu-tqaaa-aaaab-qadjq-cai&quot;);
-assert Principal.isCanister(principal);</code></pre></p></div><div class="declaration"><h4 class="function" id="isSelfAuthenticating"><code><span class="keyword">public func </span><span class="fnname">isSelfAuthenticating</span>(<span class="parameter">p</span> : <a href="#type.Principal"><span class="type">Principal</span></a>) : <span class="type">Bool</span></code></h4><p><p>Checks if the given principal is a self authenticating principal.
+assert Principal.isCanister(principal);</code></pre></p></div><div class="declaration"><h4 class="function" id="isSelfAuthenticating"><code><span class="keyword">public func </span><span class="fnname">isSelfAuthenticating</span>(<span class="parameter">self</span> : <a href="#type.Principal"><span class="type">Principal</span></a>) : <span class="type">Bool</span></code></h4><p><p>Checks if the given principal is a self authenticating principal.
 Most of the time, this is a user principal.</p>
 <p>The last byte for user principal ids must be 0x02
 https://internetcomputer.org/docs/current/references/ic-interface-spec#principal</p>
