@@ -83,6 +83,17 @@ module {
     }
   };
 
+  /// Conversion to Float. May result in `Inf`.
+  ///
+  /// Note: The floating point number may be imprecise for large Nat values.
+  /// Returns `inf` if the integer is greater than the maximum floating point number.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat.toFloat(123) == 123.0;
+  /// ```
+  public func toFloat(self : Nat) : Float = Int.toFloat(self);
+
   /// Converts a natural number to an integer.
   ///
   /// Example:
