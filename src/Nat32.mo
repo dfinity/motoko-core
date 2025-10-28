@@ -96,6 +96,17 @@ module {
   /// ```
   public let fromIntWrap : Int -> Nat32 = Prim.intToNat32Wrap;
 
+  /// Convert a Nat32 `char` to a Char in its Unicode representation.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let unicode = Nat32.toChar(65);
+  /// assert unicode == 'A';
+  /// ```
+  public func toChar(self : Nat32) : Char {
+    Prim.nat32ToChar(self);
+  };
+
   /// Converts `x` to its textual representation. Textual representation _do not_
   /// contain underscores to represent commas.
   ///

@@ -120,7 +120,10 @@
   },
   {
     "name": "Debug",
-    "exports": ["public func print(text : Text)", "public func todo() : None"]
+    "exports": [
+      "public func print(text : Text)",
+      "public func todo() : None"
+    ]
   },
   {
     "name": "Error",
@@ -216,6 +219,8 @@
       "public func rangeInclusive(self : Int, to : Int) : Iter.Iter<Int>",
       "public func rem(self : Int, other : Int) : Int",
       "public func sub(self : Int, other : Int) : Int",
+      "public func toFloat(self : Int) : Float",
+      "public func toInt(self : Text) : ?Int",
       "public func toNat(self : Int) : Nat",
       "public func toText(self : Int) : Text"
     ]
@@ -642,6 +647,7 @@
       "public func rem(self : Nat, other : Nat) : Nat",
       "public func sub(self : Nat, other : Nat) : Nat",
       "public func toInt(self : Nat) : Int",
+      "public func toNat(self : Text) : ?Nat",
       "public func toText(self : Nat) : Text"
     ]
   },
@@ -745,6 +751,7 @@
       "public func rem(self : Nat32, other : Nat32) : Nat32",
       "public func sub(self : Nat32, other : Nat32) : Nat32",
       "public func subWrap(self : Nat32, other : Nat32) : Nat32",
+      "public func toChar(self : Nat32) : Char",
       "public func toNat(self : Nat32) : Nat",
       "public func toNat16(self : Nat32) : Nat16",
       "public func toNat64(self : Nat32) : Nat64",

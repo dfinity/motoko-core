@@ -108,6 +108,19 @@ module {
     ?(if (isNegative) { -n } else { n })
   };
 
+  /// Creates a integer from its textual representation. Returns `null`
+  /// if the input is not a valid integer.
+  ///
+  /// This functions is meant to be used with contextual-dot notation.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert "-1234".toInt() == ?-1234;
+  /// ```
+  public func toInt(self : Text) : ?Int {
+    fromText(self)
+  };
+
   /// Converts an integer to a natural number. Traps if the integer is negative.
   ///
   /// Example:
@@ -131,6 +144,20 @@ module {
   /// ```
   public func fromNat(nat : Nat) : Int {
     nat : Int
+  };
+
+  /// Conversion to Float. May result in `Inf`.
+  ///
+  /// Note: The floating point number may be imprecise for large or small Int values.
+  /// Returns `inf` if the integer is greater than the maximum floating point number.
+  /// Returns `-inf` if the integer is less than the minimum floating point number.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Int.toFloat(-123) == -123.0;
+  /// ```
+  public func toFloat(self : Int) : Float {
+    Prim.intToFloat(self)
   };
 
   /// Returns the minimum of `x` and `y`.

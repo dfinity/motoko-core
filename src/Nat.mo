@@ -54,6 +54,21 @@ module {
     ?n
   };
 
+  /// Creates a natural number from its textual representation. Returns `null`
+  /// if the input is not a valid natural number.
+  ///
+  /// The textual representation _must not_ contain underscores.
+  ///
+  /// This functions is meant to be used with contextual-dot notation.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert "1234".toNat() == ?1234;
+  /// ```
+  public func toNat(self : Text) : ?Nat {
+    fromText(self)
+  };
+
   /// Converts an integer to a natural number. Traps if the integer is negative.
   ///
   /// Example:
