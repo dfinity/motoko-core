@@ -53,9 +53,6 @@ module {
   /// ```
   public func fromNat32(nat32 : Nat32) : Char = Prim.nat32ToChar(nat32);
 
-  /// TODO: Should this go into Nat32 instead? Un-dotted use `Char.toChar(23)` is weird.
-  public func toChar(self : Nat32) : Char = Prim.nat32ToChar(self);
-
   /// Convert character `char` to single character text.
   ///
   /// Example:

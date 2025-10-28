@@ -104,7 +104,6 @@
       "public func less(self : Char, other : Char) : Bool",
       "public func lessOrEqual(self : Char, other : Char) : Bool",
       "public func notEqual(self : Char, other : Char) : Bool",
-      "public func toChar(self : Nat32) : Char",
       "public func toNat32(self : Char) : Nat32",
       "public func toText(self : Char) : Text"
     ]
