@@ -119,7 +119,9 @@ module {
   /// ```motoko include=import
   /// assert Int.toFloat(-123) == -123.0;
   /// ```
-  public let toFloat : Int -> Float = Prim.intToFloat;
+  public func toFloat(self : Int) : Float {
+    Prim.intToFloat(self)
+  };
 
   /// Converts an integer to a natural number. Traps if the integer is negative.
   ///
