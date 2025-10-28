@@ -134,7 +134,7 @@ module {
   /// let principal = Principal.fromText("un4fu-tqaaa-aaaab-qadjq-cai");
   /// assert not Principal.isAnonymous(principal);
   /// ```
-  public func isAnonymous(p : Principal) : Bool = Prim.blobOfPrincipal p == anonymousBlob;
+  public func isAnonymous(self : Principal) : Bool = Prim.blobOfPrincipal self == anonymousBlob;
 
   /// Checks if the given principal is a canister.
   ///
@@ -146,8 +146,8 @@ module {
   /// let principal = Principal.fromText("un4fu-tqaaa-aaaab-qadjq-cai");
   /// assert Principal.isCanister(principal);
   /// ```
-  public func isCanister(p : Principal) : Bool {
-    let byteArray = toByteArray(p);
+  public func isCanister(self : Principal) : Bool {
+    let byteArray = toByteArray(self);
 
     byteArray.size() >= 0 and byteArray.size() <= 29 and isLastByte(byteArray, 1)
   };
@@ -163,8 +163,8 @@ module {
   /// let principal = Principal.fromText("6rgy7-3uukz-jrj2k-crt3v-u2wjm-dmn3t-p26d6-ndilt-3gusv-75ybk-jae");
   /// assert Principal.isSelfAuthenticating(principal);
   /// ```
-  public func isSelfAuthenticating(p : Principal) : Bool {
-    let byteArray = toByteArray(p);
+  public func isSelfAuthenticating(self : Principal) : Bool {
+    let byteArray = toByteArray(self);
 
     byteArray.size() == 29 and isLastByte(byteArray, 2)
   };

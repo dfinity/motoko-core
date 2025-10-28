@@ -107,8 +107,8 @@ module {
   /// assuming that the `compare` function implements an `O(1)` comparison.
   ///
   /// Note: Creates `O(n * log(n))` temporary objects that will be collected as garbage.
-  public func toSet<T>(iter : Iter.Iter<T>, compare : (implicit : (T, T) -> Order.Order)) : Set<T> {
-    fromIter(iter, compare)
+  public func toSet<T>(self : Iter.Iter<T>, compare : (implicit : (T, T) -> Order.Order)) : Set<T> {
+    fromIter(self, compare)
   };
 
   /// Given a `set` ordered by `compare`, insert the new `element`,
