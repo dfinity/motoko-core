@@ -79,7 +79,7 @@ module {
   /// assert Nat.toFloat(123) == 123.0;
   /// ```
   public func toFloat(self : Nat) : Float {
-    Int.toFloat(self : Int)
+    Prim.intToFloat(self)
   };
 
   /// Converts a natural number to an integer.
