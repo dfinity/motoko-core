@@ -104,7 +104,7 @@ module {
   /// assert unicode == 'A';
   /// ```
   public func toChar(self : Nat32) : Char {
-    Prim.nat32ToChar(self);
+    Prim.nat32ToChar(self)
   };
 
   /// Converts `x` to its textual representation. Textual representation _do not_

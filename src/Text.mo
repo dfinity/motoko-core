@@ -330,19 +330,18 @@ module {
   /// Join an iterator of `Text` values with a given delimiter.
   ///
   /// ```motoko include=import
-  /// let joined = Text.join(", ", ["a", "b", "c"].values());
+  /// let joined = Text.join(["a", "b", "c"].values(), ", ");
   /// assert joined == "a, b, c";
   /// ```
-  /// TODO: The argument order here should be flipped, and then we can make it use `self`
-  public func join(sep : Text, ts : Iter.Iter<Text>) : Text {
+  public func join(self : Iter.Iter<Text>, sep : Text) : Text {
     var r = "";
     if (sep.size() == 0) {
-      for (t in ts) {
+      for (t in self) {
         r #= t
       };
       return r
     };
-    let next = ts.next;
+    let next = self.next;
     switch (next()) {
       case null { return r };
       case (?t) {

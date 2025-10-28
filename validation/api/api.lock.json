@@ -1149,7 +1149,7 @@
       "public func greater(self : Text, other : Text) : Bool",
       "public func greaterOrEqual(self : Text, other : Text) : Bool",
       "public func isEmpty(self : Text) : Bool",
-      "public func join(sep : Text, ts : Iter.Iter<Text>) : Text",
+      "public func join(self : Iter.Iter<Text>, sep : Text) : Text",
       "public func less(self : Text, other : Text) : Bool",
       "public func lessOrEqual(self : Text, other : Text) : Bool",
       "public func map(self : Text, f : Char -> Char) : Text",
