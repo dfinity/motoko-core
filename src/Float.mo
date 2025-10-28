@@ -54,7 +54,6 @@ module {
 
   /// 64-bit floating point number type.
   public type Float = Prim.Types.Float;
-  public type Self = Float;
 
   /// Ratio of the circumference of a circle to its diameter.
   /// Note: Limited precision.
@@ -74,8 +73,8 @@ module {
   /// ```motoko include=import
   /// assert Float.isNaN(0.0/0.0);
   /// ```
-  public func isNaN(number : Float) : Bool {
-    number != number
+  public func isNaN(self : Float) : Bool {
+    self != self
   };
 
   /// Returns the absolute value of `x`.
@@ -93,7 +92,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.abs(-1.2), 1.2, epsilon);
   /// ```
-  public let abs : (x : Float) -> Float = Prim.floatAbs;
+  public func abs(self : Float) : Float = Prim.floatAbs(self);
 
   /// Returns the square root of `x`.
   ///
@@ -110,7 +109,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.sqrt(6.25), 2.5, epsilon);
   /// ```
-  public let sqrt : (x : Float) -> Float = Prim.floatSqrt;
+  public func sqrt(self : Float) : Float = Prim.floatSqrt(self);
 
   /// Returns the smallest integral float greater than or equal to `x`.
   ///
@@ -128,7 +127,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.ceil(1.2), 2.0, epsilon);
   /// ```
-  public let ceil : (x : Float) -> Float = Prim.floatCeil;
+  public func ceil(self : Float) : Float = Prim.floatCeil(self);
 
   /// Returns the largest integral float less than or equal to `x`.
   ///
@@ -146,7 +145,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.floor(1.2), 1.0, epsilon);
   /// ```
-  public let floor : (x : Float) -> Float = Prim.floatFloor;
+  public func floor(self : Float) : Float = Prim.floatFloor(self);
 
   /// Returns the nearest integral float not greater in magnitude than `x`.
   /// This is equivalent to returning `x` with truncating its decimal places.
@@ -165,7 +164,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.trunc(2.75), 2.0, epsilon);
   /// ```
-  public let trunc : (x : Float) -> Float = Prim.floatTrunc;
+  public func trunc(self : Float) : Float = Prim.floatTrunc(self);
 
   /// Returns the nearest integral float to `x`.
   /// A decimal place of exactly .5 is rounded up for `x > 0`
@@ -184,7 +183,7 @@ module {
   /// ```motoko include=import
   /// assert Float.nearest(2.75) == 3.0
   /// ```
-  public let nearest : (x : Float) -> Float = Prim.floatNearest;
+  public func nearest(self : Float) : Float = Prim.floatNearest(self);
 
   /// Returns `x` if `x` and `y` have same sign, otherwise `x` with negated sign.
   ///
@@ -195,7 +194,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.copySign(1.2, -2.3), -1.2, epsilon);
   /// ```
-  public let copySign : (x : Float, y : Float) -> Float = Prim.floatCopySign;
+  public func copySign(self : Float, other : Float) : Float = Prim.floatCopySign(self, other);
 
   /// Returns the smaller value of `x` and `y`.
   ///
@@ -209,7 +208,7 @@ module {
   /// ```motoko include=import
   /// assert Float.min(1.2, -2.3) == -2.3; // with numerical imprecision
   /// ```
-  public let min : (x : Float, y : Float) -> Float = Prim.floatMin;
+  public func min(self : Float, other : Float) : Float = Prim.floatMin(self, other);
 
   /// Returns the larger value of `x` and `y`.
   ///
@@ -223,7 +222,7 @@ module {
   /// ```motoko include=import
   /// assert Float.max(1.2, -2.3) == 1.2;
   /// ```
-  public let max : (x : Float, y : Float) -> Float = Prim.floatMax;
+  public func max(self : Float, other : Float) : Float = Prim.floatMax(self, other);
 
   /// Returns the sine of the radian angle `x`.
   ///
@@ -239,7 +238,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.sin(Float.pi / 2), 1.0, epsilon);
   /// ```
-  public let sin : (x : Float) -> Float = Prim.sin;
+  public func sin(self : Float) : Float = Prim.sin(self);
 
   /// Returns the cosine of the radian angle `x`.
   ///
@@ -255,7 +254,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.cos(Float.pi / 2), 0.0, epsilon);
   /// ```
-  public let cos : (x : Float) -> Float = Prim.cos;
+  public func cos(self : Float) : Float = Prim.cos(self);
 
   /// Returns the tangent of the radian angle `x`.
   ///
@@ -271,7 +270,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.tan(Float.pi / 4), 1.0, epsilon);
   /// ```
-  public let tan : (x : Float) -> Float = Prim.tan;
+  public func tan(self : Float) : Float = Prim.tan(self);
 
   /// Returns the arc sine of `x` in radians.
   ///
@@ -287,7 +286,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.arcsin(1.0), Float.pi / 2, epsilon);
   /// ```
-  public let arcsin : (x : Float) -> Float = Prim.arcsin;
+  public func arcsin(self : Float) : Float = Prim.arcsin(self);
 
   /// Returns the arc cosine of `x` in radians.
   ///
@@ -303,7 +302,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.arccos(1.0), 0.0, epsilon);
   /// ```
-  public let arccos : (x : Float) -> Float = Prim.arccos;
+  public func arccos(self : Float) : Float = Prim.arccos(self);
 
   /// Returns the arc tangent of `x` in radians.
   ///
@@ -319,7 +318,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.arctan(1.0), Float.pi / 4, epsilon);
   /// ```
-  public let arctan : (x : Float) -> Float = Prim.arctan;
+  public func arctan(self : Float) : Float = Prim.arctan(self);
 
   /// Given `(y,x)`, returns the arc tangent in radians of `y/x` based on the signs of both values to determine the correct quadrant.
   ///
@@ -342,7 +341,7 @@ module {
   /// let sqrt2over2 = Float.sqrt(2) / 2;
   /// assert Float.arctan2(sqrt2over2, sqrt2over2) == Float.pi / 4;
   /// ```
-  public let arctan2 : (y : Float, x : Float) -> Float = Prim.arctan2;
+  public func arctan2(self : Float, other : Float) : Float = Prim.arctan2(self, other);
 
   /// Returns the value of `e` raised to the `x`-th power.
   ///
@@ -358,7 +357,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.exp(1.0), Float.e, epsilon);
   /// ```
-  public let exp : (x : Float) -> Float = Prim.exp;
+  public func exp(self : Float) : Float = Prim.exp(self);
 
   /// Returns the natural logarithm (base-`e`) of `x`.
   ///
@@ -398,11 +397,11 @@ module {
   /// ```motoko include=import no-validate
   /// assert Float.format(#exp 3, 123.0) == "1.230e+02";
   /// ```
-  public func format(fmt : { #fix : Nat8; #exp : Nat8; #gen : Nat8; #exact }, x : Float) : Text = switch fmt {
-    case (#fix(prec)) { Prim.floatToFormattedText(x, prec, 0) };
-    case (#exp(prec)) { Prim.floatToFormattedText(x, prec, 1) };
-    case (#gen(prec)) { Prim.floatToFormattedText(x, prec, 2) };
-    case (#exact) { Prim.floatToFormattedText(x, 17, 2) }
+  public func format(self : Float, fmt : { #fix : Nat8; #exp : Nat8; #gen : Nat8; #exact }) : Text = switch fmt {
+    case (#fix(prec)) { Prim.floatToFormattedText(self, prec, 0) };
+    case (#exp(prec)) { Prim.floatToFormattedText(self, prec, 1) };
+    case (#gen(prec)) { Prim.floatToFormattedText(self, prec, 2) };
+    case (#exact) { Prim.floatToFormattedText(self, 17, 2) }
   };
 
   /// Conversion to Text. Use `format(fmt, x)` for more detailed control.
@@ -420,7 +419,7 @@ module {
   /// ```motoko include=import no-validate
   /// assert Float.toText(1.2) == "1.2";
   /// ```
-  public let toText : Float -> Text = Prim.floatToText;
+  public func toText(self : Float) : Text = Prim.floatToText(self);
 
   /// Conversion to Int64 by truncating Float, equivalent to `toInt64(trunc(f))`
   ///
@@ -431,7 +430,7 @@ module {
   /// ```motoko include=import
   /// assert Float.toInt64(-12.3) == -12;
   /// ```
-  public let toInt64 : Float -> Int64 = Prim.floatToInt64;
+  public func toInt64(self : Float) : Int64 = Prim.floatToInt64(self);
 
   /// Conversion from Int64.
   ///
@@ -441,7 +440,7 @@ module {
   /// ```motoko include=import
   /// assert Float.fromInt64(-42) == -42.0;
   /// ```
-  public let fromInt64 : Int64 -> Float = Prim.int64ToFloat;
+  public func fromInt64(x : Int64) : Float = Prim.int64ToFloat(x);
 
   /// Conversion to Int.
   ///
@@ -451,7 +450,7 @@ module {
   /// ```motoko include=import
   /// assert Float.toInt(1.2e6) == +1_200_000;
   /// ```
-  public let toInt : Float -> Int = Prim.floatToInt;
+  public func toInt(self : Float) : Int = Prim.floatToInt(self);
 
   /// Conversion from Int. May result in `Inf`.
   ///
@@ -463,7 +462,7 @@ module {
   /// ```motoko include=import
   /// assert Float.fromInt(-123) == -123.0;
   /// ```
-  public let fromInt : Int -> Float = Prim.intToFloat;
+  public func fromInt(x : Int) : Float = Prim.intToFloat(x);
 
   /// Determines whether `x` is equal to `y` within the defined tolerance of `epsilon`.
   /// The `epsilon` considers numerical erros, see comment above.
@@ -486,12 +485,12 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(-12.3, -1.23e1, epsilon);
   /// ```
-  public func equal(x : Float, y : Float, epsilon : Float) : Bool {
+  public func equal(self : Float, other : Float, epsilon : Float) : Bool {
     if (not (epsilon >= 0.0)) {
       // also considers NaN, not identical to `epsilon < 0.0`
       Prim.trap("Float.equal(): epsilon must be greater or equal 0.0")
     };
-    x == y or abs(x - y) <= epsilon // `x == y` to also consider infinity equal
+    self == other or abs(self - other) <= epsilon // `x == y` to also consider infinity equal
   };
 
   /// Determines whether `x` is not equal to `y` within the defined tolerance of `epsilon`.
@@ -515,12 +514,12 @@ module {
   /// let epsilon = 1e-6;
   /// assert not Float.notEqual(-12.3, -1.23e1, epsilon);
   /// ```
-  public func notEqual(x : Float, y : Float, epsilon : Float) : Bool {
+  public func notEqual(self : Float, other : Float, epsilon : Float) : Bool {
     if (not (epsilon >= 0.0)) {
       // also considers NaN, not identical to `epsilon < 0.0`
       Prim.trap("Float.notEqual(): epsilon must be greater or equal 0.0")
     };
-    not (x == y or abs(x - y) <= epsilon)
+    not (self == other or abs(self - other) <= epsilon)
   };
 
   /// Returns `x < y`.
@@ -537,7 +536,7 @@ module {
   /// ```motoko include=import
   /// assert Float.less(Float.e, Float.pi);
   /// ```
-  public func less(x : Float, y : Float) : Bool { x < y };
+  public func less(self : Float, other : Float) : Bool { self < other };
 
   /// Returns `x <= y`.
   ///
@@ -553,7 +552,7 @@ module {
   /// ```motoko include=import
   /// assert Float.lessOrEqual(0.123, 0.1234);
   /// ```
-  public func lessOrEqual(x : Float, y : Float) : Bool { x <= y };
+  public func lessOrEqual(self : Float, other : Float) : Bool { self <= other };
 
   /// Returns `x > y`.
   ///
@@ -569,7 +568,7 @@ module {
   /// ```motoko include=import
   /// assert Float.greater(Float.pi, Float.e);
   /// ```
-  public func greater(x : Float, y : Float) : Bool { x > y };
+  public func greater(self : Float, other : Float) : Bool { self > other };
 
   /// Returns `x >= y`.
   ///
@@ -585,7 +584,9 @@ module {
   /// ```motoko include=import
   /// assert Float.greaterOrEqual(0.1234, 0.123);
   /// ```
-  public func greaterOrEqual(x : Float, y : Float) : Bool { x >= y };
+  public func greaterOrEqual(self : Float, other : Float) : Bool {
+    self >= other
+  };
 
   /// Defines a total order of `x` and `y` for use in sorting.
   ///
@@ -609,26 +610,28 @@ module {
   /// ```motoko include=import
   /// assert Float.compare(0.123, 0.1234) == #less;
   /// ```
-  public func compare(x : Float, y : Float) : Order.Order {
-    if (isNaN(x)) {
-      if (isNegative(x)) {
-        if (isNaN(y) and isNegative(y)) { #equal } else { #less }
+  public func compare(self : Float, other : Float) : Order.Order {
+    if (isNaN(self)) {
+      if (isNegative(self)) {
+        if (isNaN(other) and isNegative(other)) { #equal } else { #less }
       } else {
-        if (isNaN(y) and not isNegative(y)) { #equal } else { #greater }
+        if (isNaN(other) and not isNegative(other)) { #equal } else { #greater }
       }
-    } else if (isNaN(y)) {
-      if (isNegative(y)) {
+    } else if (isNaN(other)) {
+      if (isNegative(other)) {
         #greater
       } else {
         #less
       }
     } else {
-      if (x == y) { #equal } else if (x < y) { #less } else { #greater }
+      if (self == other) { #equal } else if (self < other) { #less } else {
+        #greater
+      }
     }
   };
 
-  func isNegative(number : Float) : Bool {
-    copySign(1.0, number) < 0.0
+  func isNegative(self : Float) : Bool {
+    copySign(1.0, self) < 0.0
   };
 
   /// Returns the negation of `x`, `-x` .
@@ -650,7 +653,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.neg(1.23), -1.23, epsilon);
   /// ```
-  public func neg(x : Float) : Float { -x };
+  public func neg(self : Float) : Float { -self };
 
   /// Returns the sum of `x` and `y`, `x + y`.
   ///
@@ -670,7 +673,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.add(1.23, 0.123), 1.353, epsilon);
   /// ```
-  public func add(x : Float, y : Float) : Float { x + y };
+  public func add(self : Float, other : Float) : Float { self + other };
 
   /// Returns the difference of `x` and `y`, `x - y`.
   ///
@@ -693,7 +696,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.sub(1.23, 0.123), 1.107, epsilon);
   /// ```
-  public func sub(x : Float, y : Float) : Float { x - y };
+  public func sub(self : Float, other : Float) : Float { self - other };
 
   /// Returns the product of `x` and `y`, `x * y`.
   ///
@@ -716,7 +719,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.mul(1.23, 1e2), 123.0, epsilon);
   /// ```
-  public func mul(x : Float, y : Float) : Float { x * y };
+  public func mul(self : Float, other : Float) : Float { self * other };
 
   /// Returns the division of `x` by `y`, `x / y`.
   ///
@@ -742,7 +745,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.div(1.23, 1e2), 0.0123, epsilon);
   /// ```
-  public func div(x : Float, y : Float) : Float { x / y };
+  public func div(self : Float, other : Float) : Float { self / other };
 
   /// Returns the floating point division remainder `x % y`,
   /// which is defined as `x - trunc(x / y) * y`.
@@ -767,7 +770,7 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.rem(7.2, 2.3), 0.3, epsilon);
   /// ```
-  public func rem(x : Float, y : Float) : Float { x % y };
+  public func rem(self : Float, other : Float) : Float { self % other };
 
   /// Returns `x` to the power of `y`, `x ** y`.
   ///
@@ -799,6 +802,6 @@ module {
   /// let epsilon = 1e-6;
   /// assert Float.equal(Float.pow(2.5, 2.0), 6.25, epsilon);
   /// ```
-  public func pow(x : Float, y : Float) : Float { x ** y };
+  public func pow(self : Float, other : Float) : Float { self ** other };
 
 }

@@ -1467,162 +1467,162 @@ run(
     [
       test(
         "exact positive",
-        Float.format(#exact, 20.12345678901),
+        Float.format(20.12345678901, #exact),
         TextPrefixMatcher("20.1234567890")
       ),
       test(
         "exact negative",
-        Float.format(#exact, -20.12345678901),
+        Float.format(-20.12345678901, #exact),
         TextPrefixMatcher("-20.1234567890")
       ),
       test(
         "exact positive zero",
-        Float.format(#exact, positiveZero),
+        Float.format(positiveZero, #exact),
         M.anyOf([M.equals(T.text("0")), M.equals(T.text("0.00000000000000000"))])
       ),
       test(
         "exact negative zero",
-        Float.format(#exact, negativeZero),
+        Float.format(negativeZero, #exact),
         M.anyOf([M.equals(T.text("-0")), M.equals(T.text("-0.00000000000000000"))])
       ),
       test(
         "exact positive infinity",
-        Float.format(#exact, positiveInfinity),
+        Float.format(positiveInfinity, #exact),
         M.equals(T.text("inf"))
       ),
       test(
         "exact negative infinity",
-        Float.format(#exact, negativeInfinity),
+        Float.format(negativeInfinity, #exact),
         M.equals(T.text("-inf"))
       ),
       test(
         "exact positive NaN",
-        Float.format(#exact, positiveNaN),
+        Float.format(positiveNaN, #exact),
         PositiveNaNTextMatcher()
       ),
       test(
         "exact negative NaN",
-        Float.format(#exact, negativeNaN),
+        Float.format(negativeNaN, #exact),
         NegativeNaNTextMatcher()
       ),
       test(
         "fix positive",
-        Float.format(#fix 6, 20.12345678901),
+        Float.format(20.12345678901, #fix 6),
         M.equals(T.text("20.123457"))
       ),
       test(
         "fix negative",
-        Float.format(#fix 6, -20.12345678901),
+        Float.format(-20.12345678901, #fix 6),
         M.equals(T.text("-20.123457"))
       ),
       test(
         "fix positive zero",
-        Float.format(#fix 6, positiveZero),
+        Float.format(positiveZero, #fix 6),
         M.equals(T.text("0.000000"))
       ),
       test(
         "fix negative zero",
-        Float.format(#fix 6, negativeZero),
+        Float.format(negativeZero, #fix 6),
         M.equals(T.text("-0.000000"))
       ),
       test(
         "fix positive infinity",
-        Float.format(#fix 6, positiveInfinity),
+        Float.format(positiveInfinity, #fix 6),
         M.equals(T.text("inf"))
       ),
       test(
         "fix negative infinity",
-        Float.format(#fix 6, negativeInfinity),
+        Float.format(negativeInfinity, #fix 6),
         M.equals(T.text("-inf"))
       ),
       test(
         "fix positive NaN",
-        Float.format(#fix 6, positiveNaN),
+        Float.format(positiveNaN, #fix 6),
         PositiveNaNTextMatcher()
       ),
       test(
         "fix negative NaN",
-        Float.format(#fix 6, negativeNaN),
+        Float.format(negativeNaN, #fix 6),
         NegativeNaNTextMatcher()
       ),
       test(
         "exp positive",
-        Float.format(#exp 9, 20.12345678901),
+        Float.format(20.12345678901, #exp 9),
         M.anyOf([M.equals(T.text("2.012345679e1")), M.equals(T.text("2.012345679e+01"))])
       ),
       test(
         "exp negative",
-        Float.format(#exp 9, -20.12345678901),
+        Float.format(-20.12345678901, #exp 9),
         M.anyOf([M.equals(T.text("-2.012345679e1")), M.equals(T.text("-2.012345679e+01"))])
       ),
       test(
         "exp positive zero",
-        Float.format(#exp 9, positiveZero),
+        Float.format(positiveZero, #exp 9),
         M.anyOf([M.equals(T.text("0.000000000e0")), M.equals(T.text("0.000000000e+00"))])
       ),
       test(
         "exp negative zero",
-        Float.format(#exp 9, negativeZero),
+        Float.format(negativeZero, #exp 9),
         M.anyOf([M.equals(T.text("-0.000000000e0")), M.equals(T.text("-0.000000000e+00"))])
       ),
       test(
         "exp positive infinity",
-        Float.format(#exp 9, positiveInfinity),
+        Float.format(positiveInfinity, #exp 9),
         M.equals(T.text("inf"))
       ),
       test(
         "exp negative infinity",
-        Float.format(#exp 9, negativeInfinity),
+        Float.format(negativeInfinity, #exp 9),
         M.equals(T.text("-inf"))
       ),
       test(
         "exp positive NaN",
-        Float.format(#exp 9, positiveNaN),
+        Float.format(positiveNaN, #exp 9),
         PositiveNaNTextMatcher()
       ),
       test(
         "exp negative NaN",
-        Float.format(#exp 9, negativeNaN),
+        Float.format(negativeNaN, #exp 9),
         NegativeNaNTextMatcher()
       ),
       test(
         "gen positive",
-        Float.format(#gen 12, 20.12345678901),
+        Float.format(20.12345678901, #gen 12),
         TextPrefixMatcher("20.123456789")
       ),
       test(
         "gen negative",
-        Float.format(#gen 12, -20.12345678901),
+        Float.format(-20.12345678901, #gen 12),
         TextPrefixMatcher("-20.123456789")
       ),
       test(
         "gen positive zero",
-        Float.format(#gen 12, positiveZero),
+        Float.format(positiveZero, #gen 12),
         M.anyOf([M.equals(T.text("0")), M.equals(T.text("0.000000000000"))])
       ),
       test(
         "gen negative zero",
-        Float.format(#gen 12, negativeZero),
+        Float.format(negativeZero, #gen 12),
         M.anyOf([M.equals(T.text("-0")), M.equals(T.text("-0.000000000000"))])
       ),
       test(
         "gen positive infinity",
-        Float.format(#gen 12, positiveInfinity),
+        Float.format(positiveInfinity, #gen 12),
         M.equals(T.text("inf"))
       ),
       test(
         "gen negative infinity",
-        Float.format(#gen 12, negativeInfinity),
+        Float.format(negativeInfinity, #gen 12),
         M.equals(T.text("-inf"))
       ),
       test(
         "gen positive NaN",
-        Float.format(#gen 12, positiveNaN),
+        Float.format(positiveNaN, #gen 12),
         PositiveNaNTextMatcher()
       ),
       test(
         "gen negative NaN",
-        Float.format(#gen 12, negativeNaN),
+        Float.format(negativeNaN, #gen 12),
         NegativeNaNTextMatcher()
       ),
       // hex float formatting was only supported with Musl
