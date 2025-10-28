@@ -596,6 +596,33 @@ module {
   /// Note: Creates `O(n * log(n))` temporary objects that will be collected as garbage.
   public func fromIter<K, V>(iter : Iter.Iter<(K, V)>, compare : (implicit : (K, K) -> Order.Order)) : Map<K, V> = Internal.fromIter(iter, compare);
 
+  /// Convert an iterator of entries into a map.
+  /// If there are multiple entries with the same key the last one is taken.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import Map "mo:core/pure/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
+  ///
+  /// persistent actor {
+  ///   transient let iter =
+  ///     Iter.fromArray([(0, "Zero"), (2, "Two"), (1, "One")]);
+  ///
+  ///   let map = iter.toMap(Nat.compare);
+  ///
+  ///   assert Iter.toArray(Map.entries(map)) == [(0, "Zero"), (1, "One"), (2, "Two")];
+  /// }
+  /// ```
+  ///
+  /// Runtime: `O(n * log(n))`.
+  /// Space: `O(n)` retained memory plus garbage, see the note below.
+  /// where `n` denotes the number of key-value entries stored in the map and
+  /// assuming that the `compare` function implements an `O(1)` comparison.
+  ///
+  /// Note: Creates `O(n * log(n))` temporary objects that will be collected as garbage.
+  public func toMap<K, V>(self : Iter.Iter<(K, V)>, compare : (implicit : (K, K) -> Order.Order)) : Map<K, V> = Internal.fromIter(self, compare);
+
   /// Given a `map` and function `f`, creates a new map by applying `f` to each entry in the map `m`. Each entry
   /// `(k, v)` in the old map is transformed into a new entry `(k, v2)`, where
   /// the new value `v2` is created by applying `f` to `(k, v)`.

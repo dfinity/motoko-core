@@ -722,6 +722,33 @@ module {
     set
   };
 
+  /// Convert an iterator of elements to a mutable set.
+  /// Potential duplicate elements in the iterator are ignored, i.e.
+  /// multiple occurrence of an equal element only occur once in the set.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import Set "mo:core/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
+  ///
+  /// persistent actor {
+  ///   transient let iter = [3, 1, 2, 1].values();
+  ///
+  ///   let set = iter.toSet(Nat.compare);
+  ///
+  ///   assert Iter.toArray(Set.values(set)) == [1, 2, 3];
+  /// }
+  /// ```
+  ///
+  /// Runtime: `O(n * log(n))`.
+  /// Space: `O(n)`.
+  /// where `n` denotes the number of elements returned by the iterator and
+  /// assuming that the `compare` function implements an `O(1)` comparison.
+  public func toSet<T>(self : Types.Iter<T>, compare : (implicit : (T, T) -> Order.Order)) : Set<T> {
+    fromIter(self, compare)
+  };
+
   /// Test whether `set1` is a sub-set of `set2`, i.e. each element in `set1` is
   /// also contained in `set2`. Returns `true` if both sets are equal.
   ///

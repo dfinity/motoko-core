@@ -82,6 +82,35 @@ module {
     set
   };
 
+  /// Convert an iterator into a set.
+  /// Potential duplicate elements in the iterator are ignored, i.e.
+  /// multiple occurrences of an equal element only occur once in the set.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import Set "mo:core/pure/Set";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
+  ///
+  /// persistent actor {
+  ///   transient let iter = [3, 1, 2, 1].values();
+  ///
+  ///   let set = iter.toSet(Nat.compare);
+  ///
+  ///   assert Iter.toArray(Set.values(set)) == [1, 2, 3];
+  /// }
+  /// ```
+  ///
+  /// Runtime: `O(n * log(n))`.
+  /// Space: `O(n)`.
+  /// where `n` denotes the number of elements returned by the iterator and
+  /// assuming that the `compare` function implements an `O(1)` comparison.
+  ///
+  /// Note: Creates `O(n * log(n))` temporary objects that will be collected as garbage.
+  public func toSet<T>(iter : Iter.Iter<T>, compare : (implicit : (T, T) -> Order.Order)) : Set<T> {
+    fromIter(iter, compare)
+  };
+
   /// Given a `set` ordered by `compare`, insert the new `element`,
   /// returning the new set.
   ///

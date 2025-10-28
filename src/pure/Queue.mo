@@ -311,6 +311,24 @@ module {
     check(list, List.size list, null)
   };
 
+  /// Convert an iterator to a queue, consuming it.
+  /// Example:
+  /// ```motoko include=import
+  /// persistent actor {
+  ///   transient let iter = [0, 1, 2, 3, 4].values();
+  ///
+  ///   let queue = iter.toQeuue();
+  ///   assert Queue.size(queue) == 5;
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(size)
+  public func toQueue<T>(self : Iter.Iter<T>) : Queue<T> {
+    fromIter(self)
+  };
+
   /// Create a queue from an array.
   /// Elements appear in the same order as in the array.
   ///

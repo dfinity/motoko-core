@@ -963,4 +963,5 @@ module {
   /// assert Text.toText("Hello") == "Hello";
   /// ```
   public func toText(self : Text) : Text = self
+
 }

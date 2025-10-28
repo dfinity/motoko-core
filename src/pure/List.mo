@@ -1028,7 +1028,7 @@ module {
   /// Space: O(size)
   public func toVarArray<T>(self : List<T>) : [var T] = Array.toVarArray<T>(toArray<T>(self));
 
-  /// Turn an iterator into a list, consuming it.
+  /// Create a list from an iterator, consuming the iterator.
   /// Example:
   /// ```motoko
   /// import List "mo:core/pure/List";
@@ -1048,6 +1048,27 @@ module {
       result := ?(x, result)
     };
     reverse result
+  };
+
+  /// Convert an iterator to a list, consuming the iterator.
+  /// Example:
+  /// ```motoko
+  /// import List "mo:core/pure/List";
+  ///
+  /// persistent actor {
+  ///   transient let iter = [0, 1, 2, 3, 4].vals();
+  ///
+  ///   let list = iter.toList();
+  ///
+  ///   assert list == ?(0, ?(1, ?(2, ?(3, ?(4, null)))));
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(size)
+  public func toList<T>(self : Iter.Iter<T>) : List<T> {
+    fromIter(self)
   };
 
   /// Convert a list to a text representation using the provided function to convert each element to text.

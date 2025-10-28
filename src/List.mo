@@ -1085,6 +1085,26 @@ module {
     list
   };
 
+  /// Convert an iterator to a new mutable List.
+  /// Elements are added in the order they are returned by the iterator.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
+  ///
+  /// let array = [1, 1, 1];
+  /// let iter = array.vals();
+  ///
+  /// let list = iter.toList();
+  /// assert Iter.toArray(List.values(list)) == [1, 1, 1];
+  /// ```
+  ///
+  /// Runtime: `O(size)`
+  public func toList<T>(self : Iter.Iter<T>) : List<T> {
+    fromIter(self)
+  };
+
   /// Adds all elements from the provided iterator to the end of the list.
   /// Elements are added in the order they are returned by the iterator.
   ///

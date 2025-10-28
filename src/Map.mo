@@ -925,7 +925,7 @@ module {
   ///
   ///   let map = Map.fromIter<Nat, Text>(iter, Nat.compare);
   ///
-  ///    assert Iter.toArray(Map.entries(map)) == [(0, "Zero"), (1, "One"), (2, "Two")];
+  ///   assert Iter.toArray(Map.entries(map)) == [(0, "Zero"), (1, "One"), (2, "Two")];
   /// }
   /// ```
   ///
@@ -939,6 +939,32 @@ module {
       add(map, compare, key, value)
     };
     map
+  };
+
+  /// Converts an iterator of entries into a Map.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import Map "mo:core/Map";
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
+  ///
+  /// persistent actor {
+  ///   transient let iter =
+  ///     Iter.fromArray([(0, "Zero"), (2, "Two"), (1, "One")]);
+  ///
+  ///   let map = iter.toMap(Nat.compare);
+  ///
+  ///   assert Iter.toArray(Map.entries(map)) == [(0, "Zero"), (1, "One"), (2, "Two")];
+  /// }
+  /// ```
+  ///
+  /// Runtime: `O(n * log(n))`.
+  /// Space: `O(n)`.
+  /// where `n` denotes the number of key-value entries returned by the iterator and
+  /// assuming that the `compare` function implements an `O(1)` comparison.
+  public func toMap<K, V>(self : Types.Iter<(K, V)>, compare : (implicit : (K, K) -> Order.Order)) : Map<K, V> {
+    fromIter(self, compare)
   };
 
   public func fromArray<K, V>(array : [(K, V)], compare : (implicit : (K, K) -> Order.Order)) : Map<K, V> {

@@ -743,6 +743,31 @@ module {
     stack
   };
 
+  /// Convert an iterator into a stack.
+  /// Elements are pushed in iteration order. Which means that the last element
+  /// of the iterator will be the first element on top of the stack.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import Stack "mo:core/Stack";
+  /// import Iter "mo:core/Iter";
+  ///
+  /// persistent actor {
+  ///   transient let iter = [3, 2, 1].values();
+  ///
+  ///   let stack = iter.toStack();
+  ///
+  ///   assert Iter.toArray(Stack.values(stack)) == [1, 2, 3];
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(n)
+  /// Space: O(n)
+  /// where `n` denotes the number of iterated elements.
+  public func toStack<T>(self : Types.Iter<T>) : Stack<T> {
+    fromIter(self)
+  };
+
   /// Converts the stack to its string representation using the provided
   /// element formatting function.
   ///

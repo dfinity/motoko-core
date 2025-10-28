@@ -546,6 +546,28 @@ module {
     queue
   };
 
+  /// Convert an iterator into a queue, consuming the iterator.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// persistent actor {
+  ///   transiet let iter = [0, 1, 2, 3, 4].values();
+  ///
+  ///   let queue = iter.toQueue();
+  ///
+  ///   assert Queue.peekFront(queue) == ?0;
+  ///   assert Queue.peekBack(queue) == ?4;
+  ///   assert Queue.size(queue) == 5;
+  /// }
+  /// ```
+  ///
+  /// Runtime: `O(size)`
+  ///
+  /// Space: `O(size)`
+  public func toQueue<T>(self : Iter<T>) : Queue<T> {
+    fromIter(self)
+  };
+
   /// Create an iterator over the elements in the queue. The order of the elements is from front to back.
   ///
   /// Example:

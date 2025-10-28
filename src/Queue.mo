@@ -436,6 +436,28 @@ module {
     queue
   };
 
+  /// Converts an iterator to a queue.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import Queue "mo:core/Queue";
+  ///
+  /// persistent actor {
+  ///   transient let iter = ["A", "B", "C"].values();
+  ///
+  ///   let queue = iter.toQueue<Text>();
+  ///
+  ///   assert Queue.size(queue) == 3;
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(n)
+  /// Space: O(n)
+  /// `n` denotes the number of elements stored in the queue.
+  public func toQueue<T>(self : Iter.Iter<T>) : Queue<T> {
+    fromIter(self)
+  };
+
   /// Creates a new queue from an array.
   /// Elements appear in the same order as in the array.
   ///

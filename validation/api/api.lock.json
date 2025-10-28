@@ -564,6 +564,7 @@
       "public func sort<T>(self : List<T>, compare : (implicit : (T, T) -> Types.Order)) : List<T>",
       "public func sortInPlace<T>(self : List<T>, compare : (implicit : (T, T) -> Order.Order))",
       "public func toArray<T>(self : List<T>) : [T]",
+      "public func toList<T>(self : Iter.Iter<T>) : List<T>",
       "public func toPure<T>(self : List<T>) : PureList.List<T>",
       "public func toText<T>(self : List<T>, f : (implicit : (toText : T -> Text))) : Text",
       "public func toVarArray<T>(self : List<T>) : [var T]",
@@ -612,6 +613,7 @@
       "public func swap<K, V>(self : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K, value : V) : ?V",
       "public func take<K, V>(self : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : ?V",
       "public func toArray<K, V>(self : Map<K, V>) : [(K, V)]",
+      "public func toMap<K, V>(self : Types.Iter<(K, V)>, compare : (implicit : (K, K) -> Order.Order)) : Map<K, V>",
       "public func toPure<K, V>(self : Map<K, V>, compare : (implicit : (K, K) -> Order.Order)) : PureMap.Map<K, V>",
       "public func toText<K, V>(self : Map<K, V>, keyFormat : (implicit : (toText : K -> Text)), valueFormat : (implicit : (toText : V -> Text))) : Text",
       "public func toVarArray<K, V>(self : Map<K, V>) : [var (K, V)]",
@@ -962,6 +964,7 @@
       "public func size<T>(self : Queue<T>) : Nat",
       "public func toArray<T>(self : Queue<T>) : [T]",
       "public func toPure<T>(self : Queue<T>) : PureQueue.Queue<T>",
+      "public func toQueue<T>(self : Iter.Iter<T>) : Queue<T>",
       "public func toText<T>(self : Queue<T>, format : (implicit : (toText : T -> Text))) : Text",
       "public func toVarArray<T>(self : Queue<T>) : [var T]",
       "public func values<T>(self : Queue<T>) : Iter.Iter<T>"
@@ -1086,6 +1089,7 @@
       "public func size<T>(self : Set<T>) : Nat",
       "public func toArray<T>(self : Set<T>) : [T]",
       "public func toPure<T>(self : Set<T>, compare : (implicit : (T, T) -> Order.Order)) : PureSet.Set<T>",
+      "public func toSet<T>(self : Types.Iter<T>, compare : (implicit : (T, T) -> Order.Order)) : Set<T>",
       "public func toText<T>(self : Set<T>, toText : (implicit : T -> Text)) : Text",
       "public func union<T>(self : Set<T>, other : Set<T>, compare : (implicit : (T, T) -> Order.Order)) : Set<T>",
       "public func values<T>(self : Set<T>) : Types.Iter<T>",
@@ -1124,6 +1128,7 @@
       "public func tabulate<T>(size : Nat, generator : Nat -> T) : Stack<T>",
       "public func toArray<T>(self : Stack<T>) : [T]",
       "public func toPure<T>(self : Stack<T>) : PureList.List<T>",
+      "public func toStack<T>(self : Types.Iter<T>) : Stack<T>",
       "public func toText<T>(self : Stack<T>, format : (implicit : (toText : T -> Text))) : Text",
       "public func toVarArray<T>(self : Stack<T>) : [var T]",
       "public func values<T>(self : Stack<T>) : Types.Iter<T>"
@@ -1358,6 +1363,7 @@
       "public func tabulate<T>(n : Nat, f : Nat -> T) : List<T>",
       "public func take<T>(self : List<T>, n : Nat) : List<T>",
       "public func toArray<T>(self : List<T>) : [T]",
+      "public func toList<T>(self : Iter.Iter<T>) : List<T>",
       "public func toText<T>(self : List<T>, f : (implicit : T -> Text)) : Text",
       "public func toVarArray<T>(self : List<T>) : [var T]",
       "public func values<T>(self : List<T>) : Iter.Iter<T>",
@@ -1399,6 +1405,7 @@
       "public func size<K, V>(self : Map<K, V>) : Nat",
       "public func swap<K, V>(self : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K, value : V) : (Map<K, V>, ?V)",
       "public func take<K, V>(self : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : (Map<K, V>, ?V)",
+      "public func toMap<K, V>(self : Iter.Iter<(K, V)>, compare : (implicit : (K, K) -> Order.Order)) : Map<K, V>",
       "public func toText<K, V>(self : Map<K, V>, keyFormat : (implicit : (toText : K -> Text)), valueFormat : (implicit : (toText : V -> Text))) : Text",
       "public func values<K, V>(self : Map<K, V>) : Iter.Iter<V>"
     ]
@@ -1430,6 +1437,7 @@
       "public func singleton<T>(item : T) : Queue<T>",
       "public func size<T>(self : Queue<T>) : Nat",
       "public func toArray<T>(self : Queue<T>) : [T]",
+      "public func toQueue<T>(self : Iter.Iter<T>) : Queue<T>",
       "public func toText<T>(self : Queue<T>, f : (implicit : (toText : T -> Text))) : Text",
       "public func values<T>(self : Queue<T>) : Iter.Iter<T>"
     ]
@@ -1459,6 +1467,7 @@
       "public func reverse<T>(self : Queue<T>) : Queue<T>",
       "public func singleton<T>(element : T) : Queue<T>",
       "public func size<T>(self : Queue<T>) : Nat",
+      "public func toQueue<T>(self : Iter<T>) : Queue<T>",
       "public func toText<T>(self : Queue<T>, f : (implicit : (toText : T -> Text))) : Text",
       "public func values<T>(self : Queue<T>) : Iter.Iter<T>"
     ]
@@ -1496,6 +1505,7 @@
       "public type Set<T>",
       "public func singleton<T>(element : T) : Set<T>",
       "public func size<T>(self : Set<T>) : Nat",
+      "public func toSet<T>(iter : Iter.Iter<T>, compare : (implicit : (T, T) -> Order.Order)) : Set<T>",
       "public func toText<T>(self : Set<T>, elementFormat : (implicit : (toText : T -> Text))) : Text",
       "public func union<T>(self : Set<T>, other : Set<T>, compare : (implicit : (T, T) -> Order.Order)) : Set<T>",
       "public func values<T>(self : Set<T>) : Iter.Iter<T>"
