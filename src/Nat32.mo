@@ -115,7 +115,9 @@ module {
   /// let unicode = Nat32.toChar(65);
   /// assert unicode == 'A';
   /// ```
-  public let toChar : (self : Nat32) -> Char = Prim.nat32ToChar;
+  public func toChar(self : Nat32) : Char { 
+    Prim.nat32ToChar(self);
+  };
 
   /// Returns the minimum of `x` and `y`.
   ///
