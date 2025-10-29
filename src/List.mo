@@ -636,7 +636,7 @@ module {
   /// import Nat "mo:core/Nat";
   ///
   /// let list = List.fromArray<Nat>([1, 2, 3]);
-  /// assert List.isSorted(list);
+  /// assert List.isSorted(list, Nat.compare);
   /// ```
   ///
   /// Runtime: O(size)

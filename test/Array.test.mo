@@ -743,6 +743,36 @@ let suite = Suite.suite(
         }
       },
       M.equals(T.bool(true))
+    ),
+    Suite.test(
+      "isSorted empty array",
+      Array.isSorted<Nat>([], Nat.compare),
+      M.equals(T.bool(true))
+    ),
+    Suite.test(
+      "isSorted single element",
+      Array.isSorted<Nat>([42], Nat.compare),
+      M.equals(T.bool(true))
+    ),
+    Suite.test(
+      "isSorted already sorted",
+      Array.isSorted<Nat>([1, 2, 3, 4, 5], Nat.compare),
+      M.equals(T.bool(true))
+    ),
+    Suite.test(
+      "isSorted with duplicates",
+      Array.isSorted<Nat>([1, 2, 2, 3, 3, 3], Nat.compare),
+      M.equals(T.bool(true))
+    ),
+    Suite.test(
+      "isSorted not sorted",
+      Array.isSorted<Nat>([1, 3, 2, 4, 5], Nat.compare),
+      M.equals(T.bool(false))
+    ),
+    Suite.test(
+      "isSorted reverse sorted",
+      Array.isSorted<Nat>([5, 4, 3, 2, 1], Nat.compare),
+      M.equals(T.bool(false))
     )
   ]
 );
