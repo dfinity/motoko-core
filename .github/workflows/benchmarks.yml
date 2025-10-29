@@ -14,7 +14,10 @@ jobs:
 
   benchmark:
     needs: check-motoko-changes
-    if: needs.check-motoko-changes.outputs.has_mo_changes == 'true' || needs.check-motoko-changes.outputs.has_mops_dependency_changes == 'true'
+    if: |
+      (needs.check-motoko-changes.outputs.has_mo_changes == 'true' || needs.check-motoko-changes.outputs.has_mops_dependency_changes == 'true') &&
+      (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) &&
+      github.event.pull_request.state == 'open'
     runs-on: ubuntu-24.04
     name: Run Benchmarks and Comment on PR or Upload on push
 
