@@ -25,8 +25,8 @@ module {
   /// ```motoko include=import
   /// assert Int.abs(-12) == 12;
   /// ```
-  public func abs(self : Int) : Nat {
-    Prim.abs(self)
+  public func abs(x : Int) : Nat {
+    Prim.abs(x)
   };
 
   /// Converts an integer number to its textual representation. Textual
@@ -166,8 +166,8 @@ module {
   /// ```motoko include=import
   /// assert Int.min(2, -3) == -3;
   /// ```
-  public func min(self : Int, other : Int) : Int {
-    if (self < other) { self } else { other }
+  public func min(x : Int, y : Int) : Int {
+    if (x < y) { x } else { y }
   };
 
   /// Returns the maximum of `x` and `y`.
@@ -176,8 +176,8 @@ module {
   /// ```motoko include=import
   /// assert Int.max(2, -3) == 2;
   /// ```
-  public func max(self : Int, other : Int) : Int {
-    if (self < other) { other } else { self }
+  public func max(x : Int, y : Int) : Int {
+    if (x < y) { y } else { x }
   };
 
   /// Equality function for Int types.
@@ -199,7 +199,7 @@ module {
   /// let b : Int = -1;
   /// assert not Int.equal(a, b);
   /// ```
-  public func equal(self : Int, other : Int) : Bool { self == other };
+  public func equal(x : Int, y : Int) : Bool { x == y };
 
   /// Inequality function for Int types.
   /// This is equivalent to `x != y`.
@@ -213,7 +213,7 @@ module {
   /// to the existing `!=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `!=`
   /// as a function value at the moment.
-  public func notEqual(self : Int, other : Int) : Bool { self != other };
+  public func notEqual(x : Int, y : Int) : Bool { x != y };
 
   /// "Less than" function for Int types.
   /// This is equivalent to `x < y`.
@@ -227,7 +227,7 @@ module {
   /// to the existing `<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<`
   /// as a function value at the moment.
-  public func less(self : Int, other : Int) : Bool { self < other };
+  public func less(x : Int, y : Int) : Bool { x < y };
 
   /// "Less than or equal" function for Int types.
   /// This is equivalent to `x <= y`.
@@ -255,7 +255,7 @@ module {
   /// to the existing `>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>`
   /// as a function value at the moment.
-  public func greater(self : Int, other : Int) : Bool { self > other };
+  public func greater(x : Int, y : Int) : Bool { x > y };
 
   /// "Greater than or equal" function for Int types.
   /// This is equivalent to `x >= y`.
@@ -269,7 +269,7 @@ module {
   /// to the existing `>=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>=`
   /// as a function value at the moment.
-  public func greaterOrEqual(self : Int, other : Int) : Bool { self >= other };
+  public func greaterOrEqual(x : Int, y : Int) : Bool { x >= y };
 
   /// General-purpose comparison function for `Int`. Returns the `Order` (
   /// either `#less`, `#equal`, or `#greater`) of comparing `x` with `y`.
@@ -286,8 +286,8 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.sort([1, -2, -3], Int.compare) == [-3, -2, 1];
   /// ```
-  public func compare(self : Int, other : Int) : Order.Order {
-    if (self < other) { #less } else if (self == other) { #equal } else {
+  public func compare(x : Int, y : Int) : Order.Order {
+    if (x < y) { #less } else if (x == y) { #equal } else {
       #greater
     }
   };
@@ -303,7 +303,7 @@ module {
   /// to the existing `-` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `-`
   /// as a function value at the moment.
-  public func neg(self : Int) : Int { -self };
+  public func neg(x : Int) : Int { -x };
 
   /// Returns the sum of `x` and `y`, `x + y`.
   ///
@@ -324,7 +324,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft([1, -2, -3], 0, Int.add) == -4;
   /// ```
-  public func add(self : Int, other : Int) : Int { self + other };
+  public func add(x : Int, y : Int) : Int { x + y };
 
   /// Returns the difference of `x` and `y`, `x - y`.
   ///
@@ -345,7 +345,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft([1, -2, -3], 0, Int.sub) == 4;
   /// ```
-  public func sub(self : Int, other : Int) : Int { self - other };
+  public func sub(x : Int, y : Int) : Int { x - y };
 
   /// Returns the product of `x` and `y`, `x * y`.
   ///
@@ -366,7 +366,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft([1, -2, -3], 1, Int.mul) == 6;
   /// ```
-  public func mul(self : Int, other : Int) : Int { self * other };
+  public func mul(x : Int, y : Int) : Int { x * y };
 
   /// Returns the signed integer division of `x` by `y`,  `x / y`.
   /// Rounds the quotient towards zero, which is the same as truncating the decimal places of the quotient.
@@ -382,7 +382,7 @@ module {
   /// to the existing `/` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `/`
   /// as a function value at the moment.
-  public func div(self : Int, other : Int) : Int { self / other };
+  public func div(x : Int, y : Int) : Int { x / y };
 
   /// Returns the remainder of the signed integer division of `x` by `y`, `x % y`,
   /// which is defined as `x - x / y * y`.
@@ -398,7 +398,7 @@ module {
   /// to the existing `%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `%`
   /// as a function value at the moment.
-  public func rem(self : Int, other : Int) : Int { self % other };
+  public func rem(x : Int, y : Int) : Int { x % y };
 
   /// Returns `x` to the power of `y`, `x ** y`.
   ///
@@ -414,7 +414,7 @@ module {
   /// to the existing `**` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `**`
   /// as a function value at the moment.
-  public func pow(self : Int, other : Int) : Int { self ** other };
+  public func pow(x : Int, y : Int) : Int { x ** y };
 
   /// Returns an iterator over the integers from the first to second argument with an exclusive upper bound.
   /// ```motoko include=import
@@ -434,12 +434,12 @@ module {
   /// let iter = Int.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(self : Int, toExclusive : Int) : Iter.Iter<Int> {
-    if (self >= toExclusive) {
+  public func range(x : Int, toExclusive : Int) : Iter.Iter<Int> {
+    if (x >= toExclusive) {
       Iter.empty()
     } else {
       object {
-        var n = self;
+        var n = x;
         public func next() : ?Int {
           if (n >= toExclusive) {
             null
@@ -474,12 +474,12 @@ module {
   /// ```
   ///
   /// If `step` is 0 or if the iteration would not progress towards the bound, returns an empty iterator.
-  public func rangeBy(self : Int, toExclusive : Int, step : Int) : Iter.Iter<Int> {
+  public func rangeBy(x : Int, toExclusive : Int, step : Int) : Iter.Iter<Int> {
     if (step == 0) {
       Iter.empty()
-    } else if (step > 0 and self < toExclusive) {
+    } else if (step > 0 and x < toExclusive) {
       object {
-        var n = self;
+        var n = x;
         public func next() : ?Int {
           if (n >= toExclusive) {
             null
@@ -490,9 +490,9 @@ module {
           }
         }
       }
-    } else if (step < 0 and self > toExclusive) {
+    } else if (step < 0 and x > toExclusive) {
       object {
-        var n = self;
+        var n = x;
         public func next() : ?Int {
           if (n <= toExclusive) {
             null
@@ -526,12 +526,12 @@ module {
   /// let iter = Int.rangeInclusive(3, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(self : Int, to : Int) : Iter.Iter<Int> {
-    if (self > to) {
+  public func rangeInclusive(x : Int, to : Int) : Iter.Iter<Int> {
+    if (x > to) {
       Iter.empty()
     } else {
       object {
-        var n = self;
+        var n = x;
         public func next() : ?Int {
           if (n > to) {
             null
@@ -570,14 +570,14 @@ module {
   /// If `from == to`, return an iterator which only returns that value.
   ///
   /// Otherwise, if `step` is 0 or if the iteration would not progress towards the bound, returns an empty iterator.
-  public func rangeByInclusive(self : Int, to : Int, step : Int) : Iter.Iter<Int> {
-    if (self == to) {
-      Iter.singleton(self)
+  public func rangeByInclusive(x : Int, to : Int, step : Int) : Iter.Iter<Int> {
+    if (x == to) {
+      Iter.singleton(x)
     } else if (step == 0) {
       Iter.empty()
-    } else if (step > 0 and self < to) {
+    } else if (step > 0 and x < to) {
       object {
-        var n = self;
+        var n = x;
         public func next() : ?Int {
           if (n >= to + 1) {
             null
@@ -588,9 +588,9 @@ module {
           }
         }
       }
-    } else if (step < 0 and self > to) {
+    } else if (step < 0 and x > to) {
       object {
-        var n = self;
+        var n = x;
         public func next() : ?Int {
           if (n + 1 <= to) {
             null

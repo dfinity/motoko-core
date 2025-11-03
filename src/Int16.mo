@@ -136,8 +136,8 @@ module {
   /// ```motoko include=import
   /// assert Int16.abs(-12345) == +12_345;
   /// ```
-  public func abs(self : Int16) : Int16 {
-    fromInt(Int.abs(toInt(self)))
+  public func abs(x : Int16) : Int16 {
+    fromInt(Int.abs(toInt(x)))
   };
 
   /// Returns the minimum of `x` and `y`.
@@ -146,8 +146,8 @@ module {
   /// ```motoko include=import
   /// assert Int16.min(+2, -3) == -3;
   /// ```
-  public func min(self : Int16, other : Int16) : Int16 {
-    if (self < other) { self } else { other }
+  public func min(x : Int16, y : Int16) : Int16 {
+    if (x < y) { x } else { y }
   };
 
   /// Returns the maximum of `x` and `y`.
@@ -156,8 +156,8 @@ module {
   /// ```motoko include=import
   /// assert Int16.max(+2, -3) == +2;
   /// ```
-  public func max(self : Int16, other : Int16) : Int16 {
-    if (self < other) { other } else { self }
+  public func max(x : Int16, y : Int16) : Int16 {
+    if (x < y) { y } else { x }
   };
 
   /// Equality function for Int16 types.
@@ -179,7 +179,7 @@ module {
   /// let b : Int16 = 123;
   /// assert not Int16.equal(a, b);
   /// ```
-  public func equal(self : Int16, other : Int16) : Bool { self == other };
+  public func equal(x : Int16, y : Int16) : Bool { x == y };
 
   /// Inequality function for Int16 types.
   /// This is equivalent to `x != y`.
@@ -193,7 +193,7 @@ module {
   /// to the existing `!=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `!=`
   /// as a function value at the moment.
-  public func notEqual(self : Int16, other : Int16) : Bool { self != other };
+  public func notEqual(x : Int16, y : Int16) : Bool { x != y };
 
   /// "Less than" function for Int16 types.
   /// This is equivalent to `x < y`.
@@ -207,7 +207,7 @@ module {
   /// to the existing `<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<`
   /// as a function value at the moment.
-  public func less(self : Int16, other : Int16) : Bool { self < other };
+  public func less(x : Int16, y : Int16) : Bool { x < y };
 
   /// "Less than or equal" function for Int16 types.
   /// This is equivalent to `x <= y`.
@@ -221,7 +221,7 @@ module {
   /// to the existing `<=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<=`
   /// as a function value at the moment.
-  public func lessOrEqual(self : Int16, other : Int16) : Bool { self <= other };
+  public func lessOrEqual(x : Int16, y : Int16) : Bool { x <= y };
 
   /// "Greater than" function for Int16 types.
   /// This is equivalent to `x > y`.
@@ -230,7 +230,7 @@ module {
   /// ```motoko include=import
   /// assert not Int16.greater(-2, 1);
   /// ```
-  public func greater(self : Int16, other : Int16) : Bool { self > other };
+  public func greater(x : Int16, y : Int16) : Bool { x > y };
 
   /// "Greater than or equal" function for Int16 types.
   /// This is equivalent to `x >= y`.
@@ -239,8 +239,8 @@ module {
   /// ```motoko include=import
   /// assert Int16.greaterOrEqual(-2, -2);
   /// ```
-  public func greaterOrEqual(self : Int16, other : Int16) : Bool {
-    self >= other
+  public func greaterOrEqual(x : Int16, y : Int16) : Bool {
+    x >= y
   };
 
   /// General-purpose comparison function for `Int16`. Returns the `Order` (
@@ -258,8 +258,8 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.sort([1, -2, -3] : [Int16], Int16.compare) == [-3, -2, 1];
   /// ```
-  public func compare(self : Int16, other : Int16) : Order.Order {
-    if (self < other) { #less } else if (self == other) { #equal } else {
+  public func compare(x : Int16, y : Int16) : Order.Order {
+    if (x < y) { #less } else if (x == y) { #equal } else {
       #greater
     }
   };
@@ -277,7 +277,7 @@ module {
   /// to the existing `-` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `-`
   /// as a function value at the moment.
-  public func neg(self : Int16) : Int16 { -self };
+  public func neg(x : Int16) : Int16 { -x };
 
   /// Returns the sum of `x` and `y`, `x + y`.
   ///
@@ -298,7 +298,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int16, Int16>([1, -2, -3], 0, Int16.add) == -4;
   /// ```
-  public func add(self : Int16, other : Int16) : Int16 { self + other };
+  public func add(x : Int16, y : Int16) : Int16 { x + y };
 
   /// Returns the difference of `x` and `y`, `x - y`.
   ///
@@ -319,7 +319,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int16, Int16>([1, -2, -3], 0, Int16.sub) == 4;
   /// ```
-  public func sub(self : Int16, other : Int16) : Int16 { self - other };
+  public func sub(x : Int16, y : Int16) : Int16 { x - y };
 
   /// Returns the product of `x` and `y`, `x * y`.
   ///
@@ -340,7 +340,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int16, Int16>([1, -2, -3], 1, Int16.mul) == 6;
   /// ```
-  public func mul(self : Int16, other : Int16) : Int16 { self * other };
+  public func mul(x : Int16, y : Int16) : Int16 { x * y };
 
   /// Returns the signed integer division of `x` by `y`, `x / y`.
   /// Rounds the quotient towards zero, which is the same as truncating the decimal places of the quotient.
@@ -356,7 +356,7 @@ module {
   /// to the existing `/` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `/`
   /// as a function value at the moment.
-  public func div(self : Int16, other : Int16) : Int16 { self / other };
+  public func div(x : Int16, y : Int16) : Int16 { x / y };
 
   /// Returns the remainder of the signed integer division of `x` by `y`, `x % y`,
   /// which is defined as `x - x / y * y`.
@@ -372,7 +372,7 @@ module {
   /// to the existing `%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `%`
   /// as a function value at the moment.
-  public func rem(self : Int16, other : Int16) : Int16 { self % other };
+  public func rem(x : Int16, y : Int16) : Int16 { x % y };
 
   /// Returns `x` to the power of `y`, `x ** y`.
   ///
@@ -387,7 +387,7 @@ module {
   /// to the existing `**` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `**`
   /// as a function value at the moment.
-  public func pow(self : Int16, other : Int16) : Int16 { self ** other };
+  public func pow(x : Int16, y : Int16) : Int16 { x ** y };
 
   /// Returns the bitwise negation of `x`, `^x`.
   ///
@@ -400,7 +400,7 @@ module {
   /// to the existing `^` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `^`
   /// as a function value at the moment.
-  public func bitnot(self : Int16) : Int16 { ^self };
+  public func bitnot(x : Int16) : Int16 { ^x };
 
   /// Returns the bitwise "and" of `x` and `y`, `x & y`.
   ///
@@ -413,7 +413,7 @@ module {
   /// to the existing `&` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `&`
   /// as a function value at the moment.
-  public func bitand(self : Int16, other : Int16) : Int16 { self & other };
+  public func bitand(x : Int16, y : Int16) : Int16 { x & y };
 
   /// Returns the bitwise "or" of `x` and `y`, `x | y`.
   ///
@@ -425,7 +425,7 @@ module {
   /// to the existing `|` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `|`
   /// as a function value at the moment.
-  public func bitor(self : Int16, other : Int16) : Int16 { self | other };
+  public func bitor(x : Int16, y : Int16) : Int16 { x | y };
 
   /// Returns the bitwise "exclusive or" of `x` and `y`, `x ^ y`.
   ///
@@ -437,7 +437,7 @@ module {
   /// to the existing `^` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `^`
   /// as a function value at the moment.
-  public func bitxor(self : Int16, other : Int16) : Int16 { self ^ other };
+  public func bitxor(x : Int16, y : Int16) : Int16 { x ^ y };
 
   /// Returns the bitwise left shift of `x` by `y`, `x << y`.
   /// The right bits of the shift filled with zeros.
@@ -455,8 +455,8 @@ module {
   /// to the existing `<<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<`
   /// as a function value at the moment.
-  public func bitshiftLeft(self : Int16, other : Int16) : Int16 {
-    self << other
+  public func bitshiftLeft(x : Int16, y : Int16) : Int16 {
+    x << y
   };
 
   /// Returns the signed bitwise right shift of `x` by `y`, `x >> y`.
@@ -475,13 +475,13 @@ module {
   /// to the existing `>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>>`
   /// as a function value at the moment.
-  public func bitshiftRight(self : Int16, other : Int16) : Int16 {
-    self >> other
+  public func bitshiftRight(x : Int16, y : Int16) : Int16 {
+    x >> y
   };
 
   /// Returns the bitwise left rotatation of `x` by `y`, `x <<> y`.
   /// Each left-overflowing bit is inserted again on the right side.
-  /// The sign bit is rotated like other bits, i.e. the rotation interprets the number as unsigned.
+  /// The sign bit is rotated like y bits, i.e. the rotation interprets the number as unsigned.
   ///
   /// Changes the direction of rotation for negative `y`.
   /// For `y >= 16`, the semantics is the same as for `bitrotLeft(x, y % 16)`.
@@ -495,11 +495,11 @@ module {
   /// to the existing `<<>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<>`
   /// as a function value at the moment.
-  public func bitrotLeft(self : Int16, other : Int16) : Int16 { self <<> other };
+  public func bitrotLeft(x : Int16, y : Int16) : Int16 { x <<> y };
 
   /// Returns the bitwise right rotation of `x` by `y`, `x <>> y`.
   /// Each right-underflowing bit is inserted again on the right side.
-  /// The sign bit is rotated like other bits, i.e. the rotation interprets the number as unsigned.
+  /// The sign bit is rotated like y bits, i.e. the rotation interprets the number as unsigned.
   ///
   /// Changes the direction of rotation for negative `y`.
   /// For `y >= 16`, the semantics is the same as for `bitrotRight(x, y % 16)`.
@@ -513,8 +513,8 @@ module {
   /// to the existing `<>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<>>`
   /// as a function value at the moment.
-  public func bitrotRight(self : Int16, other : Int16) : Int16 {
-    self <>> other
+  public func bitrotRight(x : Int16, y : Int16) : Int16 {
+    x <>> y
   };
 
   /// Returns the value of bit `p` in `x`, `x & 2**p == 2**p`.
@@ -525,8 +525,8 @@ module {
   /// ```motoko include=import
   /// assert Int16.bittest(128, 7);
   /// ```
-  public func bittest(self : Int16, p : Nat) : Bool {
-    Prim.btstInt16(self, Prim.intToInt16(p))
+  public func bittest(x : Int16, p : Nat) : Bool {
+    Prim.btstInt16(x, Prim.intToInt16(p))
   };
 
   /// Returns the value of setting bit `p` in `x` to `1`.
@@ -536,8 +536,8 @@ module {
   /// ```motoko include=import
   /// assert Int16.bitset(0, 7) == +128;
   /// ```
-  public func bitset(self : Int16, p : Nat) : Int16 {
-    self | (1 << Prim.intToInt16(p))
+  public func bitset(x : Int16, p : Nat) : Int16 {
+    x | (1 << Prim.intToInt16(p))
   };
 
   /// Returns the value of clearing bit `p` in `x` to `0`.
@@ -547,8 +547,8 @@ module {
   /// ```motoko include=import
   /// assert Int16.bitclear(-1, 7) == -129;
   /// ```
-  public func bitclear(self : Int16, p : Nat) : Int16 {
-    self & ^(1 << Prim.intToInt16(p))
+  public func bitclear(x : Int16, p : Nat) : Int16 {
+    x & ^(1 << Prim.intToInt16(p))
   };
 
   /// Returns the value of flipping bit `p` in `x`.
@@ -558,8 +558,8 @@ module {
   /// ```motoko include=import
   /// assert Int16.bitflip(255, 7) == +127;
   /// ```
-  public func bitflip(self : Int16, p : Nat) : Int16 {
-    self ^ (1 << Prim.intToInt16(p))
+  public func bitflip(x : Int16, p : Nat) : Int16 {
+    x ^ (1 << Prim.intToInt16(p))
   };
 
   /// Returns the count of non-zero bits in `x`.
@@ -568,7 +568,7 @@ module {
   /// ```motoko include=import
   /// assert Int16.bitcountNonZero(0xff) == +8;
   /// ```
-  public func bitcountNonZero(self : Int16) : Int16 = Prim.popcntInt16(self);
+  public func bitcountNonZero(x : Int16) : Int16 = Prim.popcntInt16(x);
 
   /// Returns the count of leading zero bits in `x`.
   ///
@@ -576,7 +576,7 @@ module {
   /// ```motoko include=import
   /// assert Int16.bitcountLeadingZero(0x80) == +8;
   /// ```
-  public func bitcountLeadingZero(self : Int16) : Int16 = Prim.clzInt16(self);
+  public func bitcountLeadingZero(x : Int16) : Int16 = Prim.clzInt16(x);
 
   /// Returns the count of trailing zero bits in `x`.
   ///
@@ -584,7 +584,7 @@ module {
   /// ```motoko include=import
   /// assert Int16.bitcountTrailingZero(0x0100) == +8;
   /// ```
-  public func bitcountTrailingZero(self : Int16) : Int16 = Prim.ctzInt16(self);
+  public func bitcountTrailingZero(x : Int16) : Int16 = Prim.ctzInt16(x);
 
   /// Returns the upper (i.e. most significant) and lower (least significant) byte of `x`.
   ///
@@ -592,7 +592,7 @@ module {
   /// ```motoko include=import
   /// assert Int16.explode 0x77ee == (119, 238);
   /// ```
-  public func explode(self : Int16) : (msb : Nat8, lsb : Nat8) = Prim.explodeInt16(self);
+  public func explode(x : Int16) : (msb : Nat8, lsb : Nat8) = Prim.explodeInt16(x);
 
   /// Returns the sum of `x` and `y`, `x +% y`.
   ///
@@ -607,7 +607,7 @@ module {
   /// to the existing `+%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `+%`
   /// as a function value at the moment.
-  public func addWrap(self : Int16, other : Int16) : Int16 { self +% other };
+  public func addWrap(x : Int16, y : Int16) : Int16 { x +% y };
 
   /// Returns the difference of `x` and `y`, `x -% y`.
   ///
@@ -622,7 +622,7 @@ module {
   /// to the existing `-%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `-%`
   /// as a function value at the moment.
-  public func subWrap(self : Int16, other : Int16) : Int16 { self -% other };
+  public func subWrap(x : Int16, y : Int16) : Int16 { x -% y };
 
   /// Returns the product of `x` and `y`, `x *% y`. Wraps on overflow.
   ///
@@ -637,7 +637,7 @@ module {
   /// to the existing `*%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `*%`
   /// as a function value at the moment.
-  public func mulWrap(self : Int16, other : Int16) : Int16 { self *% other };
+  public func mulWrap(x : Int16, y : Int16) : Int16 { x *% y };
 
   /// Returns `x` to the power of `y`, `x **% y`.
   ///
@@ -654,7 +654,7 @@ module {
   /// to the existing `**%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `**%`
   /// as a function value at the moment.
-  public func powWrap(self : Int16, other : Int16) : Int16 { self **% other };
+  public func powWrap(x : Int16, y : Int16) : Int16 { x **% y };
 
   /// Returns an iterator over `Int16` values from the first to second argument with an exclusive upper bound.
   /// ```motoko include=import
@@ -674,12 +674,12 @@ module {
   /// let iter = Int16.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(self : Int16, toExclusive : Int16) : Iter.Iter<Int16> {
-    if (self >= toExclusive) {
+  public func range(x : Int16, toExclusive : Int16) : Iter.Iter<Int16> {
+    if (x >= toExclusive) {
       Iter.empty()
     } else {
       object {
-        var n = self;
+        var n = x;
         public func next() : ?Int16 {
           if (n == toExclusive) {
             null
@@ -711,12 +711,12 @@ module {
   /// let iter = Int16.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(self : Int16, to : Int16) : Iter.Iter<Int16> {
-    if (self > to) {
+  public func rangeInclusive(x : Int16, to : Int16) : Iter.Iter<Int16> {
+    if (x > to) {
       Iter.empty()
     } else {
       object {
-        var n = self;
+        var n = x;
         var done = false;
         public func next() : ?Int16 {
           if (done) {

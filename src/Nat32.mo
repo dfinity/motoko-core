@@ -124,8 +124,8 @@ module {
   /// ```motoko include=import
   /// assert Nat32.min(123, 456) == (123 : Nat32);
   /// ```
-  public func min(self : Nat32, other : Nat32) : Nat32 {
-    if (self < other) { self } else { other }
+  public func min(x : Nat32, y : Nat32) : Nat32 {
+    if (x < y) { x } else { y }
   };
 
   /// Returns the maximum of `x` and `y`.
@@ -134,8 +134,8 @@ module {
   /// ```motoko include=import
   /// assert Nat32.max(123, 456) == (456 : Nat32);
   /// ```
-  public func max(self : Nat32, other : Nat32) : Nat32 {
-    if (self < other) { other } else { self }
+  public func max(x : Nat32, y : Nat32) : Nat32 {
+    if (x < y) { y } else { x }
   };
 
   /// Equality function for Nat32 types.
@@ -158,7 +158,7 @@ module {
   /// let b : Nat32 = 222;
   /// assert not Nat32.equal(a, b);
   /// ```
-  public func equal(self : Nat32, other : Nat32) : Bool { self == other };
+  public func equal(x : Nat32, y : Nat32) : Bool { x == y };
 
   /// Inequality function for Nat32 types.
   /// This is equivalent to `x != y`.
@@ -173,7 +173,7 @@ module {
   /// to the existing `!=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `!=`
   /// as a function value at the moment.
-  public func notEqual(self : Nat32, other : Nat32) : Bool { self != other };
+  public func notEqual(x : Nat32, y : Nat32) : Bool { x != y };
 
   /// "Less than" function for Nat32 types.
   /// This is equivalent to `x < y`.
@@ -188,7 +188,7 @@ module {
   /// to the existing `<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<`
   /// as a function value at the moment.
-  public func less(self : Nat32, other : Nat32) : Bool { self < other };
+  public func less(x : Nat32, y : Nat32) : Bool { x < y };
 
   /// "Less than or equal" function for Nat32 types.
   /// This is equivalent to `x <= y`.
@@ -203,7 +203,7 @@ module {
   /// to the existing `<=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<=`
   /// as a function value at the moment.
-  public func lessOrEqual(self : Nat32, other : Nat32) : Bool { self <= other };
+  public func lessOrEqual(x : Nat32, y : Nat32) : Bool { x <= y };
 
   /// "Greater than" function for Nat32 types.
   /// This is equivalent to `x > y`.
@@ -218,7 +218,7 @@ module {
   /// to the existing `>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>`
   /// as a function value at the moment.
-  public func greater(self : Nat32, other : Nat32) : Bool { self > other };
+  public func greater(x : Nat32, y : Nat32) : Bool { x > y };
 
   /// "Greater than or equal" function for Nat32 types.
   /// This is equivalent to `x >= y`.
@@ -233,8 +233,8 @@ module {
   /// to the existing `>=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>=`
   /// as a function value at the moment.
-  public func greaterOrEqual(self : Nat32, other : Nat32) : Bool {
-    self >= other
+  public func greaterOrEqual(x : Nat32, y : Nat32) : Bool {
+    x >= y
   };
 
   /// General purpose comparison function for `Nat32`. Returns the `Order` (
@@ -252,8 +252,8 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.sort([2, 3, 1] : [Nat32], Nat32.compare) == [1, 2, 3];
   /// ```
-  public func compare(self : Nat32, other : Nat32) : Order.Order {
-    if (self < other) { #less } else if (self == other) { #equal } else {
+  public func compare(x : Nat32, y : Nat32) : Order.Order {
+    if (x < y) { #less } else if (x == y) { #equal } else {
       #greater
     }
   };
@@ -277,7 +277,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Nat32, Nat32>([2, 3, 1], 0, Nat32.add) == 6;
   /// ```
-  public func add(self : Nat32, other : Nat32) : Nat32 { self + other };
+  public func add(x : Nat32, y : Nat32) : Nat32 { x + y };
 
   /// Returns the difference of `x` and `y`, `x - y`.
   /// Traps on underflow.
@@ -298,7 +298,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Nat32, Nat32>([2, 3, 1], 20, Nat32.sub) == 14;
   /// ```
-  public func sub(self : Nat32, other : Nat32) : Nat32 { self - other };
+  public func sub(x : Nat32, y : Nat32) : Nat32 { x - y };
 
   /// Returns the product of `x` and `y`, `x * y`.
   /// Traps on overflow.
@@ -319,7 +319,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Nat32, Nat32>([2, 3, 1], 1, Nat32.mul) == 6;
   /// ```
-  public func mul(self : Nat32, other : Nat32) : Nat32 { self * other };
+  public func mul(x : Nat32, y : Nat32) : Nat32 { x * y };
 
   /// Returns the division of `x by y`, `x / y`.
   /// Traps when `y` is zero.
@@ -334,7 +334,7 @@ module {
   /// to the existing `/` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `/`
   /// as a function value at the moment.
-  public func div(self : Nat32, other : Nat32) : Nat32 { self / other };
+  public func div(x : Nat32, y : Nat32) : Nat32 { x / y };
 
   /// Returns the remainder of `x` divided by `y`, `x % y`.
   /// Traps when `y` is zero.
@@ -349,7 +349,7 @@ module {
   /// to the existing `%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `%`
   /// as a function value at the moment.
-  public func rem(self : Nat32, other : Nat32) : Nat32 { self % other };
+  public func rem(x : Nat32, y : Nat32) : Nat32 { x % y };
 
   /// Returns `x` to the power of `y`, `x ** y`. Traps on overflow.
   ///
@@ -363,7 +363,7 @@ module {
   /// to the existing `**` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `**`
   /// as a function value at the moment.
-  public func pow(self : Nat32, other : Nat32) : Nat32 { self ** other };
+  public func pow(x : Nat32, y : Nat32) : Nat32 { x ** y };
 
   /// Returns the bitwise negation of `x`, `^x`.
   ///
@@ -377,7 +377,7 @@ module {
   /// to the existing `^` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `^`
   /// as a function value at the moment.
-  public func bitnot(self : Nat32) : Nat32 { ^self };
+  public func bitnot(x : Nat32) : Nat32 { ^x };
 
   /// Returns the bitwise and of `x` and `y`, `x & y`.
   ///
@@ -391,7 +391,7 @@ module {
   /// to the existing `&` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `&`
   /// as a function value at the moment.
-  public func bitand(self : Nat32, other : Nat32) : Nat32 { self & other };
+  public func bitand(x : Nat32, y : Nat32) : Nat32 { x & y };
 
   /// Returns the bitwise or of `x` and `y`, `x | y`.
   ///
@@ -405,7 +405,7 @@ module {
   /// to the existing `|` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `|`
   /// as a function value at the moment.
-  public func bitor(self : Nat32, other : Nat32) : Nat32 { self | other };
+  public func bitor(x : Nat32, y : Nat32) : Nat32 { x | y };
 
   /// Returns the bitwise exclusive or of `x` and `y`, `x ^ y`.
   ///
@@ -419,7 +419,7 @@ module {
   /// to the existing `^` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `^`
   /// as a function value at the moment.
-  public func bitxor(self : Nat32, other : Nat32) : Nat32 { self ^ other };
+  public func bitxor(x : Nat32, y : Nat32) : Nat32 { x ^ y };
 
   /// Returns the bitwise shift left of `x` by `y`, `x << y`.
   ///
@@ -433,8 +433,8 @@ module {
   /// to the existing `<<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<`
   /// as a function value at the moment.
-  public func bitshiftLeft(self : Nat32, other : Nat32) : Nat32 {
-    self << other
+  public func bitshiftLeft(x : Nat32, y : Nat32) : Nat32 {
+    x << y
   };
 
   /// Returns the bitwise shift right of `x` by `y`, `x >> y`.
@@ -449,8 +449,8 @@ module {
   /// to the existing `>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>>`
   /// as a function value at the moment.
-  public func bitshiftRight(self : Nat32, other : Nat32) : Nat32 {
-    self >> other
+  public func bitshiftRight(x : Nat32, y : Nat32) : Nat32 {
+    x >> y
   };
 
   /// Returns the bitwise rotate left of `x` by `y`, `x <<> y`.
@@ -465,7 +465,7 @@ module {
   /// to the existing `<<>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<>`
   /// as a function value at the moment.
-  public func bitrotLeft(self : Nat32, other : Nat32) : Nat32 { self <<> other };
+  public func bitrotLeft(x : Nat32, y : Nat32) : Nat32 { x <<> y };
 
   /// Returns the bitwise rotate right of `x` by `y`, `x <>> y`.
   ///
@@ -479,8 +479,8 @@ module {
   /// to the existing `<>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<>>`
   /// as a function value at the moment.
-  public func bitrotRight(self : Nat32, other : Nat32) : Nat32 {
-    self <>> other
+  public func bitrotRight(x : Nat32, y : Nat32) : Nat32 {
+    x <>> y
   };
 
   /// Returns the value of bit `p mod 32` in `x`, `(x & 2^(p mod 32)) == 2^(p mod 32)`.
@@ -490,8 +490,8 @@ module {
   /// ```motoko include=import
   /// assert Nat32.bittest(5, 2);
   /// ```
-  public func bittest(self : Nat32, p : Nat) : Bool {
-    Prim.btstNat32(self, Prim.natToNat32(p))
+  public func bittest(x : Nat32, p : Nat) : Bool {
+    Prim.btstNat32(x, Prim.natToNat32(p))
   };
 
   /// Returns the value of setting bit `p mod 32` in `x` to `1`.
@@ -500,8 +500,8 @@ module {
   /// ```motoko include=import
   /// assert Nat32.bitset(5, 1) == 7;
   /// ```
-  public func bitset(self : Nat32, p : Nat) : Nat32 {
-    self | (1 << Prim.natToNat32(p))
+  public func bitset(x : Nat32, p : Nat) : Nat32 {
+    x | (1 << Prim.natToNat32(p))
   };
 
   /// Returns the value of clearing bit `p mod 32` in `x` to `0`.
@@ -510,8 +510,8 @@ module {
   /// ```motoko include=import
   /// assert Nat32.bitclear(5, 2) == 1;
   /// ```
-  public func bitclear(self : Nat32, p : Nat) : Nat32 {
-    self & ^(1 << Prim.natToNat32(p))
+  public func bitclear(x : Nat32, p : Nat) : Nat32 {
+    x & ^(1 << Prim.natToNat32(p))
   };
 
   /// Returns the value of flipping bit `p mod 32` in `x`.
@@ -520,8 +520,8 @@ module {
   /// ```motoko include=import
   /// assert Nat32.bitflip(5, 2) == 1;
   /// ```
-  public func bitflip(self : Nat32, p : Nat) : Nat32 {
-    self ^ (1 << Prim.natToNat32(p))
+  public func bitflip(x : Nat32, p : Nat) : Nat32 {
+    x ^ (1 << Prim.natToNat32(p))
   };
 
   /// Returns the count of non-zero bits in `x`.
@@ -530,7 +530,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.bitcountNonZero(5) == 2;
   /// ```
-  public func bitcountNonZero(self : Nat32) : Nat32 = Prim.popcntNat32(self);
+  public func bitcountNonZero(x : Nat32) : Nat32 = Prim.popcntNat32(x);
 
   /// Returns the count of leading zero bits in `x`.
   ///
@@ -538,7 +538,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.bitcountLeadingZero(5) == 29;
   /// ```
-  public func bitcountLeadingZero(self : Nat32) : Nat32 = Prim.clzNat32(self);
+  public func bitcountLeadingZero(x : Nat32) : Nat32 = Prim.clzNat32(x);
 
   /// Returns the count of trailing zero bits in `x`.
   ///
@@ -546,7 +546,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.bitcountTrailingZero(16) == 4;
   /// ```
-  public func bitcountTrailingZero(self : Nat32) : Nat32 = Prim.ctzNat32(self);
+  public func bitcountTrailingZero(x : Nat32) : Nat32 = Prim.ctzNat32(x);
 
   /// Returns the upper (i.e. most significant), lower (least significant)
   /// and in-between bytes of `x`.
@@ -555,7 +555,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.explode 0xaa885511 == (170, 136, 85, 17);
   /// ```
-  public func explode(self : Nat32) : (msb : Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeNat32(self);
+  public func explode(x : Nat32) : (msb : Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeNat32(x);
 
   /// Returns the sum of `x` and `y`, `x +% y`. Wraps on overflow.
   ///
@@ -569,7 +569,7 @@ module {
   /// to the existing `+%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `+%`
   /// as a function value at the moment.
-  public func addWrap(self : Nat32, other : Nat32) : Nat32 { self +% other };
+  public func addWrap(x : Nat32, y : Nat32) : Nat32 { x +% y };
 
   /// Returns the difference of `x` and `y`, `x -% y`. Wraps on underflow.
   ///
@@ -583,7 +583,7 @@ module {
   /// to the existing `-%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `-%`
   /// as a function value at the moment.
-  public func subWrap(self : Nat32, other : Nat32) : Nat32 { self -% other };
+  public func subWrap(x : Nat32, y : Nat32) : Nat32 { x -% y };
 
   /// Returns the product of `x` and `y`, `x *% y`. Wraps on overflow.
   ///
@@ -597,7 +597,7 @@ module {
   /// to the existing `*%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `*%`
   /// as a function value at the moment.
-  public func mulWrap(self : Nat32, other : Nat32) : Nat32 { self *% other };
+  public func mulWrap(x : Nat32, y : Nat32) : Nat32 { x *% y };
 
   /// Returns `x` to the power of `y`, `x **% y`. Wraps on overflow.
   ///
@@ -611,7 +611,7 @@ module {
   /// to the existing `**%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `**%`
   /// as a function value at the moment.
-  public func powWrap(self : Nat32, other : Nat32) : Nat32 { self **% other };
+  public func powWrap(x : Nat32, y : Nat32) : Nat32 { x **% y };
 
   /// Returns an iterator over `Nat32` values from the first to second argument with an exclusive upper bound.
   /// ```motoko include=import
@@ -631,12 +631,12 @@ module {
   /// let iter = Nat32.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(self : Nat32, toExclusive : Nat32) : Iter.Iter<Nat32> {
-    if (self >= toExclusive) {
+  public func range(x : Nat32, toExclusive : Nat32) : Iter.Iter<Nat32> {
+    if (x >= toExclusive) {
       Iter.empty()
     } else {
       object {
-        var n = self;
+        var n = x;
         public func next() : ?Nat32 {
           if (n == toExclusive) {
             null
@@ -668,12 +668,12 @@ module {
   /// let iter = Nat32.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(self : Nat32, to : Nat32) : Iter.Iter<Nat32> {
-    if (self > to) {
+  public func rangeInclusive(x : Nat32, to : Nat32) : Iter.Iter<Nat32> {
+    if (x > to) {
       Iter.empty()
     } else {
       object {
-        var n = self;
+        var n = x;
         var done = false;
         public func next() : ?Nat32 {
           if (done) {
