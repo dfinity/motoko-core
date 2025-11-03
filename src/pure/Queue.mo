@@ -36,6 +36,7 @@ import Array "../Array";
 import Prim "mo:⛔";
 
 module {
+  /// @deprecated M0235
   type List<T> = Types.Pure.List<T>;
 
   /// Double-ended queue data type.

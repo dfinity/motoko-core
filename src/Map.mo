@@ -76,6 +76,7 @@ module {
   /// assuming that the `compare` function implements an `O(1)` comparison.
   ///
   /// Note: Creates `O(n * log(n))` temporary objects that will be collected as garbage.
+  /// @deprecated M0235
   public func toPure<K, V>(self : Map<K, V>, compare : (implicit : (K, K) -> Order.Order)) : PureMap.Map<K, V> {
     PureMap.fromIter(entries(self), compare)
   };
@@ -101,6 +102,7 @@ module {
   /// Space: `O(n)`.
   /// where `n` denotes the number of key-value entries stored in the map and
   /// assuming that the `compare` function implements an `O(1)` comparison.
+  /// @deprecated M0235
   public func fromPure<K, V>(map : PureMap.Map<K, V>, compare : (implicit : (K, K) -> Order.Order)) : Map<K, V> {
     fromIter(PureMap.entries(map), compare)
   };
@@ -576,6 +578,7 @@ module {
   /// assuming that the `compare` function implements an `O(1)` comparison.
   ///
   /// Note: Creates `O(log(n))` objects that will be collected as garbage.
+  /// @deprecated M0235
   public func delete<K, V>(self : Map<K, V>, compare : (implicit : (K, K) -> Order.Order), key : K) : Bool {
     switch (take(self, compare, key)) {
       case null false;
@@ -1252,6 +1255,7 @@ module {
   /// Internal sanity check function.
   /// Can be used to check that key/value pairs have been inserted with a consistent key comparison function.
   /// Traps if the internal map structure is invalid.
+  /// @deprecated M0235
   public func assertValid<K, V>(self : Map<K, V>, compare : (implicit : (K, K) -> Order.Order)) {
     func checkIteration(iterator : Types.Iter<(K, V)>, order : Order.Order) {
       switch (iterator.next()) {

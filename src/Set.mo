@@ -71,6 +71,7 @@ module {
   /// assuming that the `compare` function implements an `O(1)` comparison.
   ///
   /// Note: Creates `O(n * log(n))` temporary objects that will be collected as garbage.
+  /// @deprecated M0235
   public func toPure<T>(self : Set<T>, compare : (implicit : (T, T) -> Order.Order)) : PureSet.Set<T> {
     PureSet.fromIter(values(self), compare)
   };
@@ -95,6 +96,7 @@ module {
   /// Space: `O(n)`.
   /// where `n` denotes the number of elements stored in the set and
   /// assuming that the `compare` function implements an `O(1)` comparison.
+  /// @deprecated M0235
   public func fromPure<T>(set : PureSet.Set<T>, compare : (implicit : (T, T) -> Order.Order)) : Set<T> {
     fromIter(PureSet.values(set), compare)
   };
@@ -1356,6 +1358,7 @@ module {
   /// Internal sanity check function.
   /// Can be used to check that elements have been inserted with a consistent comparison function.
   /// Traps if the internal set structure is invalid.
+  /// @deprecated M0235
   public func assertValid<T>(self : Set<T>, compare : (implicit : (T, T) -> Order.Order)) {
     func checkIteration(iterator : Types.Iter<T>, order : Order.Order) {
       switch (iterator.next()) {

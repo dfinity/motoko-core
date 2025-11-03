@@ -111,6 +111,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(size)`
+  /// @deprecated M0235
   public func toPure<T>(self : List<T>) : PureList.List<T> {
     PureList.fromIter(values(self)) // TODO: optimize
   };
@@ -128,6 +129,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(size)`
+  /// @deprecated M0235
   public func fromPure<T>(pure : PureList.List<T>) : List<T> {
     let list = empty<T>();
     PureList.forEach<T>(pure, func(x) = add(list, x));
@@ -511,6 +513,7 @@ module {
   /// ```
   ///
   /// Runtime: `O(1)`
+  /// @deprecated M0235
   public func at<T>(self : List<T>, index : Nat) : T {
     // inlined version of:
     //   let (a,b) = locate(index);
