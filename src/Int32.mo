@@ -135,8 +135,8 @@ module {
   /// ```motoko include=import
   /// assert Int32.abs(-123456) == +123_456;
   /// ```
-  public func abs(self : Int32) : Int32 {
-    fromInt(Int.abs(toInt(self)))
+  public func abs(x : Int32) : Int32 {
+    fromInt(Int.abs(toInt(x)))
   };
 
   /// Returns the minimum of `x` and `y`.
@@ -145,8 +145,8 @@ module {
   /// ```motoko include=import
   /// assert Int32.min(+2, -3) == -3;
   /// ```
-  public func min(self : Int32, other : Int32) : Int32 {
-    if (self < other) { self } else { other }
+  public func min(x : Int32, y : Int32) : Int32 {
+    if (x < y) { x } else { y }
   };
 
   /// Returns the maximum of `x` and `y`.
@@ -155,8 +155,8 @@ module {
   /// ```motoko include=import
   /// assert Int32.max(+2, -3) == +2;
   /// ```
-  public func max(self : Int32, other : Int32) : Int32 {
-    if (self < other) { other } else { self }
+  public func max(x : Int32, y : Int32) : Int32 {
+    if (x < y) { y } else { x }
   };
 
   /// Equality function for Int32 types.
@@ -178,7 +178,7 @@ module {
   /// let b : Int32 = 123;
   /// assert not Int32.equal(a, b);
   /// ```
-  public func equal(self : Int32, other : Int32) : Bool { self == other };
+  public func equal(x : Int32, y : Int32) : Bool { x == y };
 
   /// Inequality function for Int32 types.
   /// This is equivalent to `x != y`.
@@ -192,7 +192,7 @@ module {
   /// to the existing `!=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `!=`
   /// as a function value at the moment.
-  public func notEqual(self : Int32, other : Int32) : Bool { self != other };
+  public func notEqual(x : Int32, y : Int32) : Bool { x != y };
 
   /// "Less than" function for Int32 types.
   /// This is equivalent to `x < y`.
@@ -206,7 +206,7 @@ module {
   /// to the existing `<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<`
   /// as a function value at the moment.
-  public func less(self : Int32, other : Int32) : Bool { self < other };
+  public func less(x : Int32, y : Int32) : Bool { x < y };
 
   /// "Less than or equal" function for Int32 types.
   /// This is equivalent to `x <= y`.
@@ -220,7 +220,7 @@ module {
   /// to the existing `<=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<=`
   /// as a function value at the moment.
-  public func lessOrEqual(self : Int32, other : Int32) : Bool { self <= other };
+  public func lessOrEqual(x : Int32, y : Int32) : Bool { x <= y };
 
   /// "Greater than" function for Int32 types.
   /// This is equivalent to `x > y`.
@@ -234,7 +234,7 @@ module {
   /// to the existing `>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>`
   /// as a function value at the moment.
-  public func greater(self : Int32, other : Int32) : Bool { self > other };
+  public func greater(x : Int32, y : Int32) : Bool { x > y };
 
   /// "Greater than or equal" function for Int32 types.
   /// This is equivalent to `x >= y`.
@@ -248,8 +248,8 @@ module {
   /// to the existing `>=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>=`
   /// as a function value at the moment.
-  public func greaterOrEqual(self : Int32, other : Int32) : Bool {
-    self >= other
+  public func greaterOrEqual(x : Int32, y : Int32) : Bool {
+    x >= y
   };
 
   /// General-purpose comparison function for `Int32`. Returns the `Order` (
@@ -267,8 +267,8 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.sort([1, -2, -3] : [Int32], Int32.compare) == [-3, -2, 1];
   /// ```
-  public func compare(self : Int32, other : Int32) : Order.Order {
-    if (self < other) { #less } else if (self == other) { #equal } else {
+  public func compare(x : Int32, y : Int32) : Order.Order {
+    if (x < y) { #less } else if (x == y) { #equal } else {
       #greater
     }
   };
@@ -286,7 +286,7 @@ module {
   /// to the existing `-` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `-`
   /// as a function value at the moment.
-  public func neg(self : Int32) : Int32 { -self };
+  public func neg(x : Int32) : Int32 { -x };
 
   /// Returns the sum of `x` and `y`, `x + y`.
   ///
@@ -307,7 +307,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int32, Int32>([1, -2, -3], 0, Int32.add) == -4;
   /// ```
-  public func add(self : Int32, other : Int32) : Int32 { self + other };
+  public func add(x : Int32, y : Int32) : Int32 { x + y };
 
   /// Returns the difference of `x` and `y`, `x - y`.
   ///
@@ -328,7 +328,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int32, Int32>([1, -2, -3], 0, Int32.sub) == 4;
   /// ```
-  public func sub(self : Int32, other : Int32) : Int32 { self - other };
+  public func sub(x : Int32, y : Int32) : Int32 { x - y };
 
   /// Returns the product of `x` and `y`, `x * y`.
   ///
@@ -349,7 +349,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft<Int32, Int32>([1, -2, -3], 1, Int32.mul) == 6;
   /// ```
-  public func mul(self : Int32, other : Int32) : Int32 { self * other };
+  public func mul(x : Int32, y : Int32) : Int32 { x * y };
 
   /// Returns the signed integer division of `x` by `y`, `x / y`.
   /// Rounds the quotient towards zero, which is the same as truncating the decimal places of the quotient.
@@ -365,7 +365,7 @@ module {
   /// to the existing `/` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `/`
   /// as a function value at the moment.
-  public func div(self : Int32, other : Int32) : Int32 { self / other };
+  public func div(x : Int32, y : Int32) : Int32 { x / y };
 
   /// Returns the remainder of the signed integer division of `x` by `y`, `x % y`,
   /// which is defined as `x - x / y * y`.
@@ -381,7 +381,7 @@ module {
   /// to the existing `%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `%`
   /// as a function value at the moment.
-  public func rem(self : Int32, other : Int32) : Int32 { self % other };
+  public func rem(x : Int32, y : Int32) : Int32 { x % y };
 
   /// Returns `x` to the power of `y`, `x ** y`.
   ///
@@ -396,7 +396,7 @@ module {
   /// to the existing `**` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `**`
   /// as a function value at the moment.
-  public func pow(self : Int32, other : Int32) : Int32 { self ** other };
+  public func pow(x : Int32, y : Int32) : Int32 { x ** y };
 
   /// Returns the bitwise negation of `x`, `^x`.
   ///
@@ -409,7 +409,7 @@ module {
   /// to the existing `^` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `^`
   /// as a function value at the moment.
-  public func bitnot(self : Int32) : Int32 { ^self };
+  public func bitnot(x : Int32) : Int32 { ^x };
 
   /// Returns the bitwise "and" of `x` and `y`, `x & y`.
   ///
@@ -422,7 +422,7 @@ module {
   /// to the existing `&` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `&`
   /// as a function value at the moment.
-  public func bitand(self : Int32, other : Int32) : Int32 { self & other };
+  public func bitand(x : Int32, y : Int32) : Int32 { x & y };
 
   /// Returns the bitwise "or" of `x` and `y`, `x | y`.
   ///
@@ -435,7 +435,7 @@ module {
   /// to the existing `|` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `|`
   /// as a function value at the moment.
-  public func bitor(self : Int32, other : Int32) : Int32 { self | other };
+  public func bitor(x : Int32, y : Int32) : Int32 { x | y };
 
   /// Returns the bitwise "exclusive or" of `x` and `y`, `x ^ y`.
   ///
@@ -448,7 +448,7 @@ module {
   /// to the existing `^` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `^`
   /// as a function value at the moment.
-  public func bitxor(self : Int32, other : Int32) : Int32 { self ^ other };
+  public func bitxor(x : Int32, y : Int32) : Int32 { x ^ y };
 
   /// Returns the bitwise left shift of `x` by `y`, `x << y`.
   /// The right bits of the shift filled with zeros.
@@ -466,8 +466,8 @@ module {
   /// to the existing `<<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<`
   /// as a function value at the moment.
-  public func bitshiftLeft(self : Int32, other : Int32) : Int32 {
-    self << other
+  public func bitshiftLeft(x : Int32, y : Int32) : Int32 {
+    x << y
   };
 
   /// Returns the signed bitwise right shift of `x` by `y`, `x >> y`.
@@ -486,13 +486,13 @@ module {
   /// to the existing `>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>>`
   /// as a function value at the moment.
-  public func bitshiftRight(self : Int32, other : Int32) : Int32 {
-    self >> other
+  public func bitshiftRight(x : Int32, y : Int32) : Int32 {
+    x >> y
   };
 
   /// Returns the bitwise left rotatation of `x` by `y`, `x <<> y`.
   /// Each left-overflowing bit is inserted again on the right side.
-  /// The sign bit is rotated like other bits, i.e. the rotation interprets the number as unsigned.
+  /// The sign bit is rotated like y bits, i.e. the rotation interprets the number as unsigned.
   ///
   /// Changes the direction of rotation for negative `y`.
   /// For `y >= 32`, the semantics is the same as for `bitrotLeft(x, y % 32)`.
@@ -506,11 +506,11 @@ module {
   /// to the existing `<<>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<>`
   /// as a function value at the moment.
-  public func bitrotLeft(self : Int32, other : Int32) : Int32 { self <<> other };
+  public func bitrotLeft(x : Int32, y : Int32) : Int32 { x <<> y };
 
   /// Returns the bitwise right rotation of `x` by `y`, `x <>> y`.
   /// Each right-underflowing bit is inserted again on the right side.
-  /// The sign bit is rotated like other bits, i.e. the rotation interprets the number as unsigned.
+  /// The sign bit is rotated like y bits, i.e. the rotation interprets the number as unsigned.
   ///
   /// Changes the direction of rotation for negative `y`.
   /// For `y >= 32`, the semantics is the same as for `bitrotRight(x, y % 32)`.
@@ -524,8 +524,8 @@ module {
   /// to the existing `<>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<>>`
   /// as a function value at the moment.
-  public func bitrotRight(self : Int32, other : Int32) : Int32 {
-    self <>> other
+  public func bitrotRight(x : Int32, y : Int32) : Int32 {
+    x <>> y
   };
 
   /// Returns the value of bit `p` in `x`, `x & 2**p == 2**p`.
@@ -536,8 +536,8 @@ module {
   /// ```motoko include=import
   /// assert Int32.bittest(128, 7);
   /// ```
-  public func bittest(self : Int32, p : Nat) : Bool {
-    Prim.btstInt32(self, Prim.intToInt32(p))
+  public func bittest(x : Int32, p : Nat) : Bool {
+    Prim.btstInt32(x, Prim.intToInt32(p))
   };
 
   /// Returns the value of setting bit `p` in `x` to `1`.
@@ -547,8 +547,8 @@ module {
   /// ```motoko include=import
   /// assert Int32.bitset(0, 7) == +128;
   /// ```
-  public func bitset(self : Int32, p : Nat) : Int32 {
-    self | (1 << Prim.intToInt32(p))
+  public func bitset(x : Int32, p : Nat) : Int32 {
+    x | (1 << Prim.intToInt32(p))
   };
 
   /// Returns the value of clearing bit `p` in `x` to `0`.
@@ -558,8 +558,8 @@ module {
   /// ```motoko include=import
   /// assert Int32.bitclear(-1, 7) == -129;
   /// ```
-  public func bitclear(self : Int32, p : Nat) : Int32 {
-    self & ^(1 << Prim.intToInt32(p))
+  public func bitclear(x : Int32, p : Nat) : Int32 {
+    x & ^(1 << Prim.intToInt32(p))
   };
 
   /// Returns the value of flipping bit `p` in `x`.
@@ -569,8 +569,8 @@ module {
   /// ```motoko include=import
   /// assert Int32.bitflip(255, 7) == +127;
   /// ```
-  public func bitflip(self : Int32, p : Nat) : Int32 {
-    self ^ (1 << Prim.intToInt32(p))
+  public func bitflip(x : Int32, p : Nat) : Int32 {
+    x ^ (1 << Prim.intToInt32(p))
   };
 
   /// Returns the count of non-zero bits in `x`.
@@ -579,7 +579,7 @@ module {
   /// ```motoko include=import
   /// assert Int32.bitcountNonZero(0xffff) == +16;
   /// ```
-  public func bitcountNonZero(self : Int32) : Int32 = Prim.popcntInt32(self);
+  public func bitcountNonZero(x : Int32) : Int32 = Prim.popcntInt32(x);
 
   /// Returns the count of leading zero bits in `x`.
   ///
@@ -587,7 +587,7 @@ module {
   /// ```motoko include=import
   /// assert Int32.bitcountLeadingZero(0x8000) == +16;
   /// ```
-  public func bitcountLeadingZero(self : Int32) : Int32 = Prim.clzInt32(self);
+  public func bitcountLeadingZero(x : Int32) : Int32 = Prim.clzInt32(x);
 
   /// Returns the count of trailing zero bits in `x`.
   ///
@@ -595,7 +595,7 @@ module {
   /// ```motoko include=import
   /// assert Int32.bitcountTrailingZero(0x0201_0000) == +16;
   /// ```
-  public func bitcountTrailingZero(self : Int32) : Int32 = Prim.ctzInt32(self);
+  public func bitcountTrailingZero(x : Int32) : Int32 = Prim.ctzInt32(x);
 
   /// Returns the upper (i.e. most significant), lower (least significant)
   /// and in-between bytes of `x`.
@@ -604,7 +604,7 @@ module {
   /// ```motoko include=import
   /// assert Int32.explode 0x66885511 == (102, 136, 85, 17);
   /// ```
-  public func explode(self : Int32) : (msb : Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeInt32(self);
+  public func explode(x : Int32) : (msb : Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeInt32(x);
 
   /// Returns the sum of `x` and `y`, `x +% y`.
   ///
@@ -619,7 +619,7 @@ module {
   /// to the existing `+%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `+%`
   /// as a function value at the moment.
-  public func addWrap(self : Int32, other : Int32) : Int32 { self +% other };
+  public func addWrap(x : Int32, y : Int32) : Int32 { x +% y };
 
   /// Returns the difference of `x` and `y`, `x -% y`.
   ///
@@ -634,7 +634,7 @@ module {
   /// to the existing `-%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `-%`
   /// as a function value at the moment.
-  public func subWrap(self : Int32, other : Int32) : Int32 { self -% other };
+  public func subWrap(x : Int32, y : Int32) : Int32 { x -% y };
 
   /// Returns the product of `x` and `y`, `x *% y`. Wraps on overflow.
   ///
@@ -649,7 +649,7 @@ module {
   /// to the existing `*%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `*%`
   /// as a function value at the moment.
-  public func mulWrap(self : Int32, other : Int32) : Int32 { self *% other };
+  public func mulWrap(x : Int32, y : Int32) : Int32 { x *% y };
 
   /// Returns `x` to the power of `y`, `x **% y`.
   ///
@@ -665,7 +665,7 @@ module {
   /// to the existing `**%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `**%`
   /// as a function value at the moment.
-  public func powWrap(self : Int32, other : Int32) : Int32 { self **% other };
+  public func powWrap(x : Int32, y : Int32) : Int32 { x **% y };
 
   /// Returns an iterator over `Int32` values from the first to second argument with an exclusive upper bound.
   /// ```motoko include=import
@@ -685,12 +685,12 @@ module {
   /// let iter = Int32.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(self : Int32, toExclusive : Int32) : Iter.Iter<Int32> {
-    if (self >= toExclusive) {
+  public func range(fromInclusive : Int32, toExclusive : Int32) : Iter.Iter<Int32> {
+    if (fromInclusive >= toExclusive) {
       Iter.empty()
     } else {
       object {
-        var n = self;
+        var n = fromInclusive;
         public func next() : ?Int32 {
           if (n == toExclusive) {
             null
@@ -722,12 +722,12 @@ module {
   /// let iter = Int32.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(self : Int32, to : Int32) : Iter.Iter<Int32> {
-    if (self > to) {
+  public func rangeInclusive(from : Int32, to : Int32) : Iter.Iter<Int32> {
+    if (from > to) {
       Iter.empty()
     } else {
       object {
-        var n = self;
+        var n = from;
         var done = false;
         public func next() : ?Int32 {
           if (done) {

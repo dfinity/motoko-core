@@ -110,8 +110,8 @@ module {
   /// ```motoko include=import
   /// assert Nat.min(1, 2) == 1;
   /// ```
-  public func min(self : Nat, other : Nat) : Nat {
-    if (self < other) { self } else { other }
+  public func min(x : Nat, y : Nat) : Nat {
+    if (x < y) { x } else { y }
   };
 
   /// Returns the maximum of `x` and `y`.
@@ -120,8 +120,8 @@ module {
   /// ```motoko include=import
   /// assert Nat.max(1, 2) == 2;
   /// ```
-  public func max(self : Nat, other : Nat) : Nat {
-    if (self < other) { other } else { self }
+  public func max(x : Nat, y : Nat) : Nat {
+    if (x < y) { y } else { x }
   };
 
   /// Equality function for Nat types.
@@ -144,7 +144,7 @@ module {
   /// let b = 222;
   /// assert not Nat.equal(a, b);
   /// ```
-  public func equal(self : Nat, other : Nat) : Bool { self == other };
+  public func equal(x : Nat, y : Nat) : Bool { x == y };
 
   /// Inequality function for Nat types.
   /// This is equivalent to `x != y`.
@@ -159,7 +159,7 @@ module {
   /// to the existing `!=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `!=`
   /// as a function value at the moment.
-  public func notEqual(self : Nat, other : Nat) : Bool { self != other };
+  public func notEqual(x : Nat, y : Nat) : Bool { x != y };
 
   /// "Less than" function for Nat types.
   /// This is equivalent to `x < y`.
@@ -174,7 +174,7 @@ module {
   /// to the existing `<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<`
   /// as a function value at the moment.
-  public func less(self : Nat, other : Nat) : Bool { self < other };
+  public func less(x : Nat, y : Nat) : Bool { x < y };
 
   /// "Less than or equal" function for Nat types.
   /// This is equivalent to `x <= y`.
@@ -189,7 +189,7 @@ module {
   /// to the existing `<=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<=`
   /// as a function value at the moment.
-  public func lessOrEqual(self : Nat, other : Nat) : Bool { self <= other };
+  public func lessOrEqual(x : Nat, y : Nat) : Bool { x <= y };
 
   /// "Greater than" function for Nat types.
   /// This is equivalent to `x > y`.
@@ -204,7 +204,7 @@ module {
   /// to the existing `>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>`
   /// as a function value at the moment.
-  public func greater(self : Nat, other : Nat) : Bool { self > other };
+  public func greater(x : Nat, y : Nat) : Bool { x > y };
 
   /// "Greater than or equal" function for Nat types.
   /// This is equivalent to `x >= y`.
@@ -219,7 +219,7 @@ module {
   /// to the existing `>=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>=`
   /// as a function value at the moment.
-  public func greaterOrEqual(self : Nat, other : Nat) : Bool { self >= other };
+  public func greaterOrEqual(x : Nat, y : Nat) : Bool { x >= y };
 
   /// General purpose comparison function for `Nat`. Returns the `Order` (
   /// either `#less`, `#equal`, or `#greater`) of comparing `x` with `y`.
@@ -236,8 +236,8 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.sort([2, 3, 1], Nat.compare) == [1, 2, 3];
   /// ```
-  public func compare(self : Nat, other : Nat) : Order.Order {
-    if (self < other) { #less } else if (self == other) { #equal } else {
+  public func compare(x : Nat, y : Nat) : Order.Order {
+    if (x < y) { #less } else if (x == y) { #equal } else {
       #greater
     }
   };
@@ -261,7 +261,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft([2, 3, 1], 0, Nat.add) == 6;
   /// ```
-  public func add(self : Nat, other : Nat) : Nat { self + other };
+  public func add(x : Nat, y : Nat) : Nat { x + y };
 
   /// Returns the difference of `x` and `y`, `x - y`.
   /// Traps on underflow below `0`.
@@ -283,7 +283,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft([2, 3, 1], 10, Nat.sub) == 4;
   /// ```
-  public func sub(self : Nat, other : Nat) : Nat { self - other };
+  public func sub(x : Nat, y : Nat) : Nat { x - y };
 
   /// Returns the product of `x` and `y`, `x * y`. This operator will never
   /// overflow because `Nat` is infinite precision.
@@ -304,7 +304,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.foldLeft([2, 3, 1], 1, Nat.mul) == 6;
   /// ```
-  public func mul(self : Nat, other : Nat) : Nat { self * other };
+  public func mul(x : Nat, y : Nat) : Nat { x * y };
 
   /// Returns the unsigned integer division of `x` by `y`,  `x / y`.
   /// Traps when `y` is zero.
@@ -322,7 +322,7 @@ module {
   /// to the existing `/` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `/`
   /// as a function value at the moment.
-  public func div(self : Nat, other : Nat) : Nat { self / other };
+  public func div(x : Nat, y : Nat) : Nat { x / y };
 
   /// Returns the remainder of unsigned integer division of `x` by `y`,  `x % y`.
   /// Traps when `y` is zero.
@@ -337,7 +337,7 @@ module {
   /// to the existing `%` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `%`
   /// as a function value at the moment.
-  public func rem(self : Nat, other : Nat) : Nat { self % other };
+  public func rem(x : Nat, y : Nat) : Nat { x % y };
 
   /// Returns `x` to the power of `y`, `x ** y`. Traps when `y > 2^32`. This operator
   /// will never overflow because `Nat` is infinite precision.
@@ -352,7 +352,7 @@ module {
   /// to the existing `**` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `**`
   /// as a function value at the moment.
-  public func pow(self : Nat, other : Nat) : Nat { self ** other };
+  public func pow(x : Nat, y : Nat) : Nat { x ** y };
 
   /// Returns the (conceptual) bitwise shift left of `x` by `y`, `x * (2 ** y)`.
   ///
@@ -367,8 +367,8 @@ module {
   /// of bit patterns, conceptually it can be regarded as such, and the operation
   /// is provided as a high-performance version of the corresponding arithmetic
   /// rule.
-  public func bitshiftLeft(self : Nat, other : Nat32) : Nat {
-    Prim.shiftLeft(self, other)
+  public func bitshiftLeft(x : Nat, y : Nat32) : Nat {
+    Prim.shiftLeft(x, y)
   };
 
   /// Returns the (conceptual) bitwise shift right of `x` by `y`, `x / (2 ** y)`.
@@ -384,8 +384,8 @@ module {
   /// of bit patterns, conceptually it can be regarded as such, and the operation
   /// is provided as a high-performance version of the corresponding arithmetic
   /// rule.
-  public func bitshiftRight(self : Nat, other : Nat32) : Nat {
-    Prim.shiftRight(self, other)
+  public func bitshiftRight(x : Nat, y : Nat32) : Nat {
+    Prim.shiftRight(x, y)
   };
 
   /// Returns an iterator over `Nat` values from the first to second argument with an exclusive upper bound.
@@ -406,12 +406,12 @@ module {
   /// let iter = Nat.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(self : Nat, toExclusive : Nat) : Iter.Iter<Nat> {
-    if (self >= toExclusive) {
+  public func range(fromInclusive : Nat, toExclusive : Nat) : Iter.Iter<Nat> {
+    if (fromInclusive >= toExclusive) {
       Iter.empty()
     } else {
       object {
-        var n = self;
+        var n = fromInclusive;
         public func next() : ?Nat {
           if (n >= toExclusive) {
             return null
@@ -445,13 +445,13 @@ module {
   /// ```
   ///
   /// If `step` is 0 or if the iteration would not progress towards the bound, returns an empty iterator.
-  public func rangeBy(self : Nat, toExclusive : Nat, step : Int) : Iter.Iter<Nat> {
-    if (step == 0 or (step > 0 and self >= toExclusive) or (step < 0 and self <= toExclusive)) {
+  public func rangeBy(fromInclusive : Nat, toExclusive : Nat, step : Int) : Iter.Iter<Nat> {
+    if (step == 0 or (step > 0 and fromInclusive >= toExclusive) or (step < 0 and fromInclusive <= toExclusive)) {
       Iter.empty()
     } else if (step > 0) {
       object {
         let stepMagnitude = Int.abs(step);
-        var n = self;
+        var n = fromInclusive;
         public func next() : ?Nat {
           if (n >= toExclusive) {
             return null
@@ -464,7 +464,7 @@ module {
     } else {
       object {
         let stepMagnitude = Int.abs(step);
-        var n = self;
+        var n = fromInclusive;
         public func next() : ?Nat {
           if (n <= toExclusive) {
             return null
@@ -499,12 +499,12 @@ module {
   /// let iter = Nat.rangeInclusive(3, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(self : Nat, to : Nat) : Iter.Iter<Nat> {
-    if (self > to) {
+  public func rangeInclusive(from : Nat, to : Nat) : Iter.Iter<Nat> {
+    if (from > to) {
       Iter.empty()
     } else {
       object {
-        var n = self;
+        var n = from;
         public func next() : ?Nat {
           if (n > to) {
             return null
@@ -542,15 +542,15 @@ module {
   /// If `from == to`, return an iterator which only returns that value.
   ///
   /// Otherwise, if `step` is 0 or if the iteration would not progress towards the bound, returns an empty iterator.
-  public func rangeByInclusive(self : Nat, to : Nat, step : Int) : Iter.Iter<Nat> {
-    if (self == to) {
-      Iter.singleton(self)
-    } else if (step == 0 or (step > 0 and self > to) or (step < 0 and self < to)) {
+  public func rangeByInclusive(from : Nat, to : Nat, step : Int) : Iter.Iter<Nat> {
+    if (from == to) {
+      Iter.singleton(from)
+    } else if (step == 0 or (step > 0 and from > to) or (step < 0 and from < to)) {
       Iter.empty()
     } else if (step > 0) {
       object {
         let stepMagnitude = Int.abs(step);
-        var n = self;
+        var n = from;
         public func next() : ?Nat {
           if (n > to) {
             return null
@@ -563,7 +563,7 @@ module {
     } else {
       object {
         let stepMagnitude = Int.abs(step);
-        var n = self;
+        var n = from;
         var done = false;
         public func next() : ?Nat {
           if (done) {
