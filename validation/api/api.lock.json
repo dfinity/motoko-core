@@ -161,7 +161,7 @@
       "public func fromInt64(x : Int64) : Float",
       "public func greater(x : Float, y : Float) : Bool",
       "public func greaterOrEqual(x : Float, y : Float) : Bool",
-      "public func isNaN(x : Float) : Bool",
+      "public func isNaN(self : Float) : Bool",
       "public func less(x : Float, y : Float) : Bool",
       "public func lessOrEqual(x : Float, y : Float) : Bool",
       "public let log : (x : Float) -> Float",
