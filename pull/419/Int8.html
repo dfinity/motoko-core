@@ -359,7 +359,7 @@ assert Int8.powWrap(2, 7) == -128; // overflow</code></pre>
 to the existing <code>**%</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>**%</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="range"><code><span class="keyword">public func </span><span class="fnname">range</span>(<span class="parameter">x</span> : <a href="#type.Int8"><span class="type">Int8</span></a>, <span class="parameter">toExclusive</span> : <a href="#type.Int8"><span class="type">Int8</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Int8"><span class="type">Int8</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Int8</code> values from the first to second argument with an exclusive upper bound.</p>
+</p></div><div class="declaration"><h4 class="function" id="range"><code><span class="keyword">public func </span><span class="fnname">range</span>(<span class="parameter">fromInclusive</span> : <a href="#type.Int8"><span class="type">Int8</span></a>, <span class="parameter">toExclusive</span> : <a href="#type.Int8"><span class="type">Int8</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Int8"><span class="type">Int8</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Int8</code> values from the first to second argument with an exclusive upper bound.</p>
 <pre><code>motoko include=import
 import Iter &quot;mo:core/Iter&quot;;
 
@@ -374,7 +374,7 @@ assert iter.next() == null;</code></pre>
 import Iter &quot;mo:core/Iter&quot;;
 
 let iter = Int8.range(4, 1);
-assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeInclusive</span>(<span class="parameter">x</span> : <a href="#type.Int8"><span class="type">Int8</span></a>, <span class="parameter">to</span> : <a href="#type.Int8"><span class="type">Int8</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Int8"><span class="type">Int8</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Int8</code> values from the first to second argument, inclusive.</p>
+assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeInclusive</span>(<span class="parameter">from</span> : <a href="#type.Int8"><span class="type">Int8</span></a>, <span class="parameter">to</span> : <a href="#type.Int8"><span class="type">Int8</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Int8"><span class="type">Int8</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Int8</code> values from the first to second argument, inclusive.</p>
 <pre><code>motoko include=import
 import Iter &quot;mo:core/Iter&quot;;
 

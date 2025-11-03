@@ -217,7 +217,7 @@ value to pass to a higher order function. While <code>Nat</code> is not defined 
 of bit patterns, conceptually it can be regarded as such, and the operation
 is provided as a high-performance version of the corresponding arithmetic
 rule.</p>
-</p></div><div class="declaration"><h4 class="function" id="range"><code><span class="keyword">public func </span><span class="fnname">range</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">toExclusive</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Nat</code> values from the first to second argument with an exclusive upper bound.</p>
+</p></div><div class="declaration"><h4 class="function" id="range"><code><span class="keyword">public func </span><span class="fnname">range</span>(<span class="parameter">fromInclusive</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">toExclusive</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Nat</code> values from the first to second argument with an exclusive upper bound.</p>
 <pre><code>motoko include=import
 import Iter &quot;mo:core/Iter&quot;;
 
@@ -232,7 +232,7 @@ assert iter.next() == null;</code></pre>
 import Iter &quot;mo:core/Iter&quot;;
 
 let iter = Nat.range(4, 1);
-assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeBy"><code><span class="keyword">public func </span><span class="fnname">rangeBy</span>(<br/>  <span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">toExclusive</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">step</span> : <span class="type">Int</span><br/>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Nat</code> values from the first to second argument with an exclusive upper bound,
+assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeBy"><code><span class="keyword">public func </span><span class="fnname">rangeBy</span>(<br/>  <span class="parameter">fromInclusive</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">toExclusive</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">step</span> : <span class="type">Int</span><br/>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Nat</code> values from the first to second argument with an exclusive upper bound,
 incrementing by the specified step size. The step can be positive or negative.</p>
 <pre><code>motoko include=import
 import Iter &quot;mo:core/Iter&quot;;
@@ -252,7 +252,7 @@ assert iter2.next() == ?3;
 assert iter2.next() == null;</code></pre>
 
 <p>If <code>step</code> is 0 or if the iteration would not progress towards the bound, returns an empty iterator.</p>
-</p></div><div class="declaration"><h4 class="function" id="rangeInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeInclusive</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">to</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over the integers from the first to second argument, inclusive.</p>
+</p></div><div class="declaration"><h4 class="function" id="rangeInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeInclusive</span>(<span class="parameter">from</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">to</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over the integers from the first to second argument, inclusive.</p>
 <pre><code>motoko include=import
 import Iter &quot;mo:core/Iter&quot;;
 
@@ -267,7 +267,7 @@ assert iter.next() == null;</code></pre>
 import Iter &quot;mo:core/Iter&quot;;
 
 let iter = Nat.rangeInclusive(3, 1);
-assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeByInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeByInclusive</span>(<br/>  <span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">to</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">step</span> : <span class="type">Int</span><br/>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over the integers from the first to second argument, inclusive,
+assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeByInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeByInclusive</span>(<br/>  <span class="parameter">from</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">to</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">step</span> : <span class="type">Int</span><br/>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over the integers from the first to second argument, inclusive,
 incrementing by the specified step size. The step can be positive or negative.</p>
 <pre><code>motoko include=import
 import Iter &quot;mo:core/Iter&quot;;
