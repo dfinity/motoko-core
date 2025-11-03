@@ -73,8 +73,8 @@ module {
   /// ```motoko include=import
   /// assert Float.isNaN(0.0/0.0);
   /// ```
-  public func isNaN(x : Float) : Bool {
-    x != x
+  public func isNaN(self : Float) : Bool {
+    self != self
   };
 
   /// Returns the absolute value of `x`.
@@ -630,8 +630,8 @@ module {
     }
   };
 
-  func isNegative(x : Float) : Bool {
-    copySign(1.0, x) < 0.0
+  func isNegative(self : Float) : Bool {
+    copySign(1.0, self) < 0.0
   };
 
   /// Returns the negation of `x`, `-x` .
