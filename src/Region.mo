@@ -55,6 +55,7 @@ module {
 
   /// A stateful handle to an isolated region of IC stable memory.
   /// `Region` is a stable type and regions can be stored in stable variables.
+  /// @deprecated M0235
   public type Region = Prim.Types.Region;
 
   /// Allocate a new, isolated Region of size 0.
