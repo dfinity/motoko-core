@@ -434,12 +434,12 @@ module {
   /// let iter = Int.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(x : Int, toExclusive : Int) : Iter.Iter<Int> {
-    if (x >= toExclusive) {
+  public func range(fromInclusive : Int, toExclusive : Int) : Iter.Iter<Int> {
+    if (fromInclusive >= toExclusive) {
       Iter.empty()
     } else {
       object {
-        var n = x;
+        var n = fromInclusive;
         public func next() : ?Int {
           if (n >= toExclusive) {
             null
@@ -474,12 +474,12 @@ module {
   /// ```
   ///
   /// If `step` is 0 or if the iteration would not progress towards the bound, returns an empty iterator.
-  public func rangeBy(x : Int, toExclusive : Int, step : Int) : Iter.Iter<Int> {
+  public func rangeBy(fromInclusive : Int, toExclusive : Int, step : Int) : Iter.Iter<Int> {
     if (step == 0) {
       Iter.empty()
-    } else if (step > 0 and x < toExclusive) {
+    } else if (step > 0 and fromInclusive < toExclusive) {
       object {
-        var n = x;
+        var n = fromInclusive;
         public func next() : ?Int {
           if (n >= toExclusive) {
             null
@@ -490,9 +490,9 @@ module {
           }
         }
       }
-    } else if (step < 0 and x > toExclusive) {
+    } else if (step < 0 and fromInclusive > toExclusive) {
       object {
-        var n = x;
+        var n = fromInclusive;
         public func next() : ?Int {
           if (n <= toExclusive) {
             null
@@ -526,12 +526,12 @@ module {
   /// let iter = Int.rangeInclusive(3, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(x : Int, to : Int) : Iter.Iter<Int> {
-    if (x > to) {
+  public func rangeInclusive(from : Int, to : Int) : Iter.Iter<Int> {
+    if (from > to) {
       Iter.empty()
     } else {
       object {
-        var n = x;
+        var n = from;
         public func next() : ?Int {
           if (n > to) {
             null
@@ -570,14 +570,14 @@ module {
   /// If `from == to`, return an iterator which only returns that value.
   ///
   /// Otherwise, if `step` is 0 or if the iteration would not progress towards the bound, returns an empty iterator.
-  public func rangeByInclusive(x : Int, to : Int, step : Int) : Iter.Iter<Int> {
-    if (x == to) {
-      Iter.singleton(x)
+  public func rangeByInclusive(from : Int, to : Int, step : Int) : Iter.Iter<Int> {
+    if (from == to) {
+      Iter.singleton(from)
     } else if (step == 0) {
       Iter.empty()
-    } else if (step > 0 and x < to) {
+    } else if (step > 0 and from < to) {
       object {
-        var n = x;
+        var n = from;
         public func next() : ?Int {
           if (n >= to + 1) {
             null
@@ -588,9 +588,9 @@ module {
           }
         }
       }
-    } else if (step < 0 and x > to) {
+    } else if (step < 0 and from > to) {
       object {
-        var n = x;
+        var n = from;
         public func next() : ?Int {
           if (n + 1 <= to) {
             null

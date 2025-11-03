@@ -685,12 +685,12 @@ module {
   /// let iter = Int32.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(x : Int32, toExclusive : Int32) : Iter.Iter<Int32> {
-    if (x >= toExclusive) {
+  public func range(fromInclusive : Int32, toExclusive : Int32) : Iter.Iter<Int32> {
+    if (fromInclusive >= toExclusive) {
       Iter.empty()
     } else {
       object {
-        var n = x;
+        var n = fromInclusive;
         public func next() : ?Int32 {
           if (n == toExclusive) {
             null
@@ -722,12 +722,12 @@ module {
   /// let iter = Int32.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(x : Int32, to : Int32) : Iter.Iter<Int32> {
-    if (x > to) {
+  public func rangeInclusive(from : Int32, to : Int32) : Iter.Iter<Int32> {
+    if (from > to) {
       Iter.empty()
     } else {
       object {
-        var n = x;
+        var n = from;
         var done = false;
         public func next() : ?Int32 {
           if (done) {

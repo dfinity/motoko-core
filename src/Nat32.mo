@@ -631,12 +631,12 @@ module {
   /// let iter = Nat32.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(x : Nat32, toExclusive : Nat32) : Iter.Iter<Nat32> {
-    if (x >= toExclusive) {
+  public func range(fromInclusive : Nat32, toExclusive : Nat32) : Iter.Iter<Nat32> {
+    if (fromInclusive >= toExclusive) {
       Iter.empty()
     } else {
       object {
-        var n = x;
+        var n = fromInclusive;
         public func next() : ?Nat32 {
           if (n == toExclusive) {
             null
@@ -668,12 +668,12 @@ module {
   /// let iter = Nat32.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(x : Nat32, to : Nat32) : Iter.Iter<Nat32> {
-    if (x > to) {
+  public func rangeInclusive(from : Nat32, to : Nat32) : Iter.Iter<Nat32> {
+    if (from > to) {
       Iter.empty()
     } else {
       object {
-        var n = x;
+        var n = from;
         var done = false;
         public func next() : ?Nat32 {
           if (done) {

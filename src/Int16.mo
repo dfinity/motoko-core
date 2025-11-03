@@ -674,12 +674,12 @@ module {
   /// let iter = Int16.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(x : Int16, toExclusive : Int16) : Iter.Iter<Int16> {
-    if (x >= toExclusive) {
+  public func range(fromInclusive : Int16, toExclusive : Int16) : Iter.Iter<Int16> {
+    if (fromInclusive >= toExclusive) {
       Iter.empty()
     } else {
       object {
-        var n = x;
+        var n = fromInclusive;
         public func next() : ?Int16 {
           if (n == toExclusive) {
             null
@@ -711,12 +711,12 @@ module {
   /// let iter = Int16.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(x : Int16, to : Int16) : Iter.Iter<Int16> {
-    if (x > to) {
+  public func rangeInclusive(from : Int16, to : Int16) : Iter.Iter<Int16> {
+    if (from > to) {
       Iter.empty()
     } else {
       object {
-        var n = x;
+        var n = from;
         var done = false;
         public func next() : ?Int16 {
           if (done) {

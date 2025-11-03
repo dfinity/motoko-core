@@ -598,12 +598,12 @@ module {
   /// let iter = Nat64.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(x : Nat64, toExclusive : Nat64) : Iter.Iter<Nat64> {
-    if (x >= toExclusive) {
+  public func range(fromInclusive : Nat64, toExclusive : Nat64) : Iter.Iter<Nat64> {
+    if (fromInclusive >= toExclusive) {
       Iter.empty()
     } else {
       object {
-        var n = x;
+        var n = fromInclusive;
         public func next() : ?Nat64 {
           if (n == toExclusive) {
             null
@@ -635,12 +635,12 @@ module {
   /// let iter = Nat64.rangeInclusive(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(x : Nat64, to : Nat64) : Iter.Iter<Nat64> {
-    if (x > to) {
+  public func rangeInclusive(from : Nat64, to : Nat64) : Iter.Iter<Nat64> {
+    if (from > to) {
       Iter.empty()
     } else {
       object {
-        var n = x;
+        var n = from;
         var done = false;
         public func next() : ?Nat64 {
           if (done) {
