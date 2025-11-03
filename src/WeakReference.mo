@@ -11,7 +11,7 @@
 import Prim "mo:⛔"
 
 module {
-  /// @deprecated M0235
+  //TODO: @deprecated M0235
   public type WeakReference<T> = {
     ref : weak T
   };
