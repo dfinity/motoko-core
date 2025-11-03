@@ -31,13 +31,13 @@ Returns <code>inf</code> if the integer is greater than the maximum floating poi
 assert Nat.toFloat(123) == 123.0;</code></pre></p></div><div class="declaration"><h4 class="function" id="toInt"><code><span class="keyword">public func </span><span class="fnname">toInt</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Int</span></code></h4><p><p>Converts a natural number to an integer.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Nat.toInt(1234) == 1234;</code></pre></p></div><div class="declaration"><h4 class="function" id="min"><code><span class="keyword">public func </span><span class="fnname">min</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the minimum of <code>x</code> and <code>y</code>.</p>
+assert Nat.toInt(1234) == 1234;</code></pre></p></div><div class="declaration"><h4 class="function" id="min"><code><span class="keyword">public func </span><span class="fnname">min</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the minimum of <code>x</code> and <code>y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Nat.min(1, 2) == 1;</code></pre></p></div><div class="declaration"><h4 class="function" id="max"><code><span class="keyword">public func </span><span class="fnname">max</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the maximum of <code>x</code> and <code>y</code>.</p>
+assert Nat.min(1, 2) == 1;</code></pre></p></div><div class="declaration"><h4 class="function" id="max"><code><span class="keyword">public func </span><span class="fnname">max</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the maximum of <code>x</code> and <code>y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Nat.max(1, 2) == 2;</code></pre></p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Bool</span></code></h4><p><p>Equality function for Nat types.
+assert Nat.max(1, 2) == 2;</code></pre></p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Bool</span></code></h4><p><p>Equality function for Nat types.
 This is equivalent to <code>x == y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -52,7 +52,7 @@ as a function value at the moment.</p>
 <pre><code>motoko include=import
 let a = 111;
 let b = 222;
-assert not Nat.equal(a, b);</code></pre></p></div><div class="declaration"><h4 class="function" id="notEqual"><code><span class="keyword">public func </span><span class="fnname">notEqual</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Bool</span></code></h4><p><p>Inequality function for Nat types.
+assert not Nat.equal(a, b);</code></pre></p></div><div class="declaration"><h4 class="function" id="notEqual"><code><span class="keyword">public func </span><span class="fnname">notEqual</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Bool</span></code></h4><p><p>Inequality function for Nat types.
 This is equivalent to <code>x != y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -63,7 +63,7 @@ assert 1 != 2;</code></pre>
 to the existing <code>!=</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>!=</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="less"><code><span class="keyword">public func </span><span class="fnname">less</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Less than&quot; function for Nat types.
+</p></div><div class="declaration"><h4 class="function" id="less"><code><span class="keyword">public func </span><span class="fnname">less</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Less than&quot; function for Nat types.
 This is equivalent to <code>x &lt; y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -74,7 +74,7 @@ assert 1 &lt; 2;</code></pre>
 to the existing <code>&lt;</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>&lt;</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="lessOrEqual"><code><span class="keyword">public func </span><span class="fnname">lessOrEqual</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Less than or equal&quot; function for Nat types.
+</p></div><div class="declaration"><h4 class="function" id="lessOrEqual"><code><span class="keyword">public func </span><span class="fnname">lessOrEqual</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Less than or equal&quot; function for Nat types.
 This is equivalent to <code>x &lt;= y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -85,7 +85,7 @@ assert 1 &lt;= 2;</code></pre>
 to the existing <code>&lt;=</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>&lt;=</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="greater"><code><span class="keyword">public func </span><span class="fnname">greater</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Greater than&quot; function for Nat types.
+</p></div><div class="declaration"><h4 class="function" id="greater"><code><span class="keyword">public func </span><span class="fnname">greater</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Greater than&quot; function for Nat types.
 This is equivalent to <code>x &gt; y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -96,7 +96,7 @@ assert 2 &gt; 1;</code></pre>
 to the existing <code>&gt;</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>&gt;</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="greaterOrEqual"><code><span class="keyword">public func </span><span class="fnname">greaterOrEqual</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Greater than or equal&quot; function for Nat types.
+</p></div><div class="declaration"><h4 class="function" id="greaterOrEqual"><code><span class="keyword">public func </span><span class="fnname">greaterOrEqual</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Greater than or equal&quot; function for Nat types.
 This is equivalent to <code>x &gt;= y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -107,7 +107,7 @@ assert 2 &gt;= 1;</code></pre>
 to the existing <code>&gt;=</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>&gt;=</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="Order.html#type.Order"><span class="type">Order.Order</span></a></code></h4><p><p>General purpose comparison function for <code>Nat</code>. Returns the <code>Order</code> (
+</p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="Order.html#type.Order"><span class="type">Order.Order</span></a></code></h4><p><p>General purpose comparison function for <code>Nat</code>. Returns the <code>Order</code> (
 either <code>#less</code>, <code>#equal</code>, or <code>#greater</code>) of comparing <code>x</code> with <code>y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -117,7 +117,7 @@ assert Nat.compare(2, 3) == #less;</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 import Array &quot;mo:core/Array&quot;;
-assert Array.sort([2, 3, 1], Nat.compare) == [1, 2, 3];</code></pre></p></div><div class="declaration"><h4 class="function" id="add"><code><span class="keyword">public func </span><span class="fnname">add</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the sum of <code>x</code> and <code>y</code>, <code>x + y</code>. This operator will never overflow
+assert Array.sort([2, 3, 1], Nat.compare) == [1, 2, 3];</code></pre></p></div><div class="declaration"><h4 class="function" id="add"><code><span class="keyword">public func </span><span class="fnname">add</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the sum of <code>x</code> and <code>y</code>, <code>x + y</code>. This operator will never overflow
 because <code>Nat</code> is infinite precision.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -131,7 +131,7 @@ as a function value at the moment.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 import Array &quot;mo:core/Array&quot;;
-assert Array.foldLeft([2, 3, 1], 0, Nat.add) == 6;</code></pre></p></div><div class="declaration"><h4 class="function" id="sub"><code><span class="keyword">public func </span><span class="fnname">sub</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the difference of <code>x</code> and <code>y</code>, <code>x - y</code>.
+assert Array.foldLeft([2, 3, 1], 0, Nat.add) == 6;</code></pre></p></div><div class="declaration"><h4 class="function" id="sub"><code><span class="keyword">public func </span><span class="fnname">sub</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the difference of <code>x</code> and <code>y</code>, <code>x - y</code>.
 Traps on underflow below <code>0</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -146,7 +146,7 @@ as a function value at the moment.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 import Array &quot;mo:core/Array&quot;;
-assert Array.foldLeft([2, 3, 1], 10, Nat.sub) == 4;</code></pre></p></div><div class="declaration"><h4 class="function" id="mul"><code><span class="keyword">public func </span><span class="fnname">mul</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the product of <code>x</code> and <code>y</code>, <code>x * y</code>. This operator will never
+assert Array.foldLeft([2, 3, 1], 10, Nat.sub) == 4;</code></pre></p></div><div class="declaration"><h4 class="function" id="mul"><code><span class="keyword">public func </span><span class="fnname">mul</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the product of <code>x</code> and <code>y</code>, <code>x * y</code>. This operator will never
 overflow because <code>Nat</code> is infinite precision.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -160,7 +160,7 @@ as a function value at the moment.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 import Array &quot;mo:core/Array&quot;;
-assert Array.foldLeft([2, 3, 1], 1, Nat.mul) == 6;</code></pre></p></div><div class="declaration"><h4 class="function" id="div"><code><span class="keyword">public func </span><span class="fnname">div</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the unsigned integer division of <code>x</code> by <code>y</code>,  <code>x / y</code>.
+assert Array.foldLeft([2, 3, 1], 1, Nat.mul) == 6;</code></pre></p></div><div class="declaration"><h4 class="function" id="div"><code><span class="keyword">public func </span><span class="fnname">div</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the unsigned integer division of <code>x</code> by <code>y</code>,  <code>x / y</code>.
 Traps when <code>y</code> is zero.</p>
 <p>The quotient is rounded down, which is equivalent to truncating the
 decimal places of the quotient.</p>
@@ -173,7 +173,7 @@ assert 6 / 2 == 3;</code></pre>
 to the existing <code>/</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>/</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="rem"><code><span class="keyword">public func </span><span class="fnname">rem</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the remainder of unsigned integer division of <code>x</code> by <code>y</code>,  <code>x % y</code>.
+</p></div><div class="declaration"><h4 class="function" id="rem"><code><span class="keyword">public func </span><span class="fnname">rem</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the remainder of unsigned integer division of <code>x</code> by <code>y</code>,  <code>x % y</code>.
 Traps when <code>y</code> is zero.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -184,7 +184,7 @@ assert 6 % 4 == 2;</code></pre>
 to the existing <code>%</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>%</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="pow"><code><span class="keyword">public func </span><span class="fnname">pow</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns <code>x</code> to the power of <code>y</code>, <code>x ** y</code>. Traps when <code>y &gt; 2^32</code>. This operator
+</p></div><div class="declaration"><h4 class="function" id="pow"><code><span class="keyword">public func </span><span class="fnname">pow</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns <code>x</code> to the power of <code>y</code>, <code>x ** y</code>. Traps when <code>y &gt; 2^32</code>. This operator
 will never overflow because <code>Nat</code> is infinite precision.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -195,7 +195,7 @@ assert 2 ** 3 == 8;</code></pre>
 to the existing <code>**</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>**</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="bitshiftLeft"><code><span class="keyword">public func </span><span class="fnname">bitshiftLeft</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <span class="type">Nat32</span>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the (conceptual) bitwise shift left of <code>x</code> by <code>y</code>, <code>x * (2 ** y)</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="bitshiftLeft"><code><span class="keyword">public func </span><span class="fnname">bitshiftLeft</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <span class="type">Nat32</span>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the (conceptual) bitwise shift left of <code>x</code> by <code>y</code>, <code>x * (2 ** y)</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Nat.bitshiftLeft(1, 3) == 8;</code></pre>
@@ -206,7 +206,7 @@ value to pass to a higher order function. While <code>Nat</code> is not defined 
 of bit patterns, conceptually it can be regarded as such, and the operation
 is provided as a high-performance version of the corresponding arithmetic
 rule.</p>
-</p></div><div class="declaration"><h4 class="function" id="bitshiftRight"><code><span class="keyword">public func </span><span class="fnname">bitshiftRight</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">other</span> : <span class="type">Nat32</span>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the (conceptual) bitwise shift right of <code>x</code> by <code>y</code>, <code>x / (2 ** y)</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="bitshiftRight"><code><span class="keyword">public func </span><span class="fnname">bitshiftRight</span>(<span class="parameter">x</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">y</span> : <span class="type">Nat32</span>) : <a href="#type.Nat"><span class="type">Nat</span></a></code></h4><p><p>Returns the (conceptual) bitwise shift right of <code>x</code> by <code>y</code>, <code>x / (2 ** y)</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Nat.bitshiftRight(8, 3) == 1;</code></pre>
@@ -217,7 +217,7 @@ value to pass to a higher order function. While <code>Nat</code> is not defined 
 of bit patterns, conceptually it can be regarded as such, and the operation
 is provided as a high-performance version of the corresponding arithmetic
 rule.</p>
-</p></div><div class="declaration"><h4 class="function" id="range"><code><span class="keyword">public func </span><span class="fnname">range</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">toExclusive</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Nat</code> values from the first to second argument with an exclusive upper bound.</p>
+</p></div><div class="declaration"><h4 class="function" id="range"><code><span class="keyword">public func </span><span class="fnname">range</span>(<span class="parameter">fromInclusive</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">toExclusive</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Nat</code> values from the first to second argument with an exclusive upper bound.</p>
 <pre><code>motoko include=import
 import Iter &quot;mo:core/Iter&quot;;
 
@@ -232,7 +232,7 @@ assert iter.next() == null;</code></pre>
 import Iter &quot;mo:core/Iter&quot;;
 
 let iter = Nat.range(4, 1);
-assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeBy"><code><span class="keyword">public func </span><span class="fnname">rangeBy</span>(<br/>  <span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">toExclusive</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">step</span> : <span class="type">Int</span><br/>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Nat</code> values from the first to second argument with an exclusive upper bound,
+assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeBy"><code><span class="keyword">public func </span><span class="fnname">rangeBy</span>(<br/>  <span class="parameter">fromInclusive</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">toExclusive</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">step</span> : <span class="type">Int</span><br/>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Nat</code> values from the first to second argument with an exclusive upper bound,
 incrementing by the specified step size. The step can be positive or negative.</p>
 <pre><code>motoko include=import
 import Iter &quot;mo:core/Iter&quot;;
@@ -252,7 +252,7 @@ assert iter2.next() == ?3;
 assert iter2.next() == null;</code></pre>
 
 <p>If <code>step</code> is 0 or if the iteration would not progress towards the bound, returns an empty iterator.</p>
-</p></div><div class="declaration"><h4 class="function" id="rangeInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeInclusive</span>(<span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">to</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over the integers from the first to second argument, inclusive.</p>
+</p></div><div class="declaration"><h4 class="function" id="rangeInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeInclusive</span>(<span class="parameter">from</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <span class="parameter">to</span> : <a href="#type.Nat"><span class="type">Nat</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over the integers from the first to second argument, inclusive.</p>
 <pre><code>motoko include=import
 import Iter &quot;mo:core/Iter&quot;;
 
@@ -267,7 +267,7 @@ assert iter.next() == null;</code></pre>
 import Iter &quot;mo:core/Iter&quot;;
 
 let iter = Nat.rangeInclusive(3, 1);
-assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeByInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeByInclusive</span>(<br/>  <span class="parameter">self</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">to</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">step</span> : <span class="type">Int</span><br/>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over the integers from the first to second argument, inclusive,
+assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeByInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeByInclusive</span>(<br/>  <span class="parameter">from</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">to</span> : <a href="#type.Nat"><span class="type">Nat</span></a>, <br/>  <span class="parameter">step</span> : <span class="type">Int</span><br/>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Nat"><span class="type">Nat</span></a>&gt;</code></h4><p><p>Returns an iterator over the integers from the first to second argument, inclusive,
 incrementing by the specified step size. The step can be positive or negative.</p>
 <pre><code>motoko include=import
 import Iter &quot;mo:core/Iter&quot;;

@@ -47,17 +47,17 @@ assert Int16.toNat16(-1) == (65_535 : Nat16); // underflow</code></pre></p></div
 contain underscores to represent commas.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.toText(-12345) == &quot;-12345&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="abs"><code><span class="keyword">public func </span><span class="fnname">abs</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the absolute value of <code>x</code>.</p>
+assert Int16.toText(-12345) == &quot;-12345&quot;;</code></pre></p></div><div class="declaration"><h4 class="function" id="abs"><code><span class="keyword">public func </span><span class="fnname">abs</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the absolute value of <code>x</code>.</p>
 <p>Traps when <code>x == -2 ** 15</code> (the minimum <code>Int16</code> value).</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.abs(-12345) == +12_345;</code></pre></p></div><div class="declaration"><h4 class="function" id="min"><code><span class="keyword">public func </span><span class="fnname">min</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the minimum of <code>x</code> and <code>y</code>.</p>
+assert Int16.abs(-12345) == +12_345;</code></pre></p></div><div class="declaration"><h4 class="function" id="min"><code><span class="keyword">public func </span><span class="fnname">min</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the minimum of <code>x</code> and <code>y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.min(+2, -3) == -3;</code></pre></p></div><div class="declaration"><h4 class="function" id="max"><code><span class="keyword">public func </span><span class="fnname">max</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the maximum of <code>x</code> and <code>y</code>.</p>
+assert Int16.min(+2, -3) == -3;</code></pre></p></div><div class="declaration"><h4 class="function" id="max"><code><span class="keyword">public func </span><span class="fnname">max</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the maximum of <code>x</code> and <code>y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.max(+2, -3) == +2;</code></pre></p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Bool</span></code></h4><p><p>Equality function for Int16 types.
+assert Int16.max(+2, -3) == +2;</code></pre></p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Bool</span></code></h4><p><p>Equality function for Int16 types.
 This is equivalent to <code>x == y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -71,7 +71,7 @@ as a function value at the moment.</p>
 <pre><code>motoko include=import
 let a : Int16 = -123;
 let b : Int16 = 123;
-assert not Int16.equal(a, b);</code></pre></p></div><div class="declaration"><h4 class="function" id="notEqual"><code><span class="keyword">public func </span><span class="fnname">notEqual</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Bool</span></code></h4><p><p>Inequality function for Int16 types.
+assert not Int16.equal(a, b);</code></pre></p></div><div class="declaration"><h4 class="function" id="notEqual"><code><span class="keyword">public func </span><span class="fnname">notEqual</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Bool</span></code></h4><p><p>Inequality function for Int16 types.
 This is equivalent to <code>x != y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -81,7 +81,7 @@ assert Int16.notEqual(-1, -2);</code></pre>
 to the existing <code>!=</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>!=</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="less"><code><span class="keyword">public func </span><span class="fnname">less</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Less than&quot; function for Int16 types.
+</p></div><div class="declaration"><h4 class="function" id="less"><code><span class="keyword">public func </span><span class="fnname">less</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Less than&quot; function for Int16 types.
 This is equivalent to <code>x &lt; y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -91,7 +91,7 @@ assert Int16.less(-2, 1);</code></pre>
 to the existing <code>&lt;</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>&lt;</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="lessOrEqual"><code><span class="keyword">public func </span><span class="fnname">lessOrEqual</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Less than or equal&quot; function for Int16 types.
+</p></div><div class="declaration"><h4 class="function" id="lessOrEqual"><code><span class="keyword">public func </span><span class="fnname">lessOrEqual</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Less than or equal&quot; function for Int16 types.
 This is equivalent to <code>x &lt;= y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -101,15 +101,15 @@ assert Int16.lessOrEqual(-2, -2);</code></pre>
 to the existing <code>&lt;=</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>&lt;=</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="greater"><code><span class="keyword">public func </span><span class="fnname">greater</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Greater than&quot; function for Int16 types.
+</p></div><div class="declaration"><h4 class="function" id="greater"><code><span class="keyword">public func </span><span class="fnname">greater</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Greater than&quot; function for Int16 types.
 This is equivalent to <code>x &gt; y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert not Int16.greater(-2, 1);</code></pre></p></div><div class="declaration"><h4 class="function" id="greaterOrEqual"><code><span class="keyword">public func </span><span class="fnname">greaterOrEqual</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Greater than or equal&quot; function for Int16 types.
+assert not Int16.greater(-2, 1);</code></pre></p></div><div class="declaration"><h4 class="function" id="greaterOrEqual"><code><span class="keyword">public func </span><span class="fnname">greaterOrEqual</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Bool</span></code></h4><p><p>&quot;Greater than or equal&quot; function for Int16 types.
 This is equivalent to <code>x &gt;= y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.greaterOrEqual(-2, -2);</code></pre></p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="Order.html#type.Order"><span class="type">Order.Order</span></a></code></h4><p><p>General-purpose comparison function for <code>Int16</code>. Returns the <code>Order</code> (
+assert Int16.greaterOrEqual(-2, -2);</code></pre></p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="Order.html#type.Order"><span class="type">Order.Order</span></a></code></h4><p><p>General-purpose comparison function for <code>Int16</code>. Returns the <code>Order</code> (
 either <code>#less</code>, <code>#equal</code>, or <code>#greater</code>) of comparing <code>x</code> with <code>y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -119,7 +119,7 @@ assert Int16.compare(-3, 2) == #less;</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 import Array &quot;mo:core/Array&quot;;
-assert Array.sort([1, -2, -3] : [Int16], Int16.compare) == [-3, -2, 1];</code></pre></p></div><div class="declaration"><h4 class="function" id="neg"><code><span class="keyword">public func </span><span class="fnname">neg</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the negation of <code>x</code>, <code>-x</code>.</p>
+assert Array.sort([1, -2, -3] : [Int16], Int16.compare) == [-3, -2, 1];</code></pre></p></div><div class="declaration"><h4 class="function" id="neg"><code><span class="keyword">public func </span><span class="fnname">neg</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the negation of <code>x</code>, <code>-x</code>.</p>
 <p>Traps on overflow, i.e. for <code>neg(-2 ** 15)</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -129,7 +129,7 @@ assert Int16.neg(123) == -123;</code></pre>
 to the existing <code>-</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>-</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="add"><code><span class="keyword">public func </span><span class="fnname">add</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the sum of <code>x</code> and <code>y</code>, <code>x + y</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="add"><code><span class="keyword">public func </span><span class="fnname">add</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the sum of <code>x</code> and <code>y</code>, <code>x + y</code>.</p>
 <p>Traps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -142,7 +142,7 @@ as a function value at the moment.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 import Array &quot;mo:core/Array&quot;;
-assert Array.foldLeft&lt;Int16, Int16&gt;([1, -2, -3], 0, Int16.add) == -4;</code></pre></p></div><div class="declaration"><h4 class="function" id="sub"><code><span class="keyword">public func </span><span class="fnname">sub</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the difference of <code>x</code> and <code>y</code>, <code>x - y</code>.</p>
+assert Array.foldLeft&lt;Int16, Int16&gt;([1, -2, -3], 0, Int16.add) == -4;</code></pre></p></div><div class="declaration"><h4 class="function" id="sub"><code><span class="keyword">public func </span><span class="fnname">sub</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the difference of <code>x</code> and <code>y</code>, <code>x - y</code>.</p>
 <p>Traps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -155,7 +155,7 @@ as a function value at the moment.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 import Array &quot;mo:core/Array&quot;;
-assert Array.foldLeft&lt;Int16, Int16&gt;([1, -2, -3], 0, Int16.sub) == 4;</code></pre></p></div><div class="declaration"><h4 class="function" id="mul"><code><span class="keyword">public func </span><span class="fnname">mul</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the product of <code>x</code> and <code>y</code>, <code>x * y</code>.</p>
+assert Array.foldLeft&lt;Int16, Int16&gt;([1, -2, -3], 0, Int16.sub) == 4;</code></pre></p></div><div class="declaration"><h4 class="function" id="mul"><code><span class="keyword">public func </span><span class="fnname">mul</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the product of <code>x</code> and <code>y</code>, <code>x * y</code>.</p>
 <p>Traps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -168,7 +168,7 @@ as a function value at the moment.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 import Array &quot;mo:core/Array&quot;;
-assert Array.foldLeft&lt;Int16, Int16&gt;([1, -2, -3], 1, Int16.mul) == 6;</code></pre></p></div><div class="declaration"><h4 class="function" id="div"><code><span class="keyword">public func </span><span class="fnname">div</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the signed integer division of <code>x</code> by <code>y</code>, <code>x / y</code>.
+assert Array.foldLeft&lt;Int16, Int16&gt;([1, -2, -3], 1, Int16.mul) == 6;</code></pre></p></div><div class="declaration"><h4 class="function" id="div"><code><span class="keyword">public func </span><span class="fnname">div</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the signed integer division of <code>x</code> by <code>y</code>, <code>x / y</code>.
 Rounds the quotient towards zero, which is the same as truncating the decimal places of the quotient.</p>
 <p>Traps when <code>y</code> is zero.</p>
 <p>Example:</p>
@@ -179,7 +179,7 @@ assert Int16.div(123, 10) == +12;</code></pre>
 to the existing <code>/</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>/</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="rem"><code><span class="keyword">public func </span><span class="fnname">rem</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the remainder of the signed integer division of <code>x</code> by <code>y</code>, <code>x % y</code>,
+</p></div><div class="declaration"><h4 class="function" id="rem"><code><span class="keyword">public func </span><span class="fnname">rem</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the remainder of the signed integer division of <code>x</code> by <code>y</code>, <code>x % y</code>,
 which is defined as <code>x - x / y * y</code>.</p>
 <p>Traps when <code>y</code> is zero.</p>
 <p>Example:</p>
@@ -190,7 +190,7 @@ assert Int16.rem(123, 10) == +3;</code></pre>
 to the existing <code>%</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>%</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="pow"><code><span class="keyword">public func </span><span class="fnname">pow</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns <code>x</code> to the power of <code>y</code>, <code>x ** y</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="pow"><code><span class="keyword">public func </span><span class="fnname">pow</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns <code>x</code> to the power of <code>y</code>, <code>x ** y</code>.</p>
 <p>Traps on overflow/underflow and when <code>y &lt; 0 or y &gt;= 16</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -200,7 +200,7 @@ assert Int16.pow(2, 10) == +1_024;</code></pre>
 to the existing <code>**</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>**</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="bitnot"><code><span class="keyword">public func </span><span class="fnname">bitnot</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise negation of <code>x</code>, <code>^x</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="bitnot"><code><span class="keyword">public func </span><span class="fnname">bitnot</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise negation of <code>x</code>, <code>^x</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Int16.bitnot(-256 /* 0xff00 */) == +255 // 0xff;</code></pre>
@@ -209,7 +209,7 @@ assert Int16.bitnot(-256 /* 0xff00 */) == +255 // 0xff;</code></pre>
 to the existing <code>^</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>^</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="bitand"><code><span class="keyword">public func </span><span class="fnname">bitand</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise &quot;and&quot; of <code>x</code> and <code>y</code>, <code>x &amp; y</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="bitand"><code><span class="keyword">public func </span><span class="fnname">bitand</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise &quot;and&quot; of <code>x</code> and <code>y</code>, <code>x &amp; y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Int16.bitand(0x0fff, 0x00f0) == +240 // 0xf0;</code></pre>
@@ -218,21 +218,21 @@ assert Int16.bitand(0x0fff, 0x00f0) == +240 // 0xf0;</code></pre>
 to the existing <code>&amp;</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>&amp;</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="bitor"><code><span class="keyword">public func </span><span class="fnname">bitor</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise &quot;or&quot; of <code>x</code> and <code>y</code>, <code>x | y</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="bitor"><code><span class="keyword">public func </span><span class="fnname">bitor</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise &quot;or&quot; of <code>x</code> and <code>y</code>, <code>x | y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Int16.bitor(0x0f0f, 0x00f0) == +4_095 // 0x0fff;</code></pre><p>Note: The reason why this function is defined in this library (in addition
 to the existing <code>|</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>|</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="bitxor"><code><span class="keyword">public func </span><span class="fnname">bitxor</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise &quot;exclusive or&quot; of <code>x</code> and <code>y</code>, <code>x ^ y</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="bitxor"><code><span class="keyword">public func </span><span class="fnname">bitxor</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise &quot;exclusive or&quot; of <code>x</code> and <code>y</code>, <code>x ^ y</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Int16.bitxor(0x0fff, 0x00f0) == +3_855 // 0x0f0f;</code></pre><p>Note: The reason why this function is defined in this library (in addition
 to the existing <code>^</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>^</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="bitshiftLeft"><code><span class="keyword">public func </span><span class="fnname">bitshiftLeft</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise left shift of <code>x</code> by <code>y</code>, <code>x &lt;&lt; y</code>.
+</p></div><div class="declaration"><h4 class="function" id="bitshiftLeft"><code><span class="keyword">public func </span><span class="fnname">bitshiftLeft</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise left shift of <code>x</code> by <code>y</code>, <code>x &lt;&lt; y</code>.
 The right bits of the shift filled with zeros.
 Left-overflowing bits, including the sign bit, are discarded.</p>
 <p>For <code>y &gt;= 16</code>, the semantics is the same as for <code>bitshiftLeft(x, y % 16)</code>.
@@ -245,7 +245,7 @@ assert Int16.bitshiftLeft(1, 8) == +256 // 0x100 equivalent to `2 ** 8`.;</code>
 to the existing <code>&lt;&lt;</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>&lt;&lt;</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="bitshiftRight"><code><span class="keyword">public func </span><span class="fnname">bitshiftRight</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the signed bitwise right shift of <code>x</code> by <code>y</code>, <code>x &gt;&gt; y</code>.
+</p></div><div class="declaration"><h4 class="function" id="bitshiftRight"><code><span class="keyword">public func </span><span class="fnname">bitshiftRight</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the signed bitwise right shift of <code>x</code> by <code>y</code>, <code>x &gt;&gt; y</code>.
 The sign bit is retained and the left side is filled with the sign bit.
 Right-underflowing bits are discarded, i.e. not rotated to the left side.</p>
 <p>For <code>y &gt;= 16</code>, the semantics is the same as for <code>bitshiftRight(x, y % 16)</code>.
@@ -258,9 +258,9 @@ assert Int16.bitshiftRight(1024, 8) == +4 // equivalent to `1024 / (2 ** 8)`;</c
 to the existing <code>&gt;&gt;</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>&gt;&gt;</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="bitrotLeft"><code><span class="keyword">public func </span><span class="fnname">bitrotLeft</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise left rotatation of <code>x</code> by <code>y</code>, <code>x &lt;&lt;&gt; y</code>.
+</p></div><div class="declaration"><h4 class="function" id="bitrotLeft"><code><span class="keyword">public func </span><span class="fnname">bitrotLeft</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise left rotatation of <code>x</code> by <code>y</code>, <code>x &lt;&lt;&gt; y</code>.
 Each left-overflowing bit is inserted again on the right side.
-The sign bit is rotated like other bits, i.e. the rotation interprets the number as unsigned.</p>
+The sign bit is rotated like y bits, i.e. the rotation interprets the number as unsigned.</p>
 <p>Changes the direction of rotation for negative <code>y</code>.
 For <code>y &gt;= 16</code>, the semantics is the same as for <code>bitrotLeft(x, y % 16)</code>.</p>
 <p>Example:</p>
@@ -271,9 +271,9 @@ assert Int16.bitrotLeft(0x2001, 4) == +18 // 0x12.;</code></pre>
 to the existing <code>&lt;&lt;&gt;</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>&lt;&lt;&gt;</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="bitrotRight"><code><span class="keyword">public func </span><span class="fnname">bitrotRight</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise right rotation of <code>x</code> by <code>y</code>, <code>x &lt;&gt;&gt; y</code>.
+</p></div><div class="declaration"><h4 class="function" id="bitrotRight"><code><span class="keyword">public func </span><span class="fnname">bitrotRight</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the bitwise right rotation of <code>x</code> by <code>y</code>, <code>x &lt;&gt;&gt; y</code>.
 Each right-underflowing bit is inserted again on the right side.
-The sign bit is rotated like other bits, i.e. the rotation interprets the number as unsigned.</p>
+The sign bit is rotated like y bits, i.e. the rotation interprets the number as unsigned.</p>
 <p>Changes the direction of rotation for negative <code>y</code>.
 For <code>y &gt;= 16</code>, the semantics is the same as for <code>bitrotRight(x, y % 16)</code>.</p>
 <p>Example:</p>
@@ -284,36 +284,36 @@ assert Int16.bitrotRight(0x2010, 8) == +4_128 // 0x01020.;</code></pre>
 to the existing <code>&lt;&gt;&gt;</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>&lt;&gt;&gt;</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="bittest"><code><span class="keyword">public func </span><span class="fnname">bittest</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">p</span> : <span class="type">Nat</span>) : <span class="type">Bool</span></code></h4><p><p>Returns the value of bit <code>p</code> in <code>x</code>, <code>x &amp; 2**p == 2**p</code>.
+</p></div><div class="declaration"><h4 class="function" id="bittest"><code><span class="keyword">public func </span><span class="fnname">bittest</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">p</span> : <span class="type">Nat</span>) : <span class="type">Bool</span></code></h4><p><p>Returns the value of bit <code>p</code> in <code>x</code>, <code>x &amp; 2**p == 2**p</code>.
 If <code>p &gt;= 16</code>, the semantics is the same as for <code>bittest(x, p % 16)</code>.
 This is equivalent to checking if the <code>p</code>-th bit is set in <code>x</code>, using 0 indexing.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.bittest(128, 7);</code></pre></p></div><div class="declaration"><h4 class="function" id="bitset"><code><span class="keyword">public func </span><span class="fnname">bitset</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">p</span> : <span class="type">Nat</span>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the value of setting bit <code>p</code> in <code>x</code> to <code>1</code>.
+assert Int16.bittest(128, 7);</code></pre></p></div><div class="declaration"><h4 class="function" id="bitset"><code><span class="keyword">public func </span><span class="fnname">bitset</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">p</span> : <span class="type">Nat</span>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the value of setting bit <code>p</code> in <code>x</code> to <code>1</code>.
 If <code>p &gt;= 16</code>, the semantics is the same as for <code>bitset(x, p % 16)</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.bitset(0, 7) == +128;</code></pre></p></div><div class="declaration"><h4 class="function" id="bitclear"><code><span class="keyword">public func </span><span class="fnname">bitclear</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">p</span> : <span class="type">Nat</span>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the value of clearing bit <code>p</code> in <code>x</code> to <code>0</code>.
+assert Int16.bitset(0, 7) == +128;</code></pre></p></div><div class="declaration"><h4 class="function" id="bitclear"><code><span class="keyword">public func </span><span class="fnname">bitclear</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">p</span> : <span class="type">Nat</span>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the value of clearing bit <code>p</code> in <code>x</code> to <code>0</code>.
 If <code>p &gt;= 16</code>, the semantics is the same as for <code>bitclear(x, p % 16)</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.bitclear(-1, 7) == -129;</code></pre></p></div><div class="declaration"><h4 class="function" id="bitflip"><code><span class="keyword">public func </span><span class="fnname">bitflip</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">p</span> : <span class="type">Nat</span>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the value of flipping bit <code>p</code> in <code>x</code>.
+assert Int16.bitclear(-1, 7) == -129;</code></pre></p></div><div class="declaration"><h4 class="function" id="bitflip"><code><span class="keyword">public func </span><span class="fnname">bitflip</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">p</span> : <span class="type">Nat</span>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the value of flipping bit <code>p</code> in <code>x</code>.
 If <code>p &gt;= 16</code>, the semantics is the same as for <code>bitclear(x, p % 16)</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.bitflip(255, 7) == +127;</code></pre></p></div><div class="declaration"><h4 class="function" id="bitcountNonZero"><code><span class="keyword">public func </span><span class="fnname">bitcountNonZero</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the count of non-zero bits in <code>x</code>.</p>
+assert Int16.bitflip(255, 7) == +127;</code></pre></p></div><div class="declaration"><h4 class="function" id="bitcountNonZero"><code><span class="keyword">public func </span><span class="fnname">bitcountNonZero</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the count of non-zero bits in <code>x</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.bitcountNonZero(0xff) == +8;</code></pre></p></div><div class="declaration"><h4 class="function" id="bitcountLeadingZero"><code><span class="keyword">public func </span><span class="fnname">bitcountLeadingZero</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the count of leading zero bits in <code>x</code>.</p>
+assert Int16.bitcountNonZero(0xff) == +8;</code></pre></p></div><div class="declaration"><h4 class="function" id="bitcountLeadingZero"><code><span class="keyword">public func </span><span class="fnname">bitcountLeadingZero</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the count of leading zero bits in <code>x</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.bitcountLeadingZero(0x80) == +8;</code></pre></p></div><div class="declaration"><h4 class="function" id="bitcountTrailingZero"><code><span class="keyword">public func </span><span class="fnname">bitcountTrailingZero</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the count of trailing zero bits in <code>x</code>.</p>
+assert Int16.bitcountLeadingZero(0x80) == +8;</code></pre></p></div><div class="declaration"><h4 class="function" id="bitcountTrailingZero"><code><span class="keyword">public func </span><span class="fnname">bitcountTrailingZero</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the count of trailing zero bits in <code>x</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.bitcountTrailingZero(0x0100) == +8;</code></pre></p></div><div class="declaration"><h4 class="function" id="explode"><code><span class="keyword">public func </span><span class="fnname">explode</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : (<span class="parameter">msb</span> : <span class="type">Nat8</span>, <span class="parameter">lsb</span> : <span class="type">Nat8</span>)</code></h4><p><p>Returns the upper (i.e. most significant) and lower (least significant) byte of <code>x</code>.</p>
+assert Int16.bitcountTrailingZero(0x0100) == +8;</code></pre></p></div><div class="declaration"><h4 class="function" id="explode"><code><span class="keyword">public func </span><span class="fnname">explode</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : (<span class="parameter">msb</span> : <span class="type">Nat8</span>, <span class="parameter">lsb</span> : <span class="type">Nat8</span>)</code></h4><p><p>Returns the upper (i.e. most significant) and lower (least significant) byte of <code>x</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.explode 0x77ee == (119, 238);</code></pre></p></div><div class="declaration"><h4 class="function" id="addWrap"><code><span class="keyword">public func </span><span class="fnname">addWrap</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the sum of <code>x</code> and <code>y</code>, <code>x +% y</code>.</p>
+assert Int16.explode 0x77ee == (119, 238);</code></pre></p></div><div class="declaration"><h4 class="function" id="addWrap"><code><span class="keyword">public func </span><span class="fnname">addWrap</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the sum of <code>x</code> and <code>y</code>, <code>x +% y</code>.</p>
 <p>Wraps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -323,7 +323,7 @@ assert Int16.addWrap(2 ** 14, 2 ** 14) == -32_768; // overflow</code></pre>
 to the existing <code>+%</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>+%</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="subWrap"><code><span class="keyword">public func </span><span class="fnname">subWrap</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the difference of <code>x</code> and <code>y</code>, <code>x -% y</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="subWrap"><code><span class="keyword">public func </span><span class="fnname">subWrap</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the difference of <code>x</code> and <code>y</code>, <code>x -% y</code>.</p>
 <p>Wraps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -333,7 +333,7 @@ assert Int16.subWrap(-2 ** 15, 1) == +32_767; // underflow</code></pre>
 to the existing <code>-%</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>-%</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="mulWrap"><code><span class="keyword">public func </span><span class="fnname">mulWrap</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the product of <code>x</code> and <code>y</code>, <code>x *% y</code>. Wraps on overflow.</p>
+</p></div><div class="declaration"><h4 class="function" id="mulWrap"><code><span class="keyword">public func </span><span class="fnname">mulWrap</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns the product of <code>x</code> and <code>y</code>, <code>x *% y</code>. Wraps on overflow.</p>
 <p>Wraps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -343,7 +343,7 @@ assert Int16.mulWrap(2 ** 8, 2 ** 8) == 0; // overflow</code></pre>
 to the existing <code>*%</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>*%</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="powWrap"><code><span class="keyword">public func </span><span class="fnname">powWrap</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">other</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns <code>x</code> to the power of <code>y</code>, <code>x **% y</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="powWrap"><code><span class="keyword">public func </span><span class="fnname">powWrap</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">y</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Returns <code>x</code> to the power of <code>y</code>, <code>x **% y</code>.</p>
 <p>Wraps on overflow/underflow.
 Traps if <code>y &lt; 0 or y &gt;= 16</code>.</p>
 <p>Example:</p>
@@ -355,7 +355,7 @@ assert Int16.powWrap(2, 15) == -32_768; // overflow</code></pre>
 to the existing <code>**%</code> operator) is so that you can use it as a function
 value to pass to a higher order function. It is not possible to use <code>**%</code>
 as a function value at the moment.</p>
-</p></div><div class="declaration"><h4 class="function" id="range"><code><span class="keyword">public func </span><span class="fnname">range</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">toExclusive</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Int16"><span class="type">Int16</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Int16</code> values from the first to second argument with an exclusive upper bound.</p>
+</p></div><div class="declaration"><h4 class="function" id="range"><code><span class="keyword">public func </span><span class="fnname">range</span>(<span class="parameter">fromInclusive</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">toExclusive</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Int16"><span class="type">Int16</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Int16</code> values from the first to second argument with an exclusive upper bound.</p>
 <pre><code>motoko include=import
 import Iter &quot;mo:core/Iter&quot;;
 
@@ -370,7 +370,7 @@ assert iter.next() == null;</code></pre>
 import Iter &quot;mo:core/Iter&quot;;
 
 let iter = Int16.range(4, 1);
-assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeInclusive</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">to</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Int16"><span class="type">Int16</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Int16</code> values from the first to second argument, inclusive.</p>
+assert iter.next() == null; // empty iterator</code></pre></p></div><div class="declaration"><h4 class="function" id="rangeInclusive"><code><span class="keyword">public func </span><span class="fnname">rangeInclusive</span>(<span class="parameter">from</span> : <a href="#type.Int16"><span class="type">Int16</span></a>, <span class="parameter">to</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <a href="Iter.html#type.Iter"><span class="type">Iter.Iter</span></a>&lt;<a href="#type.Int16"><span class="type">Int16</span></a>&gt;</code></h4><p><p>Returns an iterator over <code>Int16</code> values from the first to second argument, inclusive.</p>
 <pre><code>motoko include=import
 import Iter &quot;mo:core/Iter&quot;;
 

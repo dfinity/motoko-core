@@ -48,7 +48,7 @@ Notes:</p>
 
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Float.isNaN(0.0/0.0);</code></pre></p></div><div class="declaration"><h4 class="function" id="abs"><code><span class="keyword">public func </span><span class="fnname">abs</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the absolute value of <code>x</code>.</p>
+assert Float.isNaN(0.0/0.0);</code></pre></p></div><div class="declaration"><h4 class="function" id="abs"><code><span class="keyword">public func </span><span class="fnname">abs</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the absolute value of <code>x</code>.</p>
 <p>Special cases:</p>
 <pre><code>abs(+inf) =&gt; +inf
 abs(-inf) =&gt; +inf
@@ -58,7 +58,7 @@ abs(-0.0) =&gt; 0.0</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.abs(-1.2), 1.2, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="sqrt"><code><span class="keyword">public func </span><span class="fnname">sqrt</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the square root of <code>x</code>.</p>
+assert Float.equal(Float.abs(-1.2), 1.2, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="sqrt"><code><span class="keyword">public func </span><span class="fnname">sqrt</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the square root of <code>x</code>.</p>
 <p>Special cases:</p>
 <pre><code>sqrt(+inf) =&gt; +inf
 sqrt(-0.0) =&gt; -0.0
@@ -68,7 +68,7 @@ sqrt(NaN)  =&gt; NaN</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.sqrt(6.25), 2.5, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="ceil"><code><span class="keyword">public func </span><span class="fnname">ceil</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the smallest integral float greater than or equal to <code>x</code>.</p>
+assert Float.equal(Float.sqrt(6.25), 2.5, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="ceil"><code><span class="keyword">public func </span><span class="fnname">ceil</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the smallest integral float greater than or equal to <code>x</code>.</p>
 <p>Special cases:</p>
 <pre><code>ceil(+inf) =&gt; +inf
 ceil(-inf) =&gt; -inf
@@ -79,7 +79,7 @@ ceil(-0.0) =&gt; -0.0</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.ceil(1.2), 2.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="floor"><code><span class="keyword">public func </span><span class="fnname">floor</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the largest integral float less than or equal to <code>x</code>.</p>
+assert Float.equal(Float.ceil(1.2), 2.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="floor"><code><span class="keyword">public func </span><span class="fnname">floor</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the largest integral float less than or equal to <code>x</code>.</p>
 <p>Special cases:</p>
 <pre><code>floor(+inf) =&gt; +inf
 floor(-inf) =&gt; -inf
@@ -90,7 +90,7 @@ floor(-0.0) =&gt; -0.0</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.floor(1.2), 1.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="trunc"><code><span class="keyword">public func </span><span class="fnname">trunc</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the nearest integral float not greater in magnitude than <code>x</code>.
+assert Float.equal(Float.floor(1.2), 1.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="trunc"><code><span class="keyword">public func </span><span class="fnname">trunc</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the nearest integral float not greater in magnitude than <code>x</code>.
 This is equivalent to returning <code>x</code> with truncating its decimal places.</p>
 <p>Special cases:</p>
 <pre><code>trunc(+inf) =&gt; +inf
@@ -102,7 +102,7 @@ trunc(-0.0) =&gt; -0.0</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.trunc(2.75), 2.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="nearest"><code><span class="keyword">public func </span><span class="fnname">nearest</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the nearest integral float to <code>x</code>.
+assert Float.equal(Float.trunc(2.75), 2.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="nearest"><code><span class="keyword">public func </span><span class="fnname">nearest</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the nearest integral float to <code>x</code>.
 A decimal place of exactly .5 is rounded up for <code>x &gt; 0</code>
 and rounded down for <code>x &lt; 0</code></p>
 <p>Special cases:</p>
@@ -114,26 +114,26 @@ nearest(-0.0) =&gt; -0.0</code></pre>
 
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Float.nearest(2.75) == 3.0</code></pre></p></div><div class="declaration"><h4 class="function" id="copySign"><code><span class="keyword">public func </span><span class="fnname">copySign</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns <code>x</code> if <code>x</code> and <code>y</code> have same sign, otherwise <code>x</code> with negated sign.</p>
+assert Float.nearest(2.75) == 3.0</code></pre></p></div><div class="declaration"><h4 class="function" id="copySign"><code><span class="keyword">public func </span><span class="fnname">copySign</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns <code>x</code> if <code>x</code> and <code>y</code> have same sign, otherwise <code>x</code> with negated sign.</p>
 <p>The sign bit of zero, infinity, and <code>NaN</code> is considered.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.copySign(1.2, -2.3), -1.2, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="min"><code><span class="keyword">public func </span><span class="fnname">min</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the smaller value of <code>x</code> and <code>y</code>.</p>
+assert Float.equal(Float.copySign(1.2, -2.3), -1.2, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="min"><code><span class="keyword">public func </span><span class="fnname">min</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the smaller value of <code>x</code> and <code>y</code>.</p>
 <p>Special cases:</p>
 <pre><code>min(NaN, y) =&gt; NaN for any Float y
 min(x, NaN) =&gt; NaN for any Float x</code></pre>
 
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Float.min(1.2, -2.3) == -2.3; // with numerical imprecision</code></pre></p></div><div class="declaration"><h4 class="function" id="max"><code><span class="keyword">public func </span><span class="fnname">max</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the larger value of <code>x</code> and <code>y</code>.</p>
+assert Float.min(1.2, -2.3) == -2.3; // with numerical imprecision</code></pre></p></div><div class="declaration"><h4 class="function" id="max"><code><span class="keyword">public func </span><span class="fnname">max</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the larger value of <code>x</code> and <code>y</code>.</p>
 <p>Special cases:</p>
 <pre><code>max(NaN, y) =&gt; NaN for any Float y
 max(x, NaN) =&gt; NaN for any Float x</code></pre>
 
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Float.max(1.2, -2.3) == 1.2;</code></pre></p></div><div class="declaration"><h4 class="function" id="sin"><code><span class="keyword">public func </span><span class="fnname">sin</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the sine of the radian angle <code>x</code>.</p>
+assert Float.max(1.2, -2.3) == 1.2;</code></pre></p></div><div class="declaration"><h4 class="function" id="sin"><code><span class="keyword">public func </span><span class="fnname">sin</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the sine of the radian angle <code>x</code>.</p>
 <p>Special cases:</p>
 <pre><code>sin(+inf) =&gt; NaN
 sin(-inf) =&gt; NaN
@@ -142,7 +142,7 @@ sin(NaN) =&gt; NaN</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.sin(Float.pi / 2), 1.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="cos"><code><span class="keyword">public func </span><span class="fnname">cos</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the cosine of the radian angle <code>x</code>.</p>
+assert Float.equal(Float.sin(Float.pi / 2), 1.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="cos"><code><span class="keyword">public func </span><span class="fnname">cos</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the cosine of the radian angle <code>x</code>.</p>
 <p>Special cases:</p>
 <pre><code>cos(+inf) =&gt; NaN
 cos(-inf) =&gt; NaN
@@ -151,7 +151,7 @@ cos(NaN)  =&gt; NaN</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.cos(Float.pi / 2), 0.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="tan"><code><span class="keyword">public func </span><span class="fnname">tan</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the tangent of the radian angle <code>x</code>.</p>
+assert Float.equal(Float.cos(Float.pi / 2), 0.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="tan"><code><span class="keyword">public func </span><span class="fnname">tan</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the tangent of the radian angle <code>x</code>.</p>
 <p>Special cases:</p>
 <pre><code>tan(+inf) =&gt; NaN
 tan(-inf) =&gt; NaN
@@ -160,7 +160,7 @@ tan(NaN)  =&gt; NaN</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.tan(Float.pi / 4), 1.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="arcsin"><code><span class="keyword">public func </span><span class="fnname">arcsin</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the arc sine of <code>x</code> in radians.</p>
+assert Float.equal(Float.tan(Float.pi / 4), 1.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="arcsin"><code><span class="keyword">public func </span><span class="fnname">arcsin</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the arc sine of <code>x</code> in radians.</p>
 <p>Special cases:</p>
 <pre><code>arcsin(x)   =&gt; NaN if x &gt; 1.0
 arcsin(x)   =&gt; NaN if x &lt; -1.0
@@ -169,7 +169,7 @@ arcsin(NaN) =&gt; NaN</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.arcsin(1.0), Float.pi / 2, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="arccos"><code><span class="keyword">public func </span><span class="fnname">arccos</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the arc cosine of <code>x</code> in radians.</p>
+assert Float.equal(Float.arcsin(1.0), Float.pi / 2, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="arccos"><code><span class="keyword">public func </span><span class="fnname">arccos</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the arc cosine of <code>x</code> in radians.</p>
 <p>Special cases:</p>
 <pre><code>arccos(x)  =&gt; NaN if x &gt; 1.0
 arccos(x)  =&gt; NaN if x &lt; -1.0
@@ -178,7 +178,7 @@ arcos(NaN) =&gt; NaN</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.arccos(1.0), 0.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="arctan"><code><span class="keyword">public func </span><span class="fnname">arctan</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the arc tangent of <code>x</code> in radians.</p>
+assert Float.equal(Float.arccos(1.0), 0.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="arctan"><code><span class="keyword">public func </span><span class="fnname">arctan</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the arc tangent of <code>x</code> in radians.</p>
 <p>Special cases:</p>
 <pre><code>arctan(+inf) =&gt; pi / 2
 arctan(-inf) =&gt; -pi / 2
@@ -187,7 +187,7 @@ arctan(NaN)  =&gt; NaN</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.arctan(1.0), Float.pi / 4, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="arctan2"><code><span class="keyword">public func </span><span class="fnname">arctan2</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Given <code>(y,x)</code>, returns the arc tangent in radians of <code>y/x</code> based on the signs of both values to determine the correct quadrant.</p>
+assert Float.equal(Float.arctan(1.0), Float.pi / 4, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="arctan2"><code><span class="keyword">public func </span><span class="fnname">arctan2</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Given <code>(y,x)</code>, returns the arc tangent in radians of <code>y/x</code> based on the signs of both values to determine the correct quadrant.</p>
 <p>Special cases:</p>
 <pre><code>arctan2(0.0, 0.0)   =&gt; 0.0
 arctan2(-0.0, 0.0)  =&gt; -0.0
@@ -203,7 +203,7 @@ arctan2(y, NaN)     =&gt; NaN for any Float y</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let sqrt2over2 = Float.sqrt(2) / 2;
-assert Float.arctan2(sqrt2over2, sqrt2over2) == Float.pi / 4;</code></pre></p></div><div class="declaration"><h4 class="function" id="exp"><code><span class="keyword">public func </span><span class="fnname">exp</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the value of <code>e</code> raised to the <code>x</code>-th power.</p>
+assert Float.arctan2(sqrt2over2, sqrt2over2) == Float.pi / 4;</code></pre></p></div><div class="declaration"><h4 class="function" id="exp"><code><span class="keyword">public func </span><span class="fnname">exp</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the value of <code>e</code> raised to the <code>x</code>-th power.</p>
 <p>Special cases:</p>
 <pre><code>exp(+inf) =&gt; +inf
 exp(-inf) =&gt; 0.0
@@ -264,7 +264,7 @@ Returns <code>inf</code> if the integer is greater than the maximum floating poi
 Returns <code>-inf</code> if the integer is less than the minimum floating point number.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Float.fromInt(-123) == -123.0;</code></pre></p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>(<br/>  <span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <br/>  <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>, <br/>  <span class="parameter">epsilon</span> : <a href="#type.Float"><span class="type">Float</span></a><br/>) : <span class="type">Bool</span></code></h4><p><p>Determines whether <code>x</code> is equal to <code>y</code> within the defined tolerance of <code>epsilon</code>.
+assert Float.fromInt(-123) == -123.0;</code></pre></p></div><div class="declaration"><h4 class="function" id="equal"><code><span class="keyword">public func </span><span class="fnname">equal</span>(<br/>  <span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <br/>  <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>, <br/>  <span class="parameter">epsilon</span> : <a href="#type.Float"><span class="type">Float</span></a><br/>) : <span class="type">Bool</span></code></h4><p><p>Determines whether <code>x</code> is equal to <code>y</code> within the defined tolerance of <code>epsilon</code>.
 The <code>epsilon</code> considers numerical erros, see comment above.
 Equivalent to <code>Float.abs(x - y) &lt;= epsilon</code> for a non-negative epsilon.</p>
 <p>Traps if <code>epsilon</code> is negative or <code>NaN</code>.</p>
@@ -279,7 +279,7 @@ equal(NaN, y, epsilon)     =&gt; false for any y and `epsilon &gt;= 0.0`</code><
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(-12.3, -1.23e1, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="notEqual"><code><span class="keyword">public func </span><span class="fnname">notEqual</span>(<br/>  <span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <br/>  <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>, <br/>  <span class="parameter">epsilon</span> : <a href="#type.Float"><span class="type">Float</span></a><br/>) : <span class="type">Bool</span></code></h4><p><p>Determines whether <code>x</code> is not equal to <code>y</code> within the defined tolerance of <code>epsilon</code>.
+assert Float.equal(-12.3, -1.23e1, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="notEqual"><code><span class="keyword">public func </span><span class="fnname">notEqual</span>(<br/>  <span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <br/>  <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>, <br/>  <span class="parameter">epsilon</span> : <a href="#type.Float"><span class="type">Float</span></a><br/>) : <span class="type">Bool</span></code></h4><p><p>Determines whether <code>x</code> is not equal to <code>y</code> within the defined tolerance of <code>epsilon</code>.
 The <code>epsilon</code> considers numerical erros, see comment above.
 Equivalent to <code>not equal(x, y, epsilon)</code>.</p>
 <p>Traps if <code>epsilon</code> is negative or <code>NaN</code>.</p>
@@ -294,7 +294,7 @@ notEqual(NaN, y, epsilon)     =&gt; true for any y and `epsilon &gt;= 0.0`</code
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert not Float.notEqual(-12.3, -1.23e1, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="less"><code><span class="keyword">public func </span><span class="fnname">less</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>x &lt; y</code>.</p>
+assert not Float.notEqual(-12.3, -1.23e1, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="less"><code><span class="keyword">public func </span><span class="fnname">less</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>x &lt; y</code>.</p>
 <p>Special cases:</p>
 <pre><code>less(+0.0, -0.0) =&gt; false
 less(-0.0, +0.0) =&gt; false
@@ -303,7 +303,7 @@ less(x, NaN)     =&gt; false for any Float x</code></pre>
 
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Float.less(Float.e, Float.pi);</code></pre></p></div><div class="declaration"><h4 class="function" id="lessOrEqual"><code><span class="keyword">public func </span><span class="fnname">lessOrEqual</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>x &lt;= y</code>.</p>
+assert Float.less(Float.e, Float.pi);</code></pre></p></div><div class="declaration"><h4 class="function" id="lessOrEqual"><code><span class="keyword">public func </span><span class="fnname">lessOrEqual</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>x &lt;= y</code>.</p>
 <p>Special cases:</p>
 <pre><code>lessOrEqual(+0.0, -0.0) =&gt; true
 lessOrEqual(-0.0, +0.0) =&gt; true
@@ -312,7 +312,7 @@ lessOrEqual(x, NaN)     =&gt; false for any Float x</code></pre>
 
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Float.lessOrEqual(0.123, 0.1234);</code></pre></p></div><div class="declaration"><h4 class="function" id="greater"><code><span class="keyword">public func </span><span class="fnname">greater</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>x &gt; y</code>.</p>
+assert Float.lessOrEqual(0.123, 0.1234);</code></pre></p></div><div class="declaration"><h4 class="function" id="greater"><code><span class="keyword">public func </span><span class="fnname">greater</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>x &gt; y</code>.</p>
 <p>Special cases:</p>
 <pre><code>greater(+0.0, -0.0) =&gt; false
 greater(-0.0, +0.0) =&gt; false
@@ -321,7 +321,7 @@ greater(x, NaN)     =&gt; false for any Float x</code></pre>
 
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Float.greater(Float.pi, Float.e);</code></pre></p></div><div class="declaration"><h4 class="function" id="greaterOrEqual"><code><span class="keyword">public func </span><span class="fnname">greaterOrEqual</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>x &gt;= y</code>.</p>
+assert Float.greater(Float.pi, Float.e);</code></pre></p></div><div class="declaration"><h4 class="function" id="greaterOrEqual"><code><span class="keyword">public func </span><span class="fnname">greaterOrEqual</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <span class="type">Bool</span></code></h4><p><p>Returns <code>x &gt;= y</code>.</p>
 <p>Special cases:</p>
 <pre><code>greaterOrEqual(+0.0, -0.0) =&gt; true
 greaterOrEqual(-0.0, +0.0) =&gt; true
@@ -330,7 +330,7 @@ greaterOrEqual(x, NaN)     =&gt; false for any Float x</code></pre>
 
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Float.greaterOrEqual(0.1234, 0.123);</code></pre></p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="Order.html#type.Order"><span class="type">Order.Order</span></a></code></h4><p><p>Defines a total order of <code>x</code> and <code>y</code> for use in sorting.</p>
+assert Float.greaterOrEqual(0.1234, 0.123);</code></pre></p></div><div class="declaration"><h4 class="function" id="compare"><code><span class="keyword">public func </span><span class="fnname">compare</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="Order.html#type.Order"><span class="type">Order.Order</span></a></code></h4><p><p>Defines a total order of <code>x</code> and <code>y</code> for use in sorting.</p>
 <p>Note: Using this operation to determine equality or inequality is discouraged for two reasons:</p>
 <ul><li>It does not consider numerical errors, see comment above. Use <code>equal(x, y, espilon)</code> or
  <code>notEqual(x, y, epsilon)</code> to test for equality or inequality, respectively.</li><li><code>NaN</code> are here considered equal if their sign matches, which is different to the standard equality
@@ -341,7 +341,7 @@ assert Float.greaterOrEqual(0.1234, 0.123);</code></pre></p></div><div class="de
 
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Float.compare(0.123, 0.1234) == #less;</code></pre></p></div><div class="declaration"><h4 class="function" id="neg"><code><span class="keyword">public func </span><span class="fnname">neg</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the negation of <code>x</code>, <code>-x</code> .</p>
+assert Float.compare(0.123, 0.1234) == #less;</code></pre></p></div><div class="declaration"><h4 class="function" id="neg"><code><span class="keyword">public func </span><span class="fnname">neg</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the negation of <code>x</code>, <code>-x</code> .</p>
 <p>Changes the sign bit for infinity.</p>
 <p>Special cases:</p>
 <pre><code>neg(+inf) =&gt; -inf
@@ -354,7 +354,7 @@ neg(-0.0) =&gt; +0.0</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.neg(1.23), -1.23, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="add"><code><span class="keyword">public func </span><span class="fnname">add</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the sum of <code>x</code> and <code>y</code>, <code>x + y</code>.</p>
+assert Float.equal(Float.neg(1.23), -1.23, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="add"><code><span class="keyword">public func </span><span class="fnname">add</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the sum of <code>x</code> and <code>y</code>, <code>x + y</code>.</p>
 <p>Note: Numerical errors may occur, see comment above.</p>
 <p>Special cases:</p>
 <pre><code>add(+inf, y)    =&gt; +inf if y is any Float except -inf and NaN
@@ -364,7 +364,7 @@ add(NaN, y)     =&gt; NaN for any Float y</code></pre><p>The same cases apply co
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.add(1.23, 0.123), 1.353, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="sub"><code><span class="keyword">public func </span><span class="fnname">sub</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the difference of <code>x</code> and <code>y</code>, <code>x - y</code>.</p>
+assert Float.equal(Float.add(1.23, 0.123), 1.353, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="sub"><code><span class="keyword">public func </span><span class="fnname">sub</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the difference of <code>x</code> and <code>y</code>, <code>x - y</code>.</p>
 <p>Note: Numerical errors may occur, see comment above.</p>
 <p>Special cases:</p>
 <pre><code>sub(+inf, y)    =&gt; +inf if y is any Float except +inf or NaN
@@ -379,7 +379,7 @@ sub(x, NaN)     =&gt; NaN for any Float x</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.sub(1.23, 0.123), 1.107, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="mul"><code><span class="keyword">public func </span><span class="fnname">mul</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the product of <code>x</code> and <code>y</code>, <code>x * y</code>.</p>
+assert Float.equal(Float.sub(1.23, 0.123), 1.107, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="mul"><code><span class="keyword">public func </span><span class="fnname">mul</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the product of <code>x</code> and <code>y</code>, <code>x * y</code>.</p>
 <p>Note: Numerical errors may occur, see comment above.</p>
 <p>Special cases:</p>
 <pre><code>mul(+inf, y) =&gt; +inf if y &gt; 0.0
@@ -392,7 +392,7 @@ mul(NaN, y) =&gt; NaN for any Float y</code></pre><p>The same cases apply commut
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.mul(1.23, 1e2), 123.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="div"><code><span class="keyword">public func </span><span class="fnname">div</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the division of <code>x</code> by <code>y</code>, <code>x / y</code>.</p>
+assert Float.equal(Float.mul(1.23, 1e2), 123.0, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="div"><code><span class="keyword">public func </span><span class="fnname">div</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the division of <code>x</code> by <code>y</code>, <code>x / y</code>.</p>
 <p>Note: Numerical errors may occur, see comment above.</p>
 <p>Special cases:</p>
 <pre><code>div(0.0, 0.0) =&gt; NaN
@@ -410,7 +410,7 @@ div(x, NaN)   =&gt; NaN for any Float x</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.div(1.23, 1e2), 0.0123, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="rem"><code><span class="keyword">public func </span><span class="fnname">rem</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the floating point division remainder <code>x % y</code>,
+assert Float.equal(Float.div(1.23, 1e2), 0.0123, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="rem"><code><span class="keyword">public func </span><span class="fnname">rem</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns the floating point division remainder <code>x % y</code>,
 which is defined as <code>x - trunc(x / y) * y</code>.</p>
 <p>Note: Numerical errors may occur, see comment above.</p>
 <p>Special cases:</p>
@@ -427,7 +427,7 @@ rem(x, NaN)   =&gt; NaN for any Float x</code></pre>
 <p>Example:</p>
 <pre><code>motoko include=import
 let epsilon = 1e-6;
-assert Float.equal(Float.rem(7.2, 2.3), 0.3, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="pow"><code><span class="keyword">public func </span><span class="fnname">pow</span>(<span class="parameter">self</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">other</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns <code>x</code> to the power of <code>y</code>, <code>x ** y</code>.</p>
+assert Float.equal(Float.rem(7.2, 2.3), 0.3, epsilon);</code></pre></p></div><div class="declaration"><h4 class="function" id="pow"><code><span class="keyword">public func </span><span class="fnname">pow</span>(<span class="parameter">x</span> : <a href="#type.Float"><span class="type">Float</span></a>, <span class="parameter">y</span> : <a href="#type.Float"><span class="type">Float</span></a>) : <a href="#type.Float"><span class="type">Float</span></a></code></h4><p><p>Returns <code>x</code> to the power of <code>y</code>, <code>x ** y</code>.</p>
 <p>Note: Numerical errors may occur, see comment above.</p>
 <p>Special cases:</p>
 <pre><code>pow(+inf, y)    =&gt; +inf for any y &gt; 0.0 including +inf
