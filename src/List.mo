@@ -513,7 +513,6 @@ module {
   /// ```
   ///
   /// Runtime: `O(1)`
-  /// @deprecated M0235
   public func at<T>(self : List<T>, index : Nat) : T {
     // inlined version of:
     //   let (a,b) = locate(index);
@@ -551,6 +550,7 @@ module {
   /// Runtime: `O(1)`
   ///
   /// Space: `O(1)`
+  /// @deprecated M0235
   public func get<T>(self : List<T>, index : Nat) : ?T {
     let (a, b) = locate(index);
     if (a < self.blockIndex or self.elementIndex != 0 and a == self.blockIndex) {
