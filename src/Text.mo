@@ -686,7 +686,6 @@ module {
   /// let result = Text.replace("abcabc", #char 'a', "A");
   /// assert result == "AbcAbc";
   /// ```
-  /// @deprecated M0235
   public func replace(self : Text, p : Pattern, r : Text) : Text {
     let match = matchOfPattern(p);
     let size = sizeOfPattern(p);
