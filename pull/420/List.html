@@ -157,8 +157,7 @@ List.add(list, 10);
 List.add(list, 11);
 assert List.at(list, 0) == 10;</code></pre>
 
-<p>Runtime: <code>O(1)</code>
-@deprecated M0235</p>
+<p>Runtime: <code>O(1)</code></p>
 </p></div><div class="declaration"><h4 class="function" id="get"><code><span class="keyword">public func </span><span class="fnname">get</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">index</span> : <span class="type">Nat</span>) : ?<span class="type">T</span></code></h4><p><p>Returns the element at index <code>index</code> as an option.
 Returns <code>null</code> when <code>index &gt;= size</code>. Indexing is zero-based.</p>
 <p>Example:</p>
@@ -170,7 +169,8 @@ assert List.get(list, 0) == ?10;
 assert List.get(list, 2) == null;</code></pre>
 
 <p>Runtime: <code>O(1)</code></p>
-<p>Space: <code>O(1)</code></p>
+<p>Space: <code>O(1)</code>
+@deprecated M0235</p>
 </p></div><div class="declaration"><h4 class="function" id="put"><code><span class="keyword">public func </span><span class="fnname">put</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">index</span> : <span class="type">Nat</span>, <br/>  <span class="parameter">value</span> : <span class="type">T</span><br/>)</code></h4><p><p>Overwrites the current element at <code>index</code> with <code>element</code>.
 Traps if <code>index</code> &gt;= size. Indexing is zero-based.</p>
 <p>Example:</p>
