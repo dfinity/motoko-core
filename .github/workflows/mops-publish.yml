@@ -5,7 +5,7 @@ on:
   push:
     tags:
       - preview-*
-      - moc-*
+      - v*.*.*
 
 jobs:
   publish:
@@ -13,6 +13,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: dfinity/setup-dfx@main # Currently required for `mops publish`
       - uses: ZenVoich/setup-mops@v1
         with:
           # Make sure you set the MOPS_IDENTITY_PEM secret in your repository settings https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository

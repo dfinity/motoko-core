@@ -2,7 +2,7 @@
 ///
 /// Note that most operations are available as built-in operators (e.g. `1 + 1`).
 ///
-/// Import from the core library to use this module.
+/// Import from the core package to use this module.
 /// ```motoko name=import
 /// import Nat32 "mo:core/Nat32";
 /// ```
@@ -526,6 +526,15 @@ module {
   /// assert Nat32.bitcountTrailingZero(16) == 4;
   /// ```
   public let bitcountTrailingZero : (x : Nat32) -> Nat32 = Prim.ctzNat32;
+
+  /// Returns the upper (i.e. most significant), lower (least significant)
+  /// and in-between bytes of `x`.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat32.explode 0xaa885511 == (170, 136, 85, 17);
+  /// ```
+  public let explode : (x : Nat32) -> (msb : Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeNat32;
 
   /// Returns the sum of `x` and `y`, `x +% y`. Wraps on overflow.
   ///

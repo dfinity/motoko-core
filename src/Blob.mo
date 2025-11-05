@@ -6,7 +6,7 @@
 /// If you would like to manipulate Blobs, it is recommended that you convert
 /// Blobs to `[var Nat8]` or `Buffer<Nat8>`, do the manipulation, then convert back.
 ///
-/// Import from the core library to use this module.
+/// Import from the core package to use this module.
 /// ```motoko name=import
 /// import Blob "mo:core/Blob";
 /// ```

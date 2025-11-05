@@ -811,7 +811,7 @@ run(
     [
       test(
         "sort",
-        List.sort<Nat>(list, Nat.compare) |> List.toArray(list),
+        List.sortInPlace<Nat>(list, Nat.compare) |> List.toArray(list),
         [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] |> M.equals(T.array(T.natTestable, _))
       )
     ]
@@ -919,7 +919,7 @@ func testNew(n : Nat) : Bool {
 
 func testInit(n : Nat) : Bool {
   let vec = List.repeat<Nat>(1, n);
-  List.size(vec) == n and (n == 0 or (List.get(vec, 0) == 1 and List.get(vec, n - 1 : Nat) == 1))
+  List.size(vec) == n and (n == 0 or (List.at(vec, 0) == 1 and List.at(vec, n - 1 : Nat) == 1))
 };
 
 func testAdd(n : Nat) : Bool {
@@ -935,7 +935,7 @@ func testAdd(n : Nat) : Bool {
   };
 
   for (i in Nat.range(0, n)) {
-    let value = List.get(vec, i);
+    let value = List.at(vec, i);
     if (value != i) {
       Debug.print("Value mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(i) # ", got " # Nat.toText(value));
       return false
@@ -954,7 +954,7 @@ func testAddAll(n : Nat) : Bool {
     return false
   };
   for (i in Nat.range(0, n)) {
-    let value = List.get(vec, n + i);
+    let value = List.at(vec, n + i);
     if (value != 1) {
       Debug.print("Value mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(1) # ", got " # Nat.toText(value));
       return false
@@ -994,13 +994,13 @@ func testRemoveLast(n : Nat) : Bool {
   true
 };
 
-func testGet(n : Nat) : Bool {
+func testAt(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i + 1));
 
   for (i in Nat.range(1, n + 1)) {
-    let value = List.get(vec, i - 1 : Nat);
+    let value = List.at(vec, i - 1 : Nat);
     if (value != i) {
-      Debug.print("get: Mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(i) # ", got " # Nat.toText(value));
+      Debug.print("at: Mismatch at index " # Nat.toText(i) # ": expected " # Nat.toText(i) # ", got " # Nat.toText(value));
       return false
     }
   };
@@ -1008,31 +1008,31 @@ func testGet(n : Nat) : Bool {
   true
 };
 
-func testGetOpt(n : Nat) : Bool {
+func testGet(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i + 1));
 
   for (i in Nat.range(1, n + 1)) {
-    switch (List.getOpt(vec, i - 1 : Nat)) {
+    switch (List.get(vec, i - 1 : Nat)) {
       case (?value) {
         if (value != i) {
-          Debug.print("getOpt: Mismatch at index " # Nat.toText(i) # ": expected ?" # Nat.toText(i) # ", got ?" # Nat.toText(value));
+          Debug.print("get: Mismatch at index " # Nat.toText(i) # ": expected ?" # Nat.toText(i) # ", got ?" # Nat.toText(value));
           return false
         }
       };
       case (null) {
-        Debug.print("getOpt: Unexpected null at index " # Nat.toText(i));
+        Debug.print("get: Unexpected null at index " # Nat.toText(i));
         return false
       }
     }
   };
 
   // Test out-of-bounds access
-  switch (List.getOpt(vec, n)) {
+  switch (List.get(vec, n)) {
     case (null) {
       // This is expected
     };
     case (?value) {
-      Debug.print("getOpt: Expected null for out-of-bounds access, got ?" # Nat.toText(value));
+      Debug.print("get: Expected null for out-of-bounds access, got ?" # Nat.toText(value));
       return false
     }
   };
@@ -1046,7 +1046,7 @@ func testPut(n : Nat) : Bool {
     true
   } else {
     List.put(vec, n - 1 : Nat, 100);
-    List.get(vec, n - 1 : Nat) == 100
+    List.at(vec, n - 1 : Nat) == 100
   }
 };
 
@@ -1134,9 +1134,31 @@ func testReverse(n : Nat) : Bool {
 };
 
 func testSort(n : Nat) : Bool {
-  let vec = List.fromArray<Int>(Array.tabulate<Int>(n, func(i) = (i * 123) % 100 - 50));
-  List.sort(vec, Int.compare);
-  List.equal(vec, List.fromArray<Int>(Array.sort(Array.tabulate<Int>(n, func(i) = (i * 123) % 100 - 50), Int.compare)), Int.equal)
+  let array = Array.tabulate<Int>(n, func(i) = (i * 123) % 100 - 50);
+  let vec = List.fromArray<Int>(array);
+
+  let sorted = List.sort(vec, Int.compare);
+  List.sortInPlace(vec, Int.compare);
+
+  let expected = List.fromArray<Int>(Array.sort(array, Int.compare));
+
+  List.equal(vec, expected, Int.equal) and List.equal(sorted, expected, Int.equal)
+};
+
+func testIsSorted(n : Nat) : Bool {
+  let sorted = List.fromArray<Nat>(Array.tabulate<Nat>(n, func i = i));
+  if (not List.isSorted(sorted, Nat.compare)) {
+    Debug.print("isSorted fails on " # List.toText(sorted, Nat.toText));
+    return false
+  };
+
+  let notSorted = List.fromArray<Nat>(Array.tabulate<Nat>(n, func i = n - i - 1));
+  if (List.size(notSorted) >= 2 and List.isSorted(notSorted, Nat.compare)) {
+    Debug.print("isSorted fails on " # List.toText(notSorted, Nat.toText));
+    return false
+  };
+
+  true
 };
 
 func testToArray(n : Nat) : Bool {
@@ -1217,8 +1239,8 @@ func runAllTests() {
   runTest("testAdd", testAdd);
   runTest("testAddAll", testAddAll);
   runTest("testRemoveLast", testRemoveLast);
+  runTest("testAt", testAt);
   runTest("testGet", testGet);
-  runTest("testGetOpt", testGetOpt);
   runTest("testPut", testPut);
   runTest("testClear", testClear);
   runTest("testClone", testClone);
@@ -1228,6 +1250,7 @@ func runAllTests() {
   runTest("testContains", testContains);
   runTest("testReverse", testReverse);
   runTest("testSort", testSort);
+  runTest("testIsSorted", testIsSorted);
   runTest("testToArray", testToArray);
   runTest("testFromIter", testFromIter);
   runTest("testFoldLeft", testFoldLeft);
@@ -1342,6 +1365,82 @@ Test.suite(
       func() {
         Test.expect.bool(List.min(empty, Nat.compare) == null).equal(true);
         Test.expect.bool(List.min(emptied, Nat.compare) == null).equal(true)
+      }
+    );
+    Test.test(
+      "binarySearch",
+      func() {
+        let result1 = List.binarySearch<Nat>(empty, Nat.compare, 0);
+        let result2 = List.binarySearch<Nat>(emptied, Nat.compare, 0);
+        Test.expect.bool(result1 == #insertionIndex(0)).equal(true);
+        Test.expect.bool(result2 == #insertionIndex(0)).equal(true)
+      }
+    )
+  }
+);
+
+// Additional binarySearch tests
+Test.suite(
+  "binarySearch",
+  func() {
+    Test.test(
+      "found",
+      func() {
+        let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
+        let result = List.binarySearch<Nat>(list, Nat.compare, 5);
+        Test.expect.bool(result == #found(2)).equal(true)
+      }
+    );
+    Test.test(
+      "not found",
+      func() {
+        let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
+        let result = List.binarySearch<Nat>(list, Nat.compare, 6);
+        Test.expect.bool(result == #insertionIndex(3)).equal(true)
+      }
+    );
+    Test.test(
+      "first element",
+      func() {
+        let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
+        let result = List.binarySearch<Nat>(list, Nat.compare, 1);
+        Test.expect.bool(result == #found(0)).equal(true)
+      }
+    );
+    Test.test(
+      "last element",
+      func() {
+        let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
+        let result = List.binarySearch<Nat>(list, Nat.compare, 11);
+        Test.expect.bool(result == #found(5)).equal(true)
+      }
+    );
+    Test.test(
+      "single element found",
+      func() {
+        let list = List.fromArray<Nat>([42]);
+        let result = List.binarySearch<Nat>(list, Nat.compare, 42);
+        Test.expect.bool(result == #found(0)).equal(true)
+      }
+    );
+    Test.test(
+      "single element not found",
+      func() {
+        let list = List.fromArray<Nat>([42]);
+        let result = List.binarySearch<Nat>(list, Nat.compare, 43);
+        Test.expect.bool(result == #insertionIndex(1)).equal(true)
+      }
+    );
+    Test.test(
+      "duplicates",
+      func() {
+        let list = List.fromArray<Nat>([1, 2, 2, 2, 3]);
+        let result = List.binarySearch<Nat>(list, Nat.compare, 2);
+        let ok = switch result {
+          case (#found index) { index >= 1 and index <= 3 };
+          case _ { false }
+        };
+        Test.expect.bool(ok).equal(true)
       }
     )
   }

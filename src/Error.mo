@@ -17,14 +17,14 @@ module {
   ///   #system_fatal;
   ///   // Transient error.
   ///   #system_transient;
-  ///   // Response unknown due to missed deadline.
-  ///   #system_unknown;
   ///   // Destination invalid.
   ///   #destination_invalid;
+  ///   // Canister error (e.g., trap, no response).
+  ///   #canister_error;
   ///   // Explicit reject by canister code.
   ///   #canister_reject;
-  ///   // Canister trapped.
-  ///   #canister_error;
+  ///   // Response unknown; system stopped waiting for it (e.g., timed out, or system under high load).
+  ///   #system_unknown;
   ///   // Future error code (with unrecognized numeric code).
   ///   #future : Nat32;
   ///   // Error issuing inter-canister call
@@ -66,6 +66,13 @@ module {
   /// ```
   public let message : (error : Error) -> Text = Prim.errorMessage;
 
+  /// Checks if the error is a clean reject.
+  /// A clean reject means that there must be no state changes on the callee side.
+  public func isCleanReject(error : Error) : Bool = switch (code error) {
+    case (#system_fatal or #system_transient or #destination_invalid or #call_error _) true;
+    case _ false
+  };
+
   /// Returns whether retrying to send a message may result in success.
   ///
   /// Example:
@@ -92,7 +99,7 @@ module {
   ///
   /// ```
   public func isRetryPossible(error : Error) : Bool = switch (code error) {
-    case (#system_unknown or #system_transient) true;
+    case (#system_transient or #system_unknown) true;
     case _ false
   };
 

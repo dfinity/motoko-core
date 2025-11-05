@@ -1,11 +1,40 @@
-# Changelog
-
 ## Next
 
-* **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
-* Fix a bug in `List.last<T>` (#336). 
-* Fix a typo in the `VarArray` documentation (#338).
+* Improve CI for external contributions (#413).
+* Add `isSorted` to `List` (#408).
+* **Breaking:** Rename `sort` to `sortInPlace`, add `sort` (#405).
+* Add `isCleanReject` to `Error`, align reject code order with IC interface specification and improve comments (#401).
+* internal: updates `matchers` dev-dependency (#394).
+* Add `PriorityQueue` (#392).
+* Add support for Weak references (#388).
+* Clarify difference between `List` and `pure/List` in doc comments (#386).
 * Fix memory leak bugs in `List.addRepeat<T>` and `List.removeLast<T>` (#343).
+
+## 1.0.0
+
+* Add `sliceToVarArray()` to `Array` and `VarArray` (#377).
+* **Breaking:** Standardize function argument order (#376).
+* Add `binarySearch()` to `Array`, `VarArray`, and `List` modules (#375).
+* Add example usage documentation to `Types` module (#374).
+* Address inconsistent treatment of empty iterators by range functions in `Int` and `Nat` (#369).
+* Fix corner cases in `Nat.rangeByInclusive()` (#368).
+* **Breaking:** Rename `List.get()` to `List.at()` and `List.getOpt()` to `List.get()` (#367).
+* Add `Text.foldLeft()` (#366).
+* **Breaking:** Adjust `Int.fromText()` to return `null` instead of `?0` for `"+"` and `"-"` (#365).
+* Fix corner case in `sliceToArray()` (#364).
+* Add `uniform64()`, `nat64()`, `natRange()`, and `intRange()` to `AsyncRandom` class (#360).
+* Make `Nat.toText()` slightly more performant (#358).
+
+## 0.6.0
+
+* Update style guidelines (#353).
+* Add `Text.reverse()` (#351).
+* Add `fromArray()` and `toArray()` to `Queue` and `pure/Queue` (#349).
+* Add `explode()` to `Int16`/`32`/`64`, `Nat16`/`32`/`64`, slicing fixed-length numbers into constituent bytes (#346).
+* Fix a typo in the `VarArray` documentation (#338).
+* Fix a bug in `List.last()` (#336). 
+* Perf: Uses the new `Array_tabulateVar` primitive to speed up various function in `VarArray` (#334).
+* **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
 
 ## 0.5.0
 

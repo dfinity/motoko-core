@@ -3,7 +3,7 @@
 /// (Most commonly used when programming in functional style using higher-order
 /// functions.)
 ///
-/// Import from the core library to use this module.
+/// Import from the core package to use this module.
 ///
 /// ```motoko name=import
 /// import Func = "mo:core/Func";

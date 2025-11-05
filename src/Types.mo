@@ -1,3 +1,17 @@
+/// Common types used throughout the core package.
+///
+/// Example usage:
+///
+/// ```motoko name=import
+/// import { type Result; type Iter } "mo:core/Types";
+///
+/// // Result for error handling
+/// let result : Result<Int, Text> = #ok(42);
+///
+/// // Iterator for sequences
+/// let iter : Iter<Nat> = { next = func() { ?1 } };
+/// ```
+
 import Prim "mo:⛔";
 
 module {
@@ -62,6 +76,13 @@ module {
   };
   public type Queue<T> = Queue.Queue<T>;
 
+  public module PriorityQueue {
+    public type PriorityQueue<T> = {
+      heap : List<T>
+    }
+  };
+  public type PriorityQueue<T> = PriorityQueue.PriorityQueue<T>;
+
   public module Set {
     public type Node<T> = {
       #leaf : Leaf<T>;
@@ -106,7 +127,6 @@ module {
     };
 
     public type Leaf<K, V> = {
-      // why the extra indirection?
       data : Data<K, V>
     };
 

@@ -3,7 +3,7 @@
 /// Most operations on integer numbers (e.g. addition) are available as built-in operators (e.g. `-1 + 1`).
 /// This module provides equivalent functions and `Text` conversion.
 ///
-/// Import from the core library to use this module.
+/// Import from the core package to use this module.
 /// ```motoko name=import
 /// import Int "mo:core/Int";
 /// ```
@@ -87,18 +87,23 @@ module {
     var n = 0;
     var isFirst = true;
     var isNegative = false;
+    var hasDigits = false;
     for (c in text.chars()) {
       if (isFirst and c == '+') {
         // Skip character
       } else if (isFirst and c == '-') {
         isNegative := true
       } else if (Char.isDigit(c)) {
+        hasDigits := true;
         let charAsNat = Prim.nat32ToNat(Prim.charToNat32(c) -% Prim.charToNat32('0'));
         n := n * 10 + charAsNat
       } else {
         return null
       };
       isFirst := false
+    };
+    if (not hasDigits) {
+      return null
     };
     ?(if (isNegative) { -n } else { n })
   };
@@ -401,15 +406,19 @@ module {
   /// assert iter.next() == null; // empty iterator
   /// ```
   public func range(fromInclusive : Int, toExclusive : Int) : Iter.Iter<Int> {
-    object {
-      var n = fromInclusive;
-      public func next() : ?Int {
-        if (n >= toExclusive) {
-          null
-        } else {
-          let result = n;
-          n += 1;
-          ?result
+    if (fromInclusive >= toExclusive) {
+      Iter.empty()
+    } else {
+      object {
+        var n = fromInclusive;
+        public func next() : ?Int {
+          if (n >= toExclusive) {
+            null
+          } else {
+            let result = n;
+            n += 1;
+            ?result
+          }
         }
       }
     }
@@ -489,15 +498,19 @@ module {
   /// assert iter.next() == null; // empty iterator
   /// ```
   public func rangeInclusive(from : Int, to : Int) : Iter.Iter<Int> {
-    object {
-      var n = from;
-      public func next() : ?Int {
-        if (n > to) {
-          null
-        } else {
-          let result = n;
-          n += 1;
-          ?result
+    if (from > to) {
+      Iter.empty()
+    } else {
+      object {
+        var n = from;
+        public func next() : ?Int {
+          if (n > to) {
+            null
+          } else {
+            let result = n;
+            n += 1;
+            ?result
+          }
         }
       }
     }

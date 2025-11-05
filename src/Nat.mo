@@ -3,7 +3,7 @@
 /// Most operations on natural numbers (e.g. addition) are available as built-in operators (e.g. `1 + 1`).
 /// This module provides equivalent functions and `Text` conversion.
 ///
-/// Import from the core library to use this module.
+/// Import from the core package to use this module.
 /// ```motoko name=import
 /// import Nat "mo:core/Nat";
 /// ```
@@ -27,7 +27,7 @@ module {
   /// ```motoko include=import
   /// assert Nat.toText(1234) == "1234";
   /// ```
-  public func toText(n : Nat) : Text = Int.toText n;
+  public let toText : Nat -> Text = Int.toText;
 
   /// Creates a natural number from its textual representation. Returns `null`
   /// if the input is not a valid natural number.
@@ -374,15 +374,21 @@ module {
   /// let iter = Nat.range(4, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func range(fromInclusive : Nat, toExclusive : Nat) : Iter.Iter<Nat> = object {
-    var n = fromInclusive;
-    public func next() : ?Nat {
-      if (n >= toExclusive) {
-        return null
-      };
-      let current = n;
-      n += 1;
-      ?current
+  public func range(fromInclusive : Nat, toExclusive : Nat) : Iter.Iter<Nat> {
+    if (fromInclusive >= toExclusive) {
+      Iter.empty()
+    } else {
+      object {
+        var n = fromInclusive;
+        public func next() : ?Nat {
+          if (n >= toExclusive) {
+            return null
+          };
+          let current = n;
+          n += 1;
+          ?current
+        }
+      }
     }
   };
 
@@ -408,7 +414,7 @@ module {
   ///
   /// If `step` is 0 or if the iteration would not progress towards the bound, returns an empty iterator.
   public func rangeBy(fromInclusive : Nat, toExclusive : Nat, step : Int) : Iter.Iter<Nat> {
-    if (step == 0) {
+    if (step == 0 or (step > 0 and fromInclusive >= toExclusive) or (step < 0 and fromInclusive <= toExclusive)) {
       Iter.empty()
     } else if (step > 0) {
       object {
@@ -461,15 +467,21 @@ module {
   /// let iter = Nat.rangeInclusive(3, 1);
   /// assert iter.next() == null; // empty iterator
   /// ```
-  public func rangeInclusive(from : Nat, to : Nat) : Iter.Iter<Nat> = object {
-    var n = from;
-    public func next() : ?Nat {
-      if (n > to) {
-        return null
-      };
-      let current = n;
-      n += 1;
-      ?current
+  public func rangeInclusive(from : Nat, to : Nat) : Iter.Iter<Nat> {
+    if (from > to) {
+      Iter.empty()
+    } else {
+      object {
+        var n = from;
+        public func next() : ?Nat {
+          if (n > to) {
+            return null
+          };
+          let current = n;
+          n += 1;
+          ?current
+        }
+      }
     }
   };
 
@@ -495,18 +507,20 @@ module {
   /// assert iter2.next() == null;
   /// ```
   ///
-  /// If `from == to`, return an iterator which only
+  /// If `from == to`, return an iterator which only returns that value.
   ///
   /// Otherwise, if `step` is 0 or if the iteration would not progress towards the bound, returns an empty iterator.
   public func rangeByInclusive(from : Nat, to : Nat, step : Int) : Iter.Iter<Nat> {
     if (from == to) {
       Iter.singleton(from)
+    } else if (step == 0 or (step > 0 and from > to) or (step < 0 and from < to)) {
+      Iter.empty()
     } else if (step > 0) {
       object {
         let stepMagnitude = Int.abs(step);
         var n = from;
         public func next() : ?Nat {
-          if (n >= to + 1) {
+          if (n > to) {
             return null
           };
           let current = n;
@@ -518,17 +532,19 @@ module {
       object {
         let stepMagnitude = Int.abs(step);
         var n = from;
+        var done = false;
         public func next() : ?Nat {
-          if (n + 1 <= to) {
-            return null
-          };
-          let current = n;
-          if (stepMagnitude > n) {
-            n := 0
+          if (done) {
+            null
           } else {
-            n -= stepMagnitude
-          };
-          ?current
+            let current = n;
+            if (n < to + stepMagnitude) {
+              done := true
+            } else {
+              n -= stepMagnitude
+            };
+            ?current
+          }
         }
       }
     }

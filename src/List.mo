@@ -1,5 +1,5 @@
-/// A mutable list data structure with efficient random access and dynamic resizing.
-/// Provides O(1) access time and O(sqrt(n)) memory overhead.
+/// A mutable growable array data structure with efficient random access and dynamic resizing.
+/// `List` provides O(1) access time and O(sqrt(n)) memory overhead. In contrast, `pure/List` is a purely functional linked list.
 /// Can be declared `stable` for orthogonal persistence.
 ///
 /// This implementation is adapted with permission from the `vector` Mops package created by Research AG.
@@ -507,11 +507,11 @@ module {
   /// let list = List.empty<Nat>();
   /// List.add(list, 10);
   /// List.add(list, 11);
-  /// assert List.get(list, 0) == 10;
+  /// assert List.at(list, 0) == 10;
   /// ```
   ///
   /// Runtime: `O(1)`
-  public func get<T>(list : List<T>, index : Nat) : T {
+  public func at<T>(list : List<T>, index : Nat) : T {
     // inlined version of:
     //   let (a,b) = locate(index);
     //   switch(list.blocks[a][b]) {
@@ -541,14 +541,14 @@ module {
   /// let list = List.empty<Nat>();
   /// List.add(list, 10);
   /// List.add(list, 11);
-  /// assert List.getOpt(list, 0) == ?10;
-  /// assert List.getOpt(list, 2) == null;
+  /// assert List.get(list, 0) == ?10;
+  /// assert List.get(list, 2) == null;
   /// ```
   ///
   /// Runtime: `O(1)`
   ///
   /// Space: `O(1)`
-  public func getOpt<T>(list : List<T>, index : Nat) : ?T {
+  public func get<T>(list : List<T>, index : Nat) : ?T {
     let (a, b) = locate(index);
     if (a < list.blockIndex or list.elementIndex != 0 and a == list.blockIndex) {
       list.blocks[a][b]
@@ -587,7 +587,7 @@ module {
   /// List.add(list, 3);
   /// List.add(list, 1);
   /// List.add(list, 2);
-  /// List.sort(list, Nat.compare);
+  /// List.sortInPlace(list, Nat.compare);
   /// assert List.toArray(list) == [1, 2, 3];
   /// ```
   ///
@@ -595,13 +595,83 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sort<T>(list : List<T>, compare : (T, T) -> Order.Order) {
+  public func sortInPlace<T>(list : List<T>, compare : (T, T) -> Order.Order) {
     if (size(list) < 2) return;
     let arr = toVarArray(list);
     VarArray.sortInPlace(arr, compare);
     for (i in arr.keys()) {
       put(list, i, arr[i])
     }
+  };
+
+  /// Sorts the elements in the list according to `compare`.
+  /// Sort is deterministic, stable, and in-place.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.empty<Nat>();
+  /// List.add(list, 3);
+  /// List.add(list, 1);
+  /// List.add(list, 2);
+  /// let sorted = List.sort(list, Nat.compare);
+  /// assert List.toArray(sorted) == [1, 2, 3];
+  /// ```
+  ///
+  /// Runtime: O(size * log(size))
+  ///
+  /// Space: O(size)
+  /// *Runtime and space assumes that `compare` runs in O(1) time and space.
+  public func sort<T>(list : List<T>, compare : (T, T) -> Types.Order) : List<T> {
+    let array = toVarArray(list);
+    VarArray.sortInPlace(array, compare);
+    fromVarArray(array)
+  };
+
+  /// Checks whether the `list` is sorted.
+  ///
+  /// Example:
+  /// ```
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([1, 2, 3]);
+  /// assert List.isSorted(list);
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  public func isSorted<T>(list : List<T>, compare : (T, T) -> Order.Order) : Bool {
+    var prev = switch (first(list)) {
+      case (?x) x;
+      case _ return true
+    };
+
+    let blocks = list.blocks;
+    let blockCount = blocks.size();
+
+    var i = 2;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return true;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) switch (compare(x, prev)) {
+            case (#greater or #equal) prev := x;
+            case (#less) return false
+          };
+          case null return true
+        };
+        j += 1
+      };
+      i += 1
+    };
+
+    true
   };
 
   /// Finds the first index of `element` in `list` using equality of elements defined
@@ -761,6 +831,44 @@ module {
         case (_) Prim.trap(INTERNAL_ERROR)
       }
     }
+  };
+
+  /// Performs binary search on a sorted list to find the index of the `element`.
+  /// Returns `#found(index)` if the element is found, or `#insertionIndex(index)` with the index
+  /// where the element would be inserted according to the ordering if not found.
+  ///
+  /// If there are multiple equal elements, no guarantee is made about which index is returned.
+  /// The list must be sorted in ascending order according to the `compare` function.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([1, 3, 5, 7, 9, 11]);
+  /// assert List.binarySearch<Nat>(list, Nat.compare, 5) == #found(2);
+  /// assert List.binarySearch<Nat>(list, Nat.compare, 6) == #insertionIndex(3);
+  /// ```
+  ///
+  /// Runtime: `O(log(size))`
+  ///
+  /// Space: `O(1)`
+  ///
+  /// *Runtime and space assumes that `compare` runs in `O(1)` time and space.
+  public func binarySearch<T>(list : List<T>, compare : (T, T) -> Order.Order, element : T) : {
+    #found : Nat;
+    #insertionIndex : Nat
+  } {
+    var left = 0;
+    var right = size(list);
+    while (left < right) {
+      let mid = (left + right) / 2;
+      switch (compare(at(list, mid), element)) {
+        case (#less) left := mid + 1;
+        case (#greater) right := mid;
+        case (#equal) return #found mid
+      }
+    };
+    #insertionIndex left
   };
 
   /// Returns true iff every element in `list` satisfies `predicate`.
@@ -1274,7 +1382,7 @@ module {
     if (isEmpty(list)) null else list.blocks[1][0]
   };
 
-  /// Returns the last element of `list`. Traps if `list` is empty.
+  /// Returns the last element of `list`, or `null` if the list is empty.
   ///
   /// Example:
   /// ```motoko include=import
@@ -1536,7 +1644,7 @@ module {
   public func max<T>(list : List<T>, compare : (T, T) -> Order.Order) : ?T {
     if (isEmpty(list)) return null;
 
-    var maxSoFar = get(list, 0);
+    var maxSoFar = at(list, 0);
     forEach<T>(
       list,
       func(x) = switch (compare(x, maxSoFar)) {
@@ -1571,7 +1679,7 @@ module {
   public func min<T>(list : List<T>, compare : (T, T) -> Order.Order) : ?T {
     if (isEmpty(list)) return null;
 
-    var minSoFar = get(list, 0);
+    var minSoFar = at(list, 0);
     forEach<T>(
       list,
       func(x) = switch (compare(x, minSoFar)) {
@@ -1689,7 +1797,7 @@ module {
     };
     if (vsize > 0) {
       // avoid the trailing comma
-      text := text # f(get<T>(list, i))
+      text := text # f(at<T>(list, i))
     };
 
     "List[" # text # "]"
@@ -1775,10 +1883,10 @@ module {
 
     var i = 0;
     var j = vsize - 1 : Nat;
-    var temp = get(list, 0);
+    var temp = at(list, 0);
     while (i < vsize / 2) {
-      temp := get(list, j);
-      put(list, j, get(list, i));
+      temp := at(list, j);
+      put(list, j, at(list, i));
       put(list, i, temp);
       i += 1;
       j -= 1
