@@ -1556,6 +1556,7 @@ module {
   ///
   /// ```motoko include=import
   /// import Debug "mo:core/Debug";
+  /// import Nat "mo:core/Nat";
   ///
   /// let list = List.fromArray<Nat>([1, 2, 3, 4, 5]);
   /// List.forEachRange<Nat>(list, func x = Debug.print(Nat.toText(x)), 1, 2); // prints 2 and 3
