@@ -1,12 +1,14 @@
 ## Next
 
+* Improve CI for external contributions (#413).
 * Add `fill` to `List` (#410).
+* Add `isSorted` to `List` (#408).
+* **Breaking:** Rename `sort` to `sortInPlace`, add `sort` (#405).
 * Add `isCleanReject` to `Error`, align reject code order with IC interface specification and improve comments (#401).
 * internal: updates `matchers` dev-dependency (#394).
 * Add `PriorityQueue` (#392).
 * Add support for Weak references (#388).
 * Clarify difference between `List` and `pure/List` in doc comments (#386).
-* **Breaking:** Rename `sort` to `sortInPlace`, add `sort` (#405).
 
 ## 1.0.0
 
