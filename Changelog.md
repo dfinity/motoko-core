@@ -1,7 +1,9 @@
 ## Next
 
-* Add `forEachRange` to `List` (#411).
 * **Breaking:** Rename `sort` to `sortInPlace`, add `sort` (#405).
+* Improve CI for external contributions (#413).
+* Add `forEachRange` to `List` (#411).
+* Add `isSorted` to `List` (#408).
 * Add `isCleanReject` to `Error`, align reject code order with IC interface specification and improve comments (#401).
 * internal: updates `matchers` dev-dependency (#394).
 * Add `PriorityQueue` (#392).
