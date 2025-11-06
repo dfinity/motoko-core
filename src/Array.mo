@@ -1149,8 +1149,8 @@ module {
     var i = 1;
     while (i < size) {
       switch (compare(array[i - 1], array[i])) {
-        case (#less or #equal) { i += 1 };
-        case (#greater) return false
+        case (#greater) return false;
+        case _ { i += 1 }
       }
     };
     true
