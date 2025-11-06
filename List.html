@@ -307,7 +307,7 @@ assert List.toArray(sorted) == [1, 2, 3];</code></pre>
 <pre><code>import Nat &quot;mo:core/Nat&quot;;
 
 let list = List.fromArray&lt;Nat&gt;([1, 2, 3]);
-assert List.isSorted(list);</code></pre>
+assert List.isSorted(list, Nat.compare);</code></pre>
 
 <p>Runtime: O(size)</p>
 <p>Space: O(1)</p>
