@@ -4,7 +4,7 @@
 Can be declared <code>stable</code> for orthogonal persistence.</p>
 <p>This implementation is adapted with permission from the <code>vector</code> Mops package created by Research AG.</p>
 <p>Copyright: 2023 MR Research AG
-Main author: Andrii Stepanov
+Main author: Andrii Stepanov (AStepanov25)
 Contributors: Timo Hanke (timohanke), Andy Gura (andygura), react0r-com</p>
 <pre><code>motoko name=import
 import List &quot;mo:core/List&quot;;</code></pre><div class="declaration"><h4 class="type-declaration" id="type.List"><span class="keyword">type </span><span class="type">List</span>&lt;<span class="type">T</span>&gt; = <a href="Types.html#type.List"><span class="type">Types.List</span></a>&lt;<span class="type">T</span>&gt;</h4><p><p><code>List&lt;T&gt;</code> provides a mutable list of elements of type <code>T</code>.
@@ -42,7 +42,7 @@ let pureList = List.toPure&lt;Nat&gt;(list); // converts to immutable PureList</
 
 <p>Runtime: <code>O(size)</code></p>
 <p>Space: <code>O(size)</code></p>
-</p></div><div class="declaration"><h4 class="function" id="fromPure"><code><span class="keyword">public func </span><span class="fnname">fromPure</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">pure</span> : <a href="pure/List.html#type.List"><span class="type">PureList.List</span></a>&lt;<span class="type">T</span>&gt;) : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;</code></h4><p><p>Converts a purely functional <code>List</code> to a mutable <code>List</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="fromPure"><code><span class="keyword">public func </span><span class="fnname">fromPure</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">pure</span> : <a href="pure/List.html#type.List"><span class="type">PureList.List</span></a>&lt;<span class="type">T</span>&gt;) : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;</code></h4><p><p>Converts a purely functional <code>PureList</code> to a mutable <code>List</code>.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 import PureList &quot;mo:core/pure/List&quot;;
@@ -169,7 +169,7 @@ assert List.get(list, 2) == null;</code></pre>
 <p>Runtime: <code>O(1)</code></p>
 <p>Space: <code>O(1)</code></p>
 </p></div><div class="declaration"><h4 class="function" id="put"><code><span class="keyword">public func </span><span class="fnname">put</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">index</span> : <span class="type">Nat</span>, <br/>  <span class="parameter">value</span> : <span class="type">T</span><br/>)</code></h4><p><p>Overwrites the current element at <code>index</code> with <code>element</code>.
-Traps if <code>index</code> &gt;= size. Indexing is zero-based.</p>
+Traps if <code>index</code> &gt;= size, error message may not be descriptive. Indexing is zero-based.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 let list = List.empty&lt;Nat&gt;();
