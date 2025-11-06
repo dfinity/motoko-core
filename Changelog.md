@@ -1,6 +1,6 @@
 ## Next
 
-* Add `isSorted` to `Array` and `VarArray` (#414).
+* Add `isSorted` to `Array` and `VarArray` (#414, #421).
 * Improve CI for external contributions (#413).
 * Add `isSorted` to `List` (#408).
 * **Breaking:** Rename `sort` to `sortInPlace`, add `sort` (#405).
