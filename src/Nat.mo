@@ -210,7 +210,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.sort([2, 3, 1], Nat.compare) == [1, 2, 3];
   /// ```
-  public func compare(x : Nat, y : Nat) : Order.Order {
+  public persistent func compare(x : Nat, y : Nat) : Order.Order {
     if (x < y) { #less } else if (x == y) { #equal } else { #greater }
   };
 
