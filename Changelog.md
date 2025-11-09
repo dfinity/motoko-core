@@ -1,5 +1,7 @@
 ## Next
 
+* Simplify `isSorted` logic (#421).
+* Add `isSorted` to `Array` and `VarArray` (#414).
 * Improve CI for external contributions (#413).
 * Add `truncate` to `List` (#409).
 * Add `isSorted` to `List` (#408).
@@ -9,6 +11,7 @@
 * Add `PriorityQueue` (#392).
 * Add support for Weak references (#388).
 * Clarify difference between `List` and `pure/List` in doc comments (#386).
+* Added `tabulate`, `flatten`, `join`, `mapInPlace`, `mapEntries`, `mapResult`, `flatMap`, `nextIndexOf`, `prevIndexOf`, `range`, `sliceToArray`, `sliceToVarArray` to `List` (#350).
 * Optimize methods in `List<T>` (#337).
 
 ## 1.0.0
