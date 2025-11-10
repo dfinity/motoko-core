@@ -229,48 +229,43 @@ module {
     };
     let scratchSpace = Prim.Array_init<T>(size, array[0]);
 
-    let sizeDec = size - 1 : Nat;
     var currSize = 1; // current size of the subarrays being merged
-    // when the current size == size, the array has been merged into a single sorted array
     var oddIteration = false;
+
+    // when the current size == size, the array has been merged into a single sorted array
     while (currSize < size) {
       let (fromArray, toArray) = if (oddIteration) (scratchSpace, array) else (array, scratchSpace);
       var leftStart = 0; // selects the current left subarray being merged
-      var rightEnd = 0;
 
-      while (leftStart < sizeDec) {
-        let mid : Nat = if (leftStart + currSize - 1 : Nat < sizeDec) {
-          leftStart + currSize - 1
-        } else { sizeDec };
-        rightEnd := if (leftStart + (2 * currSize) - 1 : Nat < sizeDec) {
-          leftStart + (2 * currSize) - 1
-        } else { sizeDec };
+      while (leftStart < size) {
+        let mid = if (leftStart + currSize < size) leftStart + currSize else size;
+        let rightEnd = if (leftStart + 2 * currSize < size) leftStart + 2 * currSize else size;
 
-        // Merge subarrays elements[leftStart...mid] and elements[mid+1...rightEnd]
+        // merge [leftStart, mid) with [mid, rightEnd)
         var left = leftStart;
-        var right = mid + 1;
+        var right = mid;
         var nextSorted = leftStart;
-        while (left < mid + 1 and right < rightEnd + 1) {
+        while (left < mid and right < rightEnd) {
           let leftElement = fromArray[left];
           let rightElement = fromArray[right];
-          switch (compare(leftElement, rightElement)) {
+          toArray[nextSorted] := switch (compare(leftElement, rightElement)) {
             case (#less or #equal) {
-              toArray[nextSorted] := leftElement;
-              left += 1
+              left += 1;
+              leftElement
             };
             case (#greater) {
-              toArray[nextSorted] := rightElement;
-              right += 1
+              right += 1;
+              rightElement
             }
           };
           nextSorted += 1
         };
-        while (left < mid + 1) {
+        while (left < mid) {
           toArray[nextSorted] := fromArray[left];
           nextSorted += 1;
           left += 1
         };
-        while (right < rightEnd + 1) {
+        while (right < rightEnd) {
           toArray[nextSorted] := fromArray[right];
           nextSorted += 1;
           right += 1
@@ -279,11 +274,6 @@ module {
         leftStart += 2 * currSize
       };
 
-      var i = rightEnd + 1;
-      while (i < size) {
-        toArray[i] := fromArray[i];
-        i += 1
-      };
       currSize *= 2;
       oddIteration := not oddIteration
     };

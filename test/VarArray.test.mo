@@ -139,6 +139,11 @@ let suite = Suite.suite(
     ),
     Suite.test(
       "sort",
+      VarArray.sort([var 1], Nat.compare),
+      M.equals(varArray<Nat>(T.natTestable, [var 1]))
+    ),
+    Suite.test(
+      "sort",
       VarArray.sort([var 2, 3, 1], Nat.compare),
       M.equals(varArray<Nat>(T.natTestable, [var 1, 2, 3]))
     ),
