@@ -236,11 +236,13 @@ module {
     while (currSize < size) {
       let (fromArray, toArray) = if (oddIteration) (scratchSpace, array) else (array, scratchSpace);
       var leftStart = 0; // selects the current left subarray being merged
+      var rightEnd = 0;
+
       while (leftStart < sizeDec) {
         let mid : Nat = if (leftStart + currSize - 1 : Nat < sizeDec) {
           leftStart + currSize - 1
         } else { sizeDec };
-        let rightEnd : Nat = if (leftStart + (2 * currSize) - 1 : Nat < sizeDec) {
+        rightEnd := if (leftStart + (2 * currSize) - 1 : Nat < sizeDec) {
           leftStart + (2 * currSize) - 1
         } else { sizeDec };
 
@@ -274,16 +276,16 @@ module {
           right += 1
         };
 
-        var i = rightEnd + 1;
-        while (i < size) {
-          toArray[i] := fromArray[i];
-          i += 1;
-        };
-
         leftStart += 2 * currSize
       };
+
+      var i = rightEnd + 1;
+      while (i < size) {
+        toArray[i] := fromArray[i];
+        i += 1
+      };
       currSize *= 2;
-      oddIteration := not oddIteration;
+      oddIteration := not oddIteration
     };
     if (oddIteration) {
       var i = 0;
