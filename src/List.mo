@@ -2813,4 +2813,34 @@ module {
     list.blockIndex == 1
   };
 
+  /// Unsafe iterator starting from `start`.
+  public func reader<T>(self : List<T>, start : Nat) : () -> T {
+    var blockIndex = 0;
+    var elementIndex = 0;
+    if (start != 0) {
+      let (block, element) = locate(start - 1);
+      blockIndex := block;
+      elementIndex := element + 1
+    };
+    var db : [var ?T] = self.blocks[blockIndex];
+    var dbSize = db.size();
+    func next() : T {
+      // Note: next() traps when reading beyond end of list
+      if (elementIndex == dbSize) {
+        blockIndex += 1;
+        db := self.blocks[blockIndex];
+        dbSize := db.size();
+        elementIndex := 0
+      };
+      switch (db[elementIndex]) {
+        case (?ret) {
+          elementIndex += 1;
+          return ret
+        };
+        case (_) Prim.trap(INTERNAL_ERROR)
+      }
+    };
+    next
+  };
+
 }
