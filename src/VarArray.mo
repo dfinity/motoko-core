@@ -232,7 +232,9 @@ module {
     let sizeDec = size - 1 : Nat;
     var currSize = 1; // current size of the subarrays being merged
     // when the current size == size, the array has been merged into a single sorted array
+    var oddIteration = false;
     while (currSize < size) {
+      let (fromArray, toArray) = if (oddIteration) (scratchSpace, array) else (array, scratchSpace);
       var leftStart = 0; // selects the current left subarray being merged
       while (leftStart < sizeDec) {
         let mid : Nat = if (leftStart + currSize - 1 : Nat < sizeDec) {
@@ -247,41 +249,48 @@ module {
         var right = mid + 1;
         var nextSorted = leftStart;
         while (left < mid + 1 and right < rightEnd + 1) {
-          let leftElement = array[left];
-          let rightElement = array[right];
+          let leftElement = fromArray[left];
+          let rightElement = fromArray[right];
           switch (compare(leftElement, rightElement)) {
             case (#less or #equal) {
-              scratchSpace[nextSorted] := leftElement;
+              toArray[nextSorted] := leftElement;
               left += 1
             };
             case (#greater) {
-              scratchSpace[nextSorted] := rightElement;
+              toArray[nextSorted] := rightElement;
               right += 1
             }
           };
           nextSorted += 1
         };
         while (left < mid + 1) {
-          scratchSpace[nextSorted] := array[left];
+          toArray[nextSorted] := fromArray[left];
           nextSorted += 1;
           left += 1
         };
         while (right < rightEnd + 1) {
-          scratchSpace[nextSorted] := array[right];
+          toArray[nextSorted] := fromArray[right];
           nextSorted += 1;
           right += 1
         };
 
-        // Copy over merged elements
-        var i = leftStart;
-        while (i < rightEnd + 1) {
-          array[i] := scratchSpace[i];
-          i += 1
+        var i = rightEnd + 1;
+        while (i < size) {
+          toArray[i] := fromArray[i];
+          i += 1;
         };
 
         leftStart += 2 * currSize
       };
-      currSize *= 2
+      currSize *= 2;
+      oddIteration := not oddIteration;
+    };
+    if (oddIteration) {
+      var i = 0;
+      while (i < size) {
+        array[i] := scratchSpace[i];
+        i += 1
+      }
     }
   };
 
