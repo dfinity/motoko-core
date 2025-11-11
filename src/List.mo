@@ -30,6 +30,7 @@ module {
   ///
   /// The maximum number of elements in a `List` is 2^32.
   public type List<T> = Types.List<T>;
+  public type Self<T> = List<T>;
 
   let INTERNAL_ERROR = "List: internal error";
 
@@ -1042,7 +1043,7 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sortInPlace<T>(list : List<T>, compare : (T, T) -> Types.Order) {
+  public func sortInPlace<T>(list : List<T>, compare : (implicit : (T, T) -> Types.Order)) {
     if (size(list) < 2) return;
     let array = toVarArray(list);
 
@@ -1091,7 +1092,7 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sort<T>(list : List<T>, compare : (T, T) -> Types.Order) : List<T> {
+  public func sort<T>(list : List<T>, compare : (implicit : (T, T) -> Types.Order)) : List<T> {
     let array = toVarArray(list);
     VarArray.sortInPlace(array, compare);
     fromVarArray(array)
@@ -1110,7 +1111,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(1)
-  public func isSorted<T>(list : List<T>, compare : (T, T) -> Types.Order) : Bool {
+  public func isSorted<T>(list : List<T>, compare : (implicit : (T, T) -> Types.Order)) : Bool {
     var prev = switch (first(list)) {
       case (?x) x;
       case _ return true
@@ -1162,7 +1163,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// *Runtime and space assumes that `equal` runs in `O(1)` time and space.
-  public func indexOf<T>(list : List<T>, equal : (T, T) -> Bool, element : T) : ?Nat {
+  public func indexOf<T>(list : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : ?Nat {
     if (isEmpty(list)) return null;
     nextIndexOf<T>(list, equal, element, 0)
   };
@@ -1184,7 +1185,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func nextIndexOf<T>(list : List<T>, equal : (T, T) -> Bool, element : T, fromInclusive : Nat) : ?Nat {
+  public func nextIndexOf<T>(list : List<T>, equal : (implicit : (T, T) -> Bool), element : T, fromInclusive : Nat) : ?Nat {
     if (fromInclusive >= size(list)) Prim.trap "List index out of bounds in nextIndexOf";
 
     let (blockIndex, elementIndex) = locate(fromInclusive);
@@ -1227,7 +1228,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// *Runtime and space assumes that `equal` runs in `O(1)` time and space.
-  public func lastIndexOf<T>(list : List<T>, equal : (T, T) -> Bool, element : T) : ?Nat = prevIndexOf<T>(
+  public func lastIndexOf<T>(list : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : ?Nat = prevIndexOf<T>(
     list,
     equal,
     element,
@@ -1248,7 +1249,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(1)
-  public func prevIndexOf<T>(list : List<T>, equal : (T, T) -> Bool, element : T, fromExclusive : Nat) : ?Nat {
+  public func prevIndexOf<T>(list : List<T>, equal : (implicit : (T, T) -> Bool), element : T, fromExclusive : Nat) : ?Nat {
     if (fromExclusive > size(list)) Prim.trap "List index out of bounds in prevIndexOf";
 
     let blocks = list.blocks;
@@ -1396,7 +1397,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in `O(1)` time and space.
-  public func binarySearch<T>(list : List<T>, compare : (T, T) -> Types.Order, element : T) : {
+  public func binarySearch<T>(list : List<T>, compare : (implicit : (T, T) -> Types.Order), element : T) : {
     #found : Nat;
     #insertionIndex : Nat
   } {
@@ -2346,7 +2347,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func contains<T>(list : List<T>, equal : (T, T) -> Bool, element : T) : Bool {
+  public func contains<T>(list : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : Bool {
     Option.isSome(indexOf(list, equal, element))
   };
 
@@ -2370,7 +2371,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func max<T>(list : List<T>, compare : (T, T) -> Types.Order) : ?T {
+  public func max<T>(list : List<T>, compare : (implicit : (T, T) -> Types.Order)) : ?T {
     var maxSoFar : T = switch (first(list)) {
       case (?x) x;
       case null return null
@@ -2422,7 +2423,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func min<T>(list : List<T>, compare : (T, T) -> Types.Order) : ?T {
+  public func min<T>(list : List<T>, compare : (implicit : (T, T) -> Types.Order)) : ?T {
     var minSoFar : T = switch (first(list)) {
       case (?x) x;
       case null return null
@@ -2475,7 +2476,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func equal<T>(list1 : List<T>, list2 : List<T>, equal : (T, T) -> Bool) : Bool {
+  public func equal<T>(list1 : List<T>, list2 : List<T>, equal : (implicit : (T, T) -> Bool)) : Bool {
     if (size(list1) != size(list2)) return false;
 
     let blocks1 = list1.blocks;
@@ -2524,7 +2525,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func compare<T>(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Types.Order) : Types.Order {
+  public func compare<T>(list1 : List<T>, list2 : List<T>, compare : (implicit : (T, T) -> Types.Order)) : Types.Order {
     let blocks1 = list1.blocks;
     let blocks2 = list2.blocks;
     let blockCount = Nat.min(blocks1.size(), blocks2.size());
@@ -2570,9 +2571,9 @@ module {
   /// Space: `O(size)`
   ///
   /// *Runtime and space assumes that `toText` runs in O(1) time and space.
-  public func toText<T>(list : List<T>, f : T -> Text) : Text {
+  public func toText<T>(list : List<T>, toText : (implicit : T -> Text)) : Text {
     var text = switch (first(list)) {
-      case (?x) f(x);
+      case (?x) toText(x);
       case null ""
     };
 
@@ -2588,7 +2589,7 @@ module {
       var j = 0;
       while (j < sz) {
         switch (db[j]) {
-          case (?x) text #= ", " # f(x);
+          case (?x) text #= ", " # toText(x);
           case null break l
         };
         j += 1

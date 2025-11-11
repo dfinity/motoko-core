@@ -9,6 +9,7 @@ module {
 
   /// Error value resulting from  `async` computations
   public type Error = Prim.Types.Error;
+  public type Self = Error;
 
   /// Error code to classify different kinds of user and system errors:
   /// ```motoko

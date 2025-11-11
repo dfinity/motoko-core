@@ -21,6 +21,7 @@ import Prim "mo:⛔";
 
 module {
 
+  public type Self<T> = [var T];
   /// Creates an empty mutable array (equivalent to `[var]`).
   ///
   /// ```motoko include=import
@@ -98,7 +99,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func equal<T>(array1 : [var T], array2 : [var T], equal : (T, T) -> Bool) : Bool {
+  public func equal<T>(array1 : [var T], array2 : [var T], equal : (implicit : (T, T) -> Bool)) : Bool {
     let size1 = array1.size();
     let size2 = array2.size();
     if (size1 != size2) {
@@ -201,7 +202,7 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sort<T>(array : [var T], compare : (T, T) -> Order.Order) : [var T] {
+  public func sort<T>(array : [var T], compare : (implicit : (T, T) -> Order.Order)) : [var T] {
     let newArray = clone(array);
     sortInPlace(newArray, compare);
     newArray
@@ -221,7 +222,7 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sortInPlace<T>(array : [var T], compare : (T, T) -> Order.Order) : () {
+  public func sortInPlace<T>(array : [var T], compare : (implicit : (T, T) -> Order.Order)) : () {
     // Stable merge sort in a bottom-up iterative style. Same algorithm as the sort in Buffer.
     let size = array.size();
     if (size == 0) {
@@ -777,6 +778,19 @@ module {
   /// Returns whether a mutable array is empty, i.e. contains zero elements.
   public func isEmpty<T>(array : [var T]) : Bool = array.size() == 0;
 
+  /// Transforms an immutable array into a mutable array.
+  ///
+  /// ```motoko include=import
+  /// let array = [0, 1, 2];
+  /// let varArray = VarArray.fromArray<Nat>(array);
+  /// assert varArray.size() == 3;
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  public func fromArray<T>(array : [T]) : [var T] = Prim.Array_tabulateVar<T>(array.size(), func i = array[i]);
+
   /// Converts an iterator to a mutable array.
   public func fromIter<T>(iter : Types.Iter<T>) : [var T] {
     var list : Types.Pure.List<T> = null;
@@ -944,7 +958,7 @@ module {
   /// Runtime: O(array.size())
   ///
   /// Space: O(1)
-  public func indexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T) : ?Nat = nextIndexOf<T>(array, equal, element, 0);
+  public func indexOf<T>(array : [var T], equal : (implicit : (T, T) -> Bool), element : T) : ?Nat = nextIndexOf<T>(array, equal, element, 0);
 
   /// Returns the index of the next occurence of `element` in the `array` starting from the `from` index (inclusive).
   ///
@@ -962,7 +976,7 @@ module {
   /// Runtime: O(array.size())
   ///
   /// Space: O(1)
-  public func nextIndexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T, fromInclusive : Nat) : ?Nat {
+  public func nextIndexOf<T>(array : [var T], equal : (implicit : (T, T) -> Bool), element : T, fromInclusive : Nat) : ?Nat {
     var index = fromInclusive;
     let size = array.size();
     while (index < size) {
@@ -990,7 +1004,7 @@ module {
   /// Runtime: O(array.size())
   ///
   /// Space: O(1)
-  public func lastIndexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T) : ?Nat = prevIndexOf<T>(array, equal, element, array.size());
+  public func lastIndexOf<T>(array : [var T], equal : (implicit : (T, T) -> Bool), element : T) : ?Nat = prevIndexOf<T>(array, equal, element, array.size());
 
   /// Returns the index of the previous occurence of `element` in the `array` starting from the `from` index (exclusive).
   ///
@@ -1005,7 +1019,7 @@ module {
   ///
   /// Runtime: O(array.size());
   /// Space: O(1);
-  public func prevIndexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T, fromExclusive : Nat) : ?Nat {
+  public func prevIndexOf<T>(array : [var T], equal : (implicit : (T, T) -> Bool), element : T, fromExclusive : Nat) : ?Nat {
     var i = fromExclusive;
     while (i > 0) {
       i -= 1;
@@ -1155,6 +1169,20 @@ module {
     Prim.Array_tabulateVar<T>(end - start, func i = array[start + i])
   };
 
+  /// Transforms a mutable array into an immutable array.
+  ///
+  /// ```motoko include=import
+  /// let varArray = [var 0, 1, 2];
+  /// varArray[2] := 3;
+  /// let array = VarArray.toArray<Nat>(varArray);
+  /// assert array == [0, 1, 3];
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  public func toArray<T>(varArray : [var T]) : [T] = Prim.Array_tabulate<T>(varArray.size(), func i = varArray[i]);
+
   /// Converts the mutable array to its textual representation using `f` to convert each element to `Text`.
   ///
   /// ```motoko include=import
@@ -1169,7 +1197,7 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func toText<T>(array : [var T], f : T -> Text) : Text {
+  public func toText<T>(array : [var T], f : (implicit : (toText : T -> Text))) : Text {
     let size = array.size();
     if (size == 0) { return "[var]" };
     var text = "[var ";
@@ -1208,7 +1236,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func compare<T>(array1 : [var T], array2 : [var T], compare : (T, T) -> Order.Order) : Order.Order {
+  public func compare<T>(array1 : [var T], array2 : [var T], compare : (implicit : (T, T) -> Order.Order)) : Order.Order {
     let size1 = array1.size();
     let size2 = array2.size();
     var i = 0;
@@ -1244,7 +1272,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func binarySearch<T>(array : [var T], compare : (T, T) -> Order.Order, element : T) : {
+  public func binarySearch<T>(array : [var T], compare : (implicit : (T, T) -> Order.Order), element : T) : {
     #found : Nat;
     #insertionIndex : Nat
   } {
@@ -1275,7 +1303,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func isSorted<T>(array : [var T], compare : (T, T) -> Order.Order) : Bool {
+  public func isSorted<T>(array : [var T], compare : (implicit : (T, T) -> Order.Order)) : Bool {
     let size = array.size();
     if (size <= 1) return true;
     var i = 1;

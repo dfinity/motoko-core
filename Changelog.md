@@ -35,7 +35,7 @@
 * Add `fromArray()` and `toArray()` to `Queue` and `pure/Queue` (#349).
 * Add `explode()` to `Int16`/`32`/`64`, `Nat16`/`32`/`64`, slicing fixed-length numbers into constituent bytes (#346).
 * Fix a typo in the `VarArray` documentation (#338).
-* Fix a bug in `List.last()` (#336). 
+* Fix a bug in `List.last()` (#336).
 * Perf: Uses the new `Array_tabulateVar` primitive to speed up various function in `VarArray` (#334).
 * **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
 
