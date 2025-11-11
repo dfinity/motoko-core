@@ -15,7 +15,6 @@ module {
 
   /// 16-bit natural numbers.
   public type Nat16 = Prim.Types.Nat16;
-  public type Self = Nat16;
 
   /// Maximum 16-bit natural number. `2 ** 16 - 1`.
   ///
@@ -31,7 +30,7 @@ module {
   /// ```motoko include=import
   /// assert Nat16.toNat(123) == (123 : Nat);
   /// ```
-  public let toNat : Nat16 -> Nat = Prim.nat16ToNat;
+  public func toNat(self : Nat16) : Nat = Prim.nat16ToNat(self);
 
   /// Converts an unsigned integer with infinite precision to a 16-bit unsigned integer.
   ///
@@ -61,8 +60,8 @@ module {
   /// ```motoko include=import
   /// assert Nat16.toNat8(123) == (123 : Nat8);
   /// ```
-  public func toNat8(x : Nat16) : Nat8 {
-    Prim.nat16ToNat8(x)
+  public func toNat8(self : Nat16) : Nat8 {
+    Prim.nat16ToNat8(self)
   };
 
   /// Converts a 32-bit unsigned integer to a 16-bit unsigned integer.
@@ -83,8 +82,8 @@ module {
   /// ```motoko include=import
   /// assert Nat16.toNat32(123) == (123 : Nat32);
   /// ```
-  public func toNat32(x : Nat16) : Nat32 {
-    Prim.nat16ToNat32(x)
+  public func toNat32(self : Nat16) : Nat32 {
+    Prim.nat16ToNat32(self)
   };
 
   /// Converts a signed integer with infinite precision to a 16-bit unsigned integer.
@@ -104,8 +103,8 @@ module {
   /// ```motoko include=import
   /// assert Nat16.toText(1234) == ("1234" : Text);
   /// ```
-  public func toText(x : Nat16) : Text {
-    Nat.toText(toNat(x))
+  public func toText(self : Nat16) : Text {
+    Nat.toText(toNat(self))
   };
 
   /// Returns the minimum of `x` and `y`.
@@ -223,7 +222,9 @@ module {
   /// to the existing `>=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>=`
   /// as a function value at the moment.
-  public func greaterOrEqual(x : Nat16, y : Nat16) : Bool { x >= y };
+  public func greaterOrEqual(x : Nat16, y : Nat16) : Bool {
+    x >= y
+  };
 
   /// General purpose comparison function for `Nat16`. Returns the `Order` (
   /// either `#less`, `#equal`, or `#greater`) of comparing `x` with `y`.
@@ -241,7 +242,9 @@ module {
   /// assert Array.sort([2, 3, 1] : [Nat16], Nat16.compare) == [1, 2, 3];
   /// ```
   public func compare(x : Nat16, y : Nat16) : Order.Order {
-    if (x < y) { #less } else if (x == y) { #equal } else { #greater }
+    if (x < y) { #less } else if (x == y) { #equal } else {
+      #greater
+    }
   };
 
   /// Returns the sum of `x` and `y`, `x + y`.
@@ -410,7 +413,9 @@ module {
   /// to the existing `<<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<`
   /// as a function value at the moment.
-  public func bitshiftLeft(x : Nat16, y : Nat16) : Nat16 { x << y };
+  public func bitshiftLeft(x : Nat16, y : Nat16) : Nat16 {
+    x << y
+  };
 
   /// Returns the bitwise shift right of `x` by `y`, `x >> y`.
   ///
@@ -424,7 +429,9 @@ module {
   /// to the existing `>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>>`
   /// as a function value at the moment.
-  public func bitshiftRight(x : Nat16, y : Nat16) : Nat16 { x >> y };
+  public func bitshiftRight(x : Nat16, y : Nat16) : Nat16 {
+    x >> y
+  };
 
   /// Returns the bitwise rotate left of `x` by `y`, `x <<> y`.
   ///
@@ -452,7 +459,9 @@ module {
   /// to the existing `<>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<>>`
   /// as a function value at the moment.
-  public func bitrotRight(x : Nat16, y : Nat16) : Nat16 { x <>> y };
+  public func bitrotRight(x : Nat16, y : Nat16) : Nat16 {
+    x <>> y
+  };
 
   /// Returns the value of bit `p mod 16` in `x`, `(x & 2^(p mod 16)) == 2^(p mod 16)`.
   /// This is equivalent to checking if the `p`-th bit is set in `x`, using 0 indexing.
@@ -501,7 +510,7 @@ module {
   /// ```motoko include=import
   /// assert Nat16.bitcountNonZero(5) == 2;
   /// ```
-  public let bitcountNonZero : (x : Nat16) -> Nat16 = Prim.popcntNat16;
+  public func bitcountNonZero(x : Nat16) : Nat16 = Prim.popcntNat16(x);
 
   /// Returns the count of leading zero bits in `x`.
   ///
@@ -509,7 +518,7 @@ module {
   /// ```motoko include=import
   /// assert Nat16.bitcountLeadingZero(5) == 13;
   /// ```
-  public let bitcountLeadingZero : (x : Nat16) -> Nat16 = Prim.clzNat16;
+  public func bitcountLeadingZero(x : Nat16) : Nat16 = Prim.clzNat16(x);
 
   /// Returns the count of trailing zero bits in `x`.
   ///
@@ -517,7 +526,7 @@ module {
   /// ```motoko include=import
   /// assert Nat16.bitcountTrailingZero(5) == 0;
   /// ```
-  public let bitcountTrailingZero : (x : Nat16) -> Nat16 = Prim.ctzNat16;
+  public func bitcountTrailingZero(x : Nat16) : Nat16 = Prim.ctzNat16(x);
 
   /// Returns the upper (i.e. most significant) and lower (least significant) byte of `x`.
   ///
@@ -525,7 +534,7 @@ module {
   /// ```motoko include=import
   /// assert Nat16.explode 0xaa88 == (170, 136);
   /// ```
-  public let explode : (x : Nat16) -> (msb : Nat8, lsb : Nat8) = Prim.explodeNat16;
+  public func explode(x : Nat16) : (msb : Nat8, lsb : Nat8) = Prim.explodeNat16(x);
 
   /// Returns the sum of `x` and `y`, `x +% y`. Wraps on overflow.
   ///

@@ -44,7 +44,6 @@ module {
   /// assert validateEmail("user@invalid") == #err("Invalid domain format");
   /// ```
   public type Result<Ok, Err> = Types.Result<Ok, Err>;
-  public type Self<Ok, Err> = Result<Ok, Err>;
 
   /// Compares two Results for equality.
   ///
@@ -61,12 +60,12 @@ module {
   /// assert not Result.equal<Nat, Text>(result1, result3, Nat.equal, Text.equal);
   /// ```
   public func equal<Ok, Err>(
-    result1 : Result<Ok, Err>,
-    result2 : Result<Ok, Err>,
+    self : Result<Ok, Err>,
+    other : Result<Ok, Err>,
     equalOk : (implicit : (equal : Ok, Ok) -> Bool),
     equalErr : (implicit : (equal : (Err, Err) -> Bool))
   ) : Bool {
-    switch (result1, result2) {
+    switch (self, other) {
       case (#ok(ok1), #ok(ok2)) {
         equalOk(ok1, ok2)
       };
@@ -94,12 +93,12 @@ module {
   /// assert Result.compare<Nat, Text>(result1, result3, Nat.compare, Text.compare) == #greater;
   /// ```
   public func compare<Ok, Err>(
-    result1 : Result<Ok, Err>,
-    result2 : Result<Ok, Err>,
+    self : Result<Ok, Err>,
+    other : Result<Ok, Err>,
     compareOk : (implicit : (compare : (Ok, Ok) -> Order.Order)),
     compareErr : (implicit : (compare : (Err, Err) -> Order.Order))
   ) : Order.Order {
-    switch (result1, result2) {
+    switch (self, other) {
       case (#ok(ok1), #ok(ok2)) {
         compareOk(ok1, ok2)
       };
@@ -129,10 +128,10 @@ module {
   /// assert between10And20(21) == #err("Not smaller than 20.");
   /// ```
   public func chain<Ok1, Ok2, Err>(
-    result : Result<Ok1, Err>,
+    self : Result<Ok1, Err>,
     f : Ok1 -> Result<Ok2, Err>
   ) : Result<Ok2, Err> {
-    switch result {
+    switch self {
       case (#err(e)) { #err(e) };
       case (#ok(r)) { f(r) }
     }
@@ -146,9 +145,9 @@ module {
   /// assert Result.flatten<Nat, Text>(#ok(#err("Wrong"))) == #err("Wrong");
   /// ```
   public func flatten<Ok, Err>(
-    result : Result<Result<Ok, Err>, Err>
+    self : Result<Result<Ok, Err>, Err>
   ) : Result<Ok, Err> {
-    switch result {
+    switch self {
       case (#ok(ok)) { ok };
       case (#err(err)) { #err(err) }
     }
@@ -168,10 +167,10 @@ module {
   /// assert doubled2 == #err("error");
   /// ```
   public func mapOk<Ok1, Ok2, Err>(
-    result : Result<Ok1, Err>,
+    self : Result<Ok1, Err>,
     f : Ok1 -> Ok2
   ) : Result<Ok2, Err> {
-    switch result {
+    switch self {
       case (#err(e)) { #err(e) };
       case (#ok(r)) { #ok(f(r)) }
     }
@@ -191,10 +190,10 @@ module {
   /// assert mapped2 == #err("error!");
   /// ```
   public func mapErr<Ok, Err1, Err2>(
-    result : Result<Ok, Err1>,
+    self : Result<Ok, Err1>,
     f : Err1 -> Err2
   ) : Result<Ok, Err2> {
-    switch result {
+    switch self {
       case (#err(e)) { #err(f(e)) };
       case (#ok(r)) { #ok(r) }
     }
@@ -217,8 +216,8 @@ module {
   /// assert Result.toOption(#ok(42)) == ?42;
   /// assert Result.toOption(#err("err")) == null;
   /// ```
-  public func toOption<Ok, Err>(result : Result<Ok, Err>) : ?Ok {
-    switch result {
+  public func toOption<Ok, Err>(self : Result<Ok, Err>) : ?Ok {
+    switch self {
       case (#ok(x)) { ?x };
       case (#err(_)) { null }
     }
@@ -234,8 +233,8 @@ module {
   /// Result.forOk<Nat, Text>(#err("Error"), func (x : Nat) { counter += x });
   /// assert counter == 5;
   /// ```
-  public func forOk<Ok, Err>(result : Result<Ok, Err>, f : Ok -> ()) {
-    switch result {
+  public func forOk<Ok, Err>(self : Result<Ok, Err>, f : Ok -> ()) {
+    switch self {
       case (#ok(ok)) { f(ok) };
       case _ {}
     }
@@ -251,8 +250,8 @@ module {
   /// Result.forErr<Nat, Text>(#ok(5), func (x : Text) { counter += 1 });
   /// assert counter == 1;
   /// ```
-  public func forErr<Ok, Err>(result : Result<Ok, Err>, f : Err -> ()) {
-    switch result {
+  public func forErr<Ok, Err>(self : Result<Ok, Err>, f : Err -> ()) {
+    switch self {
       case (#err(err)) { f(err) };
       case _ {}
     }
@@ -265,8 +264,8 @@ module {
   /// assert Result.isOk(#ok(42));
   /// assert not Result.isOk(#err("error"));
   /// ```
-  public func isOk(result : Result<Any, Any>) : Bool {
-    switch result {
+  public func isOk(self : Result<Any, Any>) : Bool {
+    switch self {
       case (#ok(_)) { true };
       case (#err(_)) { false }
     }
@@ -279,8 +278,8 @@ module {
   /// assert Result.isErr(#err("error"));
   /// assert not Result.isErr(#ok(42));
   /// ```
-  public func isErr(result : Result<Any, Any>) : Bool {
-    switch result {
+  public func isErr(self : Result<Any, Any>) : Bool {
+    switch self {
       case (#ok(_)) { false };
       case (#err(_)) { true }
     }
@@ -293,8 +292,8 @@ module {
   /// Result.assertOk(#ok(42)); // succeeds
   /// // Result.assertOk(#err("error")); // would trap
   /// ```
-  public func assertOk(result : Result<Any, Any>) {
-    switch result {
+  public func assertOk(self : Result<Any, Any>) {
+    switch self {
       case (#err(_)) { assert false };
       case (#ok(_)) {}
     }
@@ -307,8 +306,8 @@ module {
   /// Result.assertErr(#err("error")); // succeeds
   /// // Result.assertErr(#ok(42)); // would trap
   /// ```
-  public func assertErr(result : Result<Any, Any>) {
-    switch result {
+  public func assertErr(self : Result<Any, Any>) {
+    switch self {
       case (#err(_)) {};
       case (#ok(_)) assert false
     }
@@ -344,9 +343,9 @@ module {
   /// assert upper == #Ok(42);
   /// ```
   public func toUpper<Ok, Err>(
-    result : Result<Ok, Err>
+    self : Result<Ok, Err>
   ) : { #Ok : Ok; #Err : Err } {
-    switch result {
+    switch self {
       case (#ok(ok)) { #Ok(ok) };
       case (#err(err)) { #Err(err) }
     }

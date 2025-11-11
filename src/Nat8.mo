@@ -15,7 +15,6 @@ module {
 
   /// 8-bit natural numbers.
   public type Nat8 = Prim.Types.Nat8;
-  public type Self = Nat8;
 
   /// Maximum 8-bit natural number. `2 ** 8 - 1`.
   ///
@@ -31,7 +30,7 @@ module {
   /// ```motoko include=import
   /// assert Nat8.toNat(123) == (123 : Nat);
   /// ```
-  public let toNat : Nat8 -> Nat = Prim.nat8ToNat;
+  public func toNat(self : Nat8) : Nat = Prim.nat8ToNat(self);
 
   /// Converts an unsigned integer with infinite precision to an 8-bit unsigned integer.
   ///
@@ -59,7 +58,7 @@ module {
   /// ```motoko include=import
   /// assert Nat8.toNat16(123) == (123 : Nat16);
   /// ```
-  public let toNat16 : Nat8 -> Nat16 = Prim.nat8ToNat16;
+  public func toNat16(self : Nat8) : Nat16 = Prim.nat8ToNat16(self);
 
   /// Converts a signed integer with infinite precision to an 8-bit unsigned integer.
   ///
@@ -77,8 +76,8 @@ module {
   /// ```motoko include=import
   /// assert Nat8.toText(123) == ("123" : Text);
   /// ```
-  public func toText(x : Nat8) : Text {
-    Nat.toText(toNat(x))
+  public func toText(self : Nat8) : Text {
+    Nat.toText(toNat(self))
   };
 
   /// Returns the minimum of `x` and `y`.
@@ -214,7 +213,9 @@ module {
   /// assert Array.sort([2, 3, 1] : [Nat8], Nat8.compare) == [1, 2, 3];
   /// ```
   public func compare(x : Nat8, y : Nat8) : Order.Order {
-    if (x < y) { #less } else if (x == y) { #equal } else { #greater }
+    if (x < y) { #less } else if (x == y) { #equal } else {
+      #greater
+    }
   };
 
   /// Returns the sum of `x` and `y`, `x + y`.
@@ -484,7 +485,7 @@ module {
   /// ```motoko include=import
   /// assert Nat8.bitcountNonZero(5) == 2;
   /// ```
-  public let bitcountNonZero : (x : Nat8) -> Nat8 = Prim.popcntNat8;
+  public func bitcountNonZero(x : Nat8) : Nat8 = Prim.popcntNat8(x);
 
   /// Returns the count of leading zero bits in `x`.
   ///
@@ -492,7 +493,7 @@ module {
   /// ```motoko include=import
   /// assert Nat8.bitcountLeadingZero(5) == 5;
   /// ```
-  public let bitcountLeadingZero : (x : Nat8) -> Nat8 = Prim.clzNat8;
+  public func bitcountLeadingZero(x : Nat8) : Nat8 = Prim.clzNat8(x);
 
   /// Returns the count of trailing zero bits in `x`.
   ///
@@ -500,7 +501,7 @@ module {
   /// ```motoko include=import
   /// assert Nat8.bitcountTrailingZero(6) == 1;
   /// ```
-  public let bitcountTrailingZero : (x : Nat8) -> Nat8 = Prim.ctzNat8;
+  public func bitcountTrailingZero(x : Nat8) : Nat8 = Prim.ctzNat8(x);
 
   /// Returns the sum of `x` and `y`, `x +% y`. Wraps on overflow.
   ///

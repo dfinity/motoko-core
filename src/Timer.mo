@@ -31,7 +31,6 @@ import Time "Time";
 module {
 
   public type TimerId = Nat;
-  public type Self = TimerId;
 
   /// Installs a one-off timer that upon expiration after given duration `d`
   /// executes the future `job()`.

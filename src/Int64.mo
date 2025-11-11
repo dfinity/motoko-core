@@ -16,7 +16,6 @@ module {
 
   /// 64-bit signed integers.
   public type Int64 = Prim.Types.Int64;
-  public type Self = Int64;
 
   /// Minimum 64-bit integer value, `-2 ** 63`.
   ///
@@ -40,7 +39,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.toInt(123_456) == (123_456 : Int);
   /// ```
-  public let toInt : Int64 -> Int = Prim.int64ToInt;
+  public func toInt(self : Int64) : Int = Prim.int64ToInt(self);
 
   /// Converts a signed integer with infinite precision to a 64-bit signed integer.
   ///
@@ -70,7 +69,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.toInt32(-123_456) == (-123_456 : Int32);
   /// ```
-  public let toInt32 : Int64 -> Int32 = Prim.int64ToInt32;
+  public func toInt32(self : Int64) : Int32 = Prim.int64ToInt32(self);
 
   /// Converts a signed integer with infinite precision to a 64-bit signed integer.
   ///
@@ -100,7 +99,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.toNat64(-1) == (18_446_744_073_709_551_615 : Nat64); // underflow
   /// ```
-  public let toNat64 : Int64 -> Nat64 = Prim.int64ToNat64;
+  public func toNat64(self : Int64) : Nat64 = Prim.int64ToNat64(self);
 
   /// Returns the Text representation of `x`. Textual representation _do not_
   /// contain underscores to represent commas.
@@ -110,8 +109,8 @@ module {
   /// ```motoko include=import
   /// assert Int64.toText(-123456) == "-123456";
   /// ```
-  public func toText(x : Int64) : Text {
-    Int.toText(toInt(x))
+  public func toText(self : Int64) : Text {
+    Int.toText(toInt(self))
   };
 
   /// Returns the absolute value of `x`.
@@ -235,7 +234,9 @@ module {
   /// to the existing `>=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>=`
   /// as a function value at the moment.
-  public func greaterOrEqual(x : Int64, y : Int64) : Bool { x >= y };
+  public func greaterOrEqual(x : Int64, y : Int64) : Bool {
+    x >= y
+  };
 
   /// General-purpose comparison function for `Int64`. Returns the `Order` (
   /// either `#less`, `#equal`, or `#greater`) of comparing `x` with `y`.
@@ -253,7 +254,9 @@ module {
   /// assert Array.sort([1, -2, -3] : [Int64], Int64.compare) == [-3, -2, 1];
   /// ```
   public func compare(x : Int64, y : Int64) : Order.Order {
-    if (x < y) { #less } else if (x == y) { #equal } else { #greater }
+    if (x < y) { #less } else if (x == y) { #equal } else {
+      #greater
+    }
   };
 
   /// Returns the negation of `x`, `-x`.
@@ -449,7 +452,9 @@ module {
   /// to the existing `<<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<`
   /// as a function value at the moment.
-  public func bitshiftLeft(x : Int64, y : Int64) : Int64 { x << y };
+  public func bitshiftLeft(x : Int64, y : Int64) : Int64 {
+    x << y
+  };
 
   /// Returns the signed bitwise right shift of `x` by `y`, `x >> y`.
   /// The sign bit is retained and the left side is filled with the sign bit.
@@ -467,11 +472,13 @@ module {
   /// to the existing `>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>>`
   /// as a function value at the moment.
-  public func bitshiftRight(x : Int64, y : Int64) : Int64 { x >> y };
+  public func bitshiftRight(x : Int64, y : Int64) : Int64 {
+    x >> y
+  };
 
   /// Returns the bitwise left rotatation of `x` by `y`, `x <<> y`.
   /// Each left-overflowing bit is inserted again on the right side.
-  /// The sign bit is rotated like other bits, i.e. the rotation interprets the number as unsigned.
+  /// The sign bit is rotated like y bits, i.e. the rotation interprets the number as unsigned.
   ///
   /// Changes the direction of rotation for negative `y`.
   /// For `y >= 64`, the semantics is the same as for `bitrotLeft(x, y % 64)`.
@@ -490,7 +497,7 @@ module {
 
   /// Returns the bitwise right rotation of `x` by `y`, `x <>> y`.
   /// Each right-underflowing bit is inserted again on the right side.
-  /// The sign bit is rotated like other bits, i.e. the rotation interprets the number as unsigned.
+  /// The sign bit is rotated like y bits, i.e. the rotation interprets the number as unsigned.
   ///
   /// Changes the direction of rotation for negative `y`.
   /// For `y >= 64`, the semantics is the same as for `bitrotRight(x, y % 64)`.
@@ -504,7 +511,9 @@ module {
   /// to the existing `<>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<>>`
   /// as a function value at the moment.
-  public func bitrotRight(x : Int64, y : Int64) : Int64 { x <>> y };
+  public func bitrotRight(x : Int64, y : Int64) : Int64 {
+    x <>> y
+  };
 
   /// Returns the value of bit `p` in `x`, `x & 2**p == 2**p`.
   /// If `p >= 64`, the semantics is the same as for `bittest(x, p % 64)`.
@@ -557,7 +566,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.bitcountNonZero(0xffff) == +16;
   /// ```
-  public let bitcountNonZero : (x : Int64) -> Int64 = Prim.popcntInt64;
+  public func bitcountNonZero(x : Int64) : Int64 = Prim.popcntInt64(x);
 
   /// Returns the count of leading zero bits in `x`.
   ///
@@ -565,7 +574,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.bitcountLeadingZero(0x8000_0000) == +32;
   /// ```
-  public let bitcountLeadingZero : (x : Int64) -> Int64 = Prim.clzInt64;
+  public func bitcountLeadingZero(x : Int64) : Int64 = Prim.clzInt64(x);
 
   /// Returns the count of trailing zero bits in `x`.
   ///
@@ -573,7 +582,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.bitcountTrailingZero(0x0201_0000) == +16;
   /// ```
-  public let bitcountTrailingZero : (x : Int64) -> Int64 = Prim.ctzInt64;
+  public func bitcountTrailingZero(x : Int64) : Int64 = Prim.ctzInt64(x);
 
   /// Returns the upper (i.e. most significant), lower (least significant)
   /// and in-between bytes of `x`.
@@ -582,7 +591,7 @@ module {
   /// ```motoko include=import
   /// assert Int64.explode 0x33772266aa885511 == (51, 119, 34, 102, 170, 136, 85, 17);
   /// ```
-  public let explode : (x : Int64) -> (msb : Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeInt64;
+  public func explode(x : Int64) : (msb : Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeInt64(x);
 
   /// Returns the sum of `x` and `y`, `x +% y`.
   ///

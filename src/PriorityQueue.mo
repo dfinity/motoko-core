@@ -75,7 +75,7 @@ module {
   /// Returns the number of elements in the priority queue.
   ///
   /// Runtime: `O(1)`.
-  public func size<T>(priorityQueue : PriorityQueue<T>) : Nat = List.size(priorityQueue.heap);
+  public func size<T>(self : PriorityQueue<T>) : Nat = List.size(self.heap);
 
   /// Returns `true` iff the priority queue is empty.
   ///
@@ -91,7 +91,7 @@ module {
   /// ```
   ///
   /// Runtime: `O(1)`. Space: `O(1)`.
-  public func isEmpty<T>(priorityQueue : PriorityQueue<T>) : Bool = List.isEmpty(priorityQueue.heap);
+  public func isEmpty<T>(self : PriorityQueue<T>) : Bool = List.isEmpty(self.heap);
 
   /// Removes all elements from the priority queue.
   ///
@@ -110,7 +110,7 @@ module {
   /// ```
   ///
   /// Runtime: `O(1)`. Space: `O(1)`.
-  public func clear<T>(priorityQueue : PriorityQueue<T>) = List.clear(priorityQueue.heap);
+  public func clear<T>(self : PriorityQueue<T>) = List.clear(self.heap);
 
   /// Inserts a new element into the priority queue.
   ///
@@ -129,11 +129,11 @@ module {
   ///
   /// Runtime: `O(log n)`. Space: `O(1)`.
   public func push<T>(
-    priorityQueue : PriorityQueue<T>,
+    self : PriorityQueue<T>,
     compare : (implicit : (T, T) -> Order.Order),
     element : T
   ) {
-    let heap = priorityQueue.heap;
+    let heap = self.heap;
     List.add(heap, element);
     var index : Nat = List.size(heap) - 1;
     while (index > 0) {
@@ -162,7 +162,7 @@ module {
   /// ```
   ///
   /// Runtime: `O(1)`. Space: `O(1)`.
-  public func peek<T>(priorityQueue : PriorityQueue<T>) : ?T = List.get(priorityQueue.heap, 0);
+  public func peek<T>(self : PriorityQueue<T>) : ?T = List.get(self.heap, 0);
 
   /// Removes and returns the element with the highest priority.
   /// Returns `null` if the queue is empty.
@@ -182,10 +182,10 @@ module {
   ///
   /// Runtime: `O(log n)`. Space: `O(1)`.
   public func pop<T>(
-    priorityQueue : PriorityQueue<T>,
+    self : PriorityQueue<T>,
     compare : (implicit : (T, T) -> Order.Order)
   ) : ?T {
-    let heap = priorityQueue.heap;
+    let heap = self.heap;
     if (List.isEmpty(heap)) {
       return null
     };

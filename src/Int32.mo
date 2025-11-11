@@ -15,7 +15,6 @@ module {
 
   /// 32-bit signed integers.
   public type Int32 = Prim.Types.Int32;
-  public type Self = Int32;
 
   /// Minimum 32-bit integer value, `-2 ** 31`.
   ///
@@ -39,7 +38,7 @@ module {
   /// ```motoko include=import
   /// assert Int32.toInt(123_456) == (123_456 : Int);
   /// ```
-  public let toInt : Int32 -> Int = Prim.int32ToInt;
+  public func toInt(self : Int32) : Int = Prim.int32ToInt(self);
 
   /// Converts a signed integer with infinite precision to a 32-bit signed integer.
   ///
@@ -77,7 +76,7 @@ module {
   /// ```motoko include=import
   /// assert Int32.toInt16(-123) == (-123 : Int16);
   /// ```
-  public let toInt16 : Int32 -> Int16 = Prim.int32ToInt16;
+  public func toInt16(self : Int32) : Int16 = Prim.int32ToInt16(self);
 
   /// Converts a 64-bit signed integer to a 32-bit signed integer.
   ///
@@ -95,7 +94,7 @@ module {
   /// ```motoko include=import
   /// assert Int32.toInt64(-123_456) == (-123_456 : Int64);
   /// ```
-  public let toInt64 : Int32 -> Int64 = Prim.int32ToInt64;
+  public func toInt64(self : Int32) : Int64 = Prim.int32ToInt64(self);
 
   /// Converts an unsigned 32-bit integer to a signed 32-bit integer.
   ///
@@ -115,7 +114,7 @@ module {
   /// ```motoko include=import
   /// assert Int32.toNat32(-1) == (4_294_967_295 : Nat32); // underflow
   /// ```
-  public let toNat32 : Int32 -> Nat32 = Prim.int32ToNat32;
+  public func toNat32(self : Int32) : Nat32 = Prim.int32ToNat32(self);
 
   /// Returns the Text representation of `x`. Textual representation _do not_
   /// contain underscores to represent commas.
@@ -124,8 +123,8 @@ module {
   /// ```motoko include=import
   /// assert Int32.toText(-123456) == "-123456";
   /// ```
-  public func toText(x : Int32) : Text {
-    Int.toText(toInt(x))
+  public func toText(self : Int32) : Text {
+    Int.toText(toInt(self))
   };
 
   /// Returns the absolute value of `x`.
@@ -249,7 +248,9 @@ module {
   /// to the existing `>=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>=`
   /// as a function value at the moment.
-  public func greaterOrEqual(x : Int32, y : Int32) : Bool { x >= y };
+  public func greaterOrEqual(x : Int32, y : Int32) : Bool {
+    x >= y
+  };
 
   /// General-purpose comparison function for `Int32`. Returns the `Order` (
   /// either `#less`, `#equal`, or `#greater`) of comparing `x` with `y`.
@@ -267,7 +268,9 @@ module {
   /// assert Array.sort([1, -2, -3] : [Int32], Int32.compare) == [-3, -2, 1];
   /// ```
   public func compare(x : Int32, y : Int32) : Order.Order {
-    if (x < y) { #less } else if (x == y) { #equal } else { #greater }
+    if (x < y) { #less } else if (x == y) { #equal } else {
+      #greater
+    }
   };
 
   /// Returns the negation of `x`, `-x`.
@@ -463,7 +466,9 @@ module {
   /// to the existing `<<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<`
   /// as a function value at the moment.
-  public func bitshiftLeft(x : Int32, y : Int32) : Int32 { x << y };
+  public func bitshiftLeft(x : Int32, y : Int32) : Int32 {
+    x << y
+  };
 
   /// Returns the signed bitwise right shift of `x` by `y`, `x >> y`.
   /// The sign bit is retained and the left side is filled with the sign bit.
@@ -481,11 +486,13 @@ module {
   /// to the existing `>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>>`
   /// as a function value at the moment.
-  public func bitshiftRight(x : Int32, y : Int32) : Int32 { x >> y };
+  public func bitshiftRight(x : Int32, y : Int32) : Int32 {
+    x >> y
+  };
 
   /// Returns the bitwise left rotatation of `x` by `y`, `x <<> y`.
   /// Each left-overflowing bit is inserted again on the right side.
-  /// The sign bit is rotated like other bits, i.e. the rotation interprets the number as unsigned.
+  /// The sign bit is rotated like y bits, i.e. the rotation interprets the number as unsigned.
   ///
   /// Changes the direction of rotation for negative `y`.
   /// For `y >= 32`, the semantics is the same as for `bitrotLeft(x, y % 32)`.
@@ -503,7 +510,7 @@ module {
 
   /// Returns the bitwise right rotation of `x` by `y`, `x <>> y`.
   /// Each right-underflowing bit is inserted again on the right side.
-  /// The sign bit is rotated like other bits, i.e. the rotation interprets the number as unsigned.
+  /// The sign bit is rotated like y bits, i.e. the rotation interprets the number as unsigned.
   ///
   /// Changes the direction of rotation for negative `y`.
   /// For `y >= 32`, the semantics is the same as for `bitrotRight(x, y % 32)`.
@@ -517,7 +524,9 @@ module {
   /// to the existing `<>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<>>`
   /// as a function value at the moment.
-  public func bitrotRight(x : Int32, y : Int32) : Int32 { x <>> y };
+  public func bitrotRight(x : Int32, y : Int32) : Int32 {
+    x <>> y
+  };
 
   /// Returns the value of bit `p` in `x`, `x & 2**p == 2**p`.
   /// If `p >= 32`, the semantics is the same as for `bittest(x, p % 32)`.
@@ -570,7 +579,7 @@ module {
   /// ```motoko include=import
   /// assert Int32.bitcountNonZero(0xffff) == +16;
   /// ```
-  public let bitcountNonZero : (x : Int32) -> Int32 = Prim.popcntInt32;
+  public func bitcountNonZero(x : Int32) : Int32 = Prim.popcntInt32(x);
 
   /// Returns the count of leading zero bits in `x`.
   ///
@@ -578,7 +587,7 @@ module {
   /// ```motoko include=import
   /// assert Int32.bitcountLeadingZero(0x8000) == +16;
   /// ```
-  public let bitcountLeadingZero : (x : Int32) -> Int32 = Prim.clzInt32;
+  public func bitcountLeadingZero(x : Int32) : Int32 = Prim.clzInt32(x);
 
   /// Returns the count of trailing zero bits in `x`.
   ///
@@ -586,7 +595,7 @@ module {
   /// ```motoko include=import
   /// assert Int32.bitcountTrailingZero(0x0201_0000) == +16;
   /// ```
-  public let bitcountTrailingZero : (x : Int32) -> Int32 = Prim.ctzInt32;
+  public func bitcountTrailingZero(x : Int32) : Int32 = Prim.ctzInt32(x);
 
   /// Returns the upper (i.e. most significant), lower (least significant)
   /// and in-between bytes of `x`.
@@ -595,7 +604,7 @@ module {
   /// ```motoko include=import
   /// assert Int32.explode 0x66885511 == (102, 136, 85, 17);
   /// ```
-  public let explode : (x : Int32) -> (msb : Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeInt32;
+  public func explode(x : Int32) : (msb : Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeInt32(x);
 
   /// Returns the sum of `x` and `y`, `x +% y`.
   ///

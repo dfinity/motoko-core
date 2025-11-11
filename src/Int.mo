@@ -18,7 +18,6 @@ module {
 
   /// Infinite precision signed integers.
   public type Int = Prim.Types.Int;
-  public type Self = Int;
 
   /// Returns the absolute value of `x`.
   ///
@@ -37,13 +36,13 @@ module {
   /// ```motoko include=import
   /// assert Int.toText(-1234) == "-1234";
   /// ```
-  public func toText(x : Int) : Text {
-    if (x == 0) {
+  public func toText(self : Int) : Text {
+    if (self == 0) {
       return "0"
     };
 
-    let isNegative = x < 0;
-    var int = if isNegative { -x } else { x };
+    let isNegative = self < 0;
+    var int = if isNegative { -self } else { self };
 
     var text = "";
     let base = 10;
@@ -109,6 +108,19 @@ module {
     ?(if (isNegative) { -n } else { n })
   };
 
+  /// Creates a integer from its textual representation. Returns `null`
+  /// if the input is not a valid integer.
+  ///
+  /// This functions is meant to be used with contextual-dot notation.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert "-1234".toInt() == ?-1234;
+  /// ```
+  public func toInt(self : Text) : ?Int {
+    fromText(self)
+  };
+
   /// Converts an integer to a natural number. Traps if the integer is negative.
   ///
   /// Example:
@@ -116,11 +128,11 @@ module {
   /// import Debug "mo:core/Debug";
   /// assert Int.toNat(1234 : Int) == (1234 : Nat);
   /// ```
-  public func toNat(int : Int) : Nat {
-    if (int < 0) {
+  public func toNat(self : Int) : Nat {
+    if (self < 0) {
       Runtime.trap("Int.toNat(): negative input value")
     } else {
-      abs(int)
+      abs(self)
     }
   };
 
@@ -132,6 +144,20 @@ module {
   /// ```
   public func fromNat(nat : Nat) : Int {
     nat : Int
+  };
+
+  /// Conversion to Float. May result in `Inf`.
+  ///
+  /// Note: The floating point number may be imprecise for large or small Int values.
+  /// Returns `inf` if the integer is greater than the maximum floating point number.
+  /// Returns `-inf` if the integer is less than the minimum floating point number.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Int.toFloat(-123) == -123.0;
+  /// ```
+  public func toFloat(self : Int) : Float {
+    Prim.intToFloat(self)
   };
 
   /// Returns the minimum of `x` and `y`.
@@ -261,7 +287,9 @@ module {
   /// assert Array.sort([1, -2, -3], Int.compare) == [-3, -2, 1];
   /// ```
   public func compare(x : Int, y : Int) : Order.Order {
-    if (x < y) { #less } else if (x == y) { #equal } else { #greater }
+    if (x < y) { #less } else if (x == y) { #equal } else {
+      #greater
+    }
   };
 
   /// Returns the negation of `x`, `-x` .

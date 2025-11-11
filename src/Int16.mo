@@ -16,7 +16,6 @@ module {
 
   /// 16-bit signed integers.
   public type Int16 = Prim.Types.Int16;
-  public type Self = Int16;
 
   /// Minimum 16-bit integer value, `-2 ** 15`.
   ///
@@ -40,7 +39,7 @@ module {
   /// ```motoko include=import
   /// assert Int16.toInt(12_345) == (12_345 : Int);
   /// ```
-  public let toInt : Int16 -> Int = Prim.int16ToInt;
+  public func toInt(self : Int16) : Int = Prim.int16ToInt(self);
 
   /// Converts a signed integer with infinite precision to a 16-bit signed integer.
   ///
@@ -78,7 +77,7 @@ module {
   /// ```motoko include=import
   /// assert Int16.toInt8(-123) == (-123 : Int8);
   /// ```
-  public let toInt8 : Int16 -> Int8 = Prim.int16ToInt8;
+  public func toInt8(self : Int16) : Int8 = Prim.int16ToInt8(self);
 
   /// Converts a 32-bit signed integer to a 16-bit signed integer.
   ///
@@ -96,7 +95,7 @@ module {
   /// ```motoko include=import
   /// assert Int16.toInt32(-12_345) == (-12_345 : Int32);
   /// ```
-  public let toInt32 : Int16 -> Int32 = Prim.int16ToInt32;
+  public func toInt32(self : Int16) : Int32 = Prim.int16ToInt32(self);
 
   /// Converts an unsigned 16-bit integer to a signed 16-bit integer.
   ///
@@ -116,7 +115,7 @@ module {
   /// ```motoko include=import
   /// assert Int16.toNat16(-1) == (65_535 : Nat16); // underflow
   /// ```
-  public let toNat16 : Int16 -> Nat16 = Prim.int16ToNat16;
+  public func toNat16(self : Int16) : Nat16 = Prim.int16ToNat16(self);
 
   /// Returns the Text representation of `x`. Textual representation _do not_
   /// contain underscores to represent commas.
@@ -125,8 +124,8 @@ module {
   /// ```motoko include=import
   /// assert Int16.toText(-12345) == "-12345";
   /// ```
-  public func toText(x : Int16) : Text {
-    Int.toText(toInt(x))
+  public func toText(self : Int16) : Text {
+    Int.toText(toInt(self))
   };
 
   /// Returns the absolute value of `x`.
@@ -240,7 +239,9 @@ module {
   /// ```motoko include=import
   /// assert Int16.greaterOrEqual(-2, -2);
   /// ```
-  public func greaterOrEqual(x : Int16, y : Int16) : Bool { x >= y };
+  public func greaterOrEqual(x : Int16, y : Int16) : Bool {
+    x >= y
+  };
 
   /// General-purpose comparison function for `Int16`. Returns the `Order` (
   /// either `#less`, `#equal`, or `#greater`) of comparing `x` with `y`.
@@ -258,7 +259,9 @@ module {
   /// assert Array.sort([1, -2, -3] : [Int16], Int16.compare) == [-3, -2, 1];
   /// ```
   public func compare(x : Int16, y : Int16) : Order.Order {
-    if (x < y) { #less } else if (x == y) { #equal } else { #greater }
+    if (x < y) { #less } else if (x == y) { #equal } else {
+      #greater
+    }
   };
 
   /// Returns the negation of `x`, `-x`.
@@ -452,7 +455,9 @@ module {
   /// to the existing `<<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<`
   /// as a function value at the moment.
-  public func bitshiftLeft(x : Int16, y : Int16) : Int16 { x << y };
+  public func bitshiftLeft(x : Int16, y : Int16) : Int16 {
+    x << y
+  };
 
   /// Returns the signed bitwise right shift of `x` by `y`, `x >> y`.
   /// The sign bit is retained and the left side is filled with the sign bit.
@@ -470,11 +475,13 @@ module {
   /// to the existing `>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>>`
   /// as a function value at the moment.
-  public func bitshiftRight(x : Int16, y : Int16) : Int16 { x >> y };
+  public func bitshiftRight(x : Int16, y : Int16) : Int16 {
+    x >> y
+  };
 
   /// Returns the bitwise left rotatation of `x` by `y`, `x <<> y`.
   /// Each left-overflowing bit is inserted again on the right side.
-  /// The sign bit is rotated like other bits, i.e. the rotation interprets the number as unsigned.
+  /// The sign bit is rotated like y bits, i.e. the rotation interprets the number as unsigned.
   ///
   /// Changes the direction of rotation for negative `y`.
   /// For `y >= 16`, the semantics is the same as for `bitrotLeft(x, y % 16)`.
@@ -492,7 +499,7 @@ module {
 
   /// Returns the bitwise right rotation of `x` by `y`, `x <>> y`.
   /// Each right-underflowing bit is inserted again on the right side.
-  /// The sign bit is rotated like other bits, i.e. the rotation interprets the number as unsigned.
+  /// The sign bit is rotated like y bits, i.e. the rotation interprets the number as unsigned.
   ///
   /// Changes the direction of rotation for negative `y`.
   /// For `y >= 16`, the semantics is the same as for `bitrotRight(x, y % 16)`.
@@ -506,7 +513,9 @@ module {
   /// to the existing `<>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<>>`
   /// as a function value at the moment.
-  public func bitrotRight(x : Int16, y : Int16) : Int16 { x <>> y };
+  public func bitrotRight(x : Int16, y : Int16) : Int16 {
+    x <>> y
+  };
 
   /// Returns the value of bit `p` in `x`, `x & 2**p == 2**p`.
   /// If `p >= 16`, the semantics is the same as for `bittest(x, p % 16)`.
@@ -559,7 +568,7 @@ module {
   /// ```motoko include=import
   /// assert Int16.bitcountNonZero(0xff) == +8;
   /// ```
-  public let bitcountNonZero : (x : Int16) -> Int16 = Prim.popcntInt16;
+  public func bitcountNonZero(x : Int16) : Int16 = Prim.popcntInt16(x);
 
   /// Returns the count of leading zero bits in `x`.
   ///
@@ -567,7 +576,7 @@ module {
   /// ```motoko include=import
   /// assert Int16.bitcountLeadingZero(0x80) == +8;
   /// ```
-  public let bitcountLeadingZero : (x : Int16) -> Int16 = Prim.clzInt16;
+  public func bitcountLeadingZero(x : Int16) : Int16 = Prim.clzInt16(x);
 
   /// Returns the count of trailing zero bits in `x`.
   ///
@@ -575,7 +584,7 @@ module {
   /// ```motoko include=import
   /// assert Int16.bitcountTrailingZero(0x0100) == +8;
   /// ```
-  public let bitcountTrailingZero : (x : Int16) -> Int16 = Prim.ctzInt16;
+  public func bitcountTrailingZero(x : Int16) : Int16 = Prim.ctzInt16(x);
 
   /// Returns the upper (i.e. most significant) and lower (least significant) byte of `x`.
   ///
@@ -583,7 +592,7 @@ module {
   /// ```motoko include=import
   /// assert Int16.explode 0x77ee == (119, 238);
   /// ```
-  public let explode : (x : Int16) -> (msb : Nat8, lsb : Nat8) = Prim.explodeInt16;
+  public func explode(x : Int16) : (msb : Nat8, lsb : Nat8) = Prim.explodeInt16(x);
 
   /// Returns the sum of `x` and `y`, `x +% y`.
   ///
