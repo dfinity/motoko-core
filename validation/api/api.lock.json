@@ -505,9 +505,9 @@
       "public func toVarArray<T>(self : Iter<T>) : [var T]",
       "public func unfold<T, S>(initial : S, step : S -> ?(T, S)) : Iter<T>",
       "public func zip<A, B>(self : Iter<A>, other : Iter<B>) : Iter<(A, B)>",
-      "public func zip3<A, B, C>(self : Iter<A>, other : Iter<B>, other2 : Iter<C>) : Iter<(A, B, C)>",
+      "public func zip3<A, B, C>(self : Iter<A>, other1 : Iter<B>, other2 : Iter<C>) : Iter<(A, B, C)>",
       "public func zipWith<A, B, R>(self : Iter<A>, other : Iter<B>, f : (A, B) -> R) : Iter<R>",
-      "public func zipWith3<A, B, C, R>(self : Iter<A>, other : Iter<B>, other2 : Iter<C>, f : (A, B, C) -> R) : Iter<R>"
+      "public func zipWith3<A, B, C, R>(self : Iter<A>, other1 : Iter<B>, other2 : Iter<C>, f : (A, B, C) -> R) : Iter<R>"
     ]
   },
   {
@@ -881,7 +881,7 @@
     "exports": [
       "public func apply<T, R>(self : ?T, f : ?(T -> R)) : ?R",
       "public func chain<T, R>(self : ?T, f : T -> ?R) : ?R",
-      "public func compare<T>(self : ?T, other : ?T, cmp : (implicit : (compare : (T, T) -> Types.Order))) : Types.Order",
+      "public func compare<T>(self : ?T, other : ?T, compare : (implicit : (T, T) -> Types.Order)) : Types.Order",
       "public func equal<T>(self : ?T, other : ?T, eq : (implicit : (equal : (T, T) -> Bool))) : Bool",
       "public func flatten<T>(self : ??T) : ?T",
       "public func forEach<T>(self : ?T, f : T -> ())",
