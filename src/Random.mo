@@ -30,6 +30,7 @@ module {
 
   let rawRand = (actor "aaaaa-aa" : actor { raw_rand : () -> async Blob }).raw_rand;
 
+  /// @deprecated M0235
   public let blob : shared () -> async Blob = rawRand;
 
   /// Initializes a random number generator state. This is used
@@ -49,6 +50,7 @@ module {
   ///   }
   /// }
   /// ```
+  /// @deprecated M0235
   public func emptyState() : State = {
     var bytes = [];
     var index = 0;
@@ -73,6 +75,7 @@ module {
   ///   }
   /// }
   /// ```
+  /// @deprecated M0235
   public func seedState(seed : Nat64) : SeedState = {
     random = emptyState();
     prng = PRNG.init(seed)
@@ -87,6 +90,7 @@ module {
   /// let random = Random.seed(123);
   /// let coin = random.bool(); // true or false
   /// ```
+  /// @deprecated M0235
   public func seed(seed : Nat64) : Random {
     seedFromState(seedState(seed))
   };
@@ -108,6 +112,7 @@ module {
   ///   }
   /// }
   /// ```
+  /// @deprecated M0235
   public func seedFromState(state : SeedState) : Random {
     Random(
       state.random,
@@ -191,6 +196,7 @@ module {
     /// let random = Random.seed(42);
     /// let coin = random.bool(); // true or false
     /// ```
+    /// @deprecated M0235
     public func bool() : Bool {
       nextBit()
     };
@@ -202,6 +208,7 @@ module {
     /// let random = Random.seed(42);
     /// let byte = random.nat8(); // 0 to 255
     /// ```
+    /// @deprecated M0235
     public func nat8() : Nat8 {
       if (state.index >= state.bytes.size()) {
         let newBytes = Blob.toArray(generator());
@@ -257,6 +264,7 @@ module {
     /// let random = Random.seed(42);
     /// let number = random.nat64(); // 0 to 18446744073709551615
     /// ```
+    /// @deprecated M0235
     public func nat64() : Nat64 {
       (Nat64.fromNat(Nat8.toNat(nat8())) << 56) | (Nat64.fromNat(Nat8.toNat(nat8())) << 48) | (Nat64.fromNat(Nat8.toNat(nat8())) << 40) | (Nat64.fromNat(Nat8.toNat(nat8())) << 32) | (Nat64.fromNat(Nat8.toNat(nat8())) << 24) | (Nat64.fromNat(Nat8.toNat(nat8())) << 16) | (Nat64.fromNat(Nat8.toNat(nat8())) << 8) | Nat64.fromNat(Nat8.toNat(nat8()))
     };
@@ -268,6 +276,7 @@ module {
     /// let random = Random.seed(42);
     /// let dice = random.nat64Range(1, 7); // 1 to 6
     /// ```
+    /// @deprecated M0235
     public func nat64Range(fromInclusive : Nat64, toExclusive : Nat64) : Nat64 {
       if (fromInclusive >= toExclusive) {
         Runtime.trap("Random.nat64Range(): fromInclusive >= toExclusive")
@@ -282,6 +291,7 @@ module {
     /// let random = Random.seed(42);
     /// let index = random.natRange(0, 10); // 0 to 9
     /// ```
+    /// @deprecated M0235
     public func natRange(fromInclusive : Nat, toExclusive : Nat) : Nat {
       if (fromInclusive >= toExclusive) {
         Runtime.trap("Random.natRange(): fromInclusive >= toExclusive")
@@ -289,6 +299,7 @@ module {
       Nat64.toNat(uniform64(Nat64.fromNat(toExclusive - fromInclusive - 1))) + fromInclusive
     };
 
+    /// @deprecated M0235
     public func intRange(fromInclusive : Int, toExclusive : Int) : Int {
       let range = Nat.fromInt(toExclusive - fromInclusive - 1);
       Nat64.toNat(uniform64(Nat64.fromNat(range))) + fromInclusive
