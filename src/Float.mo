@@ -462,6 +462,7 @@ module {
   /// ```motoko include=import
   /// assert Float.fromInt(-123) == -123.0;
   /// ```
+  /// @deprecated M0235
   public func fromInt(x : Int) : Float = Prim.intToFloat(x);
 
   /// Determines whether `x` is equal to `y` within the defined tolerance of `epsilon`.

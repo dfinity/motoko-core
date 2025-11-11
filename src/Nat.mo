@@ -75,6 +75,7 @@ module {
   /// ```motoko include=import
   /// assert Nat.fromInt(1234) == (1234 : Nat);
   /// ```
+  /// @deprecated M0235
   public func fromInt(int : Int) : Nat {
     if (int < 0) {
       Runtime.trap("Nat.fromInt(): negative input value")
