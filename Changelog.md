@@ -1,11 +1,17 @@
 ## Next
 
+* Simplify `isSorted` logic (#421).
+* Add `isSorted` to `Array` and `VarArray` (#414).
+* Improve CI for external contributions (#413).
+* Add `isSorted` to `List` (#408).
+* **Breaking:** Rename `sort` to `sortInPlace`, add `sort` (#405).
 * Add `isCleanReject` to `Error`, align reject code order with IC interface specification and improve comments (#401).
 * internal: updates `matchers` dev-dependency (#394).
 * Add `PriorityQueue` (#392).
 * Add support for Weak references (#388).
 * Clarify difference between `List` and `pure/List` in doc comments (#386).
-* **Breaking:** Rename `sort` to `sortInPlace`, add `sort` (#405).
+* Added `tabulate`, `flatten`, `join`, `mapInPlace`, `mapEntries`, `mapResult`, `flatMap`, `nextIndexOf`, `prevIndexOf`, `range`, `sliceToArray`, `sliceToVarArray` to `List` (#350).
+* Optimize methods in `List<T>` (#337).
 
 ## 1.0.0
 
@@ -29,7 +35,7 @@
 * Add `fromArray()` and `toArray()` to `Queue` and `pure/Queue` (#349).
 * Add `explode()` to `Int16`/`32`/`64`, `Nat16`/`32`/`64`, slicing fixed-length numbers into constituent bytes (#346).
 * Fix a typo in the `VarArray` documentation (#338).
-* Fix a bug in `List.last()` (#336). 
+* Fix a bug in `List.last()` (#336).
 * Perf: Uses the new `Array_tabulateVar` primitive to speed up various function in `VarArray` (#334).
 * **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
 
