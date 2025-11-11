@@ -60,6 +60,7 @@ import Runtime "../Runtime";
 
 module {
 
+  /// @deprecated M0235
   public type Map<K, V> = Types.Pure.Map<K, V>;
 
   type Tree<K, V> = Types.Pure.Map.Tree<K, V>;

@@ -56,6 +56,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(n)
   /// `n` denotes the number of elements stored in the queue.
+  /// @deprecated M0235
   public func toPure<T>(self : Queue<T>) : PureQueue.Queue<T> {
     let pureQueue = PureQueue.empty<T>();
     let iter = values(self);
@@ -84,6 +85,7 @@ module {
   /// Runtime: O(n)
   /// Space: O(n)
   /// `n` denotes the number of elements stored in the queue.
+  /// @deprecated M0235
   public func fromPure<T>(pureQueue : PureQueue.Queue<T>) : Queue<T> {
     let queue = empty<T>();
     let iter = PureQueue.values(pureQueue);
