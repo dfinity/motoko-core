@@ -5,7 +5,7 @@
 /// This implementation is adapted with permission from the `vector` Mops package created by Research AG.
 ///
 /// Copyright: 2023 MR Research AG
-/// Main author: Andrii Stepanov
+/// Main author: Andrii Stepanov (AStepanov25)
 /// Contributors: Timo Hanke (timohanke), Andy Gura (andygura), react0r-com
 ///
 /// ```motoko name=import
@@ -16,9 +16,7 @@ import PureList "pure/List";
 import Prim "mo:⛔";
 import Nat32 "Nat32";
 import Array "Array";
-import Iter "Iter";
 import Nat "Nat";
-import Order "Order";
 import Option "Option";
 import VarArray "VarArray";
 import Types "Types";
@@ -42,7 +40,10 @@ module {
   /// let list = List.empty<Nat>(); // Creates a new List
   /// ```
   public func empty<T>() : List<T> = {
+    // the first block is always empty and is present in each List
+    // this is done to optimize locate, at, get, etc
     var blocks = [var [var]];
+    // can't be 0 in any List
     var blockIndex = 1;
     var elementIndex = 0
   };
@@ -60,7 +61,38 @@ module {
   /// Runtime: `O(1)`
   ///
   /// Space: `O(1)`
-  public func singleton<T>(element : T) : List<T> = repeat(element, 1);
+  public func singleton<T>(element : T) : List<T> = {
+    var blockIndex = 2;
+    var blocks = [var [var], [var ?element]];
+    var elementIndex = 0
+  };
+
+  func repeatInternal<T>(initValue : ?T, size : Nat) : List<T> {
+    let (blockIndex, elementIndex) = locate(size);
+
+    let blocks = newIndexBlockLength(Nat32.fromNat(if (elementIndex == 0) { blockIndex - 1 } else blockIndex));
+    let dataBlocks = VarArray.repeat<[var ?T]>([var], blocks);
+    var i = 1;
+    while (i < blockIndex) {
+      dataBlocks[i] := VarArray.repeat<?T>(initValue, dataBlockSize(i));
+      i += 1
+    };
+    if (elementIndex != 0) {
+      dataBlocks[blockIndex] := if (Option.isNull(initValue)) VarArray.repeat<?T>(
+        null,
+        dataBlockSize(blockIndex)
+      ) else VarArray.tabulate<?T>(
+        dataBlockSize(blockIndex),
+        func i = if (i < elementIndex) initValue else null
+      )
+    };
+
+    {
+      var blocks = dataBlocks;
+      var blockIndex = blockIndex;
+      var elementIndex = elementIndex
+    }
+  };
 
   /// Creates a new List with `size` copies of the initial value.
   ///
@@ -73,32 +105,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(size)`
-  public func repeat<T>(initValue : T, size : Nat) : List<T> {
-    let (blockIndex, elementIndex) = locate(size);
-
-    let blocks = new_index_block_length(Nat32.fromNat(if (elementIndex == 0) { blockIndex - 1 } else blockIndex));
-    let data_blocks = VarArray.repeat<[var ?T]>([var], blocks);
-    var i = 1;
-    while (i < blockIndex) {
-      data_blocks[i] := VarArray.repeat<?T>(?initValue, data_block_size(i));
-      i += 1
-    };
-    if (elementIndex != 0 and blockIndex < blocks) {
-      let block = VarArray.repeat<?T>(null, data_block_size(i));
-      var j = 0;
-      while (j < elementIndex) {
-        block[j] := ?initValue;
-        j += 1
-      };
-      data_blocks[i] := block
-    };
-
-    {
-      var blocks = data_blocks;
-      var blockIndex = blockIndex;
-      var elementIndex = elementIndex
-    }
-  };
+  public func repeat<T>(initValue : T, size : Nat) : List<T> = repeatInternal<T>(?initValue, size);
 
   /// Converts a mutable `List` to a purely functional `PureList`.
   ///
@@ -112,26 +119,120 @@ module {
   ///
   /// Space: `O(size)`
   public func toPure<T>(self : List<T>) : PureList.List<T> {
-    PureList.fromIter(values(self)) // TODO: optimize
+    var result : PureList.List<T> = null;
+
+    let blocks = self.blocks;
+    let blockIndex = self.blockIndex;
+    let elementIndex = self.elementIndex;
+
+    var i = blockIndex;
+    if (elementIndex == 0) i -= 1;
+
+    while (i > 0) {
+      let db = blocks[i];
+      let sz = db.size();
+      var j = if (i == blockIndex) elementIndex else sz;
+      while (j > 0) {
+        j -= 1;
+        switch (db[j]) {
+          case (?x) result := ?(x, result);
+          case null Prim.trap INTERNAL_ERROR
+        }
+      };
+      i -= 1
+    };
+
+    result
   };
 
-  /// Converts a purely functional `List` to a mutable `List`.
+  /// Converts a purely functional `PureList` to a `List`.
   ///
   /// Example:
   /// ```motoko include=import
   /// import PureList "mo:core/pure/List";
   ///
   /// let pureList = PureList.fromArray<Nat>([1, 2, 3]);
-  /// let list = List.fromPure<Nat>(pureList); // converts to mutable List
+  /// let list = List.fromPure<Nat>(pureList); // converts to List
   /// ```
   ///
   /// Runtime: `O(size)`
   ///
   /// Space: `O(size)`
   public func fromPure<T>(pure : PureList.List<T>) : List<T> {
-    let list = empty<T>();
-    PureList.forEach<T>(pure, func(x) = add(list, x));
-    list
+    var p = pure;
+    var list = empty<T>();
+    loop {
+      switch (p) {
+        case (?(x, xs)) {
+          add(list, x);
+          p := xs
+        };
+        case null return list
+      }
+    }
+  };
+
+  func addRepeatInternal<T>(list : List<T>, initValue : ?T, count : Nat) {
+    let (b, e) = locate(size(list) + count);
+    let blocksCount = newIndexBlockLength(Nat32.fromNat(if (e == 0) b - 1 else b));
+
+    let oldBlocksCount = list.blocks.size();
+    if (oldBlocksCount < blocksCount) {
+      let oldBlocks = list.blocks;
+      let blocks = VarArray.repeat<[var ?T]>([var], blocksCount);
+      var i = 0;
+      while (i < oldBlocksCount) {
+        blocks[i] := oldBlocks[i];
+        i += 1
+      };
+      list.blocks := blocks
+    };
+
+    let blocks = list.blocks;
+    var blockIndex = list.blockIndex;
+    var elementIndex = list.elementIndex;
+
+    var cnt = count;
+    label L while (cnt > 0) {
+      if (blocks[blockIndex].size() == 0) {
+        let dbSize = dataBlockSize(blockIndex);
+        if (cnt >= dbSize) {
+          blocks[blockIndex] := VarArray.repeat<?T>(initValue, dbSize);
+          blockIndex += 1;
+          cnt -= dbSize;
+          continue L
+        };
+        blocks[blockIndex] := VarArray.repeat<?T>(null, dbSize)
+      };
+
+      let block = blocks[blockIndex];
+      let dbSize = block.size();
+      let to = Nat.min(elementIndex + cnt, dbSize);
+      cnt -= to - elementIndex;
+
+      while (elementIndex < to) {
+        block[elementIndex] := initValue;
+        elementIndex += 1
+      };
+
+      if (elementIndex == dbSize) {
+        elementIndex := 0;
+        blockIndex += 1
+      }
+    };
+
+    list.blockIndex := blockIndex;
+    list.elementIndex := elementIndex
+  };
+
+  private func reserve<T>(list : List<T>, size : Nat) {
+    let blockIndex = list.blockIndex;
+    let elementIndex = list.elementIndex;
+
+    addRepeatInternal<T>(list, null, size);
+
+    list.blockIndex := blockIndex;
+    list.elementIndex := elementIndex
   };
 
   /// Add to list `count` copies of the initial value.
@@ -144,51 +245,7 @@ module {
   /// The maximum number of elements in a `List` is 2^32.
   ///
   /// Runtime: `O(count)`
-  public func addRepeat<T>(self : List<T>, initValue : T, count : Nat) {
-    let (blockIndex, elementIndex) = locate(size(self) + count);
-    let blocks = new_index_block_length(Nat32.fromNat(if (elementIndex == 0) { blockIndex - 1 } else blockIndex));
-
-    let old_blocks = self.blocks.size();
-    if (old_blocks < blocks) {
-      let old_data_blocks = self.blocks;
-      self.blocks := VarArray.repeat<[var ?T]>([var], blocks);
-      var i = 0;
-      while (i < old_blocks) {
-        self.blocks[i] := old_data_blocks[i];
-        i += 1
-      }
-    };
-
-    var cnt = count;
-    while (cnt > 0) {
-      let db_size = data_block_size(self.blockIndex);
-      if (self.elementIndex == 0 and db_size <= cnt) {
-        self.blocks[self.blockIndex] := VarArray.repeat<?T>(?initValue, db_size);
-        cnt -= db_size;
-        self.blockIndex += 1
-      } else {
-        if (self.blocks[self.blockIndex].size() == 0) {
-          self.blocks[self.blockIndex] := VarArray.repeat<?T>(null, db_size)
-        };
-        let from = self.elementIndex;
-        let to = Nat.min(self.elementIndex + cnt, db_size);
-
-        let block = self.blocks[self.blockIndex];
-        var i = from;
-        while (i < to) {
-          block[i] := ?initValue;
-          i += 1
-        };
-
-        self.elementIndex := to;
-        if (self.elementIndex == db_size) {
-          self.elementIndex := 0;
-          self.blockIndex += 1
-        };
-        cnt -= to - from
-      }
-    }
-  };
+  public func addRepeat<T>(self : List<T>, initValue : T, count : Nat) = addRepeatInternal<T>(self, ?initValue, count);
 
   /// Resets the list to size 0, de-referencing all elements.
   ///
@@ -209,6 +266,115 @@ module {
     self.elementIndex := 0
   };
 
+  /// Creates a list of size `size`. Each element at index i
+  /// is created by applying `generator` to i.
+  ///
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.tabulate<Nat>(4, func i = i * 2);
+  /// assert List.toArray(list) == [0, 2, 4, 6];
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(size)
+  ///
+  /// *Runtime and space assumes that `generator` runs in O(1) time and space.
+  public func tabulate<T>(size : Nat, generator : Nat -> T) : List<T> {
+    let (blockIndex, elementIndex) = locate(size);
+
+    let blocks = newIndexBlockLength(Nat32.fromNat(if (elementIndex == 0) { blockIndex - 1 } else blockIndex));
+    let dataBlocks = VarArray.repeat<[var ?T]>([var], blocks);
+
+    var i = 1;
+    var pos = 0;
+
+    while (i < blockIndex) {
+      let len = dataBlockSize(i);
+      dataBlocks[i] := VarArray.tabulate<?T>(len, func i = ?generator(pos + i));
+      pos += len;
+      i += 1
+    };
+    if (elementIndex != 0 and blockIndex < blocks) {
+      dataBlocks[i] := VarArray.tabulate<?T>(
+        dataBlockSize(blockIndex),
+        func i = if (i < elementIndex) ?generator(pos + i) else null
+      )
+    };
+
+    {
+      var blocks = dataBlocks;
+      var blockIndex = blockIndex;
+      var elementIndex = elementIndex
+    }
+  };
+
+  /// Combines a list of lists into a single list. Retains the original
+  /// ordering of the elements.
+  ///
+  /// This has better performance compared to `List.join()`.
+  ///
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let lists = List.fromArray<List.List<Nat>>([
+  ///   List.fromArray<Nat>([0, 1, 2]), List.fromArray<Nat>([2, 3]), List.fromArray<Nat>([]), List.fromArray<Nat>([4])
+  /// ]);
+  /// let flatList = List.flatten<Nat>(lists);
+  /// assert List.equal<Nat>(flatList, List.fromArray<Nat>([0, 1, 2, 2, 3, 4]), Nat.equal);
+  /// ```
+  ///
+  /// Runtime: O(number of elements in list)
+  ///
+  /// Space: O(number of elements in list)
+  public func flatten<T>(self : List<List<T>>) : List<T> {
+    var sz = 0;
+    forEach<List<T>>(self, func(sublist) = sz += size(sublist));
+
+    let result = repeatInternal<T>(null, sz);
+    result.blockIndex := 1;
+    result.elementIndex := 0;
+
+    forEach<List<T>>(
+      self,
+      func(sublist) {
+        forEach<T>(
+          sublist,
+          func(item) {
+            add(result, item)
+          }
+        )
+      }
+    );
+    result
+  };
+
+  /// Combines an iterator of lists into a single list.
+  /// Retains the original ordering of the elements.
+  ///
+  /// Consider using `List.flatten()` for better performance.
+  ///
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let lists = [List.fromArray<Nat>([0, 1, 2]), List.fromArray<Nat>([2, 3]), List.fromArray<Nat>([]), List.fromArray<Nat>([4])];
+  /// let joinedList = List.join<Nat>(lists.vals());
+  /// assert List.equal<Nat>(joinedList, List.fromArray<Nat>([0, 1, 2, 2, 3, 4]), Nat.equal);
+  /// ```
+  ///
+  /// Runtime: O(number of elements in list)
+  ///
+  /// Space: O(number of elements in list)
+  public func join<T>(self : Types.Iter<List<T>>) : List<T> {
+    var result = empty<T>();
+    for (list in self) {
+      reserve(result, size(list));
+      forEach<T>(list, func item = addUnsafe(result, item))
+    };
+    result
+  };
+
   /// Returns a copy of a List, with the same size.
   ///
   /// Example:
@@ -223,11 +389,11 @@ module {
   /// Runtime: `O(size)`
   public func clone<T>(self : List<T>) : List<T> = {
     var blocks = VarArray.tabulate<[var ?T]>(
-      self.blocks.size(),
-      func(i) = VarArray.tabulate<?T>(
-        self.blocks[i].size(),
-        func(j) = self.blocks[i][j]
-      )
+      Nat.min(
+        newIndexBlockLength(Nat32.fromNat(if (self.elementIndex == 0) self.blockIndex - 1 else self.blockIndex)),
+        self.blocks.size()
+      ),
+      func(i) = VarArray.clone<?T>(self.blocks[i])
     );
     var blockIndex = self.blockIndex;
     var elementIndex = self.elementIndex
@@ -246,22 +412,197 @@ module {
   /// ```
   ///
   /// Runtime: `O(size)`
-  public func map<T, R>(self : List<T>, f : T -> R) : List<R> = {
-    var blocks = VarArray.tabulate<[var ?R]>(
-      self.blocks.size(),
-      func(i) {
-        let db = self.blocks[i];
-        VarArray.tabulate<?R>(
-          db.size(),
-          func(j) = switch (db[j]) {
-            case (?item) ?f(item);
-            case (null) null
-          }
-        )
-      }
+  public func map<T, R>(self : List<T>, f : T -> R) : List<R> {
+    let blocksCount = Nat.min(
+      newIndexBlockLength(Nat32.fromNat(if (self.elementIndex == 0) self.blockIndex - 1 else self.blockIndex)),
+      self.blocks.size()
     );
-    var blockIndex = self.blockIndex;
-    var elementIndex = self.elementIndex
+    let blocks = VarArray.repeat<[var ?R]>([var], blocksCount);
+
+    var i = 1;
+    label l while (i < blocksCount) {
+      let oldBlock = self.blocks[i];
+      let blockSize = oldBlock.size();
+      let newBlock = VarArray.repeat<?R>(null, blockSize);
+      blocks[i] := newBlock;
+      var j = 0;
+
+      while (j < blockSize) {
+        switch (oldBlock[j]) {
+          case (?item) newBlock[j] := ?f(item);
+          case null break l
+        };
+        j += 1
+      };
+      i += 1
+    };
+
+    {
+      var blocks = blocks;
+      var blockIndex = self.blockIndex;
+      var elementIndex = self.elementIndex
+    }
+  };
+
+  /// Applies `f` to each element of `list` in place,
+  /// retaining the original ordering of elements.
+  /// This modifies the original list.
+  ///
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([0, 1, 2, 3]);
+  /// List.mapInPlace<Nat>(list, func x = x * 3);
+  /// assert List.equal(list, List.fromArray<Nat>([0, 3, 6, 9]), Nat.equal);
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(size)
+  ///
+  /// *Runtime and space assumes that `f` runs in O(1) time and space.
+  public func mapInPlace<T>(self : List<T>, f : T -> T) {
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) db[j] := ?f(x);
+          case null return
+        };
+        j += 1
+      };
+      i += 1
+    }
+  };
+
+  /// Creates a new list by applying `f` to each element in `list` and its index.
+  /// Retains original ordering of elements.
+  ///
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([10, 10, 10, 10]);
+  /// let newList = List.mapEntries<Nat, Nat>(list, func (x, i) = i * x);
+  /// assert List.equal(newList, List.fromArray<Nat>([0, 10, 20, 30]), Nat.equal);
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(size)
+  ///
+  /// *Runtime and space assumes that `f` runs in O(1) time and space.
+  public func mapEntries<T, R>(self : List<T>, f : (T, Nat) -> R) : List<R> {
+    let blocks = VarArray.repeat<[var ?R]>([var], self.blocks.size());
+    let blocksCount = self.blocks.size();
+
+    var index = 0;
+
+    var i = 1;
+    label l while (i < blocksCount) {
+      let oldBlock = self.blocks[i];
+      let blockSize = oldBlock.size();
+      let newBlock = VarArray.repeat<?R>(null, blockSize);
+      blocks[i] := newBlock;
+      var j = 0;
+
+      while (j < blockSize) {
+        switch (oldBlock[j]) {
+          case (?item) newBlock[j] := ?f(item, index);
+          case null break l
+        };
+        j += 1;
+        index += 1
+      };
+      i += 1
+    };
+
+    {
+      var blocks = blocks;
+      var blockIndex = self.blockIndex;
+      var elementIndex = self.elementIndex
+    }
+  };
+
+  /// Creates a new list by applying `f` to each element in `list`.
+  /// If any invocation of `f` produces an `#err`, returns an `#err`. Otherwise
+  /// returns an `#ok` containing the new list.
+  ///
+  /// ```motoko include=import
+  /// import Result "mo:core/Result";
+  ///
+  /// let list = List.fromArray<Nat>([4, 3, 2, 1, 0]);
+  /// // divide 100 by every element in the list
+  /// let result = List.mapResult<Nat, Nat, Text>(list, func x {
+  ///   if (x > 0) {
+  ///     #ok(100 / x)
+  ///   } else {
+  ///     #err "Cannot divide by zero"
+  ///   }
+  /// });
+  /// assert Result.isErr(result);
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(size)
+  ///
+  /// *Runtime and space assumes that `f` runs in O(1) time and space.
+  public func mapResult<T, R, E>(self : List<T>, f : T -> Types.Result<R, E>) : Types.Result<List<R>, E> {
+    var error : ?E = null;
+
+    let blocks = VarArray.repeat<[var ?R]>([var], self.blocks.size());
+    let blocksCount = self.blocks.size();
+
+    var i = 1;
+    while (i < blocksCount) {
+      let oldBlock = self.blocks[i];
+      let blockSize = oldBlock.size();
+      let newBlock = VarArray.repeat<?R>(null, blockSize);
+      blocks[i] := newBlock;
+      var j = 0;
+
+      while (j < blockSize) {
+        switch (oldBlock[j]) {
+          case (?item) newBlock[j] := switch (f(item)) {
+            case (#ok x) ?x;
+            case (#err e) switch (error) {
+              case (null) {
+                error := ?e;
+                null
+              };
+              case (?_) null
+            }
+          };
+          case null return switch (error) {
+            case (null) return #ok {
+              var blocks = blocks;
+              var blockIndex = self.blockIndex;
+              var elementIndex = self.elementIndex
+            };
+            case (?e) return #err e
+          }
+        };
+        j += 1
+      };
+      i += 1
+    };
+
+    switch (error) {
+      case (null) return #ok {
+        var blocks = blocks;
+        var blockIndex = self.blockIndex;
+        var elementIndex = self.elementIndex
+      };
+      case (?e) return #err e
+    }
   };
 
   /// Returns a new list containing only the elements from `list` for which the predicate returns true.
@@ -280,12 +621,27 @@ module {
   /// *Runtime and space assumes that `predicate` runs in `O(1)` time and space.
   public func filter<T>(self : List<T>, predicate : T -> Bool) : List<T> {
     let filtered = empty<T>();
-    forEach<T>(
-      self,
-      func(x) {
-        if (predicate(x)) add(filtered, x)
-      }
-    );
+
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return filtered;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) if (predicate(x)) add(filtered, x);
+          case null return filtered
+        };
+        j += 1
+      };
+      i += 1
+    };
+
     filtered
   };
 
@@ -306,30 +662,75 @@ module {
   /// *Runtime and space assumes that `f` runs in `O(1)` time and space.
   public func filterMap<T, R>(self : List<T>, f : T -> ?R) : List<R> {
     let filtered = empty<R>();
-    forEach<T>(
-      self,
-      func(x) {
-        switch (f(x)) {
-          case (?y) add(filtered, y);
-          case null {}
-        }
-      }
-    );
+
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return filtered;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) switch (f(x)) {
+            case (?y) add(filtered, y);
+            case null {}
+          };
+          case null return filtered
+        };
+        j += 1
+      };
+      i += 1
+    };
+
     filtered
   };
 
-  /// Returns the current number of elements in the list.
+  /// Creates a new list by applying `k` to each element in `list`,
+  /// and concatenating the resulting iterators in order.
   ///
-  /// Example:
   /// ```motoko include=import
-  /// let list = List.empty<Nat>();
-  /// assert List.size(list) == 0
-  /// ```
+  /// import Int "mo:core/Int"
   ///
-  /// Runtime: `O(1)` (with some internal calculations)
-  public func size<T>(self : List<T>) : Nat {
-    let d = Nat32.fromNat(self.blockIndex);
-    let i = Nat32.fromNat(self.elementIndex);
+  /// let list = List.fromArray<Nat>([1, 2, 3, 4]);
+  /// let newList = List.flatMap<Nat, Int>(list, func x = [x, -x].vals());
+  /// assert List.equal(newList, List.fromArray<Int>([1, -1, 2, -2, 3, -3, 4, -4]), Int.equal);
+  /// ```
+  /// Runtime: O(size)
+  ///
+  /// Space: O(size)
+  /// *Runtime and space assumes that `k` runs in O(1) time and space.
+  public func flatMap<T, R>(self : List<T>, k : T -> Types.Iter<R>) : List<R> {
+    let result = empty<R>();
+
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return result;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) for (y in k(x)) add(result, y);
+          case _ return result
+        };
+        j += 1
+      };
+      i += 1
+    };
+
+    result
+  };
+
+  func indexByBlockElement<T>(blockIndex : Nat, elementIndex : Nat) : Nat {
+    let d = Nat32.fromNat(blockIndex);
 
     // We call all data blocks of the same capacity an "epoch". We number the epochs 0,1,2,...
     // A data block is in epoch e iff the data block has capacity 2 ** e.
@@ -351,47 +752,65 @@ module {
 
     // there can be overflows, but the result is without overflows, so use addWrap and subWrap
     // we don't erase bits by >>, so to use <>> is ok
-    Nat32.toNat((d -% (1 <>> lz)) <>> lz +% i)
+    Nat32.toNat((d -% (1 <>> lz)) <>> lz +% Nat32.fromNat(elementIndex))
   };
 
-  func data_block_size(blockIndex : Nat) : Nat {
+  /// Returns the current number of elements in the list.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let list = List.empty<Nat>();
+  /// assert List.size(list) == 0
+  /// ```
+  ///
+  /// Runtime: `O(1)` (with some internal calculations)
+  public func size<T>(self : List<T>) : Nat {
+    // due to the design of List (blockIndex, elementIndex) pair points
+    // exactly to the place where size-th element should be added
+    // so, it's the inlined version of indexByBlockElement
+    let d = Nat32.fromNat(self.blockIndex);
+    let lz = Nat32.bitcountLeadingZero(d / 3);
+    Nat32.toNat((d -% (1 <>> lz)) <>> lz +% Nat32.fromNat(self.elementIndex))
+  };
+
+  func dataBlockSize(blockIndex : Nat) : Nat {
     // formula for the size of given blockIndex
     // don't call it for blockIndex == 0
     Nat32.toNat(1 <>> Nat32.bitcountLeadingZero(Nat32.fromNat(blockIndex) / 3))
   };
 
-  func new_index_block_length(blockIndex : Nat32) : Nat {
+  func newIndexBlockLength(blockIndex : Nat32) : Nat {
     if (blockIndex <= 1) 2 else {
       let s = 30 - Nat32.bitcountLeadingZero(blockIndex);
       Nat32.toNat(((blockIndex >> s) +% 1) << s)
     }
   };
 
-  func grow_index_block_if_needed<T>(list : List<T>) {
+  func growIndexBlockIfNeeded<T>(list : List<T>) {
     if (list.blocks.size() == list.blockIndex) {
-      let new_blocks = VarArray.repeat<[var ?T]>([var], new_index_block_length(Nat32.fromNat(list.blockIndex)));
+      let newBlocks = VarArray.repeat<[var ?T]>([var], newIndexBlockLength(Nat32.fromNat(list.blockIndex)));
       var i = 0;
       while (i < list.blockIndex) {
-        new_blocks[i] := list.blocks[i];
+        newBlocks[i] := list.blocks[i];
         i += 1
       };
-      list.blocks := new_blocks
+      list.blocks := newBlocks
     }
   };
 
-  func shrink_index_block_if_needed<T>(list : List<T>) {
+  func shrinkIndexBlockIfNeeded<T>(list : List<T>) {
     let blockIndex = Nat32.fromNat(list.blockIndex);
     // kind of index of the first block in the super block
     if ((blockIndex << Nat32.bitcountLeadingZero(blockIndex)) << 2 == 0) {
-      let new_length = new_index_block_length(blockIndex);
-      if (new_length < list.blocks.size()) {
-        let new_blocks = VarArray.repeat<[var ?T]>([var], new_length);
+      let newLength = newIndexBlockLength(blockIndex);
+      if (newLength < list.blocks.size()) {
+        let newBlocks = VarArray.repeat<[var ?T]>([var], newLength);
         var i = 0;
-        while (i < new_length) {
-          new_blocks[i] := list.blocks[i];
+        while (i < newLength) {
+          newBlocks[i] := list.blocks[i];
           i += 1
         };
-        list.blocks := new_blocks
+        list.blocks := newBlocks
       }
     }
   };
@@ -416,28 +835,41 @@ module {
   public func add<T>(self : List<T>, element : T) {
     var elementIndex = self.elementIndex;
     if (elementIndex == 0) {
-      grow_index_block_if_needed(self);
+      growIndexBlockIfNeeded(self);
       let blockIndex = self.blockIndex;
 
       // When removing last we keep one more data block, so can be not empty
       if (self.blocks[blockIndex].size() == 0) {
         self.blocks[blockIndex] := VarArray.repeat<?T>(
           null,
-          data_block_size(blockIndex)
+          dataBlockSize(blockIndex)
         )
       }
     };
 
-    let last_data_block = self.blocks[self.blockIndex];
+    let lastDataBlock = self.blocks[self.blockIndex];
 
-    last_data_block[elementIndex] := ?element;
+    lastDataBlock[elementIndex] := ?element;
 
     elementIndex += 1;
-    if (elementIndex == last_data_block.size()) {
+    if (elementIndex == lastDataBlock.size()) {
       elementIndex := 0;
       self.blockIndex += 1
     };
     self.elementIndex := elementIndex
+  };
+
+  private func addUnsafe<T>(list : List<T>, element : T) {
+    var elementIndex = list.elementIndex;
+    let lastDataBlock = list.blocks[list.blockIndex];
+    lastDataBlock[elementIndex] := ?element;
+
+    elementIndex += 1;
+    if (elementIndex == lastDataBlock.size()) {
+      elementIndex := 0;
+      list.blockIndex += 1
+    };
+    list.elementIndex := elementIndex
   };
 
   /// Removes and returns the last item in the list or `null` if
@@ -459,29 +891,27 @@ module {
   public func removeLast<T>(self : List<T>) : ?T {
     var elementIndex = self.elementIndex;
     if (elementIndex == 0) {
-      shrink_index_block_if_needed(self);
-
       var blockIndex = self.blockIndex;
       if (blockIndex == 1) {
         return null
       };
+
+      shrinkIndexBlockIfNeeded(self);
+
       blockIndex -= 1;
       elementIndex := self.blocks[blockIndex].size();
 
       // Keep one totally empty block when removing
-      if (blockIndex + 2 < self.blocks.size()) {
-        if (self.blocks[blockIndex + 2].size() == 0) {
-          self.blocks[blockIndex + 2] := [var]
-        }
-      };
+      if (blockIndex + 2 < self.blocks.size()) self.blocks[blockIndex + 2] := [var];
+
       self.blockIndex := blockIndex
     };
     elementIndex -= 1;
 
-    var last_data_block = self.blocks[self.blockIndex];
+    let lastDataBlock = self.blocks[self.blockIndex];
 
-    let element = last_data_block[elementIndex];
-    last_data_block[elementIndex] := null;
+    let element = lastDataBlock[elementIndex];
+    lastDataBlock[elementIndex] := null;
 
     self.elementIndex := elementIndex;
     return element
@@ -549,16 +979,24 @@ module {
   ///
   /// Space: `O(1)`
   public func get<T>(self : List<T>, index : Nat) : ?T {
-    let (a, b) = locate(index);
+    // inlined version of locate
+    let (a, b) = do {
+      let i = Nat32.fromNat(index);
+      let lz = Nat32.bitcountLeadingZero(i);
+      let lz2 = lz >> 1;
+      if (lz & 1 == 0) {
+        (Nat32.toNat(((i << lz2) >> 16) ^ (0x10000 >> lz2)), Nat32.toNat(i & (0xFFFF >> lz2)))
+      } else {
+        (Nat32.toNat(((i << lz2) >> 15) ^ (0x18000 >> lz2)), Nat32.toNat(i & (0x7FFF >> lz2)))
+      }
+    };
     if (a < self.blockIndex or self.elementIndex != 0 and a == self.blockIndex) {
       self.blocks[a][b]
-    } else {
-      null
-    }
+    } else null
   };
 
   /// Overwrites the current element at `index` with `element`.
-  /// Traps if `index` >= size. Indexing is zero-based.
+  /// Traps if `index` >= size, error message may not be descriptive. Indexing is zero-based.
   ///
   /// Example:
   /// ```motoko include=import
@@ -570,10 +1008,19 @@ module {
   ///
   /// Runtime: `O(1)`
   public func put<T>(self : List<T>, index : Nat, value : T) {
-    let (a, b) = locate(index);
-    if (a < self.blockIndex or a == self.blockIndex and b < self.elementIndex) {
-      self.blocks[a][b] := ?value
-    } else Prim.trap "List index out of bounds in put"
+    let i = Nat32.fromNat(index);
+    let lz = Nat32.bitcountLeadingZero(i);
+    let lz2 = lz >> 1;
+    let (block, element) = if (lz & 1 == 0) {
+      (self.blocks[Nat32.toNat(((i << lz2) >> 16) ^ (0x10000 >> lz2))], Nat32.toNat(i & (0xFFFF >> lz2)))
+    } else {
+      (self.blocks[Nat32.toNat(((i << lz2) >> 15) ^ (0x18000 >> lz2))], Nat32.toNat(i & (0x7FFF >> lz2)))
+    };
+
+    switch (block[element]) {
+      case (?_) block[element] := ?value;
+      case _ Prim.trap "List index out of bounds in put"
+    }
   };
 
   /// Sorts the elements in the list according to `compare`.
@@ -595,12 +1042,33 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sortInPlace<T>(self : List<T>, compare : (implicit : (T, T) -> Order.Order)) {
+  public func sortInPlace<T>(self : List<T>, compare : (implicit : (T, T) -> Types.Order)) {
     if (size(self) < 2) return;
-    let arr = toVarArray(self);
-    VarArray.sortInPlace(arr, compare);
-    for (i in arr.keys()) {
-      put(self, i, arr[i])
+    let array = toVarArray(self);
+
+    VarArray.sortInPlace(array, compare);
+
+    var index = 0;
+
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?_) db[j] := ?array[index];
+          case _ return
+        };
+        index += 1;
+        j += 1
+      };
+      i += 1
     }
   };
 
@@ -629,6 +1097,51 @@ module {
     fromVarArray(array)
   };
 
+  /// Checks whether the `list` is sorted.
+  ///
+  /// Example:
+  /// ```
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([1, 2, 3]);
+  /// assert List.isSorted(list, Nat.compare);
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  public func isSorted<T>(self : List<T>, compare : (implicit : (T, T) -> Types.Order)) : Bool {
+    var prev = switch (first(self)) {
+      case (?x) x;
+      case _ return true
+    };
+
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
+
+    var i = 2;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return true;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) switch (compare(x, prev)) {
+            case (#greater or #equal) prev := x;
+            case (#less) return false
+          };
+          case null return true
+        };
+        j += 1
+      };
+      i += 1
+    };
+
+    true
+  };
+
   /// Finds the first index of `element` in `list` using equality of elements defined
   /// by `equal`. Returns `null` if `element` is not found.
   ///
@@ -650,8 +1163,52 @@ module {
   ///
   /// *Runtime and space assumes that `equal` runs in `O(1)` time and space.
   public func indexOf<T>(self : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : ?Nat {
-    // inlining would save 10 instructions per entry
-    findIndex<T>(self, func(x) = equal(element, x))
+    if (isEmpty(self)) return null;
+    nextIndexOf<T>(self, equal, element, 0)
+  };
+
+  /// Returns the index of the next occurence of `element` in the `list` starting from the `from` index (inclusive).
+  ///
+  /// ```motoko include=import
+  /// import Char "mo:core/Char";
+  /// let list = List.fromArray<Char>(['c', 'o', 'f', 'f', 'e', 'e']);
+  /// assert List.nextIndexOf<Char>(list, Char.equal, 'c', 0) == ?0;
+  /// assert List.nextIndexOf<Char>(list, Char.equal, 'f', 0) == ?2;
+  /// assert List.nextIndexOf<Char>(list, Char.equal, 'f', 2) == ?2;
+  /// assert List.nextIndexOf<Char>(list, Char.equal, 'f', 3) == ?3;
+  /// assert List.nextIndexOf<Char>(list, Char.equal, 'f', 4) == null;
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  ///
+  /// *Runtime and space assumes that `equal` runs in O(1) time and space.
+  public func nextIndexOf<T>(self : List<T>, equal : (implicit : (T, T) -> Bool), element : T, fromInclusive : Nat) : ?Nat {
+    if (fromInclusive >= size(self)) Prim.trap "List index out of bounds in nextIndexOf";
+
+    let (blockIndex, elementIndex) = locate(fromInclusive);
+
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
+
+    var i = blockIndex;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return null;
+
+      var j = if (i == blockIndex) elementIndex else 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) if (equal(x, element)) return ?indexByBlockElement(i, j);
+          case null return null
+        };
+        j += 1
+      };
+      i += 1
+    };
+    null
   };
 
   /// Finds the last index of `element` in `list` using equality of elements defined
@@ -670,9 +1227,51 @@ module {
   /// Runtime: `O(size)`
   ///
   /// *Runtime and space assumes that `equal` runs in `O(1)` time and space.
-  public func lastIndexOf<T>(self : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : ?Nat {
-    // inlining would save 10 instructions per entry
-    findLastIndex<T>(self, func(x) = equal(element, x))
+  public func lastIndexOf<T>(self : List<T>, equal : (implicit : (T, T) -> Bool), element : T) : ?Nat = prevIndexOf<T>(
+    self,
+    equal,
+    element,
+    size(self)
+  );
+
+  /// Returns the index of the previous occurence of `element` in the `list` starting from the `from` index (exclusive).
+  ///
+  /// ```motoko include=import
+  /// import Char "mo:core/Char";
+  /// let list = List.fromArray<Char>(['c', 'o', 'f', 'f', 'e', 'e']);
+  /// assert List.prevIndexOf<Char>(list, Char.equal, 'c', List.size(list)) == ?0;
+  /// assert List.prevIndexOf<Char>(list, Char.equal, 'e', List.size(list)) == ?5;
+  /// assert List.prevIndexOf<Char>(list, Char.equal, 'e', 5) == ?4;
+  /// assert List.prevIndexOf<Char>(list, Char.equal, 'e', 4) == null;
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  public func prevIndexOf<T>(self : List<T>, equal : (implicit : (T, T) -> Bool), element : T, fromExclusive : Nat) : ?Nat {
+    if (fromExclusive > size(self)) Prim.trap "List index out of bounds in prevIndexOf";
+
+    let blocks = self.blocks;
+    let (blockIndex, elementIndex) = locate(fromExclusive);
+
+    var i = blockIndex;
+    if (elementIndex == 0) i -= 1;
+
+    while (i > 0) {
+      let db = blocks[i];
+      let sz = db.size();
+      var j = if (i == blockIndex) elementIndex else sz;
+      while (j > 0) {
+        j -= 1;
+        switch (db[j]) {
+          case (?x) if (equal(x, element)) return ?indexByBlockElement(i, j);
+          case null Prim.trap INTERNAL_ERROR
+        }
+      };
+      i -= 1
+    };
+
+    null
   };
 
   /// Returns the first value in `list` for which `predicate` returns true.
@@ -689,12 +1288,7 @@ module {
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
   public func find<T>(self : List<T>, predicate : T -> Bool) : ?T {
-    for (element in values(self)) {
-      if (predicate element) {
-        return ?element
-      }
-    };
-    null
+    Option.map<Nat, T>(findIndex<T>(self, predicate), func(i) = at(self, i))
   };
 
   /// Finds the index of the first element in `list` for which `predicate` is true.
@@ -716,29 +1310,26 @@ module {
   ///
   /// *Runtime and space assumes that `predicate` runs in `O(1)` time and space.
   public func findIndex<T>(self : List<T>, predicate : T -> Bool) : ?Nat {
-    let blocks = self.blocks.size();
-    var blockIndex = 0;
-    var elementIndex = 0;
-    var size = 0;
-    var db : [var ?T] = [var];
-    var i = 0;
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
 
-    loop {
-      if (elementIndex == size) {
-        blockIndex += 1;
-        if (blockIndex >= blocks) return null;
-        db := self.blocks[blockIndex];
-        size := db.size();
-        if (size == 0) return null;
-        elementIndex := 0
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return null;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) if (predicate(x)) return ?indexByBlockElement(i, j);
+          case null return null
+        };
+        j += 1
       };
-      switch (db[elementIndex]) {
-        case (?x) if (predicate(x)) return ?i;
-        case (_) return null
-      };
-      elementIndex += 1;
       i += 1
-    }
+    };
+    null
   };
 
   /// Finds the index of the last element in `list` for which `predicate` is true.
@@ -760,32 +1351,28 @@ module {
   ///
   /// *Runtime and space assumes that `predicate` runs in `O(1)` time and space.
   public func findLastIndex<T>(self : List<T>, predicate : T -> Bool) : ?Nat {
-    var i = size(self);
-    var blockIndex = self.blockIndex;
-    var elementIndex = self.elementIndex;
-    var db : [var ?T] = if (blockIndex < self.blocks.size()) {
-      self.blocks[blockIndex]
-    } else { [var] };
+    let blocks = self.blocks;
+    let blockIndex = self.blockIndex;
+    let elementIndex = self.elementIndex;
 
-    loop {
-      if (blockIndex == 1) {
-        return null
+    var i = blockIndex;
+    if (elementIndex == 0) i -= 1;
+
+    while (i > 0) {
+      let db = blocks[i];
+      let sz = db.size();
+      var j = if (i == blockIndex) elementIndex else sz;
+      while (j > 0) {
+        j -= 1;
+        switch (db[j]) {
+          case (?x) if (predicate(x)) return ?indexByBlockElement(i, j);
+          case null Prim.trap INTERNAL_ERROR
+        }
       };
-      if (elementIndex == 0) {
-        blockIndex -= 1;
-        db := self.blocks[blockIndex];
-        elementIndex := db.size() - 1
-      } else {
-        elementIndex -= 1
-      };
-      switch (db[elementIndex]) {
-        case (?x) {
-          i -= 1;
-          if (predicate(x)) return ?i
-        };
-        case (_) Prim.trap(INTERNAL_ERROR)
-      }
-    }
+      i -= 1
+    };
+
+    null
   };
 
   /// Performs binary search on a sorted list to find the index of the `element`.
@@ -809,21 +1396,84 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in `O(1)` time and space.
-  public func binarySearch<T>(self : List<T>, compare : (implicit : (T, T) -> Order.Order), element : T) : {
+  public func binarySearch<T>(self : List<T>, compare : (implicit : (T, T) -> Types.Order), element : T) : {
     #found : Nat;
     #insertionIndex : Nat
   } {
-    var left = 0;
-    var right = size(self);
-    while (left < right) {
-      let mid = (left + right) / 2;
-      switch (compare(at(self, mid), element)) {
-        case (#less) left := mid + 1;
-        case (#greater) right := mid;
-        case (#equal) return #found mid
-      }
+    // We call all data blocks of the same capacity an "epoch". We number the epochs 0,1,2,...
+    // A data block is in epoch e iff the data block has capacity 2 ** e.
+    // Each epoch starting with epoch 1 spans exactly two super blocks.
+    // Super block s falls in epoch ceil(s/2).
+    // Each epoch except e=0 contains 3 * 2 ** (e - 1) data blocks
+
+    let blocks = self.blocks;
+    let b = self.blockIndex - (if (self.elementIndex == 0) 1 else 0) : Nat;
+
+    // block index x such that blocks[x][0] <= element
+    let lessOrEqual = do {
+      // epoch of the last data block
+      let epoch = 32 - Nat32.bitcountLeadingZero(Nat32.fromNat(b) / 3);
+      // initially block index is the first in the epoch
+      var lessOrEqual = Nat32.toNat((1 << epoch) / 2);
+
+      // lessOrEqual * 3 is always the first data block in an epoch
+      // while the first element of the first data block in an epoch is actually grater then element go to the previous epoch
+      // as the last epoch is half of the array we each iteration of the search divides the interval in four
+      while (lessOrEqual != 0 and compare(Option.unwrap(blocks[lessOrEqual * 3][0]), element) == #greater) {
+        lessOrEqual /= 2
+      };
+
+      lessOrEqual * 3
     };
-    #insertionIndex left
+
+    // Linear search in e=0, there are just two elements
+    if (lessOrEqual == 0) {
+      let to = Nat.min(size(self), 2);
+      for (i in Nat.range(0, to)) {
+        let x = at(self, i);
+        switch (compare(x, element)) {
+          case (#less) {};
+          case (#equal) return #found(i);
+          case (#greater) return #insertionIndex(i)
+        }
+      };
+      return #insertionIndex(to)
+    };
+
+    // binary search the blockIndex in [left, right)
+    let blockIndex = do {
+      // guarateed less or equal to element
+      var left = lessOrEqual;
+      // right is either outside of the array or greater than element
+      var right = Nat.min(b + 1, lessOrEqual * 2);
+      while (right - left : Nat > 1) {
+        let mid = (left + right) / 2;
+        switch (compare(Option.unwrap(blocks[mid][0]), element)) {
+          case (#less) left := mid;
+          case (#greater) right := mid;
+          case (#equal) return #found(indexByBlockElement(mid, 0))
+        }
+      };
+      left
+    };
+
+    // binary search the elementIndex
+    let elementIndex = do {
+      let block = blocks[blockIndex];
+      var left = 0;
+      var right = if (blockIndex == self.blockIndex) self.elementIndex else block.size();
+      while (left != right) {
+        let mid = (left + right) / 2;
+        switch (compare(Option.unwrap(block[mid]), element)) {
+          case (#less) left := mid + 1;
+          case (#greater) right := mid;
+          case (#equal) return #found(indexByBlockElement(blockIndex, mid))
+        }
+      };
+      left
+    };
+
+    #insertionIndex(indexByBlockElement(blockIndex, elementIndex))
   };
 
   /// Returns true iff every element in `list` satisfies `predicate`.
@@ -845,7 +1495,26 @@ module {
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
   public func all<T>(self : List<T>, predicate : T -> Bool) : Bool {
-    not any<T>(self, func(x) : Bool = not predicate(x))
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return true;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) if (not predicate(x)) return false;
+          case null return true
+        };
+        j += 1
+      };
+      i += 1
+    };
+    true
   };
 
   /// Returns true iff some element in `list` satisfies `predicate`.
@@ -866,12 +1535,7 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
-  public func any<T>(self : List<T>, predicate : T -> Bool) : Bool {
-    switch (findIndex(self, predicate)) {
-      case (null) false;
-      case (_) true
-    }
-  };
+  public func any<T>(self : List<T>, predicate : T -> Bool) : Bool = findIndex<T>(self, predicate) != null;
 
   /// Returns an Iterator (`Iter`) over the elements of a List.
   /// Iterator provides a single method `next()`, which returns
@@ -895,7 +1559,31 @@ module {
   /// List, then this may lead to unexpected results.
   ///
   /// Runtime: `O(1)`
-  public func values<T>(self : List<T>) : Iter.Iter<T> = values_(self);
+  public func values<T>(self : List<T>) : Types.Iter<T> = object {
+    let blocks = self.blocks.size();
+    var blockIndex = 0;
+    var elementIndex = 0;
+    var db : [var ?T] = self.blocks[blockIndex];
+    var dbSize = db.size();
+
+    public func next() : ?T {
+      if (elementIndex == dbSize) {
+        blockIndex += 1;
+        if (blockIndex >= blocks) return null;
+        db := self.blocks[blockIndex];
+        dbSize := db.size();
+        if (dbSize == 0) return null;
+        elementIndex := 0
+      };
+      switch (db[elementIndex]) {
+        case (?x) {
+          elementIndex += 1;
+          return ?x
+        };
+        case (_) return null
+      }
+    }
+  };
 
   /// Returns an Iterator (`Iter`) over the items (index-value pairs) in the list.
   /// Each item is a tuple of `(index, value)`. The iterator provides a single method
@@ -918,7 +1606,7 @@ module {
   /// Runtime: `O(1)`
   ///
   /// Warning: Allocates memory on the heap to store ?(Nat, T).
-  public func enumerate<T>(self : List<T>) : Iter.Iter<(Nat, T)> = object {
+  public func enumerate<T>(self : List<T>) : Types.Iter<(Nat, T)> = object {
     let blocks = self.blocks.size();
     var blockIndex = 0;
     var elementIndex = 0;
@@ -969,7 +1657,7 @@ module {
   /// List, then this may lead to unexpected results.
   ///
   /// Runtime: `O(1)`
-  public func reverseValues<T>(self : List<T>) : Iter.Iter<T> = object {
+  public func reverseValues<T>(self : List<T>) : Types.Iter<T> = object {
     var blockIndex = self.blockIndex;
     var elementIndex = self.elementIndex;
     var db : [var ?T] = if (blockIndex < self.blocks.size()) {
@@ -977,15 +1665,13 @@ module {
     } else { [var] };
 
     public func next() : ?T {
-      if (blockIndex == 1) {
-        return null
-      };
-      if (elementIndex == 0) {
+      if (elementIndex != 0) {
+        elementIndex -= 1
+      } else {
         blockIndex -= 1;
+        if (blockIndex == 0) return null;
         db := self.blocks[blockIndex];
         elementIndex := db.size() - 1
-      } else {
-        elementIndex -= 1
       };
 
       db[elementIndex]
@@ -1013,7 +1699,7 @@ module {
   /// Runtime: `O(1)`
   ///
   /// Warning: Allocates memory on the heap to store ?(T, Nat).
-  public func reverseEnumerate<T>(self : List<T>) : Iter.Iter<(Nat, T)> = object {
+  public func reverseEnumerate<T>(self : List<T>) : Types.Iter<(Nat, T)> = object {
     var i = size(self);
     var blockIndex = self.blockIndex;
     var elementIndex = self.elementIndex;
@@ -1022,22 +1708,20 @@ module {
     } else { [var] };
 
     public func next() : ?(Nat, T) {
-      if (blockIndex == 1) {
-        return null
-      };
-      if (elementIndex == 0) {
+      if (elementIndex != 0) {
+        elementIndex -= 1
+      } else {
         blockIndex -= 1;
+        if (blockIndex == 0) return null;
         db := self.blocks[blockIndex];
         elementIndex := db.size() - 1
-      } else {
-        elementIndex -= 1
       };
       switch (db[elementIndex]) {
         case (?x) {
           i -= 1;
           return ?(i, x)
         };
-        case (_) Prim.trap(INTERNAL_ERROR)
+        case (_) Prim.trap INTERNAL_ERROR
       }
     }
   };
@@ -1061,7 +1745,7 @@ module {
   /// List, then this may lead to unexpected results.
   ///
   /// Runtime: `O(1)`
-  public func keys<T>(self : List<T>) : Iter.Iter<Nat> = Nat.range(0, size(self));
+  public func keys<T>(self : List<T>) : Types.Iter<Nat> = Nat.range(0, size(self));
 
   /// Creates a new List containing all elements from the provided iterator.
   /// Elements are added in the order they are returned by the iterator.
@@ -1079,7 +1763,7 @@ module {
   /// ```
   ///
   /// Runtime: `O(size)`
-  public func fromIter<T>(iter : Iter.Iter<T>) : List<T> {
+  public func fromIter<T>(iter : Types.Iter<T>) : List<T> {
     let list = empty<T>();
     for (element in iter) add(list, element);
     list
@@ -1101,7 +1785,7 @@ module {
   /// ```
   ///
   /// Runtime: `O(size)`
-  public func toList<T>(self : Iter.Iter<T>) : List<T> {
+  public func toList<T>(self : Types.Iter<T>) : List<T> {
     fromIter(self)
   };
 
@@ -1124,7 +1808,7 @@ module {
   /// The maximum number of elements in a `List` is 2^32.
   ///
   /// Runtime: `O(size)`, where n is the size of iter.
-  public func addAll<T>(self : List<T>, iter : Iter.Iter<T>) {
+  public func addAll<T>(self : List<T>, iter : Types.Iter<T>) {
     for (element in iter) add(self, element)
   };
 
@@ -1139,50 +1823,17 @@ module {
   /// ```
   ///
   /// Runtime: `O(size)`
-  public func toArray<T>(self : List<T>) : [T] = Array.tabulate<T>(size(self), values_(self).unsafe_next_i);
-
-  private func values_<T>(list : List<T>) : {
-    next : () -> ?T;
-    unsafe_next : () -> T;
-    unsafe_next_i : Nat -> T
-  } = object {
-    let blocks = list.blocks.size();
+  public func toArray<T>(self : List<T>) : [T] {
     var blockIndex = 0;
     var elementIndex = 0;
-    var db_size = 0;
+    var sz = 0;
     var db : [var ?T] = [var];
 
-    public func next() : ?T {
-      if (elementIndex == db_size) {
+    func generator(_ : Nat) : T {
+      if (elementIndex == sz) {
         blockIndex += 1;
-        if (blockIndex >= blocks) return null;
-        db := list.blocks[blockIndex];
-        db_size := db.size();
-        if (db_size == 0) return null;
-        elementIndex := 0
-      };
-      switch (db[elementIndex]) {
-        case (?x) {
-          elementIndex += 1;
-          return ?x
-        };
-        case (_) return null
-      }
-    };
-
-    // version of next() without option type
-    // inlined version of
-    //   public func unsafe_next() : T = {
-    //     let ?x = next() else Prim.trap(INTERNAL_ERROR);
-    //     x;
-    //   };
-    public func unsafe_next() : T {
-      if (elementIndex == db_size) {
-        blockIndex += 1;
-        if (blockIndex >= blocks) Prim.trap(INTERNAL_ERROR);
-        db := list.blocks[blockIndex];
-        db_size := db.size();
-        if (db_size == 0) Prim.trap(INTERNAL_ERROR);
+        db := self.blocks[blockIndex];
+        sz := db.size();
         elementIndex := 0
       };
       switch (db[elementIndex]) {
@@ -1190,30 +1841,11 @@ module {
           elementIndex += 1;
           return x
         };
-        case (_) Prim.trap(INTERNAL_ERROR)
+        case (_) Prim.trap INTERNAL_ERROR
       }
     };
 
-    // version of next() without option type and throw-away argument
-    // inlined version of
-    //   public func unsafe_next_(i : Nat) : T = unsafe_next();
-    public func unsafe_next_i(i : Nat) : T {
-      if (elementIndex == db_size) {
-        blockIndex += 1;
-        if (blockIndex >= blocks) Prim.trap(INTERNAL_ERROR);
-        db := list.blocks[blockIndex];
-        db_size := db.size();
-        if (db_size == 0) Prim.trap(INTERNAL_ERROR);
-        elementIndex := 0
-      };
-      switch (db[elementIndex]) {
-        case (?x) {
-          elementIndex += 1;
-          return x
-        };
-        case (_) Prim.trap(INTERNAL_ERROR)
-      }
-    }
+    Array.tabulate<T>(size(self), generator)
   };
 
   /// Creates a List containing elements from an Array.
@@ -1232,37 +1864,30 @@ module {
   public func fromArray<T>(array : [T]) : List<T> {
     let (blockIndex, elementIndex) = locate(array.size());
 
-    let blocks = new_index_block_length(Nat32.fromNat(if (elementIndex == 0) { blockIndex - 1 } else blockIndex));
-    let data_blocks = VarArray.repeat<[var ?T]>([var], blocks);
+    let blocks = newIndexBlockLength(Nat32.fromNat(if (elementIndex == 0) { blockIndex - 1 } else blockIndex));
+    let dataBlocks = VarArray.repeat<[var ?T]>([var], blocks);
+
     var i = 1;
     var pos = 0;
 
-    func make_block(len : Nat, fill : Nat) : [var ?T] {
-      let block = VarArray.repeat<?T>(null, len);
-      var j = 0;
-      while (j < fill) {
-        block[j] := ?array[pos];
-        j += 1;
-        pos += 1
-      };
-      block
-    };
-
     while (i < blockIndex) {
-      let len = data_block_size(i);
-      data_blocks[i] := make_block(len, len);
+      let len = dataBlockSize(i);
+      dataBlocks[i] := VarArray.tabulate<?T>(len, func i = ?array[pos + i]);
+      pos += len;
       i += 1
     };
     if (elementIndex != 0 and blockIndex < blocks) {
-      data_blocks[i] := make_block(data_block_size(i), elementIndex)
+      dataBlocks[i] := VarArray.tabulate<?T>(
+        dataBlockSize(i),
+        func i = if (i < elementIndex) ?array[pos + i] else null
+      )
     };
 
     {
-      var blocks = data_blocks;
+      var blocks = dataBlocks;
       var blockIndex = blockIndex;
       var elementIndex = elementIndex
-    };
-
+    }
   };
 
   /// Creates a new mutable array containing all elements from the list.
@@ -1280,16 +1905,33 @@ module {
   ///
   /// Runtime: `O(size)`
   public func toVarArray<T>(self : List<T>) : [var T] {
-    let s = size(self);
-    if (s == 0) return [var];
-    let arr = VarArray.repeat<T>(Option.unwrap(first(self)), s);
-    var i = 0;
-    let next = values_(self).unsafe_next;
-    while (i < s) {
-      arr[i] := next();
+    let ?fs = first(self) else return [var];
+
+    let array = VarArray.repeat<T>(fs, size(self));
+
+    var index = 0;
+
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return array;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) array[index] := x;
+          case null return array
+        };
+        j += 1;
+        index += 1
+      };
       i += 1
     };
-    arr
+    array
   };
 
   /// Creates a new List containing all elements from the mutable array.
@@ -1309,14 +1951,13 @@ module {
   public func fromVarArray<T>(array : [var T]) : List<T> {
     let (blockIndex, elementIndex) = locate(array.size());
 
-    let blocks = new_index_block_length(Nat32.fromNat(if (elementIndex == 0) { blockIndex - 1 } else blockIndex));
-    let data_blocks = VarArray.repeat<[var ?T]>([var], blocks);
-    var i = 1;
-    var pos = 0;
+    let blocks = newIndexBlockLength(Nat32.fromNat(if (elementIndex == 0) { blockIndex - 1 } else blockIndex));
+    let dataBlocks = VarArray.repeat<[var ?T]>([var], blocks);
 
-    func make_block(len : Nat, fill : Nat) : [var ?T] {
+    func makeBlock(array : [var T], p : Nat, len : Nat, fill : Nat) : [var ?T] {
       let block = VarArray.repeat<?T>(null, len);
       var j = 0;
+      var pos = p;
       while (j < fill) {
         block[j] := ?array[pos];
         j += 1;
@@ -1325,21 +1966,24 @@ module {
       block
     };
 
+    var i = 1;
+    var pos = 0;
+
     while (i < blockIndex) {
-      let len = data_block_size(i);
-      data_blocks[i] := make_block(len, len);
+      let len = dataBlockSize(i);
+      dataBlocks[i] := makeBlock(array, pos, len, len);
+      pos += len;
       i += 1
     };
-    if (elementIndex != 0 and blockIndex < blocks) {
-      data_blocks[i] := make_block(data_block_size(i), elementIndex)
+    if (elementIndex != 0) {
+      dataBlocks[i] := makeBlock(array, pos, dataBlockSize(i), elementIndex)
     };
 
     {
-      var blocks = data_blocks;
+      var blocks = dataBlocks;
       var blockIndex = blockIndex;
       var elementIndex = elementIndex
-    };
-
+    }
   };
 
   /// Returns the first element of `list`, or `null` if the list is empty.
@@ -1354,7 +1998,7 @@ module {
   ///
   /// Space: `O(1)`
   public func first<T>(self : List<T>) : ?T {
-    if (isEmpty(self)) null else self.blocks[1][0]
+    if (self.blockIndex == 1) null else self.blocks[1][0]
   };
 
   /// Returns the last element of `list`, or `null` if the list is empty.
@@ -1399,28 +2043,24 @@ module {
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
   public func forEach<T>(self : List<T>, f : T -> ()) {
-    let blocks = self.blocks.size();
-    var blockIndex = 0;
-    var elementIndex = 0;
-    var size = 0;
-    var db : [var ?T] = [var];
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
 
-    loop {
-      if (elementIndex == size) {
-        blockIndex += 1;
-        if (blockIndex >= blocks) return;
-        db := self.blocks[blockIndex];
-        size := db.size();
-        if (size == 0) return;
-        elementIndex := 0
-      };
-      switch (db[elementIndex]) {
-        case (?x) {
-          f(x);
-          elementIndex += 1
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) f(x);
+          case null return
         };
-        case (_) return
-      }
+        j += 1
+      };
+      i += 1
     }
   };
 
@@ -1446,38 +2086,175 @@ module {
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
   public func forEachEntry<T>(self : List<T>, f : (Nat, T) -> ()) {
-    /* Inlined version of
-      let o = object {
-        var i = 0;
-        public func fx(x : T) { f(i, x); i += 1; };
+    var index = 0;
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) f(index, x);
+          case null return
+        };
+        j += 1;
+        index += 1
       };
-      iterate<T>(list, o.fx);
-    */
+      i += 1
+    }
+  };
+
+  func actualInterval(fromInclusive : Int, toExclusive : Int, size : Nat) : (Nat, Nat) {
+    let startInt = if (fromInclusive < 0) {
+      let s = size + fromInclusive;
+      if (s < 0) { 0 } else { s }
+    } else {
+      if (fromInclusive > size) { size } else { fromInclusive }
+    };
+    let endInt = if (toExclusive < 0) {
+      let e = size + toExclusive;
+      if (e < 0) { 0 } else { e }
+    } else {
+      if (toExclusive > size) { size } else { toExclusive }
+    };
+    (Prim.abs(startInt), Prim.abs(endInt))
+  };
+
+  /// Returns an iterator over a slice of `list` starting at `fromInclusive` up to (but not including) `toExclusive`.
+  ///
+  /// Negative indices are relative to the end of the list. For example, `-1` corresponds to the last element in the list.
+  ///
+  /// If the indices are out of bounds, they are clamped to the list bounds.
+  /// If the first index is greater than the second, the function returns an empty iterator.
+  ///
+  /// ```motoko include=import
+  /// let list = List.fromArray<Nat>([1, 2, 3, 4, 5]);
+  /// let iter1 = List.range<Nat>(list, 3, List.size(list));
+  /// assert iter1.next() == ?4;
+  /// assert iter1.next() == ?5;
+  /// assert iter1.next() == null;
+  ///
+  /// let iter2 = List.range<Nat>(list, 3, -1);
+  /// assert iter2.next() == ?4;
+  /// assert iter2.next() == null;
+  ///
+  /// let iter3 = List.range<Nat>(list, 0, 0);
+  /// assert iter3.next() == null;
+  /// ```
+  ///
+  /// Runtime: O(1)
+  ///
+  /// Space: O(1)
+  public func range<T>(self : List<T>, fromInclusive : Int, toExclusive : Int) : Types.Iter<T> = object {
+    let (start, end) = actualInterval(fromInclusive, toExclusive, size(self));
     let blocks = self.blocks.size();
     var blockIndex = 0;
     var elementIndex = 0;
-    var size = 0;
-    var db : [var ?T] = [var];
-    var i = 0;
+    if (start != 0) {
+      let (block, element) = locate(start - 1);
+      blockIndex := block;
+      elementIndex := element + 1
+    };
+    var db : [var ?T] = self.blocks[blockIndex];
+    var dbSize = db.size();
+    var index = fromInclusive;
 
-    loop {
-      if (elementIndex == size) {
+    public func next() : ?T {
+      if (index >= end) return null;
+      index += 1;
+
+      if (elementIndex == dbSize) {
         blockIndex += 1;
-        if (blockIndex >= blocks) return;
+        if (blockIndex >= blocks) return null;
         db := self.blocks[blockIndex];
-        size := db.size();
-        if (size == 0) return;
+        dbSize := db.size();
+        if (dbSize == 0) return null;
+        elementIndex := 0
+      };
+      let ret = db[elementIndex];
+      elementIndex += 1;
+      ret
+    }
+  };
+
+  func sliceToArrayBase<T>(self : List<T>, start : Nat) : {
+    next(i : Nat) : T
+  } = object {
+    var blockIndex = 0;
+    var elementIndex = 0;
+    if (start != 0) {
+      let (block, element) = locate(start - 1);
+      blockIndex := block;
+      elementIndex := element + 1
+    };
+    var db : [var ?T] = self.blocks[blockIndex];
+    var dbSize = db.size();
+
+    public func next(i : Nat) : T {
+      if (elementIndex == dbSize) {
+        blockIndex += 1;
+        db := self.blocks[blockIndex];
+        dbSize := db.size();
         elementIndex := 0
       };
       switch (db[elementIndex]) {
         case (?x) {
-          f(i, x);
           elementIndex += 1;
-          i += 1
+          return x
         };
-        case (_) return
+        case null Prim.trap INTERNAL_ERROR
       }
     }
+  };
+
+  /// Returns a new array containing elements from `list` starting at index `fromInclusive` up to (but not including) index `toExclusive`.
+  /// If the indices are out of bounds, they are clamped to the array bounds.
+  ///
+  /// ```motoko include=import
+  /// let array = List.fromArray<Nat>([1, 2, 3, 4, 5]);
+  ///
+  /// let slice1 = List.sliceToArray<Nat>(array, 1, 4);
+  /// assert slice1 == [2, 3, 4];
+  ///
+  /// let slice2 = List.sliceToArray<Nat>(array, 1, -1);
+  /// assert slice2 == [2, 3, 4];
+  /// ```
+  ///
+  /// Runtime: O(toExclusive - fromInclusive)
+  ///
+  /// Space: O(toExclusive - fromInclusive)
+  public func sliceToArray<T>(self : List<T>, fromInclusive : Int, toExclusive : Int) : [T] {
+    let (start, end) = actualInterval(fromInclusive, toExclusive, size(self));
+    Array.tabulate<T>(end - start, sliceToArrayBase(self, start).next)
+  };
+
+  /// Returns a new var array containing elements from `list` starting at index `fromInclusive` up to (but not including) index `toExclusive`.
+  /// If the indices are out of bounds, they are clamped to the array bounds.
+  ///
+  /// ```motoko include=import
+  /// import VarArray "mo:core/VarArray";
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let array = List.fromArray<Nat>([1, 2, 3, 4, 5]);
+  ///
+  /// let slice1 = List.sliceToVarArray<Nat>(array, 1, 4);
+  /// assert VarArray.equal(slice1, [var 2, 3, 4], Nat.equal);
+  ///
+  /// let slice2 = List.sliceToVarArray<Nat>(array, 1, -1);
+  /// assert VarArray.equal(slice2, [var 2, 3, 4], Nat.equal);
+  /// ```
+  ///
+  /// Runtime: O(toExclusive - fromInclusive)
+  ///
+  /// Space: O(toExclusive - fromInclusive)
+  public func sliceToVarArray<T>(self : List<T>, fromInclusive : Int, toExclusive : Int) : [var T] {
+    let (start, end) = actualInterval(fromInclusive, toExclusive, size(self));
+    VarArray.tabulate<T>(end - start, sliceToArrayBase(self, start).next)
   };
 
   /// Like `forEachEntryRev` but iterates through the list in reverse order,
@@ -1502,29 +2279,28 @@ module {
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
   public func reverseForEachEntry<T>(self : List<T>, f : (Nat, T) -> ()) {
-    var blockIndex = self.blockIndex;
-    var elementIndex = self.elementIndex;
-    var db : [var ?T] = if (blockIndex < self.blocks.size()) {
-      self.blocks[blockIndex]
-    } else { [var] };
-    var i = size(self);
+    var index = 0;
 
-    loop {
-      if (blockIndex == 1) {
-        return
+    let blocks = self.blocks;
+    let blockIndex = self.blockIndex;
+    let elementIndex = self.elementIndex;
+
+    var i = blockIndex;
+    if (elementIndex == 0) i -= 1;
+
+    while (i > 0) {
+      let db = blocks[i];
+      let sz = db.size();
+      var j = if (i == blockIndex) elementIndex else sz;
+      while (j > 0) {
+        j -= 1;
+        switch (db[j]) {
+          case (?x) f(index, x);
+          case null Prim.trap INTERNAL_ERROR
+        };
+        index += 1
       };
-      if (elementIndex == 0) {
-        blockIndex -= 1;
-        db := self.blocks[blockIndex];
-        elementIndex := db.size() - 1
-      } else {
-        elementIndex -= 1
-      };
-      i -= 1;
-      switch (db[elementIndex]) {
-        case (?x) f(i, x);
-        case (_) Prim.trap(INTERNAL_ERROR)
-      }
+      i -= 1
     }
   };
 
@@ -1548,27 +2324,25 @@ module {
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
   public func reverseForEach<T>(self : List<T>, f : T -> ()) {
-    var blockIndex = self.blockIndex;
-    var elementIndex = self.elementIndex;
-    var db : [var ?T] = if (blockIndex < self.blocks.size()) {
-      self.blocks[blockIndex]
-    } else { [var] };
+    let blocks = self.blocks;
+    let blockIndex = self.blockIndex;
+    let elementIndex = self.elementIndex;
 
-    loop {
-      if (blockIndex == 1) {
-        return
+    var i = blockIndex;
+    if (elementIndex == 0) i -= 1;
+
+    while (i > 0) {
+      let db = blocks[i];
+      let sz = db.size();
+      var j = if (i == blockIndex) elementIndex else sz;
+      while (j > 0) {
+        j -= 1;
+        switch (db[j]) {
+          case (?x) f(x);
+          case null Prim.trap INTERNAL_ERROR
+        }
       };
-      if (elementIndex == 0) {
-        blockIndex -= 1;
-        db := self.blocks[blockIndex];
-        elementIndex := db.size() - 1
-      } else {
-        elementIndex -= 1
-      };
-      switch (db[elementIndex]) {
-        case (?x) f(x);
-        case (_) Prim.trap(INTERNAL_ERROR)
-      }
+      i -= 1
     }
   };
 
@@ -1616,19 +2390,36 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func max<T>(self : List<T>, compare : (implicit : (T, T) -> Order.Order)) : ?T {
-    if (isEmpty(self)) return null;
+  public func max<T>(self : List<T>, compare : (implicit : (T, T) -> Types.Order)) : ?T {
+    var maxSoFar : T = switch (first(self)) {
+      case (?x) x;
+      case null return null
+    };
 
-    var maxSoFar = at(self, 0);
-    forEach<T>(
-      self,
-      func(x) = switch (compare(x, maxSoFar)) {
-        case (#greater) maxSoFar := x;
-        case _ {}
-      }
-    );
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
 
-    return ?maxSoFar
+    var i = 2;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return ?maxSoFar;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) switch (compare(x, maxSoFar)) {
+            case (#greater) maxSoFar := x;
+            case _ {}
+          };
+          case null return ?maxSoFar
+        };
+        j += 1
+      };
+      i += 1
+    };
+
+    ?maxSoFar
   };
 
   /// Returns the least element in the list according to the ordering defined by `compare`.
@@ -1651,19 +2442,36 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func min<T>(self : List<T>, compare : (implicit : (T, T) -> Order.Order)) : ?T {
-    if (isEmpty(self)) return null;
+  public func min<T>(self : List<T>, compare : (implicit : (T, T) -> Types.Order)) : ?T {
+    var minSoFar : T = switch (first(self)) {
+      case (?x) x;
+      case null return null
+    };
 
-    var minSoFar = at(self, 0);
-    forEach<T>(
-      self,
-      func(x) = switch (compare(x, minSoFar)) {
-        case (#less) minSoFar := x;
-        case _ {}
-      }
-    );
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
 
-    return ?minSoFar
+    var i = 2;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return ?minSoFar;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) switch (compare(x, minSoFar)) {
+            case (#less) minSoFar := x;
+            case _ {}
+          };
+          case null return ?minSoFar
+        };
+        j += 1
+      };
+      i += 1
+    };
+
+    ?minSoFar
   };
 
   /// Tests if two lists are equal by comparing their elements using the provided `equal` function.
@@ -1688,18 +2496,29 @@ module {
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
   public func equal<T>(self : List<T>, other : List<T>, equal : (implicit : (T, T) -> Bool)) : Bool {
-    let size1 = size(self);
+    if (size(self) != size(other)) return false;
 
-    if (size1 != size(other)) return false;
+    let blocks1 = self.blocks;
+    let blocks2 = other.blocks;
+    let blockCount = Nat.min(blocks1.size(), blocks2.size());
 
-    let next1 = values_(self).unsafe_next;
-    let next2 = values_(other).unsafe_next;
-    var i = 0;
-    while (i < size1) {
-      if (not equal(next1(), next2())) return false;
+    var i = 1;
+    while (i < blockCount) {
+      let db1 = blocks1[i];
+      let db2 = blocks2[i];
+      let sz = Nat.min(db1.size(), db2.size());
+      if (sz == 0) return true;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db1[j], db2[j]) {
+          case (?x, ?y) if (not equal(x, y)) return false;
+          case (_, _) return true
+        };
+        j += 1
+      };
       i += 1
     };
-
     return true
   };
 
@@ -1725,23 +2544,33 @@ module {
   /// Space: `O(1)`
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func compare<T>(self : List<T>, other : List<T>, compare : (implicit : (T, T) -> Order.Order)) : Order.Order {
-    let size1 = size(self);
-    let size2 = size(other);
-    let minSize = if (size1 < size2) { size1 } else { size2 };
+  public func compare<T>(self : List<T>, other : List<T>, compare : (implicit : (T, T) -> Types.Order)) : Types.Order {
+    let blocks1 = self.blocks;
+    let blocks2 = other.blocks;
+    let blockCount = Nat.min(blocks1.size(), blocks2.size());
 
-    let next1 = values_(self).unsafe_next;
-    let next2 = values_(other).unsafe_next;
-    var i = 0;
-    while (i < minSize) {
-      switch (compare(next1(), next2())) {
-        case (#less) return #less;
-        case (#greater) return #greater;
-        case _ {}
+    var i = 1;
+    label l while (i < blockCount) {
+      let db1 = blocks1[i];
+      let db2 = blocks2[i];
+      let sz = Nat.min(db1.size(), db2.size());
+      if (sz == 0) break l;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db1[j], db2[j]) {
+          case (?x, ?y) switch (compare(x, y)) {
+            case (#less) return #less;
+            case (#greater) return #greater;
+            case _ {}
+          };
+          case (_, _) break l
+        };
+        j += 1
       };
       i += 1
     };
-    Nat.compare(size1, size2)
+    return Nat.compare(size(self), size(other))
   };
 
   /// Creates a textual representation of `list`, using `toText` to recursively
@@ -1761,18 +2590,30 @@ module {
   /// Space: `O(size)`
   ///
   /// *Runtime and space assumes that `toText` runs in O(1) time and space.
-  public func toText<T>(self : List<T>, f : (implicit : (toText : T -> Text))) : Text {
-    let vsize : Int = size(self);
-    let next = values_(self).unsafe_next;
-    var i = 0;
-    var text = "";
-    while (i < vsize - 1) {
-      text := text # f(next()) # ", "; // Text implemented as rope
-      i += 1
+  public func toText<T>(self : List<T>, toText : (implicit : T -> Text)) : Text {
+    var text = switch (first(self)) {
+      case (?x) toText(x);
+      case null ""
     };
-    if (vsize > 0) {
-      // avoid the trailing comma
-      text := text # f(at<T>(self, i))
+
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
+
+    var i = 2;
+    label l while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) break l;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) text #= ", " # toText(x);
+          case null break l
+        };
+        j += 1
+      };
+      i += 1
     };
 
     "List[" # text # "]"
@@ -1799,11 +2640,25 @@ module {
   public func foldLeft<A, T>(self : List<T>, base : A, combine : (A, T) -> A) : A {
     var accumulation = base;
 
-    forEach<T>(
-      self,
-      func(x) = accumulation := combine(accumulation, x)
-    );
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
 
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return accumulation;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) accumulation := combine(accumulation, x);
+          case null return accumulation
+        };
+        j += 1
+      };
+      i += 1
+    };
     accumulation
   };
 
@@ -1828,10 +2683,26 @@ module {
   public func foldRight<T, A>(self : List<T>, base : A, combine : (T, A) -> A) : A {
     var accumulation = base;
 
-    reverseForEach<T>(
-      self,
-      func(x) = accumulation := combine(x, accumulation)
-    );
+    let blocks = self.blocks;
+    let blockIndex = self.blockIndex;
+    let elementIndex = self.elementIndex;
+
+    var i = blockIndex;
+    if (elementIndex == 0) i -= 1;
+
+    while (i > 0) {
+      let db = blocks[i];
+      let sz = db.size();
+      var j = if (i == blockIndex) elementIndex else sz;
+      while (j > 0) {
+        j -= 1;
+        switch (db[j]) {
+          case (?x) accumulation := combine(x, accumulation);
+          case null Prim.trap INTERNAL_ERROR
+        }
+      };
+      i -= 1
+    };
 
     accumulation
   };
@@ -1854,17 +2725,42 @@ module {
   /// Space: `O(1)`
   public func reverseInPlace<T>(self : List<T>) {
     let vsize = size(self);
-    if (vsize == 0) return;
+    if (vsize <= 1) return;
 
-    var i = 0;
-    var j = vsize - 1 : Nat;
-    var temp = at(self, 0);
-    while (i < vsize / 2) {
-      temp := at(self, j);
-      put(self, j, at(self, i));
-      put(self, i, temp);
-      i += 1;
-      j -= 1
+    let (finalBlock, finalElement) = locate(vsize / 2);
+
+    let blocks = self.blocks;
+
+    var blockIndexBack = self.blockIndex;
+    var elementIndexBack = self.elementIndex;
+    var dbBack : [var ?T] = if (blockIndexBack < self.blocks.size()) {
+      self.blocks[blockIndexBack]
+    } else { [var] };
+
+    var i = 1;
+    var index = 0;
+    while (i <= finalBlock) {
+      let db = blocks[i];
+      let sz = if (i == finalBlock) finalElement else db.size();
+
+      var j = 0;
+      while (j < sz) {
+        if (elementIndexBack == 0) {
+          blockIndexBack -= 1;
+          dbBack := self.blocks[blockIndexBack];
+          elementIndexBack := dbBack.size() - 1
+        } else {
+          elementIndexBack -= 1
+        };
+
+        let temp = db[j];
+        db[j] := dbBack[elementIndexBack];
+        dbBack[elementIndexBack] := temp;
+
+        j += 1;
+        index += 1
+      };
+      i += 1
     }
   };
 
@@ -1885,13 +2781,39 @@ module {
   ///
   /// Space: `O(1)`
   public func reverse<T>(self : List<T>) : List<T> {
-    let rlist = empty<T>();
+    let rlist = repeatInternal<T>(null, size(self));
 
-    reverseForEach<T>(
-      self,
-      func(x) = add(rlist, x)
-    );
+    let blocks = self.blocks;
+    let blockCount = blocks.size();
 
+    var blockIndexBack = rlist.blockIndex;
+    var elementIndexBack = rlist.elementIndex;
+    var dbBack : [var ?T] = if (blockIndexBack < rlist.blocks.size()) {
+      rlist.blocks[blockIndexBack]
+    } else { [var] };
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return rlist;
+
+      var j = 0;
+      while (j < sz) {
+        if (elementIndexBack == 0) {
+          blockIndexBack -= 1;
+          if (blockIndexBack == 0) return rlist;
+          dbBack := rlist.blocks[blockIndexBack];
+          elementIndexBack := dbBack.size() - 1
+        } else {
+          elementIndexBack -= 1
+        };
+
+        dbBack[elementIndexBack] := db[j];
+        j += 1
+      };
+      i += 1
+    };
     rlist
   };
 
@@ -1908,6 +2830,7 @@ module {
   ///
   /// Space: `O(1)`
   public func isEmpty<T>(self : List<T>) : Bool {
-    self.blockIndex == 1 and self.elementIndex == 0
-  }
+    self.blockIndex == 1
+  };
+
 }

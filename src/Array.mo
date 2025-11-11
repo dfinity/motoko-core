@@ -1127,5 +1127,32 @@ module {
       }
     };
     #insertionIndex left
+  };
+
+  /// Checks whether the `array` is sorted according to the `compare` function.
+  ///
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let array = [1, 2, 3];
+  /// assert Array.isSorted<Nat>(array, Nat.compare);
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  ///
+  /// *Runtime and space assumes that `compare` runs in O(1) time and space.
+  public func isSorted<T>(self : [T], compare : (implicit : (T, T) -> Order.Order)) : Bool {
+    let size = self.size();
+    if (size <= 1) return true;
+    var i = 1;
+    while (i < size) {
+      switch (compare(self[i - 1], self[i])) {
+        case (#greater) return false;
+        case _ { i += 1 }
+      }
+    };
+    true
   }
 }
