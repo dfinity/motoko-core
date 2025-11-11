@@ -410,10 +410,10 @@ module {
   /// let result = Iter.toArray(zipped);
   /// assert result == [("A", "1", "x"), ("B", "2", "y")]; // note that the unmatched elements from iter2 and iter3 are not included
   /// ```
-  public func zip3<A, B, C>(self : Iter<A>, other : Iter<B>, other2 : Iter<C>) : Iter<(A, B, C)> = object {
+  public func zip3<A, B, C>(self : Iter<A>, other1 : Iter<B>, other2 : Iter<C>) : Iter<(A, B, C)> = object {
     public func next() : ?(A, B, C) {
       let ?x = self.next() else return null;
-      let ?y = other.next() else return null;
+      let ?y = other1.next() else return null;
       let ?z = other2.next() else return null;
       ?(x, y, z)
     }
@@ -448,10 +448,10 @@ module {
   /// let result = Iter.toArray(zipped);
   /// assert result == ["A1x", "B2y"]; // note that the unmatched elements from iter2 and iter3 are not included
   /// ```
-  public func zipWith3<A, B, C, R>(self : Iter<A>, other : Iter<B>, other2 : Iter<C>, f : (A, B, C) -> R) : Iter<R> = object {
+  public func zipWith3<A, B, C, R>(self : Iter<A>, other1 : Iter<B>, other2 : Iter<C>, f : (A, B, C) -> R) : Iter<R> = object {
     public func next() : ?R {
       let ?x = self.next() else return null;
-      let ?y = other.next() else return null;
+      let ?y = other1.next() else return null;
       let ?z = other2.next() else return null;
       ?f(x, y, z)
     }

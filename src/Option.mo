@@ -130,11 +130,11 @@ module {
   /// - `#less` if the first value is `null` and the second is not,
   /// - `#greater` if the first value is not `null` and the second is,
   /// - the result of the comparison function when both values are not `null`.
-  public func compare<T>(self : ?T, other : ?T, cmp : (implicit : (compare : (T, T) -> Types.Order))) : Types.Order = switch (self, other) {
+  public func compare<T>(self : ?T, other : ?T, compare : (implicit : (T, T) -> Types.Order)) : Types.Order = switch (self, other) {
     case (null, null) #equal;
     case (null, _) #less;
     case (_, null) #greater;
-    case (?x_, ?y_) { cmp(x_, y_) }
+    case (?x_, ?y_) { compare(x_, y_) }
   };
 
   /// Unwraps an optional value, i.e. `unwrap(?x) = x`.
