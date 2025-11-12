@@ -160,12 +160,12 @@ let suite = Suite.suite(
     ),
     Suite.test(
       "sort",
-      VarArray.sort(VarArray.tabulate<Int>(30, func i = (i * 123) - 50), Int.compare),
+      VarArray.sort(VarArray.tabulate<Int>(30, func i = (i * 123) % 100 - 50), Int.compare),
       M.equals(
         varArray<Int>(
           T.intTestable,
           bubbleSort<Int>(
-            VarArray.tabulate<Int>(30, func i = (i * 123) - 50),
+            VarArray.tabulate<Int>(30, func i = (i * 123) % 100 - 50),
             Int.compare
           )
         )
