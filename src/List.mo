@@ -248,7 +248,8 @@ module {
   public func addRepeat<T>(list : List<T>, initValue : T, count : Nat) = addRepeatInternal<T>(list, ?initValue, count);
 
   /// Truncates the list to the specified size.
-  /// If the new size is larger or equal than the current size, it will do nothing.
+  /// If the new size is larger than the current size, it will do nothing.
+  /// If the new size is equal to the current list size, after the operation list will be equal to cloned version of itself.
   ///
   /// Example:
   /// ```motoko include=import
@@ -261,8 +262,9 @@ module {
   ///
   /// Space: `O(1)`
   public func truncate<T>(list : List<T>, newSize : Nat) {
-    if (newSize >= size(list)) return;
+    if (newSize > size(list)) return;
 
+    // if newSize == size(list) then after the operation list will be equal to List.clone(list)
     let (blockIndex, elementIndex) = locate(newSize);
     list.blockIndex := blockIndex;
     list.elementIndex := elementIndex;
