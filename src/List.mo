@@ -248,7 +248,7 @@ module {
   public func addRepeat<T>(list : List<T>, initValue : T, count : Nat) = addRepeatInternal<T>(list, ?initValue, count);
 
   /// Truncates the list to the specified size.
-  /// If the new size is larger than the current size, it will trap.
+  /// If the new size is larger or equal than the current size, it will do nothing.
   ///
   /// Example:
   /// ```motoko include=import
@@ -261,12 +261,12 @@ module {
   ///
   /// Space: `O(1)`
   public func truncate<T>(list : List<T>, newSize : Nat) {
-    if (newSize > size(list)) Prim.trap "List.truncate: newSize is larger than current size";
+    if (newSize >= size(list)) return;
 
     let (blockIndex, elementIndex) = locate(newSize);
     list.blockIndex := blockIndex;
     list.elementIndex := elementIndex;
-    let newBlocksCount = new_index_block_length(Nat32.fromNat(if (elementIndex == 0) blockIndex - 1 else blockIndex));
+    let newBlocksCount = newIndexBlockLength(Nat32.fromNat(if (elementIndex == 0) blockIndex - 1 else blockIndex));
 
     let newBlocks = if (newBlocksCount < list.blocks.size()) {
       let oldDataBlocks = list.blocks;
