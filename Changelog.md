@@ -1,5 +1,6 @@
 ## Next
 
+* Optimized `sort` and `sortInPlace` for `VarArray`, `List`, Array` (#422).
 * Simplify `isSorted` logic (#421).
 * Add `isSorted` to `Array` and `VarArray` (#414).
 * Improve CI for external contributions (#413).
