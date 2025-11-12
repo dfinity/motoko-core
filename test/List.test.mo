@@ -1768,6 +1768,19 @@ func testMax(n : Nat) : Bool {
   true
 };
 
+func testReader(n : Nat) : Bool {
+  let vec = List.tabulate<Nat>(2 * n, func i = i);
+  let reader = List.reader(vec, n);
+  for (i in Nat.range(0, n)) {
+    let x = reader();
+    if (x != i + n) {
+      Debug.print("Reader expected " # Nat.toText(i + n) # ", got " # Nat.toText(x));
+      return false
+    }
+  };
+  return true
+};
+
 // Run all tests
 func runAllTests() {
   runTest("testNew", testNew);
@@ -1811,7 +1824,8 @@ func runAllTests() {
   runTest("testNextIndexOf", testNextIndexOf);
   runTest("testPrevIndexOf", testPrevIndexOf);
   runTest("testMin", testMin);
-  runTest("testMax", testMax)
+  runTest("testMax", testMax);
+  runTest("testReader", testReader)
 };
 
 // Run all tests

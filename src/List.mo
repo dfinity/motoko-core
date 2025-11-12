@@ -2814,7 +2814,20 @@ module {
   };
 
   /// Unsafe iterator starting from `start`.
-  public func reader<T>(self : List<T>, start : Nat) : () -> T {
+  ///
+  /// Example:
+  /// ```
+  /// let list = List.fromArray<Nat>([1, 2, 3, 4, 5]);
+  /// let reader = List.reader<Nat>(list, 2);
+  /// assert reader() == 3;
+  /// assert reader() == 4;
+  /// assert reader() == 5;
+  /// ```
+  ///
+  /// Runtime: `O(1)`
+  ///
+  /// Space: `O(1)`
+  public func reader<T>(list : List<T>, start : Nat) : () -> T {
     var blockIndex = 0;
     var elementIndex = 0;
     if (start != 0) {
@@ -2822,13 +2835,13 @@ module {
       blockIndex := block;
       elementIndex := element + 1
     };
-    var db : [var ?T] = self.blocks[blockIndex];
+    var db : [var ?T] = list.blocks[blockIndex];
     var dbSize = db.size();
     func next() : T {
       // Note: next() traps when reading beyond end of list
       if (elementIndex == dbSize) {
         blockIndex += 1;
-        db := self.blocks[blockIndex];
+        db := list.blocks[blockIndex];
         dbSize := db.size();
         elementIndex := 0
       };
