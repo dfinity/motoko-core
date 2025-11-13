@@ -1078,6 +1078,20 @@ func testInit(n : Nat) : Bool {
   true
 };
 
+func testFill(n : Nat) : Bool {
+  let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func i = i + 1));
+  List.fill(vec, 42);
+  if (List.size(vec) != n) {
+    Debug.print("Fill failed: expected size " # Nat.toText(n) # ", got " # Nat.toText(List.size(vec)));
+    return false
+  };
+  if (not List.all<Nat>(vec, func x = x == 42)) {
+    Debug.print("Fill failed");
+    return false
+  };
+  true
+};
+
 func testAdd(n : Nat) : Bool {
   if (n == 0) return true;
   let vec = List.empty<Nat>();
@@ -1785,6 +1799,7 @@ func testReader(n : Nat) : Bool {
 func runAllTests() {
   runTest("testNew", testNew);
   runTest("testInit", testInit);
+  runTest("testFill", testFill);
   runTest("testAdd", testAdd);
   runTest("testAddRepeat", testAddRepeat);
   runTest("testRemoveLast", testRemoveLast);
