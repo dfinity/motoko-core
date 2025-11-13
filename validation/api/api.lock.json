@@ -580,6 +580,7 @@
       "public func toPure<T>(list : List<T>) : PureList.List<T>",
       "public func toText<T>(list : List<T>, f : T -> Text) : Text",
       "public func toVarArray<T>(list : List<T>) : [var T]",
+      "public func truncate<T>(list : List<T>, newSize : Nat)",
       "public func values<T>(list : List<T>) : Types.Iter<T>"
     ]
   },

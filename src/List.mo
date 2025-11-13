@@ -280,6 +280,51 @@ module {
   /// Runtime: `O(count)`
   public func addRepeat<T>(list : List<T>, initValue : T, count : Nat) = addRepeatInternal<T>(list, ?initValue, count);
 
+  /// Truncates the list to the specified size.
+  /// If the new size is larger than the current size, it will do nothing.
+  /// If the new size is equal to the current list size, after the operation list will be equal to cloned version of itself.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let list = List.fromArray<Nat>([1, 2, 3, 4, 5]);
+  /// List.truncate(list, 3); // list is now [1, 2, 3]
+  /// assert List.toArray(list) == [1, 2, 3];
+  /// ```
+  ///
+  /// Runtime: `O(size)`
+  ///
+  /// Space: `O(1)`
+  public func truncate<T>(list : List<T>, newSize : Nat) {
+    if (newSize > size(list)) return;
+
+    // if newSize == size(list) then after the operation list will be equal to List.clone(list)
+    let (blockIndex, elementIndex) = locate(newSize);
+    list.blockIndex := blockIndex;
+    list.elementIndex := elementIndex;
+    let newBlocksCount = newIndexBlockLength(Nat32.fromNat(if (elementIndex == 0) blockIndex - 1 else blockIndex));
+
+    let newBlocks = if (newBlocksCount < list.blocks.size()) {
+      let oldDataBlocks = list.blocks;
+      list.blocks := VarArray.tabulate<[var ?T]>(newBlocksCount, func(i) = oldDataBlocks[i]);
+      list.blocks
+    } else list.blocks;
+
+    var i = if (elementIndex == 0) blockIndex else blockIndex + 1;
+    while (i < newBlocksCount) {
+      newBlocks[i] := [var];
+      i += 1
+    };
+    if (elementIndex != 0) {
+      let block = newBlocks[blockIndex];
+      var i = elementIndex;
+      var to = block.size();
+      while (i < to) {
+        block[i] := null;
+        i += 1
+      }
+    }
+  };
+
   /// Resets the list to size 0, de-referencing all elements.
   ///
   /// Example:
