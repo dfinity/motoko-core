@@ -525,6 +525,7 @@
       "public func empty<T>() : List<T>",
       "public func enumerate<T>(list : List<T>) : Types.Iter<(Nat, T)>",
       "public func equal<T>(list1 : List<T>, list2 : List<T>, equal : (T, T) -> Bool) : Bool",
+      "public func fill<T>(list : List<T>, value : T)",
       "public func filter<T>(list : List<T>, predicate : T -> Bool) : List<T>",
       "public func filterMap<T, R>(list : List<T>, f : T -> ?R) : List<R>",
       "public func find<T>(list : List<T>, predicate : T -> Bool) : ?T",
