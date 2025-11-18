@@ -1463,7 +1463,7 @@ func testFromIter(n : Nat) : Bool {
   List.equal(vec, List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i + 1)), Nat.equal)
 };
 
-func testForEachRange(n : Nat) : Bool {
+func testforEachInRange(n : Nat) : Bool {
   if (n > 10) return true; // Skip large ranges for performance
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
 
@@ -1471,10 +1471,10 @@ func testForEachRange(n : Nat) : Bool {
     for (right in Nat.range(left, n + 1)) {
       let expected = VarArray.tabulate<Nat>(right - left, func(i) = left + i);
       let result = VarArray.repeat<Nat>(0, right - left);
-      List.forEachRange<Nat>(vec, func(i) = result[i - left] := i, left, right);
+      List.forEachInRange<Nat>(vec, func(i) = result[i - left] := i, left, right);
       if (Array.fromVarArray(result) != Array.fromVarArray(expected)) {
         Debug.print(
-          "ForEachRange mismatch for left = " # Nat.toText(left) # ", right = " # Nat.toText(right) # ": expected " # debug_show (expected) # ", got " # debug_show (result)
+          "forEachInRange mismatch for left = " # Nat.toText(left) # ", right = " # Nat.toText(right) # ": expected " # debug_show (expected) # ", got " # debug_show (result)
         );
         return false
       }
@@ -1834,7 +1834,7 @@ func runAllTests() {
   runTest("testFromIter", testFromIter);
   runTest("testFoldLeft", testFoldLeft);
   runTest("testFoldRight", testFoldRight);
-  runTest("testForEachRange", testForEachRange);
+  runTest("testforEachInRange", testforEachInRange);
   runTest("testFilter", testFilter);
   runTest("testFilterMap", testFilterMap);
   runTest("testPure", testPure);

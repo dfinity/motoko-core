@@ -538,7 +538,7 @@
       "public func foldRight<T, A>(list : List<T>, base : A, combine : (T, A) -> A) : A",
       "public func forEach<T>(list : List<T>, f : T -> ())",
       "public func forEachEntry<T>(list : List<T>, f : (Nat, T) -> ())",
-      "public func forEachRange<T>(list : List<T>, f : T -> (), fromInclusive : Nat, toExclusive : Nat)",
+      "public func forEachInRange<T>(list : List<T>, f : T -> (), fromInclusive : Nat, toExclusive : Nat)",
       "public func fromArray<T>(array : [T]) : List<T>",
       "public func fromIter<T>(iter : Types.Iter<T>) : List<T>",
       "public func fromPure<T>(pure : PureList.List<T>) : List<T>",

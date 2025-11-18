@@ -2366,13 +2366,13 @@ module {
   /// import Nat "mo:core/Nat";
   ///
   /// let list = List.fromArray<Nat>([1, 2, 3, 4, 5]);
-  /// List.forEachRange<Nat>(list, func x = Debug.print(Nat.toText(x)), 1, 2); // prints 2 and 3
+  /// List.forEachInRange<Nat>(list, func x = Debug.print(Nat.toText(x)), 1, 2); // prints 2 and 3
   /// ```
   ///
   /// Runtime: `O(toExclusive - fromExclusive)`
   ///
   /// Space: `O(1)`
-  public func forEachRange<T>(list : List<T>, f : T -> (), fromInclusive : Nat, toExclusive : Nat) {
+  public func forEachInRange<T>(list : List<T>, f : T -> (), fromInclusive : Nat, toExclusive : Nat) {
     if (not (fromInclusive <= toExclusive and toExclusive <= size(list))) Prim.trap("Invalid range");
 
     func traverseBlock(block : [var ?T], f : T -> (), from : Nat, to : Nat) {

@@ -4,7 +4,7 @@
 * Simplify `isSorted` logic (#421).
 * Add `isSorted` to `Array` and `VarArray` (#414).
 * Improve CI for external contributions (#413).
-* Add `forEachRange` to `List` (#411).
+* Add `forEachInRange` to `List` (#411).
 * Add `fill` to `List` (#410).
 * Add `isSorted` to `List` (#408).
 * **Breaking:** Rename `sort` to `sortInPlace`, add `sort` (#405).
