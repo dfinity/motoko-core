@@ -55,6 +55,7 @@
       "public func equal(blob1 : Blob, blob2 : Blob) : Bool",
       "public func fromArray(bytes : [Nat8]) : Blob",
       "public func fromVarArray(bytes : [var Nat8]) : Blob",
+      "public func get(blob : Blob, index : Nat) : ?Nat8",
       "public func greater(blob1 : Blob, blob2 : Blob) : Bool",
       "public func greaterOrEqual(blob1 : Blob, blob2 : Blob) : Bool",
       "public func hash(blob : Blob) : Types.Hash",
