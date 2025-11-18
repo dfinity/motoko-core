@@ -69,6 +69,21 @@ module {
   /// ```
   public func size(blob : Blob) : Nat = blob.size();
 
+  /// Returns the byte at index `index` as an option.
+  /// Returns `null` when `index >= size`. Indexing is zero-based.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let blob : Blob = "abcdefg\08";
+  /// assert Blob.get(blob, 8) == ?8;
+  /// assert Blob.get(blob, 10) == null;
+  /// ```
+  ///
+  /// Runtime: `O(1)`
+  ///
+  /// Space: `O(1)`
+  public func get(blob : Blob, index : Nat) : ?Nat8 = if (index < blob.size()) ?(blob.get index) else null;
+
   /// Creates a `Blob` from an array of bytes (`[Nat8]`), by copying each element.
   ///
   /// Example:
