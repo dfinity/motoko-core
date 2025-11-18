@@ -52,7 +52,7 @@ Traps if <code>index &gt;= size</code>, error message may not be descriptive.</p
 <p>Example:</p>
 <pre><code>motoko include=import
 let blob : Blob = &quot;abcdefgh\08&quot;;
-assert Blob.get(blob, 8) == 8;</code></pre>
+assert Blob.at(blob, 8) == 8;</code></pre>
 
 <p>Runtime: <code>O(1)</code></p>
 </p></div><div class="declaration"><h4 class="function" id="fromArray"><code><span class="keyword">public func </span><span class="fnname">fromArray</span>(<span class="parameter">bytes</span> : [<span class="type">Nat8</span>]) : <a href="#type.Blob"><span class="type">Blob</span></a></code></h4><p><p>Creates a <code>Blob</code> from an array of bytes (<code>[Nat8]</code>), by copying each element.</p>
