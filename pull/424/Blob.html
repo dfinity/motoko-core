@@ -41,7 +41,7 @@ assert blob.size() == 3;</code></pre></p></div><div class="declaration"><h4 clas
 Returns <code>null</code> when <code>index &gt;= size</code>. Indexing is zero-based.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-let blob : Blob = &quot;abcdefg\08&quot;;
+let blob : Blob = &quot;abcdefgh\08&quot;;
 assert Blob.get(blob, 8) == ?8;
 assert Blob.get(blob, 10) == null;</code></pre>
 
