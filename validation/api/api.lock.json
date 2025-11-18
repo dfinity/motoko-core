@@ -49,6 +49,7 @@
   {
     "name": "Blob",
     "exports": [
+      "public func at(blob : Blob, index : Nat) : Nat8",
       "public type Blob",
       "public func compare(b1 : Blob, b2 : Blob) : Order.Order",
       "public func empty() : Blob",
