@@ -74,7 +74,7 @@ module {
   ///
   /// Example:
   /// ```motoko include=import
-  /// let blob : Blob = "abcdefg\08";
+  /// let blob : Blob = "abcdefgh\08";
   /// assert Blob.get(blob, 8) == ?8;
   /// assert Blob.get(blob, 10) == null;
   /// ```
