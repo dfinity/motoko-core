@@ -229,59 +229,60 @@ module {
     };
     let scratchSpace = Prim.Array_init<T>(size, array[0]);
 
-    let sizeDec = size - 1 : Nat;
     var currSize = 1; // current size of the subarrays being merged
+    var oddIteration = false;
+
     // when the current size == size, the array has been merged into a single sorted array
     while (currSize < size) {
+      let (fromArray, toArray) = if (oddIteration) (scratchSpace, array) else (array, scratchSpace);
       var leftStart = 0; // selects the current left subarray being merged
-      while (leftStart < sizeDec) {
-        let mid : Nat = if (leftStart + currSize - 1 : Nat < sizeDec) {
-          leftStart + currSize - 1
-        } else { sizeDec };
-        let rightEnd : Nat = if (leftStart + (2 * currSize) - 1 : Nat < sizeDec) {
-          leftStart + (2 * currSize) - 1
-        } else { sizeDec };
 
-        // Merge subarrays elements[leftStart...mid] and elements[mid+1...rightEnd]
+      while (leftStart < size) {
+        let mid = if (leftStart + currSize < size) leftStart + currSize else size;
+        let rightEnd = if (leftStart + 2 * currSize < size) leftStart + 2 * currSize else size;
+
+        // merge [leftStart, mid) with [mid, rightEnd)
         var left = leftStart;
-        var right = mid + 1;
+        var right = mid;
         var nextSorted = leftStart;
-        while (left < mid + 1 and right < rightEnd + 1) {
-          let leftElement = array[left];
-          let rightElement = array[right];
-          switch (compare(leftElement, rightElement)) {
+        while (left < mid and right < rightEnd) {
+          let leftElement = fromArray[left];
+          let rightElement = fromArray[right];
+          toArray[nextSorted] := switch (compare(leftElement, rightElement)) {
             case (#less or #equal) {
-              scratchSpace[nextSorted] := leftElement;
-              left += 1
+              left += 1;
+              leftElement
             };
             case (#greater) {
-              scratchSpace[nextSorted] := rightElement;
-              right += 1
+              right += 1;
+              rightElement
             }
           };
           nextSorted += 1
         };
-        while (left < mid + 1) {
-          scratchSpace[nextSorted] := array[left];
+        while (left < mid) {
+          toArray[nextSorted] := fromArray[left];
           nextSorted += 1;
           left += 1
         };
-        while (right < rightEnd + 1) {
-          scratchSpace[nextSorted] := array[right];
+        while (right < rightEnd) {
+          toArray[nextSorted] := fromArray[right];
           nextSorted += 1;
           right += 1
         };
 
-        // Copy over merged elements
-        var i = leftStart;
-        while (i < rightEnd + 1) {
-          array[i] := scratchSpace[i];
-          i += 1
-        };
-
         leftStart += 2 * currSize
       };
-      currSize *= 2
+
+      currSize *= 2;
+      oddIteration := not oddIteration
+    };
+    if (oddIteration) {
+      var i = 0;
+      while (i < size) {
+        array[i] := scratchSpace[i];
+        i += 1
+      }
     }
   };
 

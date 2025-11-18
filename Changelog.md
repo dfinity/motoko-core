@@ -1,10 +1,12 @@
 ## Next
 
 * Add `reader` function to `List` (#423).
+* Optimized `sort` and `sortInPlace` for `VarArray`, `List`, `Array` (#422).
 * Simplify `isSorted` logic (#421).
 * Add `isSorted` to `Array` and `VarArray` (#414).
 * Improve CI for external contributions (#413).
 * Add `fill` to `List` (#410).
+* Add `truncate` to `List` (#409).
 * Add `isSorted` to `List` (#408).
 * **Breaking:** Rename `sort` to `sortInPlace`, add `sort` (#405).
 * Add `isCleanReject` to `Error`, align reject code order with IC interface specification and improve comments (#401).
