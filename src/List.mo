@@ -937,6 +937,7 @@ module {
     list.elementIndex := elementIndex
   };
 
+  // Add an element without checking and resizing the List
   private func addUnsafe<T>(list : List<T>, element : T) {
     var elementIndex = list.elementIndex;
     let lastDataBlock = list.blocks[list.blockIndex];
