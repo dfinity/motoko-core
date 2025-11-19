@@ -516,6 +516,7 @@
       "public func addRepeat<T>(list : List<T>, initValue : T, count : Nat)",
       "public func all<T>(list : List<T>, predicate : T -> Bool) : Bool",
       "public func any<T>(list : List<T>, predicate : T -> Bool) : Bool",
+      "public func append<T>(list : List<T>, added : List<T>)",
       "public func at<T>(list : List<T>, index : Nat) : T",
       "public func binarySearch<T>(list : List<T>, compare : (T, T) -> Types.Order, element : T) : { #found : Nat; #insertionIndex : Nat }",
       "public func clear<T>(list : List<T>)",
