@@ -723,6 +723,46 @@ module {
     filtered
   };
 
+  /// Retains only the elements in `list` for which the predicate returns true.
+  /// Modifies the original list in place.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let list = List.fromArray<Nat>([1, 2, 3, 4]);
+  /// List.retain<Nat>(list, func x = x % 2 == 0);
+  /// assert List.toArray(list) == [2, 4];
+  /// ```
+  ///
+  /// Runtime: `O(size)`
+  ///
+  /// Space: `O(sqrt(size))` if `list` was truncated otherwise `O(1)`
+  public func retain<T>(list : List<T>, predicate : T -> Bool) {
+    list.blockIndex := 1;
+    list.elementIndex := 0;
+
+    let blocks = list.blocks;
+    let blockCount = blocks.size();
+
+    var i = 1;
+    label l while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) break l;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) if (predicate(x)) addUnsafe(list, x);
+          case null break l
+        };
+        j += 1
+      };
+      i += 1
+    };
+
+    truncate(list, size(list))
+  };
+
   /// Returns a new list containing all elements from `list` for which the function returns ?element.
   /// Discards all elements for which the function returns null.
   ///
