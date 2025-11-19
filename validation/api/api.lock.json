@@ -522,6 +522,7 @@
       "public func clone<T>(list : List<T>) : List<T>",
       "public func compare<T>(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Types.Order) : Types.Order",
       "public func contains<T>(list : List<T>, equal : (T, T) -> Bool, element : T) : Bool",
+      "public func deduplicate<T>(list : List<T>, equal : (T, T) -> Bool)",
       "public func empty<T>() : List<T>",
       "public func enumerate<T>(list : List<T>) : Types.Iter<(Nat, T)>",
       "public func equal<T>(list1 : List<T>, list2 : List<T>, equal : (T, T) -> Bool) : Bool",

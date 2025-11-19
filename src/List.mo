@@ -1220,6 +1220,57 @@ module {
     true
   };
 
+  /// Remove adjacent duplicates from the `list`, if the `list` is sorted all elements will be unique.
+  ///
+  /// Example:
+  /// ```
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([1, 1, 2, 2, 3]);
+  /// List.deduplicate(list, Nat.equal);
+  /// assert List.equal(list, List.fromArray<Nat>([1, 2, 3]), Nat.equal);
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  public func deduplicate<T>(list : List<T>, equal : (T, T) -> Bool) {
+    var prev = switch (first(list)) {
+      case (?x) x;
+      case _ return
+    };
+
+    list.blockIndex := 1;
+    list.elementIndex := 0;
+
+    addUnsafe(list, prev);
+
+    let blocks = list.blocks;
+    let blockCount = blocks.size();
+
+    var i = 2;
+    label l while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return break l;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) {
+            if (not equal(x, prev)) addUnsafe(list, x);
+            prev := x
+          };
+          case null break l
+        };
+        j += 1
+      };
+      i += 1
+    };
+
+    truncate(list, size(list))
+  };
+
   /// Finds the first index of `element` in `list` using equality of elements defined
   /// by `equal`. Returns `null` if `element` is not found.
   ///
