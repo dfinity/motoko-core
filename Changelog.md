@@ -1,5 +1,6 @@
 ## Next
 
+* Add conversions between any two `Nat*` types (#431).
 * Add conversions between `Nat8` and all other `Nat` types (#430).
 * Optimized `sort` and `sortInPlace` for `VarArray`, `List`, `Array` (#422).
 * Simplify `isSorted` logic (#421).
