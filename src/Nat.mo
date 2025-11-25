@@ -78,6 +78,78 @@ module {
     nat : Int
   };
 
+  /// Converts an unsigned integer with infinite precision to an 8-bit unsigned integer.
+  ///
+  /// Traps on overflow.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat.toNat8(123) == (123 : Nat8);
+  /// ```
+  public let toNat8 : Nat -> Nat8 = Prim.natToNat8;
+
+  /// Converts an unsigned integer with infinite precision to a 16-bit unsigned integer.
+  ///
+  /// Traps on overflow.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat.toNat16(123) == (123 : Nat16);
+  /// ```
+  public let toNat16 : Nat -> Nat16 = Prim.natToNat16;
+
+  /// Converts an unsigned integer with infinite precision to a 32-bit unsigned integer.
+  ///
+  /// Traps on overflow.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat.toNat32(123) == (123 : Nat32);
+  /// ```
+  public let toNat32 : Nat -> Nat32 = Prim.natToNat32;
+
+  /// Converts an unsigned integer with infinite precision to a 64-bit unsigned integer.
+  ///
+  /// Traps on overflow.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat.toNat64(123) == (123 : Nat64);
+  /// ```
+  public let toNat64 : Nat -> Nat64 = Prim.natToNat64;
+
+  /// Converts an 8-bit unsigned integer to an unsigned integer with infinite precision.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat.fromNat8(123) == (123 : Nat);
+  /// ```
+  public let fromNat8 : Nat8 -> Nat = Prim.nat8ToNat;
+
+  /// Converts a 16-bit unsigned integer to an unsigned integer with infinite precision.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat.fromNat16(123) == (123 : Nat);
+  /// ```
+  public let fromNat16 : Nat16 -> Nat = Prim.nat16ToNat;
+
+  /// Converts a 32-bit unsigned integer to an unsigned integer with infinite precision.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat.fromNat32(123) == (123 : Nat);
+  /// ```
+  public let fromNat32 : Nat32 -> Nat = Prim.nat32ToNat;
+
+  /// Converts a 64-bit unsigned integer to an unsigned integer with infinite precision.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat.fromNat64(123) == (123 : Nat);
+  /// ```
+  public let fromNat64 : Nat64 -> Nat = Prim.nat64ToNat;
+
   /// Returns the minimum of `x` and `y`.
   ///
   /// Example:

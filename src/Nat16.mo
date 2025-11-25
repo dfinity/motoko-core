@@ -86,6 +86,28 @@ module {
     Prim.nat16ToNat32(x)
   };
 
+  /// Converts a 64-bit unsigned integer to a 16-bit unsigned integer.
+  ///
+  /// Traps on overflow.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat16.fromNat64(123) == (123 : Nat16);
+  /// ```
+  public func fromNat64(x : Nat64) : Nat16 {
+    Prim.natToNat16(Prim.nat64ToNat(x))
+  };
+
+  /// Converts a 16-bit unsigned integer to a 64-bit unsigned integer.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat16.toNat64(123) == (123 : Nat64);
+  /// ```
+  public func toNat64(x : Nat16) : Nat64 {
+    Prim.natToNat64(Prim.nat16ToNat(x))
+  };
+
   /// Converts a signed integer with infinite precision to a 16-bit unsigned integer.
   ///
   /// Wraps on overflow/underflow.
