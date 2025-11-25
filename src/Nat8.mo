@@ -60,6 +60,50 @@ module {
   /// ```
   public let toNat16 : Nat8 -> Nat16 = Prim.nat8ToNat16;
 
+  /// Converts a 32-bit unsigned integer to a 8-bit unsigned integer.
+  ///
+  /// Traps on overflow.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat8.fromNat32(123) == (123 : Nat8);
+  /// ```
+  public func fromNat32(x : Nat32) : Nat8 {
+    Prim.natToNat8(Prim.nat32ToNat(x))
+  };
+
+  /// Converts an 8-bit unsigned integer to a 32-bit unsigned integer.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat8.toNat32(123) == (123 : Nat32);
+  /// ```
+  public func toNat32(x : Nat8) : Nat32 {
+    Prim.natToNat32(Prim.nat8ToNat(x))
+  };
+
+  /// Converts a 64-bit unsigned integer to a 8-bit unsigned integer.
+  ///
+  /// Traps on overflow.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat8.fromNat64(123) == (123 : Nat8);
+  /// ```
+  public func fromNat64(x : Nat64) : Nat8 {
+    Prim.natToNat8(Prim.nat64ToNat(x))
+  };
+
+  /// Converts an 8-bit unsigned integer to a 64-bit unsigned integer.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat8.toNat64(123) == (123 : Nat64);
+  /// ```
+  public func toNat64(x : Nat8) : Nat64 {
+    Prim.natToNat64(Prim.nat8ToNat(x))
+  };
+
   /// Converts a signed integer with infinite precision to an 8-bit unsigned integer.
   ///
   /// Wraps on overflow/underflow.

@@ -42,6 +42,16 @@ module {
   /// ```
   public let fromNat : Nat -> Nat64 = Prim.natToNat64;
 
+  /// Converts an 8-bit unsigned integer to a 64-bit unsigned integer.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat64.fromNat8(123) == (123 : Nat64);
+  /// ```
+  public func fromNat8(x : Nat8) : Nat64 {
+    Prim.natToNat64(Prim.nat8ToNat(x))
+  };
+
   /// Converts a 32-bit unsigned integer to a 64-bit unsigned integer.
   ///
   /// Example:
