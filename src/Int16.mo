@@ -97,6 +97,28 @@ module {
   /// ```
   public let toInt32 : Int16 -> Int32 = Prim.int16ToInt32;
 
+  /// Converts a 64-bit signed integer to a 16-bit signed integer.
+  ///
+  /// Traps on overflow/underflow.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Int16.fromInt64(-12_345) == (-12_345 : Int16);
+  /// ```
+  public func fromInt64(x : Int64) : Int16 {
+    Prim.intToInt16(Prim.int64ToInt(x))
+  };
+
+  /// Converts a 16-bit signed integer to a 64-bit signed integer.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Int16.toInt64(-12_345) == (-12_345 : Int64);
+  /// ```
+  public func toInt64(x : Int16) : Int64 {
+    Prim.intToInt64(Prim.int16ToInt(x))
+  };
+
   /// Converts an unsigned 16-bit integer to a signed 16-bit integer.
   ///
   /// Wraps on overflow/underflow.
