@@ -639,6 +639,10 @@
       "public func div(x : Nat, y : Nat) : Nat",
       "public func equal(x : Nat, y : Nat) : Bool",
       "public func fromInt(int : Int) : Nat",
+      "public let fromNat16 : Nat16 -> Nat",
+      "public let fromNat32 : Nat32 -> Nat",
+      "public let fromNat64 : Nat64 -> Nat",
+      "public let fromNat8 : Nat8 -> Nat",
       "public func fromText(text : Text) : ?Nat",
       "public func greater(x : Nat, y : Nat) : Bool",
       "public func greaterOrEqual(x : Nat, y : Nat) : Bool",
@@ -657,6 +661,10 @@
       "public func rem(x : Nat, y : Nat) : Nat",
       "public func sub(x : Nat, y : Nat) : Nat",
       "public func toInt(nat : Nat) : Int",
+      "public let toNat16 : Nat -> Nat16",
+      "public let toNat32 : Nat -> Nat32",
+      "public let toNat64 : Nat -> Nat64",
+      "public let toNat8 : Nat -> Nat8",
       "public let toText : Nat -> Text"
     ]
   },
@@ -688,6 +696,7 @@
       "public let fromIntWrap : Int -> Nat16",
       "public let fromNat : Nat -> Nat16",
       "public func fromNat32(x : Nat32) : Nat16",
+      "public func fromNat64(x : Nat64) : Nat16",
       "public func fromNat8(x : Nat8) : Nat16",
       "public func greater(x : Nat16, y : Nat16) : Bool",
       "public func greaterOrEqual(x : Nat16, y : Nat16) : Bool",
@@ -709,6 +718,7 @@
       "public func subWrap(x : Nat16, y : Nat16) : Nat16",
       "public let toNat : Nat16 -> Nat",
       "public func toNat32(x : Nat16) : Nat32",
+      "public func toNat64(x : Nat16) : Nat64",
       "public func toNat8(x : Nat16) : Nat8",
       "public func toText(x : Nat16) : Text"
     ]
@@ -764,6 +774,7 @@
       "public let toNat : Nat32 -> Nat",
       "public func toNat16(x : Nat32) : Nat16",
       "public func toNat64(x : Nat32) : Nat64",
+      "public func toNat8(x : Nat32) : Nat8",
       "public func toText(x : Nat32) : Text"
     ]
   },
@@ -794,6 +805,7 @@
       "public let explode : (x : Nat64) -> (msb : Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, lsb : Nat8)",
       "public let fromIntWrap : Int -> Nat64",
       "public let fromNat : Nat -> Nat64",
+      "public func fromNat16(x : Nat16) : Nat64",
       "public func fromNat32(x : Nat32) : Nat64",
       "public func fromNat8(x : Nat8) : Nat64",
       "public func greater(x : Nat64, y : Nat64) : Bool",
@@ -815,7 +827,9 @@
       "public func sub(x : Nat64, y : Nat64) : Nat64",
       "public func subWrap(x : Nat64, y : Nat64) : Nat64",
       "public let toNat : Nat64 -> Nat",
+      "public func toNat16(x : Nat64) : Nat16",
       "public func toNat32(x : Nat64) : Nat32",
+      "public func toNat8(x : Nat64) : Nat8",
       "public func toText(x : Nat64) : Text"
     ]
   },
