@@ -90,5 +90,5 @@ module {
     public let equals = func(x : Order.Order, y : Order.Order) : Bool {
       x == y
     }
-  };
+  }
 }
