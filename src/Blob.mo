@@ -1,6 +1,6 @@
 /// Module for working with Blobs (immutable sequences of bytes).
 ///
-/// Blobs represent sequences of bytes. They are immutable, iterable, but not indexable and can be empty.
+/// Blobs represent sequences of bytes. They are immutable, iterable, indexable and can be empty.
 ///
 /// Byte sequences are also often represented as `[Nat8]`, i.e. an array of bytes, but this representation is currently much less compact than `Blob`, taking 4 physical bytes to represent each logical byte in the sequence.
 /// If you would like to manipulate Blobs, it is recommended that you convert
@@ -68,6 +68,33 @@ module {
   /// assert blob.size() == 3;
   /// ```
   public func size(blob : Blob) : Nat = blob.size();
+
+  /// Returns the byte at index `index` as an option.
+  /// Returns `null` when `index >= size`. Indexing is zero-based.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let blob : Blob = "abcdefgh\08";
+  /// assert Blob.get(blob, 8) == ?8;
+  /// assert Blob.get(blob, 10) == null;
+  /// ```
+  ///
+  /// Runtime: `O(1)`
+  ///
+  /// Space: `O(1)`
+  public func get(blob : Blob, index : Nat) : ?Nat8 = if (index < blob.size()) ?(blob.get index) else null;
+
+  /// Returns the byte at index `index`. Indexing is zero-based.
+  /// Traps if `index >= size`, error message may not be descriptive.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let blob : Blob = "abcdefgh\08";
+  /// assert Blob.at(blob, 8) == 8;
+  /// ```
+  ///
+  /// Runtime: `O(1)`
+  public func at(blob : Blob, index : Nat) : Nat8 = blob.get index;
 
   /// Creates a `Blob` from an array of bytes (`[Nat8]`), by copying each element.
   ///
