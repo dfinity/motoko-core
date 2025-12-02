@@ -20,6 +20,7 @@ import Runtime "../Runtime";
 
 module {
 
+  /// @deprecated M0235
   public type List<T> = Types.Pure.List<T>;
 
   /// Create an empty list.
