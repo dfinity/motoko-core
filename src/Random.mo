@@ -30,7 +30,6 @@ module {
 
   let rawRand = (actor "aaaaa-aa" : actor { raw_rand : () -> async Blob }).raw_rand;
 
-  /// @deprecated M0235
   public let blob : shared () -> async Blob = rawRand;
 
   /// Initializes a random number generator state. This is used
