@@ -1,10 +1,12 @@
 ## Next
 
 * Add `retain` to `List` (#426).
+* Add `deduplicate` to `List` (#425).
 * Optimized `sort` and `sortInPlace` for `VarArray`, `List`, `Array` (#422).
 * Simplify `isSorted` logic (#421).
 * Add `isSorted` to `Array` and `VarArray` (#414).
 * Improve CI for external contributions (#413).
+* Add `forEachInRange` to `List` (#411).
 * Add `fill` to `List` (#410).
 * Add `truncate` to `List` (#409).
 * Add `isSorted` to `List` (#408).
