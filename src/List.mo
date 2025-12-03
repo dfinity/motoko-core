@@ -2928,7 +2928,7 @@ module {
           elementIndex += 1;
           return ret
         };
-        case (_) Prim.trap(INTERNAL_ERROR)
+        case (_) Prim.trap("List.reader(): out of bounds")
       }
     };
     next
