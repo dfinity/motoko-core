@@ -655,6 +655,26 @@ module {
     result
   };
 
+  /// Return the first element for which the given predicate `f` is true,
+  /// if such an element exists.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import Stack "mo:core/Stack";
+  ///
+  /// persistent actor {
+  ///   let stack = Stack.fromPure(?(1, ?(2, ?(3, null))));
+  ///   assert Stack.find<Nat>(stack, func n = n > 1) == ?2;
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  ///
+  /// *Runtime and space assumes that `f` runs in O(1) time and space.
+  public func find<T>(stack : Stack<T>, f : T -> Bool) : ?T = PureList.find(stack.top, f);
+
   /// Compares two stacks for equality using the provided equality function.
   ///
   /// Example:
