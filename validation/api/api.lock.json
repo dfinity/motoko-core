@@ -1112,7 +1112,6 @@
       "public func filterMap<T, U>(stack : Stack<T>, project : T -> ?U) : Stack<U>",
       "public func find<T>(stack : Stack<T>, predicate : T -> Bool) : ?T",
       "public func findIndex<T>(stack : Stack<T>, predicate : T -> Bool) : ?Nat",
-      "public func findLastIndex<T>(stack : Stack<T>, predicate : T -> Bool) : ?Nat",
       "public func forEach<T>(stack : Stack<T>, operation : T -> ())",
       "public func fromIter<T>(iter : Types.Iter<T>) : Stack<T>",
       "public func fromPure<T>(list : PureList.List<T>) : Stack<T>",
