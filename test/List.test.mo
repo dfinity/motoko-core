@@ -1145,6 +1145,28 @@ func testAddRepeat(n : Nat) : Bool {
   true
 };
 
+func testAppend(n : Nat) : Bool {
+  if (n > 10) return true;
+
+  for (i in Nat.range(0, n + 1)) {
+    for (j in Nat.range(0, n + 1)) {
+      let first = List.tabulate<Nat>(i, func x = x);
+      let second = List.tabulate<Nat>(j, func x = x);
+      let sum = List.empty<Nat>();
+      for (x in List.values(first)) List.add(sum, x);
+      for (x in List.values(second)) List.add(sum, x);
+      List.append(first, second);
+
+      if (not List.equal(first, sum, Nat.equal)) {
+        Debug.print("Append failed for " # List.toText(first, Nat.toText) # " and " # List.toText(second, Nat.toText));
+        return false
+      }
+    }
+  };
+
+  true
+};
+
 func testTruncate(n : Nat) : Bool {
   for (i in Nat.range(0, n + 1)) {
     let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func j = j));
@@ -1874,6 +1896,7 @@ func runAllTests() {
   runTest("testFill", testFill);
   runTest("testAdd", testAdd);
   runTest("testAddRepeat", testAddRepeat);
+  runTest("testAppend", testAppend);
   runTest("testTruncate", testTruncate);
   runTest("testRemoveLast", testRemoveLast);
   runTest("testAt", testAt);

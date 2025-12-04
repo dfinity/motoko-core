@@ -1899,6 +1899,45 @@ module {
     list
   };
 
+  /// Appends all elements from `added` to the end of `list`.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([1, 2]);
+  /// let added = List.fromArray<Nat>([3, 4]);
+  /// List.append<Nat>(list, added);
+  /// assert List.toArray(list) == [1, 2, 3, 4];
+  /// ```
+  ///
+  /// Runtime: `O(size(added))`
+  ///
+  /// Space: `O(size(added))`
+  public func append<T>(list : List<T>, added : List<T>) {
+    reserve(list, size(added));
+
+    let blocks = added.blocks;
+    let blockCount = blocks.size();
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) addUnsafe(list, x);
+          case null return
+        };
+        j += 1
+      };
+      i += 1
+    }
+  };
+
   /// Adds all elements from the provided iterator to the end of the list.
   /// Elements are added in the order they are returned by the iterator.
   ///
