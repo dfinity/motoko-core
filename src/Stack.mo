@@ -663,7 +663,7 @@ module {
   /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
-  ///   let stack = Stack.fromPure(?(1, ?(2, ?(3, null))));
+  ///   let stack = Stack.fromPure<Nat>(?(1, ?(2, ?(3, null))));
   ///   assert Stack.find<Nat>(stack, func n = n > 1) == ?2;
   /// }
   /// ```
@@ -681,7 +681,7 @@ module {
   ///
   /// Example:
   /// ```motoko
-  /// import Stack "mo:core/pure/Stack";
+  /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
   ///   let stack = Stack.fromArray(['A', 'B', 'C', 'D']);
