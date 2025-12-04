@@ -395,7 +395,7 @@ If no element satisfies the predicate, returns null.</p>
 
 persistent actor {
   let stack = Stack.fromPure(?('A', ?('B', ?('C', ?('D', null)))));
-  let found = Stack.findIndex&lt;Char&gt;(stack, func(x) { x == 'C' });
+  let found = Stack.findIndex&lt;Char&gt;(stack, func x = x == 'C');
   assert found == ?2;
 }</code></pre>
 
