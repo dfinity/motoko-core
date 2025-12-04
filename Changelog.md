@@ -1,5 +1,6 @@
 ## Next
 
+* Add `find`, `findIndex` and `findLastIndex` to `Stack` (#435).
 * Add `deduplicate` to `List` (#425).
 * Add `reader` function to `List` (#423).
 * Optimized `sort` and `sortInPlace` for `VarArray`, `List`, `Array` (#422).
