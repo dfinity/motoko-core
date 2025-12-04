@@ -655,7 +655,7 @@ module {
     result
   };
 
-  /// Return the first element for which the given predicate `f` is true,
+  /// Return the first element for which the given `predicate` is true,
   /// if such an element exists.
   ///
   /// Example:
@@ -672,8 +672,30 @@ module {
   ///
   /// Space: O(1)
   ///
-  /// *Runtime and space assumes that `f` runs in O(1) time and space.
+  /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
+
   public func find<T>(stack : Stack<T>, predicate : T -> Bool) : ?T = PureList.find(stack.top, predicate);
+
+  /// Return the first index for which the given `predicate` is true.
+  /// If no element satisfies the predicate, returns null.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import Stack "mo:core/pure/Stack";
+  ///
+  /// persistent actor {
+  ///   let stack = Stack.fromArray(['A', 'B', 'C', 'D']);
+  ///   let found = Stack.findIndex<Char>(stack, func(x) { x == 'C' });
+  ///   assert found == ?2;
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  ///
+  /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
+  public func findIndex<T>(stack : Stack<T>, predicate : T -> Bool) : ?Nat = PureList.findIndex(stack.top, predicate);
 
   /// Compares two stacks for equality using the provided equality function.
   ///
