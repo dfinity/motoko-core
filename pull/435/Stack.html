@@ -381,7 +381,7 @@ if such an element exists.</p>
 <pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
 
 persistent actor {
-  let stack = Stack.fromPure(?(1, ?(2, ?(3, null))));
+  let stack = Stack.fromPure&lt;Nat&gt;(?(1, ?(2, ?(3, null))));
   assert Stack.find&lt;Nat&gt;(stack, func n = n &gt; 1) == ?2;
 }</code></pre>
 
@@ -391,7 +391,7 @@ persistent actor {
 </p></div><div class="declaration"><h4 class="function" id="findIndex"><code><span class="keyword">public func </span><span class="fnname">findIndex</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">predicate</span> : <span class="type">T</span> -&gt; <span class="type">Bool</span>) : ?<span class="type">Nat</span></code></h4><p><p>Return the first index for which the given <code>predicate</code> is true.
 If no element satisfies the predicate, returns null.</p>
 <p>Example:</p>
-<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/pure/Stack&quot;;
+<pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
 
 persistent actor {
   let stack = Stack.fromArray(['A', 'B', 'C', 'D']);
