@@ -375,7 +375,7 @@ persistent actor {
 Space: O(n)
 where <code>n</code> denotes the number of elements stored on the stack and
 assuming that <code>project</code> has O(1) costs.</p>
-</p></div><div class="declaration"><h4 class="function" id="find"><code><span class="keyword">public func </span><span class="fnname">find</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">f</span> : <span class="type">T</span> -&gt; <span class="type">Bool</span>) : ?<span class="type">T</span></code></h4><p><p>Return the first element for which the given predicate <code>f</code> is true,
+</p></div><div class="declaration"><h4 class="function" id="find"><code><span class="keyword">public func </span><span class="fnname">find</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">stack</span> : <a href="#type.Stack"><span class="type">Stack</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">predicate</span> : <span class="type">T</span> -&gt; <span class="type">Bool</span>) : ?<span class="type">T</span></code></h4><p><p>Return the first element for which the given predicate <code>f</code> is true,
 if such an element exists.</p>
 <p>Example:</p>
 <pre class="motoko"><code class="motoko">import Stack &quot;mo:core/Stack&quot;;
