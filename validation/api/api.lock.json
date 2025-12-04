@@ -563,6 +563,7 @@
       "public func prevIndexOf<T>(list : List<T>, equal : (T, T) -> Bool, element : T, fromExclusive : Nat) : ?Nat",
       "public func put<T>(list : List<T>, index : Nat, value : T)",
       "public func range<T>(list : List<T>, fromInclusive : Int, toExclusive : Int) : Types.Iter<T>",
+      "public func reader<T>(list : List<T>, start : Nat) : () -> T",
       "public func removeLast<T>(list : List<T>) : ?T",
       "public func repeat<T>(initValue : T, size : Nat) : List<T>",
       "public func retain<T>(list : List<T>, predicate : T -> Bool)",
