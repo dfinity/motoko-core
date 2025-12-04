@@ -673,7 +673,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func find<T>(stack : Stack<T>, f : T -> Bool) : ?T = PureList.find(stack.top, f);
+  public func find<T>(stack : Stack<T>, predicate : T -> Bool) : ?T = PureList.find(stack.top, predicate);
 
   /// Compares two stacks for equality using the provided equality function.
   ///
