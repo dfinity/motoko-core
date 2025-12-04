@@ -684,7 +684,7 @@ module {
   /// import Stack "mo:core/Stack";
   ///
   /// persistent actor {
-  ///   let stack = Stack.fromArray(['A', 'B', 'C', 'D']);
+  ///   let stack = Stack.fromPure(?('A', ?('B', ?('C', ?('D', null)))));
   ///   let found = Stack.findIndex<Char>(stack, func(x) { x == 'C' });
   ///   assert found == ?2;
   /// }
