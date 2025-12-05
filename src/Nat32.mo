@@ -42,6 +42,28 @@ module {
   /// ```
   public let fromNat : Nat -> Nat32 = Prim.natToNat32;
 
+  /// Converts a 32-bit unsigned integer to an 8-bit unsigned integer.
+  ///
+  /// Traps on overflow.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat32.toNat8(123) == (123 : Nat8);
+  /// ```
+  public func toNat8(x : Nat32) : Nat8 {
+    Prim.natToNat8(Prim.nat32ToNat(x))
+  };
+
+  /// Converts an 8-bit unsigned integer to a 32-bit unsigned integer.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat32.fromNat8(123) == (123 : Nat32);
+  /// ```
+  public func fromNat8(x : Nat8) : Nat32 {
+    Prim.natToNat32(Prim.nat8ToNat(x))
+  };
+
   /// Converts a 16-bit unsigned integer to a 32-bit unsigned integer.
   ///
   /// Example:

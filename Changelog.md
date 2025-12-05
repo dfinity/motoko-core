@@ -1,5 +1,9 @@
 ## Next
 
+* Add `find` and `findIndex` to `Stack` (#435).
+* Add conversions between any two `Nat*` types (#431).
+* Add conversions between `Nat8` and all other `Nat` types (#430).
+* Add `append` to `List` (#427).
 * Add `retain` to `List` (#426).
 * Add `deduplicate` to `List` (#425).
 * Add `reader` function to `List` (#423).
