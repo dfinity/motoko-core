@@ -14,8 +14,8 @@ import Runtime "../src/Runtime";
 import Int "../src/Int";
 import Debug "../src/Debug";
 import { Tuple2 } "../src/Tuples";
-import PureList "../src/pure/List";
 import VarArray "../src/VarArray";
+import PureList "../src/pure/List";
 import Option "../src/Option";
 
 // IMPLEMENTATION DETAILS BEGIN
@@ -1145,6 +1145,28 @@ func testAddRepeat(n : Nat) : Bool {
   true
 };
 
+func testAppend(n : Nat) : Bool {
+  if (n > 10) return true;
+
+  for (i in Nat.range(0, n + 1)) {
+    for (j in Nat.range(0, n + 1)) {
+      let first = List.tabulate<Nat>(i, func x = x);
+      let second = List.tabulate<Nat>(j, func x = x);
+      let sum = List.empty<Nat>();
+      for (x in List.values(first)) List.add(sum, x);
+      for (x in List.values(second)) List.add(sum, x);
+      List.append(first, second);
+
+      if (not List.equal(first, sum, Nat.equal)) {
+        Debug.print("Append failed for " # List.toText(first, Nat.toText) # " and " # List.toText(second, Nat.toText));
+        return false
+      }
+    }
+  };
+
+  true
+};
+
 func testTruncate(n : Nat) : Bool {
   for (i in Nat.range(0, n + 1)) {
     let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func j = j));
@@ -1463,6 +1485,26 @@ func testIsSorted(n : Nat) : Bool {
   true
 };
 
+func testDeduplicate(n : Nat) : Bool {
+  if (n != 0) return true;
+
+  let lists = [
+    List.fromArray<Nat>([1, 1, 2, 2, 3, 3]),
+    List.fromArray<Nat>([1, 2, 3]),
+    List.fromArray<Nat>([1, 1, 2, 3])
+  ];
+
+  for (list in lists.vals()) {
+    List.deduplicate(list, Nat.equal);
+    if (not List.equal(list, List.fromArray<Nat>([1, 2, 3]), Nat.equal)) {
+      Debug.print("Deduplicate failed for " # List.toText(list, Nat.toText));
+      return false
+    }
+  };
+
+  true
+};
+
 func testToArray(n : Nat) : Bool {
   let array = Array.tabulate<Nat>(n, func(i) = i);
   let vec = List.fromArray<Nat>(array);
@@ -1493,6 +1535,26 @@ func testFromIter(n : Nat) : Bool {
   let vec = List.fromIter<Nat>(iter);
   assertValid(vec);
   List.equal(vec, List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i + 1)), Nat.equal)
+};
+
+func testforEachInRange(n : Nat) : Bool {
+  if (n > 10) return true; // Skip large ranges for performance
+  let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
+
+  for (left in Nat.range(0, n)) {
+    for (right in Nat.range(left, n + 1)) {
+      let expected = VarArray.tabulate<Nat>(right - left, func(i) = left + i);
+      let result = VarArray.repeat<Nat>(0, right - left);
+      List.forEachInRange<Nat>(vec, func(i) = result[i - left] := i, left, right);
+      if (Array.fromVarArray(result) != Array.fromVarArray(expected)) {
+        Debug.print(
+          "forEachInRange mismatch for left = " # Nat.toText(left) # ", right = " # Nat.toText(right) # ": expected " # debug_show (expected) # ", got " # debug_show (result)
+        );
+        return false
+      }
+    }
+  };
+  true
 };
 
 func testFoldLeft(n : Nat) : Bool {
@@ -1814,6 +1876,19 @@ func testMax(n : Nat) : Bool {
   true
 };
 
+func testReader(n : Nat) : Bool {
+  let vec = List.tabulate<Nat>(2 * n, func i = i);
+  let reader = List.reader(vec, n);
+  for (i in Nat.range(0, n)) {
+    let x = reader();
+    if (x != i + n) {
+      Debug.print("Reader expected " # Nat.toText(i + n) # ", got " # Nat.toText(x));
+      return false
+    }
+  };
+  return true
+};
+
 // Run all tests
 func runAllTests() {
   runTest("testNew", testNew);
@@ -1821,6 +1896,7 @@ func runAllTests() {
   runTest("testFill", testFill);
   runTest("testAdd", testAdd);
   runTest("testAddRepeat", testAddRepeat);
+  runTest("testAppend", testAppend);
   runTest("testTruncate", testTruncate);
   runTest("testRemoveLast", testRemoveLast);
   runTest("testAt", testAt);
@@ -1840,6 +1916,7 @@ func runAllTests() {
   runTest("testReverse", testReverse);
   runTest("testSort", testSort);
   runTest("testIsSorted", testIsSorted);
+  runTest("testDeduplicate", testDeduplicate);
   runTest("testToArray", testToArray);
   runTest("testToVarArray", testToVarArray);
   runTest("testFromVarArray", testFromVarArray);
@@ -1847,6 +1924,7 @@ func runAllTests() {
   runTest("testFromIter", testFromIter);
   runTest("testFoldLeft", testFoldLeft);
   runTest("testFoldRight", testFoldRight);
+  runTest("testforEachInRange", testforEachInRange);
   runTest("testFilter", testFilter);
   runTest("testFilterMap", testFilterMap);
   runTest("testPure", testPure);
@@ -1859,7 +1937,8 @@ func runAllTests() {
   runTest("testNextIndexOf", testNextIndexOf);
   runTest("testPrevIndexOf", testPrevIndexOf);
   runTest("testMin", testMin);
-  runTest("testMax", testMax)
+  runTest("testMax", testMax);
+  runTest("testReader", testReader)
 };
 
 // Run all tests
