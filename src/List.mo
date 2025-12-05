@@ -937,6 +937,7 @@ module {
     list.elementIndex := elementIndex
   };
 
+  // Add an element without checking and resizing the List
   private func addUnsafe<T>(list : List<T>, element : T) {
     var elementIndex = list.elementIndex;
     let lastDataBlock = list.blocks[list.blockIndex];
@@ -1218,6 +1219,57 @@ module {
     };
 
     true
+  };
+
+  /// Remove adjacent duplicates from the `list`, if the `list` is sorted all elements will be unique.
+  ///
+  /// Example:
+  /// ```
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([1, 1, 2, 2, 3]);
+  /// List.deduplicate(list, Nat.equal);
+  /// assert List.equal(list, List.fromArray<Nat>([1, 2, 3]), Nat.equal);
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  public func deduplicate<T>(list : List<T>, equal : (T, T) -> Bool) {
+    var prev = switch (first(list)) {
+      case (?x) x;
+      case _ return
+    };
+
+    list.blockIndex := 1;
+    list.elementIndex := 0;
+
+    addUnsafe(list, prev);
+
+    let blocks = list.blocks;
+    let blockCount = blocks.size();
+
+    var i = 2;
+    label l while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return break l;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) {
+            if (not equal(x, prev)) addUnsafe(list, x);
+            prev := x
+          };
+          case null break l
+        };
+        j += 1
+      };
+      i += 1
+    };
+
+    truncate(list, size(list))
   };
 
   /// Finds the first index of `element` in `list` using equality of elements defined
@@ -1847,6 +1899,45 @@ module {
     list
   };
 
+  /// Appends all elements from `added` to the end of `list`.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([1, 2]);
+  /// let added = List.fromArray<Nat>([3, 4]);
+  /// List.append<Nat>(list, added);
+  /// assert List.toArray(list) == [1, 2, 3, 4];
+  /// ```
+  ///
+  /// Runtime: `O(size(added))`
+  ///
+  /// Space: `O(size(added))`
+  public func append<T>(list : List<T>, added : List<T>) {
+    reserve(list, size(added));
+
+    let blocks = added.blocks;
+    let blockCount = blocks.size();
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) addUnsafe(list, x);
+          case null return
+        };
+        j += 1
+      };
+      i += 1
+    }
+  };
+
   /// Adds all elements from the provided iterator to the end of the list.
   /// Elements are added in the order they are returned by the iterator.
   ///
@@ -2404,6 +2495,56 @@ module {
     }
   };
 
+  /// Executes the closure over a slice of `list` starting at `fromInclusive` up to (but not including) `toExclusive`.
+  ///
+  /// ```motoko include=import
+  /// import Debug "mo:core/Debug";
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([1, 2, 3, 4, 5]);
+  /// List.forEachInRange<Nat>(list, func x = Debug.print(Nat.toText(x)), 1, 2); // prints 2 and 3
+  /// ```
+  ///
+  /// Runtime: `O(toExclusive - fromExclusive)`
+  ///
+  /// Space: `O(1)`
+  public func forEachInRange<T>(list : List<T>, f : T -> (), fromInclusive : Nat, toExclusive : Nat) {
+    if (not (fromInclusive <= toExclusive and toExclusive <= size(list))) Prim.trap("Invalid range");
+
+    func traverseBlock(block : [var ?T], f : T -> (), from : Nat, to : Nat) {
+      var i = from;
+      while (i < to) {
+        switch (block[i]) {
+          case (?value) f(value);
+          case null Prim.trap(INTERNAL_ERROR)
+        };
+        i += 1
+      }
+    };
+
+    let (fromBlock, fromElement) = locate(fromInclusive);
+    let (toBlock, toElement) = locate(toExclusive);
+
+    let blocks = list.blocks;
+    let sz = blocks.size();
+
+    if (fromBlock == toBlock) {
+      if (fromBlock < sz) traverseBlock(blocks[fromBlock], f, fromElement, toElement);
+      return
+    };
+
+    traverseBlock(blocks[fromBlock], f, fromElement, blocks[fromBlock].size());
+
+    var i = fromBlock + 1;
+    let to = Nat.min(toBlock, sz);
+    while (i < to) {
+      traverseBlock(blocks[i], f, 0, blocks[i].size());
+      i += 1
+    };
+
+    if (toBlock < sz) traverseBlock(blocks[toBlock], f, 0, toElement)
+  };
+
   /// Returns true if the list contains the specified element according to the provided
   /// equality function. Uses the provided `equal` function to compare elements.
   ///
@@ -2889,6 +3030,49 @@ module {
   /// Space: `O(1)`
   public func isEmpty<T>(list : List<T>) : Bool {
     list.blockIndex == 1
+  };
+
+  /// Unsafe iterator starting from `start`.
+  ///
+  /// Example:
+  /// ```
+  /// let list = List.fromArray<Nat>([1, 2, 3, 4, 5]);
+  /// let reader = List.reader<Nat>(list, 2);
+  /// assert reader() == 3;
+  /// assert reader() == 4;
+  /// assert reader() == 5;
+  /// ```
+  ///
+  /// Runtime: `O(1)`
+  ///
+  /// Space: `O(1)`
+  public func reader<T>(list : List<T>, start : Nat) : () -> T {
+    var blockIndex = 0;
+    var elementIndex = 0;
+    if (start != 0) {
+      let (block, element) = locate(start - 1);
+      blockIndex := block;
+      elementIndex := element + 1
+    };
+    var db : [var ?T] = list.blocks[blockIndex];
+    var dbSize = db.size();
+    func next() : T {
+      // Note: next() traps when reading beyond end of list
+      if (elementIndex == dbSize) {
+        blockIndex += 1;
+        db := list.blocks[blockIndex];
+        dbSize := db.size();
+        elementIndex := 0
+      };
+      switch (db[elementIndex]) {
+        case (?ret) {
+          elementIndex += 1;
+          return ret
+        };
+        case (_) Prim.trap("List.reader(): out of bounds")
+      }
+    };
+    next
   };
 
 }
