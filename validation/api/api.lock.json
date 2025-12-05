@@ -589,6 +589,7 @@
       "public func reader<T>(list : List<T>, start : Nat) : () -> T",
       "public func removeLast<T>(list : List<T>) : ?T",
       "public func repeat<T>(initValue : T, size : Nat) : List<T>",
+      "public func retain<T>(list : List<T>, predicate : T -> Bool)",
       "public func reverse<T>(list : List<T>) : List<T>",
       "public func reverseEnumerate<T>(list : List<T>) : Types.Iter<(Nat, T)>",
       "public func reverseForEach<T>(list : List<T>, f : T -> ())",

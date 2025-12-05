@@ -1595,6 +1595,25 @@ func testFilter(n : Nat) : Bool {
   true
 };
 
+func testRetain(n : Nat) : Bool {
+  if (n > 10) return true;
+
+  for (mod in Nat.range(1, n + 1)) {
+    for (rem in Nat.range(0, mod + 1)) {
+      let f : Nat -> Bool = func x = x % mod == rem;
+      let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
+      let expected = List.filter<Nat>(vec, f);
+      List.retain<Nat>(vec, f);
+      if (not List.equal<Nat>(vec, expected, Nat.equal)) {
+        Debug.print("Retain failed for mod " # Nat.toText(mod) # " and rem " # Nat.toText(rem) # "");
+        return false
+      }
+    }
+  };
+
+  true
+};
+
 func testFilterMap(n : Nat) : Bool {
   let vec = List.fromArray<Nat>(Array.tabulate<Nat>(n, func(i) = i));
 
@@ -1926,6 +1945,7 @@ func runAllTests() {
   runTest("testFoldRight", testFoldRight);
   runTest("testforEachInRange", testforEachInRange);
   runTest("testFilter", testFilter);
+  runTest("testRetain", testRetain);
   runTest("testFilterMap", testFilterMap);
   runTest("testPure", testPure);
   runTest("testReverseForEach", testReverseForEach);
