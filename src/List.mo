@@ -3075,4 +3075,66 @@ module {
     next
   };
 
+  /// Concatenates the provided slices into a new list.
+  /// Each slice is a tuple of a list, a starting index (inclusive), and an ending index (exclusive).
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
+  ///
+  /// let list1 = List.fromArray<Nat>([1,2,3]);
+  /// let list2 = List.fromArray<Nat>([4,5,6]);
+  /// let result = List.concatSlices<Nat>([(list1, 0, 2), (list2, 1, 3)]);
+  /// assert Iter.toArray(List.values(result)) == [1,2,5,6];
+  /// ```
+  ///
+  /// Runtime: `O(sum_size)` where `sum_size` is the sum of the sizes of all slices.
+  ///
+  /// Space: `O(sum_size)`
+  public func concatSlices<T>(slices : [(List<T>, fromInclusive : Nat, toExclusive : Nat)]) : List<T> {
+    var length = 0;
+    for (slice in slices.vals()) {
+      let (list, start, end) = slice;
+      if (not (start <= end and end <= size(list))) Prim.trap("Invalid slice in concat");
+      length += end - start
+    };
+
+    var result = repeatInternal<T>(null, length);
+    result.blockIndex := 1;
+    result.elementIndex := 0;
+
+    for (slice in slices.vals()) {
+      let (list, start, end) = slice;
+      forEachInRange<T>(
+        list,
+        func(value) = addUnsafe(result, value),
+        start,
+        end
+      )
+    };
+
+    result
+  };
+
+  /// Concatenates the provided lists into a new list.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// import Nat "mo:core/Nat";
+  /// import Iter "mo:core/Iter";
+  ///
+  /// let list1 = List.fromArray<Nat>([1, 2, 3]);
+  /// let list2 = List.fromArray<Nat>([4, 5, 6]);
+  /// let result = List.concat<Nat>([list1, list2]);
+  /// assert Iter.toArray(List.values(result)) == [1, 2, 3, 4, 5, 6];
+  /// ```
+  ///
+  /// Runtime: `O(sum_size)` where `sum_size` is the sum of the sizes of all lists.
+  ///
+  /// Space: `O(sum_size)`
+  public func concat<T>(lists : [List<T>]) : List<T> {
+    concatSlices<T>(Array.tabulate<(List<T>, Nat, Nat)>(lists.size(), func(i) = (lists[i], 0, size(lists[i]))))
+  };
+
 }
