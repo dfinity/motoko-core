@@ -201,6 +201,10 @@
       "public func compare(x : Int, y : Int) : Order.Order",
       "public func div(x : Int, y : Int) : Int",
       "public func equal(x : Int, y : Int) : Bool",
+      "public let fromInt16 : Int16 -> Int",
+      "public let fromInt32 : Int32 -> Int",
+      "public let fromInt64 : Int64 -> Int",
+      "public let fromInt8 : Int8 -> Int",
       "public func fromNat(nat : Nat) : Int",
       "public func fromText(text : Text) : ?Int",
       "public func greater(x : Int, y : Int) : Bool",
@@ -220,6 +224,10 @@
       "public func rangeInclusive(from : Int, to : Int) : Iter.Iter<Int>",
       "public func rem(x : Int, y : Int) : Int",
       "public func sub(x : Int, y : Int) : Int",
+      "public let toInt16 : Int -> Int16",
+      "public let toInt32 : Int -> Int32",
+      "public let toInt64 : Int -> Int64",
+      "public let toInt8 : Int -> Int8",
       "public func toNat(int : Int) : Nat",
       "public func toText(x : Int) : Text"
     ]
@@ -252,6 +260,7 @@
       "public let explode : (x : Int16) -> (msb : Nat8, lsb : Nat8)",
       "public let fromInt : Int -> Int16",
       "public let fromInt32 : Int32 -> Int16",
+      "public func fromInt64(x : Int64) : Int16",
       "public let fromInt8 : Int8 -> Int16",
       "public let fromIntWrap : Int -> Int16",
       "public let fromNat16 : Nat16 -> Int16",
@@ -277,6 +286,7 @@
       "public func subWrap(x : Int16, y : Int16) : Int16",
       "public let toInt : Int16 -> Int",
       "public let toInt32 : Int16 -> Int32",
+      "public func toInt64(x : Int16) : Int64",
       "public let toInt8 : Int16 -> Int8",
       "public let toNat16 : Int16 -> Nat16",
       "public func toText(x : Int16) : Text"
@@ -311,6 +321,7 @@
       "public let fromInt : Int -> Int32",
       "public let fromInt16 : Int16 -> Int32",
       "public let fromInt64 : Int64 -> Int32",
+      "public func fromInt8(x : Int8) : Int32",
       "public let fromIntWrap : Int -> Int32",
       "public let fromNat32 : Nat32 -> Int32",
       "public func greater(x : Int32, y : Int32) : Bool",
@@ -336,6 +347,7 @@
       "public let toInt : Int32 -> Int",
       "public let toInt16 : Int32 -> Int16",
       "public let toInt64 : Int32 -> Int64",
+      "public func toInt8(x : Int32) : Int8",
       "public let toNat32 : Int32 -> Nat32",
       "public func toText(x : Int32) : Text"
     ]
@@ -367,7 +379,9 @@
       "public func equal(x : Int64, y : Int64) : Bool",
       "public let explode : (x : Int64) -> (msb : Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, lsb : Nat8)",
       "public let fromInt : Int -> Int64",
+      "public func fromInt16(x : Int16) : Int64",
       "public let fromInt32 : Int32 -> Int64",
+      "public func fromInt8(x : Int8) : Int64",
       "public let fromIntWrap : Int -> Int64",
       "public let fromNat64 : Nat64 -> Int64",
       "public func greater(x : Int64, y : Int64) : Bool",
@@ -391,7 +405,9 @@
       "public func sub(x : Int64, y : Int64) : Int64",
       "public func subWrap(x : Int64, y : Int64) : Int64",
       "public let toInt : Int64 -> Int",
+      "public func toInt16(x : Int64) : Int16",
       "public let toInt32 : Int64 -> Int32",
+      "public func toInt8(x : Int64) : Int8",
       "public let toNat64 : Int64 -> Nat64",
       "public func toText(x : Int64) : Text"
     ]
@@ -423,6 +439,8 @@
       "public func equal(x : Int8, y : Int8) : Bool",
       "public let fromInt : Int -> Int8",
       "public let fromInt16 : Int16 -> Int8",
+      "public func fromInt32(x : Int32) : Int8",
+      "public func fromInt64(x : Int64) : Int8",
       "public let fromIntWrap : Int -> Int8",
       "public let fromNat8 : Nat8 -> Int8",
       "public func greater(x : Int8, y : Int8) : Bool",
@@ -447,6 +465,8 @@
       "public func subWrap(x : Int8, y : Int8) : Int8",
       "public let toInt : Int8 -> Int",
       "public let toInt16 : Int8 -> Int16",
+      "public func toInt32(x : Int8) : Int32",
+      "public func toInt64(x : Int8) : Int64",
       "public let toNat8 : Int8 -> Nat8",
       "public func toText(x : Int8) : Text"
     ]

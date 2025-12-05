@@ -2,6 +2,7 @@
 
 * Add `concat` and `concatSlices` to `List` (#437).
 * Add `find` and `findIndex` to `Stack` (#435).
+* Add conversions between any two `Int*` types (#433).
 * Add conversions between any two `Nat*` types (#431).
 * Add conversions between `Nat8` and all other `Nat` types (#430).
 * Add `append` to `List` (#427).
