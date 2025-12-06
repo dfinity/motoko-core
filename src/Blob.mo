@@ -133,7 +133,7 @@ module {
   /// let result = Blob.compare(blob1, blob2);
   /// assert result == #less;
   /// ```
-  public func compare(b1 : Blob, b2 : Blob) : Order.Order {
+  public persistent func compare(b1 : Blob, b2 : Blob) : Order.Order {
     let c = Prim.blobCompare(b1, b2);
     if (c < 0) #less else if (c == 0) #equal else #greater
   };
