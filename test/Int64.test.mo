@@ -3,6 +3,14 @@
 import Int64 "../src/Int64";
 import Order "../src/Order";
 import Nat "../src/Nat";
+import {
+  Int8Testable;
+  Int16Testable;
+  Int32Testable;
+  Int64Testable;
+  Nat64Testable;
+  OrderTestable
+} "shared/Testables";
 
 import Suite "mo:matchers/Suite";
 import T "mo:matchers/Testable";
@@ -17,37 +25,7 @@ let minimumInt64asInt = -2 ** 63 : Int;
 
 let maximumNat64 = 18_446_744_073_709_551_615 : Nat64;
 
-class Int64Testable(number : Int64) : T.TestableItem<Int64> {
-  public let item = number;
-  public func display(number : Int64) : Text {
-    debug_show (number)
-  };
-  public let equals = func(x : Int64, y : Int64) : Bool {
-    x == y
-  }
-};
-
-class Nat64Testable(number : Nat64) : T.TestableItem<Nat64> {
-  public let item = number;
-  public func display(number : Nat64) : Text {
-    debug_show (number)
-  };
-  public let equals = func(x : Nat64, y : Nat64) : Bool {
-    x == y
-  }
-};
-
 type Order = Order.Order;
-
-class OrderTestable(value : Order) : T.TestableItem<Order> {
-  public let item = value;
-  public func display(value : Order) : Text {
-    debug_show (value)
-  };
-  public let equals = func(x : Order, y : Order) : Bool {
-    x == y
-  }
-};
 
 /* --------------------------------------- */
 
@@ -2298,6 +2276,208 @@ run(
         "large underflow",
         Int64.powWrap(Int64.minValue, 10),
         M.equals(Int64Testable(0))
+      )
+    ]
+  )
+);
+
+/* --------------------------------------- */
+
+run(
+  suite(
+    "fromInt8",
+    [
+      test(
+        "maximum number",
+        Int64.fromInt8(127),
+        M.equals(Int64Testable(127))
+      ),
+      test(
+        "minimum number",
+        Int64.fromInt8(-128),
+        M.equals(Int64Testable(-128))
+      ),
+      test(
+        "zero",
+        Int64.fromInt8(0),
+        M.equals(Int64Testable(0))
+      ),
+      test(
+        "positive number",
+        Int64.fromInt8(42),
+        M.equals(Int64Testable(42))
+      ),
+      test(
+        "negative number",
+        Int64.fromInt8(-42),
+        M.equals(Int64Testable(-42))
+      )
+    ]
+  )
+);
+
+run(
+  suite(
+    "toInt8",
+    [
+      test(
+        "maximum number",
+        Int64.toInt8(127),
+        M.equals(Int8Testable(127))
+      ),
+      test(
+        "minimum number",
+        Int64.toInt8(-128),
+        M.equals(Int8Testable(-128))
+      ),
+      test(
+        "zero",
+        Int64.toInt8(0),
+        M.equals(Int8Testable(0))
+      ),
+      test(
+        "positive number",
+        Int64.toInt8(42),
+        M.equals(Int8Testable(42))
+      ),
+      test(
+        "negative number",
+        Int64.toInt8(-42),
+        M.equals(Int8Testable(-42))
+      )
+    ]
+  )
+);
+
+run(
+  suite(
+    "fromInt16",
+    [
+      test(
+        "maximum number",
+        Int64.fromInt16(32_767),
+        M.equals(Int64Testable(32_767))
+      ),
+      test(
+        "minimum number",
+        Int64.fromInt16(-32_768),
+        M.equals(Int64Testable(-32_768))
+      ),
+      test(
+        "zero",
+        Int64.fromInt16(0),
+        M.equals(Int64Testable(0))
+      ),
+      test(
+        "positive number",
+        Int64.fromInt16(12_345),
+        M.equals(Int64Testable(12_345))
+      ),
+      test(
+        "negative number",
+        Int64.fromInt16(-12_345),
+        M.equals(Int64Testable(-12_345))
+      )
+    ]
+  )
+);
+
+run(
+  suite(
+    "toInt16",
+    [
+      test(
+        "maximum number",
+        Int64.toInt16(32_767),
+        M.equals(Int16Testable(32_767))
+      ),
+      test(
+        "minimum number",
+        Int64.toInt16(-32_768),
+        M.equals(Int16Testable(-32_768))
+      ),
+      test(
+        "zero",
+        Int64.toInt16(0),
+        M.equals(Int16Testable(0))
+      ),
+      test(
+        "positive number",
+        Int64.toInt16(12_345),
+        M.equals(Int16Testable(12_345))
+      ),
+      test(
+        "negative number",
+        Int64.toInt16(-12_345),
+        M.equals(Int16Testable(-12_345))
+      )
+    ]
+  )
+);
+
+/* --------------------------------------- */
+
+run(
+  suite(
+    "fromInt32",
+    [
+      test(
+        "maximum number",
+        Int64.fromInt32(2_147_483_647),
+        M.equals(Int64Testable(2_147_483_647))
+      ),
+      test(
+        "minimum number",
+        Int64.fromInt32(-2_147_483_648),
+        M.equals(Int64Testable(-2_147_483_648))
+      ),
+      test(
+        "zero",
+        Int64.fromInt32(0),
+        M.equals(Int64Testable(0))
+      ),
+      test(
+        "positive number",
+        Int64.fromInt32(123_456),
+        M.equals(Int64Testable(123_456))
+      ),
+      test(
+        "negative number",
+        Int64.fromInt32(-123_456),
+        M.equals(Int64Testable(-123_456))
+      )
+    ]
+  )
+);
+
+run(
+  suite(
+    "toInt32",
+    [
+      test(
+        "maximum number",
+        Int64.toInt32(2_147_483_647),
+        M.equals(Int32Testable(2_147_483_647))
+      ),
+      test(
+        "minimum number",
+        Int64.toInt32(-2_147_483_648),
+        M.equals(Int32Testable(-2_147_483_648))
+      ),
+      test(
+        "zero",
+        Int64.toInt32(0),
+        M.equals(Int32Testable(0))
+      ),
+      test(
+        "positive number",
+        Int64.toInt32(123_456),
+        M.equals(Int32Testable(123_456))
+      ),
+      test(
+        "negative number",
+        Int64.toInt32(-123_456),
+        M.equals(Int32Testable(-123_456))
       )
     ]
   )

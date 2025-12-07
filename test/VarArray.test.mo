@@ -6,6 +6,7 @@ import Text "../src/Text";
 import Suite "mo:matchers/Suite";
 import T "mo:matchers/Testable";
 import M "mo:matchers/Matchers";
+import Order "../src/Order";
 
 func joinWith(xs : [var Text], sep : Text) : Text {
   let size = xs.size();
@@ -37,6 +38,26 @@ func varArray<A>(testableA : T.Testable<A>, xs : [var A]) : T.TestableItem<[var 
     display = testableAs.display;
     equals = testableAs.equals
   }
+};
+
+// used to test sort
+func bubbleSort<T>(array : [var T], compare : (T, T) -> Order.Order) : [var T] {
+  let a = VarArray.clone(array);
+  let n = a.size();
+  var i = 0;
+  while (i < n) {
+    var j = 0;
+    while (j + 1 < n) {
+      if (compare(a[j], a[j + 1]) == #greater) {
+        let t = a[j];
+        a[j] := a[j + 1];
+        a[j + 1] := t
+      };
+      j += 1
+    };
+    i += 1
+  };
+  a
 };
 
 let suite = Suite.suite(
@@ -139,8 +160,36 @@ let suite = Suite.suite(
     ),
     Suite.test(
       "sort",
+      VarArray.sort(VarArray.tabulate<Int>(30, func i = (i * 123) % 100 - 50), Int.compare),
+      M.equals(
+        varArray<Int>(
+          T.intTestable,
+          bubbleSort<Int>(
+            VarArray.tabulate<Int>(30, func i = (i * 123) % 100 - 50),
+            Int.compare
+          )
+        )
+      )
+    ),
+    Suite.test(
+      "sort",
+      VarArray.sort([var 1], Nat.compare),
+      M.equals(varArray<Nat>(T.natTestable, [var 1]))
+    ),
+    Suite.test(
+      "sort",
       VarArray.sort([var 2, 3, 1], Nat.compare),
       M.equals(varArray<Nat>(T.natTestable, [var 1, 2, 3]))
+    ),
+    Suite.test(
+      "sort",
+      VarArray.sort([var 7, 6, 5, 4, 3, 2, 1], Nat.compare),
+      M.equals(varArray<Nat>(T.natTestable, [var 1, 2, 3, 4, 5, 6, 7]))
+    ),
+    Suite.test(
+      "sort",
+      VarArray.sort([var 7, 6, 5, 4, 3, 2, 1, 0], Nat.compare),
+      M.equals(varArray<Nat>(T.natTestable, [var 0, 1, 2, 3, 4, 5, 6, 7]))
     ),
     Suite.test(
       "sort empty array",

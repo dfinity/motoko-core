@@ -3,6 +3,14 @@
 import Int16 "../src/Int16";
 import Order "../src/Order";
 import Nat "../src/Nat";
+import {
+  Int8Testable;
+  Int16Testable;
+  Int32Testable;
+  Int64Testable;
+  Nat16Testable;
+  OrderTestable
+} "shared/Testables";
 
 import Suite "mo:matchers/Suite";
 import T "mo:matchers/Testable";
@@ -17,37 +25,7 @@ let minimumInt16asInt = -2 ** 15 : Int;
 
 let maximumNat16 = 65_535 : Nat16;
 
-class Int16Testable(number : Int16) : T.TestableItem<Int16> {
-  public let item = number;
-  public func display(number : Int16) : Text {
-    debug_show (number)
-  };
-  public let equals = func(x : Int16, y : Int16) : Bool {
-    x == y
-  }
-};
-
-class Nat16Testable(number : Nat16) : T.TestableItem<Nat16> {
-  public let item = number;
-  public func display(number : Nat16) : Text {
-    debug_show (number)
-  };
-  public let equals = func(x : Nat16, y : Nat16) : Bool {
-    x == y
-  }
-};
-
 type Order = Order.Order;
-
-class OrderTestable(value : Order) : T.TestableItem<Order> {
-  public let item = value;
-  public func display(value : Order) : Text {
-    debug_show (value)
-  };
-  public let equals = func(x : Order, y : Order) : Bool {
-    x == y
-  }
-};
 
 /* --------------------------------------- */
 
@@ -2298,6 +2276,210 @@ run(
         "large underflow",
         Int16.powWrap(Int16.minValue, 10),
         M.equals(Int16Testable(0))
+      )
+    ]
+  )
+);
+
+/* --------------------------------------- */
+
+run(
+  suite(
+    "toInt64",
+    [
+      test(
+        "maximum number",
+        Int16.toInt64(Int16.maxValue),
+        M.equals(Int64Testable(32_767))
+      ),
+      test(
+        "minimum number",
+        Int16.toInt64(Int16.minValue),
+        M.equals(Int64Testable(-32_768))
+      ),
+      test(
+        "zero",
+        Int16.toInt64(0),
+        M.equals(Int64Testable(0))
+      ),
+      test(
+        "positive number",
+        Int16.toInt64(12_345),
+        M.equals(Int64Testable(12_345))
+      ),
+      test(
+        "negative number",
+        Int16.toInt64(-12_345),
+        M.equals(Int64Testable(-12_345))
+      )
+    ]
+  )
+);
+
+run(
+  suite(
+    "fromInt64",
+    [
+      test(
+        "maximum number",
+        Int16.fromInt64(32_767),
+        M.equals(Int16Testable(Int16.maxValue))
+      ),
+      test(
+        "minimum number",
+        Int16.fromInt64(-32_768),
+        M.equals(Int16Testable(Int16.minValue))
+      ),
+      test(
+        "zero",
+        Int16.fromInt64(0),
+        M.equals(Int16Testable(0))
+      ),
+      test(
+        "positive number",
+        Int16.fromInt64(12_345),
+        M.equals(Int16Testable(12_345))
+      ),
+      test(
+        "negative number",
+        Int16.fromInt64(-12_345),
+        M.equals(Int16Testable(-12_345))
+      )
+    ]
+  )
+);
+
+/* --------------------------------------- */
+
+run(
+  suite(
+    "toInt32",
+    [
+      test(
+        "maximum number",
+        Int16.toInt32(Int16.maxValue),
+        M.equals(Int32Testable(32_767))
+      ),
+      test(
+        "minimum number",
+        Int16.toInt32(Int16.minValue),
+        M.equals(Int32Testable(-32_768))
+      ),
+      test(
+        "zero",
+        Int16.toInt32(0),
+        M.equals(Int32Testable(0))
+      ),
+      test(
+        "positive number",
+        Int16.toInt32(12_345),
+        M.equals(Int32Testable(12_345))
+      ),
+      test(
+        "negative number",
+        Int16.toInt32(-12_345),
+        M.equals(Int32Testable(-12_345))
+      )
+    ]
+  )
+);
+
+run(
+  suite(
+    "fromInt32",
+    [
+      test(
+        "maximum number",
+        Int16.fromInt32(32_767),
+        M.equals(Int16Testable(Int16.maxValue))
+      ),
+      test(
+        "minimum number",
+        Int16.fromInt32(-32_768),
+        M.equals(Int16Testable(Int16.minValue))
+      ),
+      test(
+        "zero",
+        Int16.fromInt32(0),
+        M.equals(Int16Testable(0))
+      ),
+      test(
+        "positive number",
+        Int16.fromInt32(12_345),
+        M.equals(Int16Testable(12_345))
+      ),
+      test(
+        "negative number",
+        Int16.fromInt32(-12_345),
+        M.equals(Int16Testable(-12_345))
+      )
+    ]
+  )
+);
+
+/* --------------------------------------- */
+
+run(
+  suite(
+    "fromInt8",
+    [
+      test(
+        "maximum number",
+        Int16.fromInt8(127),
+        M.equals(Int16Testable(127))
+      ),
+      test(
+        "minimum number",
+        Int16.fromInt8(-128),
+        M.equals(Int16Testable(-128))
+      ),
+      test(
+        "zero",
+        Int16.fromInt8(0),
+        M.equals(Int16Testable(0))
+      ),
+      test(
+        "positive number",
+        Int16.fromInt8(42),
+        M.equals(Int16Testable(42))
+      ),
+      test(
+        "negative number",
+        Int16.fromInt8(-42),
+        M.equals(Int16Testable(-42))
+      )
+    ]
+  )
+);
+
+run(
+  suite(
+    "toInt8",
+    [
+      test(
+        "maximum number",
+        Int16.toInt8(127),
+        M.equals(Int8Testable(127))
+      ),
+      test(
+        "minimum number",
+        Int16.toInt8(-128),
+        M.equals(Int8Testable(-128))
+      ),
+      test(
+        "zero",
+        Int16.toInt8(0),
+        M.equals(Int8Testable(0))
+      ),
+      test(
+        "positive number",
+        Int16.toInt8(42),
+        M.equals(Int8Testable(42))
+      ),
+      test(
+        "negative number",
+        Int16.toInt8(-42),
+        M.equals(Int8Testable(-42))
       )
     ]
   )

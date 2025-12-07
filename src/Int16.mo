@@ -39,7 +39,9 @@ module {
   /// ```motoko include=import
   /// assert Int16.toInt(12_345) == (12_345 : Int);
   /// ```
-  public func toInt(self : Int16) : Int = Prim.int16ToInt(self);
+  public func toInt(self : Int16) : Int {
+    Prim.int16ToInt(self)
+  };
 
   /// Converts a signed integer with infinite precision to a 16-bit signed integer.
   ///
@@ -77,7 +79,9 @@ module {
   /// ```motoko include=import
   /// assert Int16.toInt8(-123) == (-123 : Int8);
   /// ```
-  public func toInt8(self : Int16) : Int8 = Prim.int16ToInt8(self);
+  public func toInt8(self : Int16) : Int8 {
+    Prim.int16ToInt8(self)
+  };
 
   /// Converts a 32-bit signed integer to a 16-bit signed integer.
   ///
@@ -95,7 +99,31 @@ module {
   /// ```motoko include=import
   /// assert Int16.toInt32(-12_345) == (-12_345 : Int32);
   /// ```
-  public func toInt32(self : Int16) : Int32 = Prim.int16ToInt32(self);
+  public func toInt32(self : Int16) : Int32 {
+    Prim.int16ToInt32(self)
+  };
+
+  /// Converts a 64-bit signed integer to a 16-bit signed integer.
+  ///
+  /// Traps on overflow/underflow.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Int16.fromInt64(-12_345) == (-12_345 : Int16);
+  /// ```
+  public func fromInt64(x : Int64) : Int16 {
+    Prim.intToInt16(Prim.int64ToInt(x))
+  };
+
+  /// Converts a 16-bit signed integer to a 64-bit signed integer.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Int16.toInt64(-12_345) == (-12_345 : Int64);
+  /// ```
+  public func toInt64(self : Int16) : Int64 {
+    Prim.intToInt64(Prim.int16ToInt(self))
+  };
 
   /// Converts an unsigned 16-bit integer to a signed 16-bit integer.
   ///
@@ -115,7 +143,9 @@ module {
   /// ```motoko include=import
   /// assert Int16.toNat16(-1) == (65_535 : Nat16); // underflow
   /// ```
-  public func toNat16(self : Int16) : Nat16 = Prim.int16ToNat16(self);
+  public func toNat16(self : Int16) : Nat16 {
+    Prim.int16ToNat16(self)
+  };
 
   /// Returns the Text representation of `x`. Textual representation _do not_
   /// contain underscores to represent commas.

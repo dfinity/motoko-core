@@ -38,7 +38,9 @@ module {
   /// ```motoko include=import
   /// assert Int32.toInt(123_456) == (123_456 : Int);
   /// ```
-  public func toInt(self : Int32) : Int = Prim.int32ToInt(self);
+  public func toInt(self : Int32) : Int {
+    Prim.int32ToInt(self)
+  };
 
   /// Converts a signed integer with infinite precision to a 32-bit signed integer.
   ///
@@ -68,6 +70,28 @@ module {
   /// ```
   public let fromInt16 : Int16 -> Int32 = Prim.int16ToInt32;
 
+  /// Converts an 8-bit signed integer to a 32-bit signed integer.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Int32.fromInt8(-123) == (-123 : Int32);
+  /// ```
+  public func fromInt8(x : Int8) : Int32 {
+    Prim.intToInt32(Prim.int8ToInt(x))
+  };
+
+  /// Converts a 32-bit signed integer to an 8-bit signed integer.
+  ///
+  /// Traps on overflow/underflow.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Int32.toInt8(-123) == (-123 : Int8);
+  /// ```
+  public func toInt8(self : Int32) : Int8 {
+    Prim.intToInt8(Prim.int32ToInt(self))
+  };
+
   /// Converts a 32-bit signed integer to a 16-bit signed integer.
   ///
   /// Traps on overflow/underflow.
@@ -76,7 +100,9 @@ module {
   /// ```motoko include=import
   /// assert Int32.toInt16(-123) == (-123 : Int16);
   /// ```
-  public func toInt16(self : Int32) : Int16 = Prim.int32ToInt16(self);
+  public func toInt16(self : Int32) : Int16 {
+    Prim.int32ToInt16(self)
+  };
 
   /// Converts a 64-bit signed integer to a 32-bit signed integer.
   ///
@@ -94,7 +120,9 @@ module {
   /// ```motoko include=import
   /// assert Int32.toInt64(-123_456) == (-123_456 : Int64);
   /// ```
-  public func toInt64(self : Int32) : Int64 = Prim.int32ToInt64(self);
+  public func toInt64(self : Int32) : Int64 {
+    Prim.int32ToInt64(self)
+  };
 
   /// Converts an unsigned 32-bit integer to a signed 32-bit integer.
   ///
@@ -114,7 +142,9 @@ module {
   /// ```motoko include=import
   /// assert Int32.toNat32(-1) == (4_294_967_295 : Nat32); // underflow
   /// ```
-  public func toNat32(self : Int32) : Nat32 = Prim.int32ToNat32(self);
+  public func toNat32(self : Int32) : Nat32 {
+    Prim.int32ToNat32(self)
+  };
 
   /// Returns the Text representation of `x`. Textual representation _do not_
   /// contain underscores to represent commas.

@@ -30,7 +30,9 @@ module {
   /// ```motoko include=import
   /// assert Nat16.toNat(123) == (123 : Nat);
   /// ```
-  public func toNat(self : Nat16) : Nat = Prim.nat16ToNat(self);
+  public func toNat(self : Nat16) : Nat {
+    Prim.nat16ToNat(self)
+  };
 
   /// Converts an unsigned integer with infinite precision to a 16-bit unsigned integer.
   ///
@@ -86,6 +88,28 @@ module {
   /// ```
   public func toNat32(self : Nat16) : Nat32 {
     Prim.nat16ToNat32(self)
+  };
+
+  /// Converts a 64-bit unsigned integer to a 16-bit unsigned integer.
+  ///
+  /// Traps on overflow.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat16.fromNat64(123) == (123 : Nat16);
+  /// ```
+  public func fromNat64(x : Nat64) : Nat16 {
+    Prim.natToNat16(Prim.nat64ToNat(x))
+  };
+
+  /// Converts a 16-bit unsigned integer to a 64-bit unsigned integer.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Nat16.toNat64(123) == (123 : Nat64);
+  /// ```
+  public func toNat64(self : Nat16) : Nat64 {
+    Prim.natToNat64(Prim.nat16ToNat(self))
   };
 
   /// Converts a signed integer with infinite precision to a 16-bit unsigned integer.
