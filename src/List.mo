@@ -107,6 +107,39 @@ module {
   /// Space: `O(size)`
   public func repeat<T>(initValue : T, size : Nat) : List<T> = repeatInternal<T>(?initValue, size);
 
+  /// Fills all elements in the list with the given value.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let list = List.fromArray<Nat>([1, 2, 3]);
+  /// List.fill(list, 0); // fills the list with 0
+  /// assert List.toArray(list) == [0, 0, 0];
+  /// ```
+  ///
+  /// Runtime: `O(size)`
+  ///
+  /// Space: `O(1)`
+  public func fill<T>(list : List<T>, value : T) {
+    let blocks = list.blocks;
+    let blockCount = blocks.size();
+    let blockIndex = list.blockIndex;
+    let elementIndex = list.elementIndex;
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = if (i == blockIndex) elementIndex else db.size();
+      if (sz == 0) return;
+
+      var j = 0;
+      while (j < sz) {
+        db[j] := ?value;
+        j += 1
+      };
+      i += 1
+    }
+  };
+
   /// Converts a mutable `List` to a purely functional `PureList`.
   ///
   /// Example:
@@ -246,6 +279,51 @@ module {
   ///
   /// Runtime: `O(count)`
   public func addRepeat<T>(self : List<T>, initValue : T, count : Nat) = addRepeatInternal<T>(self, ?initValue, count);
+
+  /// Truncates the list to the specified size.
+  /// If the new size is larger than the current size, it will do nothing.
+  /// If the new size is equal to the current list size, after the operation list will be equal to cloned version of itself.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let list = List.fromArray<Nat>([1, 2, 3, 4, 5]);
+  /// List.truncate(list, 3); // list is now [1, 2, 3]
+  /// assert List.toArray(list) == [1, 2, 3];
+  /// ```
+  ///
+  /// Runtime: `O(size)`
+  ///
+  /// Space: `O(1)`
+  public func truncate<T>(list : List<T>, newSize : Nat) {
+    if (newSize > size(list)) return;
+
+    // if newSize == size(list) then after the operation list will be equal to List.clone(list)
+    let (blockIndex, elementIndex) = locate(newSize);
+    list.blockIndex := blockIndex;
+    list.elementIndex := elementIndex;
+    let newBlocksCount = newIndexBlockLength(Nat32.fromNat(if (elementIndex == 0) blockIndex - 1 else blockIndex));
+
+    let newBlocks = if (newBlocksCount < list.blocks.size()) {
+      let oldDataBlocks = list.blocks;
+      list.blocks := VarArray.tabulate<[var ?T]>(newBlocksCount, func(i) = oldDataBlocks[i]);
+      list.blocks
+    } else list.blocks;
+
+    var i = if (elementIndex == 0) blockIndex else blockIndex + 1;
+    while (i < newBlocksCount) {
+      newBlocks[i] := [var];
+      i += 1
+    };
+    if (elementIndex != 0) {
+      let block = newBlocks[blockIndex];
+      var i = elementIndex;
+      var to = block.size();
+      while (i < to) {
+        block[i] := null;
+        i += 1
+      }
+    }
+  };
 
   /// Resets the list to size 0, de-referencing all elements.
   ///
@@ -645,6 +723,46 @@ module {
     filtered
   };
 
+  /// Retains only the elements in `list` for which the predicate returns true.
+  /// Modifies the original list in place.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let list = List.fromArray<Nat>([1, 2, 3, 4]);
+  /// List.retain<Nat>(list, func x = x % 2 == 0);
+  /// assert List.toArray(list) == [2, 4];
+  /// ```
+  ///
+  /// Runtime: `O(size)`
+  ///
+  /// Space: `O(sqrt(size))` if `list` was truncated otherwise `O(1)`
+  public func retain<T>(list : List<T>, predicate : T -> Bool) {
+    list.blockIndex := 1;
+    list.elementIndex := 0;
+
+    let blocks = list.blocks;
+    let blockCount = blocks.size();
+
+    var i = 1;
+    label l while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) break l;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) if (predicate(x)) addUnsafe(list, x);
+          case null break l
+        };
+        j += 1
+      };
+      i += 1
+    };
+
+    truncate(list, size(list))
+  };
+
   /// Returns a new list containing all elements from `list` for which the function returns ?element.
   /// Discards all elements for which the function returns null.
   ///
@@ -859,6 +977,7 @@ module {
     self.elementIndex := elementIndex
   };
 
+  // Add an element without checking and resizing the List
   private func addUnsafe<T>(list : List<T>, element : T) {
     var elementIndex = list.elementIndex;
     let lastDataBlock = list.blocks[list.blockIndex];
@@ -1140,6 +1259,57 @@ module {
     };
 
     true
+  };
+
+  /// Remove adjacent duplicates from the `list`, if the `list` is sorted all elements will be unique.
+  ///
+  /// Example:
+  /// ```
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([1, 1, 2, 2, 3]);
+  /// List.deduplicate(list, Nat.equal);
+  /// assert List.equal(list, List.fromArray<Nat>([1, 2, 3]), Nat.equal);
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  public func deduplicate<T>(list : List<T>, equal : (implicit : (T, T) -> Bool)) {
+    var prev = switch (first(list)) {
+      case (?x) x;
+      case _ return
+    };
+
+    list.blockIndex := 1;
+    list.elementIndex := 0;
+
+    addUnsafe(list, prev);
+
+    let blocks = list.blocks;
+    let blockCount = blocks.size();
+
+    var i = 2;
+    label l while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return break l;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) {
+            if (not equal(x, prev)) addUnsafe(list, x);
+            prev := x
+          };
+          case null break l
+        };
+        j += 1
+      };
+      i += 1
+    };
+
+    truncate(list, size(list))
   };
 
   /// Finds the first index of `element` in `list` using equality of elements defined
@@ -1788,6 +1958,42 @@ module {
   public func toList<T>(self : Types.Iter<T>) : List<T> {
     fromIter(self)
   };
+  
+  /// Appends all elements from `added` to the end of `list`.
+  /// Example:
+  /// ```motoko include=import
+  /// let list = List.fromArray<Nat>([1, 2]);
+  /// let added = List.fromArray<Nat>([3, 4]);
+  /// List.append<Nat>(list, added);
+  /// assert List.toArray(list) == [1, 2, 3, 4];
+  /// ```
+  ///
+  /// Runtime: `O(size(added))`
+  ///
+  /// Space: `O(size(added))`
+  public func append<T>(list : List<T>, added : List<T>) {
+    reserve(list, size(added));
+
+    let blocks = added.blocks;
+    let blockCount = blocks.size();
+
+    var i = 1;
+    while (i < blockCount) {
+      let db = blocks[i];
+      let sz = db.size();
+      if (sz == 0) return;
+
+      var j = 0;
+      while (j < sz) {
+        switch (db[j]) {
+          case (?x) addUnsafe(list, x);
+          case null return
+        };
+        j += 1
+      };
+      i += 1
+    }
+  };
 
   /// Adds all elements from the provided iterator to the end of the list.
   /// Elements are added in the order they are returned by the iterator.
@@ -2346,6 +2552,56 @@ module {
     }
   };
 
+  /// Executes the closure over a slice of `list` starting at `fromInclusive` up to (but not including) `toExclusive`.
+  ///
+  /// ```motoko include=import
+  /// import Debug "mo:core/Debug";
+  /// import Nat "mo:core/Nat";
+  ///
+  /// let list = List.fromArray<Nat>([1, 2, 3, 4, 5]);
+  /// List.forEachInRange<Nat>(list, func x = Debug.print(Nat.toText(x)), 1, 2); // prints 2 and 3
+  /// ```
+  ///
+  /// Runtime: `O(toExclusive - fromExclusive)`
+  ///
+  /// Space: `O(1)`
+  public func forEachInRange<T>(list : List<T>, f : T -> (), fromInclusive : Nat, toExclusive : Nat) {
+    if (not (fromInclusive <= toExclusive and toExclusive <= size(list))) Prim.trap("Invalid range");
+
+    func traverseBlock(block : [var ?T], f : T -> (), from : Nat, to : Nat) {
+      var i = from;
+      while (i < to) {
+        switch (block[i]) {
+          case (?value) f(value);
+          case null Prim.trap(INTERNAL_ERROR)
+        };
+        i += 1
+      }
+    };
+
+    let (fromBlock, fromElement) = locate(fromInclusive);
+    let (toBlock, toElement) = locate(toExclusive);
+
+    let blocks = list.blocks;
+    let sz = blocks.size();
+
+    if (fromBlock == toBlock) {
+      if (fromBlock < sz) traverseBlock(blocks[fromBlock], f, fromElement, toElement);
+      return
+    };
+
+    traverseBlock(blocks[fromBlock], f, fromElement, blocks[fromBlock].size());
+
+    var i = fromBlock + 1;
+    let to = Nat.min(toBlock, sz);
+    while (i < to) {
+      traverseBlock(blocks[i], f, 0, blocks[i].size());
+      i += 1
+    };
+
+    if (toBlock < sz) traverseBlock(blocks[toBlock], f, 0, toElement)
+  };
+
   /// Returns true if the list contains the specified element according to the provided
   /// equality function. Uses the provided `equal` function to compare elements.
   ///
@@ -2831,6 +3087,49 @@ module {
   /// Space: `O(1)`
   public func isEmpty<T>(self : List<T>) : Bool {
     self.blockIndex == 1
+  };
+
+  /// Unsafe iterator starting from `start`.
+  ///
+  /// Example:
+  /// ```
+  /// let list = List.fromArray<Nat>([1, 2, 3, 4, 5]);
+  /// let reader = List.reader<Nat>(list, 2);
+  /// assert reader() == 3;
+  /// assert reader() == 4;
+  /// assert reader() == 5;
+  /// ```
+  ///
+  /// Runtime: `O(1)`
+  ///
+  /// Space: `O(1)`
+  public func reader<T>(list : List<T>, start : Nat) : () -> T {
+    var blockIndex = 0;
+    var elementIndex = 0;
+    if (start != 0) {
+      let (block, element) = locate(start - 1);
+      blockIndex := block;
+      elementIndex := element + 1
+    };
+    var db : [var ?T] = list.blocks[blockIndex];
+    var dbSize = db.size();
+    func next() : T {
+      // Note: next() traps when reading beyond end of list
+      if (elementIndex == dbSize) {
+        blockIndex += 1;
+        db := list.blocks[blockIndex];
+        dbSize := db.size();
+        elementIndex := 0
+      };
+      switch (db[elementIndex]) {
+        case (?ret) {
+          elementIndex += 1;
+          return ret
+        };
+        case (_) Prim.trap("List.reader(): out of bounds")
+      }
+    };
+    next
   };
 
 }
