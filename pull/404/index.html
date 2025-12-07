@@ -194,7 +194,15 @@ for (x in iter) {
 }</code></pre>
 
 <p>Iterators can be:</p>
-<ul><li>created from other collections (e.g. using <code>values</code> or <code>keys</code> function on a <code>Map</code>) or from scratch (e.g. using <code>empty</code> or <code>singleton</code>).</li><li>transformed using <code>map</code>, <code>filter</code>, <code>concat</code>, etc. Which can be used to compose several transformations together without materializing intermediate collections.</li><li>consumed using <code>forEach</code>, <code>size</code>, <code>toArray</code>, etc.</li><li>combined using <code>concat</code>.</li></ul></div></li><li class="index-item"><a class="index-item-link" href="Map.html">Map</a><div class="index-item-comment"><p>An imperative key-value map based on order/comparison of the keys.
+<ul><li>created from other collections (e.g. using <code>values</code> or <code>keys</code> function on a <code>Map</code>) or from scratch (e.g. using <code>empty</code> or <code>singleton</code>).</li><li>transformed using <code>map</code>, <code>filter</code>, <code>concat</code>, etc. Which can be used to compose several transformations together without materializing intermediate collections.</li><li>consumed using <code>forEach</code>, <code>size</code>, <code>toArray</code>, etc.</li><li>combined using <code>concat</code>.</li></ul></div></li><li class="index-item"><a class="index-item-link" href="List.html">List</a><div class="index-item-comment"><p>A mutable growable array data structure with efficient random access and dynamic resizing.
+<code>List</code> provides O(1) access time and O(sqrt(n)) memory overhead. In contrast, <code>pure/List</code> is a purely functional linked list.
+Can be declared <code>stable</code> for orthogonal persistence.</p>
+<p>This implementation is adapted with permission from the <code>vector</code> Mops package created by Research AG.</p>
+<p>Copyright: 2023 MR Research AG
+Main author: Andrii Stepanov (AStepanov25)
+Contributors: Timo Hanke (timohanke), Andy Gura (andygura), react0r-com</p>
+<pre><code>motoko name=import
+import List &quot;mo:core/List&quot;;</code></pre></div></li><li class="index-item"><a class="index-item-link" href="Map.html">Map</a><div class="index-item-comment"><p>An imperative key-value map based on order/comparison of the keys.
 The map data structure type is stable and can be used for orthogonal persistence.</p>
 <p>Example:</p>
 <pre class="motoko"><code class="motoko">import Map &quot;mo:core/Map&quot;;
