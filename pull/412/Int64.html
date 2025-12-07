@@ -13,11 +13,11 @@ assert Int64.minValue == -9_223_372_036_854_775_808;</code></pre></p></div><div 
 assert Int64.maxValue == +9_223_372_036_854_775_807;</code></pre></p></div><div class="declaration"><h4 class="function" id="toInt"><code><span class="keyword">public func </span><span class="fnname">toInt</span>(<span class="parameter">self</span> : <a href="#type.Int64"><span class="type">Int64</span></a>) : <span class="type">Int</span></code></h4><p><p>Converts a 64-bit signed integer to a signed integer with infinite precision.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int64.toInt(123_456) == (123_456 : Int);</code></pre></p></div><div class="declaration"><h4 class="function" id="fromInt"><code><span class="keyword">public func </span><span class="fnname">fromInt</span>(<span class="parameter">_</span> : <span class="type">Int</span>) : <a href="#type.Int64"><span class="type">Int64</span></a></code></h4><p><p>Converts a signed integer with infinite precision to a 64-bit signed integer.</p>
+assert Int64.toInt(123_456) == (123_456 : Int);</code></pre></p></div><div class="declaration"><h4 class="function" id="fromInt"><code><span class="keyword">public func </span><span class="fnname">fromInt</span>(<span class="parameter">x</span> : <span class="type">Int</span>) : <a href="#type.Int64"><span class="type">Int64</span></a></code></h4><p><p>Converts a signed integer with infinite precision to a 64-bit signed integer.</p>
 <p>Traps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int64.fromInt(123_456) == (+123_456 : Int64);</code></pre></p></div><div class="declaration"><h4 class="function" id="fromInt32"><code><span class="keyword">public func </span><span class="fnname">fromInt32</span>(<span class="parameter">_</span> : <span class="type">Int32</span>) : <a href="#type.Int64"><span class="type">Int64</span></a></code></h4><p><p>Converts a 32-bit signed integer to a 64-bit signed integer.</p>
+assert Int64.fromInt(123_456) == (+123_456 : Int64);</code></pre></p></div><div class="declaration"><h4 class="function" id="fromInt32"><code><span class="keyword">public func </span><span class="fnname">fromInt32</span>(<span class="parameter">x</span> : <span class="type">Int32</span>) : <a href="#type.Int64"><span class="type">Int64</span></a></code></h4><p><p>Converts a 32-bit signed integer to a 64-bit signed integer.</p>
 <p>Traps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -31,11 +31,11 @@ assert Int64.fromInt8(-123) == (-123 : Int64);</code></pre></p></div><div class=
 <p>Wraps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int64.toInt32(-123_456) == (-123_456 : Int32);</code></pre></p></div><div class="declaration"><h4 class="function" id="toInt16"><code><span class="keyword">public func </span><span class="fnname">toInt16</span>(<span class="parameter">x</span> : <a href="#type.Int64"><span class="type">Int64</span></a>) : <span class="type">Int16</span></code></h4><p><p>Converts a 64-bit signed integer to a 16-bit signed integer.</p>
+assert Int64.toInt32(-123_456) == (-123_456 : Int32);</code></pre></p></div><div class="declaration"><h4 class="function" id="toInt16"><code><span class="keyword">public func </span><span class="fnname">toInt16</span>(<span class="parameter">self</span> : <a href="#type.Int64"><span class="type">Int64</span></a>) : <span class="type">Int16</span></code></h4><p><p>Converts a 64-bit signed integer to a 16-bit signed integer.</p>
 <p>Traps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int64.toInt16(-123) == (-123 : Int16);</code></pre></p></div><div class="declaration"><h4 class="function" id="toInt8"><code><span class="keyword">public func </span><span class="fnname">toInt8</span>(<span class="parameter">x</span> : <a href="#type.Int64"><span class="type">Int64</span></a>) : <span class="type">Int8</span></code></h4><p><p>Converts a 64-bit signed integer to an 8-bit signed integer.</p>
+assert Int64.toInt16(-123) == (-123 : Int16);</code></pre></p></div><div class="declaration"><h4 class="function" id="toInt8"><code><span class="keyword">public func </span><span class="fnname">toInt8</span>(<span class="parameter">self</span> : <a href="#type.Int64"><span class="type">Int64</span></a>) : <span class="type">Int8</span></code></h4><p><p>Converts a 64-bit signed integer to an 8-bit signed integer.</p>
 <p>Traps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import

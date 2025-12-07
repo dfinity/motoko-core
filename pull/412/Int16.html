@@ -39,7 +39,7 @@ assert Int16.toInt32(-12_345) == (-12_345 : Int32);</code></pre></p></div><div c
 <p>Traps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int16.fromInt64(-12_345) == (-12_345 : Int16);</code></pre></p></div><div class="declaration"><h4 class="function" id="toInt64"><code><span class="keyword">public func </span><span class="fnname">toInt64</span>(<span class="parameter">x</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Int64</span></code></h4><p><p>Converts a 16-bit signed integer to a 64-bit signed integer.</p>
+assert Int16.fromInt64(-12_345) == (-12_345 : Int16);</code></pre></p></div><div class="declaration"><h4 class="function" id="toInt64"><code><span class="keyword">public func </span><span class="fnname">toInt64</span>(<span class="parameter">self</span> : <a href="#type.Int16"><span class="type">Int16</span></a>) : <span class="type">Int64</span></code></h4><p><p>Converts a 16-bit signed integer to a 64-bit signed integer.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Int16.toInt64(-12_345) == (-12_345 : Int64);</code></pre></p></div><div class="declaration"><h4 class="function" id="fromNat16"><code><span class="keyword">public func </span><span class="fnname">fromNat16</span>(<span class="parameter">_</span> : <span class="type">Nat16</span>) : <a href="#type.Int16"><span class="type">Int16</span></a></code></h4><p><p>Converts an unsigned 16-bit integer to a signed 16-bit integer.</p>

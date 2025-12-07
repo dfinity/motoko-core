@@ -27,7 +27,7 @@ assert Int32.fromIntWrap(-123_456) == (-123_456 : Int);</code></pre></p></div><d
 assert Int32.fromInt16(-123) == (-123 : Int32);</code></pre></p></div><div class="declaration"><h4 class="function" id="fromInt8"><code><span class="keyword">public func </span><span class="fnname">fromInt8</span>(<span class="parameter">x</span> : <span class="type">Int8</span>) : <a href="#type.Int32"><span class="type">Int32</span></a></code></h4><p><p>Converts an 8-bit signed integer to a 32-bit signed integer.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Int32.fromInt8(-123) == (-123 : Int32);</code></pre></p></div><div class="declaration"><h4 class="function" id="toInt8"><code><span class="keyword">public func </span><span class="fnname">toInt8</span>(<span class="parameter">x</span> : <a href="#type.Int32"><span class="type">Int32</span></a>) : <span class="type">Int8</span></code></h4><p><p>Converts a 32-bit signed integer to an 8-bit signed integer.</p>
+assert Int32.fromInt8(-123) == (-123 : Int32);</code></pre></p></div><div class="declaration"><h4 class="function" id="toInt8"><code><span class="keyword">public func </span><span class="fnname">toInt8</span>(<span class="parameter">self</span> : <a href="#type.Int32"><span class="type">Int32</span></a>) : <span class="type">Int8</span></code></h4><p><p>Converts a 32-bit signed integer to an 8-bit signed integer.</p>
 <p>Traps on overflow/underflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import

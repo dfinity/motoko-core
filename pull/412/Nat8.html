@@ -25,14 +25,14 @@ assert Nat8.toNat16(123) == (123 : Nat16);</code></pre></p></div><div class="dec
 <p>Traps on overflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Nat8.fromNat32(123) == (123 : Nat8);</code></pre></p></div><div class="declaration"><h4 class="function" id="toNat32"><code><span class="keyword">public func </span><span class="fnname">toNat32</span>(<span class="parameter">x</span> : <a href="#type.Nat8"><span class="type">Nat8</span></a>) : <span class="type">Nat32</span></code></h4><p><p>Converts an 8-bit unsigned integer to a 32-bit unsigned integer.</p>
+assert Nat8.fromNat32(123) == (123 : Nat8);</code></pre></p></div><div class="declaration"><h4 class="function" id="toNat32"><code><span class="keyword">public func </span><span class="fnname">toNat32</span>(<span class="parameter">self</span> : <a href="#type.Nat8"><span class="type">Nat8</span></a>) : <span class="type">Nat32</span></code></h4><p><p>Converts an 8-bit unsigned integer to a 32-bit unsigned integer.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Nat8.toNat32(123) == (123 : Nat32);</code></pre></p></div><div class="declaration"><h4 class="function" id="fromNat64"><code><span class="keyword">public func </span><span class="fnname">fromNat64</span>(<span class="parameter">x</span> : <span class="type">Nat64</span>) : <a href="#type.Nat8"><span class="type">Nat8</span></a></code></h4><p><p>Converts a 64-bit unsigned integer to a 8-bit unsigned integer.</p>
 <p>Traps on overflow.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
-assert Nat8.fromNat64(123) == (123 : Nat8);</code></pre></p></div><div class="declaration"><h4 class="function" id="toNat64"><code><span class="keyword">public func </span><span class="fnname">toNat64</span>(<span class="parameter">x</span> : <a href="#type.Nat8"><span class="type">Nat8</span></a>) : <span class="type">Nat64</span></code></h4><p><p>Converts an 8-bit unsigned integer to a 64-bit unsigned integer.</p>
+assert Nat8.fromNat64(123) == (123 : Nat8);</code></pre></p></div><div class="declaration"><h4 class="function" id="toNat64"><code><span class="keyword">public func </span><span class="fnname">toNat64</span>(<span class="parameter">self</span> : <a href="#type.Nat8"><span class="type">Nat8</span></a>) : <span class="type">Nat64</span></code></h4><p><p>Converts an 8-bit unsigned integer to a 64-bit unsigned integer.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 assert Nat8.toNat64(123) == (123 : Nat64);</code></pre></p></div><div class="declaration"><h4 class="function" id="fromIntWrap"><code><span class="keyword">public func </span><span class="fnname">fromIntWrap</span>(<span class="parameter">_</span> : <span class="type">Int</span>) : <a href="#type.Nat8"><span class="type">Nat8</span></a></code></h4><p><p>Converts a signed integer with infinite precision to an 8-bit unsigned integer.</p>
