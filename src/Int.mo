@@ -181,7 +181,7 @@ module {
   /// assert Int.toInt16(12_345) == (12_345 : Int16);
   /// ```
   public func toInt16(self : Int) : Int16 {
-    Prim.intToInt16(self);
+    Prim.intToInt16(self)
   };
 
   /// Converts a signed integer with infinite precision to a 32-bit signed integer.
@@ -204,7 +204,7 @@ module {
   /// ```motoko include=import
   /// assert Int.toInt64(123_456_789) == (123_456_789 : Int64);
   /// ```
-  public func toInt64(self : Int) :  Int64 {
+  public func toInt64(self : Int) : Int64 {
     Prim.intToInt64(self)
   };
 
@@ -234,7 +234,7 @@ module {
   /// ```motoko include=import
   /// assert Int.fromInt32(123_456 : Int32) == 123_456;
   /// ```
-  public func fromInt32(x : Int32) :  Int {
+  public func fromInt32(x : Int32) : Int {
     Prim.int32ToInt(x)
   };
 

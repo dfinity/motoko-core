@@ -1958,7 +1958,7 @@ module {
   public func toList<T>(self : Types.Iter<T>) : List<T> {
     fromIter(self)
   };
-  
+
   /// Appends all elements from `added` to the end of `list`.
   /// Example:
   /// ```motoko include=import
