@@ -30,7 +30,9 @@ module {
   /// ```motoko include=import
   /// assert Nat16.toNat(123) == (123 : Nat);
   /// ```
-  public func toNat(self : Nat16) : Nat = Prim.nat16ToNat(self);
+  public func toNat(self : Nat16) : Nat {
+    Prim.nat16ToNat(self)
+  };
 
   /// Converts an unsigned integer with infinite precision to a 16-bit unsigned integer.
   ///
@@ -104,8 +106,8 @@ module {
   /// ```motoko include=import
   /// assert Nat16.toNat64(123) == (123 : Nat64);
   /// ```
-  public func toNat64(x : Nat16) : Nat64 {
-    Prim.natToNat64(Prim.nat16ToNat(x))
+  public func toNat64(self : Nat16) : Nat64 {
+    Prim.natToNat64(Prim.nat16ToNat(self))
   };
 
   /// Converts a signed integer with infinite precision to a 16-bit unsigned integer.

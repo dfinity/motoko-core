@@ -30,7 +30,9 @@ module {
   /// ```motoko include=import
   /// assert Nat8.toNat(123) == (123 : Nat);
   /// ```
-  public func toNat(self : Nat8) : Nat = Prim.nat8ToNat(self);
+  public func toNat(self : Nat8) : Nat {
+    Prim.nat8ToNat(self)
+  };
 
   /// Converts an unsigned integer with infinite precision to an 8-bit unsigned integer.
   ///
@@ -58,7 +60,9 @@ module {
   /// ```motoko include=import
   /// assert Nat8.toNat16(123) == (123 : Nat16);
   /// ```
-  public func toNat16(self : Nat8) : Nat16 = Prim.nat8ToNat16(self);
+  public func toNat16(self : Nat8) : Nat16 {
+    Prim.nat8ToNat16(self)
+  };
 
   /// Converts a 32-bit unsigned integer to a 8-bit unsigned integer.
   ///
@@ -78,8 +82,8 @@ module {
   /// ```motoko include=import
   /// assert Nat8.toNat32(123) == (123 : Nat32);
   /// ```
-  public func toNat32(x : Nat8) : Nat32 {
-    Prim.natToNat32(Prim.nat8ToNat(x))
+  public func toNat32(self : Nat8) : Nat32 {
+    Prim.natToNat32(Prim.nat8ToNat(self))
   };
 
   /// Converts a 64-bit unsigned integer to a 8-bit unsigned integer.
@@ -100,8 +104,8 @@ module {
   /// ```motoko include=import
   /// assert Nat8.toNat64(123) == (123 : Nat64);
   /// ```
-  public func toNat64(x : Nat8) : Nat64 {
-    Prim.natToNat64(Prim.nat8ToNat(x))
+  public func toNat64(self : Nat8) : Nat64 {
+    Prim.natToNat64(Prim.nat8ToNat(self))
   };
 
   /// Converts a signed integer with infinite precision to an 8-bit unsigned integer.

@@ -280,7 +280,7 @@ module {
     if (oddIteration) {
       var i = 0;
       while (i < size) {
-        array[i] := scratchSpace[i];
+        self[i] := scratchSpace[i];
         i += 1
       }
     }

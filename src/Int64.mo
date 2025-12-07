@@ -39,7 +39,9 @@ module {
   /// ```motoko include=import
   /// assert Int64.toInt(123_456) == (123_456 : Int);
   /// ```
-  public func toInt(self : Int64) : Int = Prim.int64ToInt(self);
+  public func toInt(self : Int64) : Int {
+    Prim.int64ToInt(self)
+  };
 
   /// Converts a signed integer with infinite precision to a 64-bit signed integer.
   ///
@@ -49,7 +51,9 @@ module {
   /// ```motoko include=import
   /// assert Int64.fromInt(123_456) == (+123_456 : Int64);
   /// ```
-  public let fromInt : Int -> Int64 = Prim.intToInt64;
+  public func fromInt(x : Int) : Int64 {
+    Prim.intToInt64(x)
+  };
 
   /// Converts a 32-bit signed integer to a 64-bit signed integer.
   ///
@@ -59,7 +63,9 @@ module {
   /// ```motoko include=import
   /// assert Int64.fromInt32(-123_456) == (-123_456 : Int64);
   /// ```
-  public let fromInt32 : Int32 -> Int64 = Prim.int32ToInt64;
+  public func fromInt32(x : Int32) : Int64 {
+    Prim.int32ToInt64(x)
+  };
 
   /// Converts a 16-bit signed integer to a 64-bit signed integer.
   ///
@@ -89,7 +95,9 @@ module {
   /// ```motoko include=import
   /// assert Int64.toInt32(-123_456) == (-123_456 : Int32);
   /// ```
-  public func toInt32(self : Int64) : Int32 = Prim.int64ToInt32(self);
+  public func toInt32(self : Int64) : Int32 {
+    Prim.int64ToInt32(self)
+  };
 
   /// Converts a 64-bit signed integer to a 16-bit signed integer.
   ///
@@ -99,8 +107,8 @@ module {
   /// ```motoko include=import
   /// assert Int64.toInt16(-123) == (-123 : Int16);
   /// ```
-  public func toInt16(x : Int64) : Int16 {
-    Prim.intToInt16(Prim.int64ToInt(x))
+  public func toInt16(self : Int64) : Int16 {
+    Prim.intToInt16(Prim.int64ToInt(self))
   };
 
   /// Converts a 64-bit signed integer to an 8-bit signed integer.
@@ -111,8 +119,8 @@ module {
   /// ```motoko include=import
   /// assert Int64.toInt8(-123) == (-123 : Int8);
   /// ```
-  public func toInt8(x : Int64) : Int8 {
-    Prim.intToInt8(Prim.int64ToInt(x))
+  public func toInt8(self : Int64) : Int8 {
+    Prim.intToInt8(Prim.int64ToInt(self))
   };
 
   /// Converts a signed integer with infinite precision to a 64-bit signed integer.
@@ -143,7 +151,9 @@ module {
   /// ```motoko include=import
   /// assert Int64.toNat64(-1) == (18_446_744_073_709_551_615 : Nat64); // underflow
   /// ```
-  public func toNat64(self : Int64) : Nat64 = Prim.int64ToNat64(self);
+  public func toNat64(self : Int64) : Nat64 {
+    Prim.int64ToNat64(self)
+  };
 
   /// Returns the Text representation of `x`. Textual representation _do not_
   /// contain underscores to represent commas.

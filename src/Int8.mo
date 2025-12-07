@@ -76,7 +76,9 @@ module {
   /// ```motoko include=import
   /// assert Int8.toInt16(123) == (+123 : Int16);
   /// ```
-  public func toInt16(self : Int8) : Int16 = Prim.int8ToInt16(self);
+  public func toInt16(self : Int8) : Int16 {
+    Prim.int8ToInt16(self)
+  };
 
   /// Converts a 32-bit signed integer to an 8-bit signed integer.
   ///
@@ -86,8 +88,8 @@ module {
   /// ```motoko include=import
   /// assert Int8.fromInt32(123) == (+123 : Int8);
   /// ```
-  public func fromInt32(x : Int32) : Int8 {
-    Prim.intToInt8(Prim.int32ToInt(x))
+  public func fromInt32(self : Int32) : Int8 {
+    Prim.intToInt8(Prim.int32ToInt(self))
   };
 
   /// Converts an 8-bit signed integer to a 32-bit signed integer.
@@ -96,8 +98,8 @@ module {
   /// ```motoko include=import
   /// assert Int8.toInt32(123) == (+123 : Int32);
   /// ```
-  public func toInt32(x : Int8) : Int32 {
-    Prim.intToInt32(Prim.int8ToInt(x))
+  public func toInt32(self : Int8) : Int32 {
+    Prim.intToInt32(Prim.int8ToInt(self))
   };
 
   /// Converts a 64-bit signed integer to an 8-bit signed integer.
