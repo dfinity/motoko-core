@@ -1276,7 +1276,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(1)
-  public func deduplicate<T>(list : List<T>, equal : (T, T) -> Bool) {
+  public func deduplicate<T>(list : List<T>, equal : (implicit : (T, T) -> Bool))) {
     var prev = switch (first(list)) {
       case (?x) x;
       case _ return
