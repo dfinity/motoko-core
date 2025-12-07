@@ -119,11 +119,11 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(1)`
-  public func fill<T>(list : List<T>, value : T) {
-    let blocks = list.blocks;
+  public func fill<T>(self : List<T>, value : T) {
+    let blocks = self.blocks;
     let blockCount = blocks.size();
-    let blockIndex = list.blockIndex;
-    let elementIndex = list.elementIndex;
+    let blockIndex = self.blockIndex;
+    let elementIndex = self.elementIndex;
 
     var i = 1;
     while (i < blockCount) {
@@ -294,20 +294,20 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(1)`
-  public func truncate<T>(list : List<T>, newSize : Nat) {
-    if (newSize > size(list)) return;
+  public func truncate<T>(self : List<T>, newSize : Nat) {
+    if (newSize > size(self)) return;
 
-    // if newSize == size(list) then after the operation list will be equal to List.clone(list)
+    // if newSize == size(self) then after the operation self will be equal to List.clone(self)
     let (blockIndex, elementIndex) = locate(newSize);
-    list.blockIndex := blockIndex;
-    list.elementIndex := elementIndex;
+    self.blockIndex := blockIndex;
+    self.elementIndex := elementIndex;
     let newBlocksCount = newIndexBlockLength(Nat32.fromNat(if (elementIndex == 0) blockIndex - 1 else blockIndex));
 
-    let newBlocks = if (newBlocksCount < list.blocks.size()) {
-      let oldDataBlocks = list.blocks;
-      list.blocks := VarArray.tabulate<[var ?T]>(newBlocksCount, func(i) = oldDataBlocks[i]);
-      list.blocks
-    } else list.blocks;
+    let newBlocks = if (newBlocksCount < self.blocks.size()) {
+      let oldDataBlocks = self.blocks;
+      self.blocks := VarArray.tabulate<[var ?T]>(newBlocksCount, func(i) = oldDataBlocks[i]);
+      self.blocks
+    } else self.blocks;
 
     var i = if (elementIndex == 0) blockIndex else blockIndex + 1;
     while (i < newBlocksCount) {
@@ -736,11 +736,11 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(sqrt(size))` if `list` was truncated otherwise `O(1)`
-  public func retain<T>(list : List<T>, predicate : T -> Bool) {
-    list.blockIndex := 1;
-    list.elementIndex := 0;
+  public func retain<T>(self : List<T>, predicate : T -> Bool) {
+    self.blockIndex := 1;
+    self.elementIndex := 0;
 
-    let blocks = list.blocks;
+    let blocks = self.blocks;
     let blockCount = blocks.size();
 
     var i = 1;
@@ -752,7 +752,7 @@ module {
       var j = 0;
       while (j < sz) {
         switch (db[j]) {
-          case (?x) if (predicate(x)) addUnsafe(list, x);
+          case (?x) if (predicate(x)) addUnsafe(self, x);
           case null break l
         };
         j += 1
@@ -760,7 +760,7 @@ module {
       i += 1
     };
 
-    truncate(list, size(list))
+    truncate(self, size(self))
   };
 
   /// Returns a new list containing all elements from `list` for which the function returns ?element.
@@ -1275,18 +1275,18 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(1)
-  public func deduplicate<T>(list : List<T>, equal : (implicit : (T, T) -> Bool)) {
-    var prev = switch (first(list)) {
+  public func deduplicate<T>(self : List<T>, equal : (implicit : (T, T) -> Bool)) {
+    var prev = switch (first(self)) {
       case (?x) x;
       case _ return
     };
 
-    list.blockIndex := 1;
-    list.elementIndex := 0;
+    self.blockIndex := 1;
+    self.elementIndex := 0;
 
-    addUnsafe(list, prev);
+    addUnsafe(self, prev);
 
-    let blocks = list.blocks;
+    let blocks = self.blocks;
     let blockCount = blocks.size();
 
     var i = 2;
@@ -1299,7 +1299,7 @@ module {
       while (j < sz) {
         switch (db[j]) {
           case (?x) {
-            if (not equal(x, prev)) addUnsafe(list, x);
+            if (not equal(x, prev)) addUnsafe(self, x);
             prev := x
           };
           case null break l
@@ -1309,7 +1309,7 @@ module {
       i += 1
     };
 
-    truncate(list, size(list))
+    truncate(self, size(self))
   };
 
   /// Finds the first index of `element` in `list` using equality of elements defined
@@ -1971,8 +1971,8 @@ module {
   /// Runtime: `O(size(added))`
   ///
   /// Space: `O(size(added))`
-  public func append<T>(list : List<T>, added : List<T>) {
-    reserve(list, size(added));
+  public func append<T>(self : List<T>, added : List<T>) {
+    reserve(self, size(added));
 
     let blocks = added.blocks;
     let blockCount = blocks.size();
@@ -1986,7 +1986,7 @@ module {
       var j = 0;
       while (j < sz) {
         switch (db[j]) {
-          case (?x) addUnsafe(list, x);
+          case (?x) addUnsafe(self, x);
           case null return
         };
         j += 1
@@ -2565,8 +2565,8 @@ module {
   /// Runtime: `O(toExclusive - fromExclusive)`
   ///
   /// Space: `O(1)`
-  public func forEachInRange<T>(list : List<T>, f : T -> (), fromInclusive : Nat, toExclusive : Nat) {
-    if (not (fromInclusive <= toExclusive and toExclusive <= size(list))) Prim.trap("Invalid range");
+  public func forEachInRange<T>(self : List<T>, f : T -> (), fromInclusive : Nat, toExclusive : Nat) {
+    if (not (fromInclusive <= toExclusive and toExclusive <= size(self))) Prim.trap("Invalid range");
 
     func traverseBlock(block : [var ?T], f : T -> (), from : Nat, to : Nat) {
       var i = from;
@@ -2582,7 +2582,7 @@ module {
     let (fromBlock, fromElement) = locate(fromInclusive);
     let (toBlock, toElement) = locate(toExclusive);
 
-    let blocks = list.blocks;
+    let blocks = self.blocks;
     let sz = blocks.size();
 
     if (fromBlock == toBlock) {
@@ -3103,7 +3103,7 @@ module {
   /// Runtime: `O(1)`
   ///
   /// Space: `O(1)`
-  public func reader<T>(list : List<T>, start : Nat) : () -> T {
+  public func reader<T>(self : List<T>, start : Nat) : () -> T {
     var blockIndex = 0;
     var elementIndex = 0;
     if (start != 0) {
@@ -3111,13 +3111,13 @@ module {
       blockIndex := block;
       elementIndex := element + 1
     };
-    var db : [var ?T] = list.blocks[blockIndex];
+    var db : [var ?T] = self.blocks[blockIndex];
     var dbSize = db.size();
     func next() : T {
       // Note: next() traps when reading beyond end of list
       if (elementIndex == dbSize) {
         blockIndex += 1;
-        db := list.blocks[blockIndex];
+        db := self.blocks[blockIndex];
         dbSize := db.size();
         elementIndex := 0
       };

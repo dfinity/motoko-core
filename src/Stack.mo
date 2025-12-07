@@ -695,7 +695,7 @@ module {
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
 
-  public func find<T>(stack : Stack<T>, predicate : T -> Bool) : ?T = PureList.find(stack.top, predicate);
+  public func find<T>(self : Stack<T>, predicate : T -> Bool) : ?T = PureList.find(self.top, predicate);
 
   /// Return the first index for which the given `predicate` is true.
   /// If no element satisfies the predicate, returns null.
@@ -716,7 +716,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
-  public func findIndex<T>(stack : Stack<T>, predicate : T -> Bool) : ?Nat = PureList.findIndex(stack.top, predicate);
+  public func findIndex<T>(self : Stack<T>, predicate : T -> Bool) : ?Nat = PureList.findIndex(self.top, predicate);
 
   /// Compares two stacks for equality using the provided equality function.
   ///
