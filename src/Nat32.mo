@@ -62,6 +62,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.fromNat8(123) == (123 : Nat32);
   /// ```
+  /// @deprecated M0235
   public func fromNat8(x : Nat8) : Nat32 {
     Prim.natToNat32(Prim.nat8ToNat(x))
   };

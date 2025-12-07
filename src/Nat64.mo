@@ -62,6 +62,7 @@ module {
   /// ```motoko include=import
   /// assert Nat64.fromNat16(123) == (123 : Nat64);
   /// ```
+  /// @deprecated M0235
   public func fromNat16(x : Nat16) : Nat64 {
     Prim.natToNat64(Prim.nat16ToNat(x))
   };
@@ -84,6 +85,7 @@ module {
   /// ```motoko include=import
   /// assert Nat64.fromNat8(123) == (123 : Nat64);
   /// ```
+  /// @deprecated M0235
   public func fromNat8(x : Nat8) : Nat64 {
     Prim.natToNat64(Prim.nat8ToNat(x))
   };
