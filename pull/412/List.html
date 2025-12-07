@@ -34,7 +34,7 @@ assert List.toArray(list) == [2, 2, 2, 2];</code></pre>
 
 <p>Runtime: <code>O(size)</code></p>
 <p>Space: <code>O(size)</code></p>
-</p></div><div class="declaration"><h4 class="function" id="fill"><code><span class="keyword">public func </span><span class="fnname">fill</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">value</span> : <span class="type">T</span>)</code></h4><p><p>Fills all elements in the list with the given value.</p>
+</p></div><div class="declaration"><h4 class="function" id="fill"><code><span class="keyword">public func </span><span class="fnname">fill</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">value</span> : <span class="type">T</span>)</code></h4><p><p>Fills all elements in the list with the given value.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
 let list = List.fromArray&lt;Nat&gt;([1, 2, 3]);
@@ -68,7 +68,7 @@ List.addRepeat(list, 2, 1); // [2, 2, 2, 2, 1, 1]</code></pre>
 
 <p>The maximum number of elements in a <code>List</code> is 2^32.</p>
 <p>Runtime: <code>O(count)</code></p>
-</p></div><div class="declaration"><h4 class="function" id="truncate"><code><span class="keyword">public func </span><span class="fnname">truncate</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">newSize</span> : <span class="type">Nat</span>)</code></h4><p><p>Truncates the list to the specified size.
+</p></div><div class="declaration"><h4 class="function" id="truncate"><code><span class="keyword">public func </span><span class="fnname">truncate</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">newSize</span> : <span class="type">Nat</span>)</code></h4><p><p>Truncates the list to the specified size.
 If the new size is larger than the current size, it will do nothing.
 If the new size is equal to the current list size, after the operation list will be equal to cloned version of itself.</p>
 <p>Example:</p>
@@ -203,7 +203,7 @@ assert List.toArray(evenNumbers) == [2, 4];</code></pre>
 <p>Runtime: <code>O(size)</code></p>
 <p>Space: <code>O(size)</code></p>
 <p>*Runtime and space assumes that <code>predicate</code> runs in <code>O(1)</code> time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="retain"><code><span class="keyword">public func </span><span class="fnname">retain</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">predicate</span> : <span class="type">T</span> -&gt; <span class="type">Bool</span>)</code></h4><p><p>Retains only the elements in <code>list</code> for which the predicate returns true.
+</p></div><div class="declaration"><h4 class="function" id="retain"><code><span class="keyword">public func </span><span class="fnname">retain</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">predicate</span> : <span class="type">T</span> -&gt; <span class="type">Bool</span>)</code></h4><p><p>Retains only the elements in <code>list</code> for which the predicate returns true.
 Modifies the original list in place.</p>
 <p>Example:</p>
 <pre><code>motoko include=import
@@ -341,7 +341,7 @@ assert List.isSorted(list, Nat.compare);</code></pre>
 
 <p>Runtime: O(size)</p>
 <p>Space: O(1)</p>
-</p></div><div class="declaration"><h4 class="function" id="deduplicate"><code><span class="keyword">public func </span><span class="fnname">deduplicate</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">equal</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>))</code></h4><p><p>Remove adjacent duplicates from the <code>list</code>, if the <code>list</code> is sorted all elements will be unique.</p>
+</p></div><div class="declaration"><h4 class="function" id="deduplicate"><code><span class="keyword">public func </span><span class="fnname">deduplicate</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">equal</span> : (<span class="parameter">implicit</span> : (<span class="type">T</span>, <span class="type">T</span>) -&gt; <span class="type">Bool</span>))</code></h4><p><p>Remove adjacent duplicates from the <code>list</code>, if the <code>list</code> is sorted all elements will be unique.</p>
 <p>Example:</p>
 <pre><code>import Nat &quot;mo:core/Nat&quot;;
 
@@ -603,7 +603,7 @@ let list = iter.toList();
 assert Iter.toArray(List.values(list)) == [1, 1, 1];</code></pre>
 
 <p>Runtime: <code>O(size)</code></p>
-</p></div><div class="declaration"><h4 class="function" id="append"><code><span class="keyword">public func </span><span class="fnname">append</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">added</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;)</code></h4><p><p>Appends all elements from <code>added</code> to the end of <code>list</code>.
+</p></div><div class="declaration"><h4 class="function" id="append"><code><span class="keyword">public func </span><span class="fnname">append</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">added</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;)</code></h4><p><p>Appends all elements from <code>added</code> to the end of <code>list</code>.
 Example:</p>
 <pre><code>motoko include=import
 let list = List.fromArray&lt;Nat&gt;([1, 2]);
@@ -802,7 +802,7 @@ List.reverseForEach&lt;Nat&gt;(list, func (x) {
 <p>Runtime: <code>O(size)</code></p>
 <p>Space: <code>O(size)</code></p>
 <p>*Runtime and space assumes that <code>f</code> runs in O(1) time and space.</p>
-</p></div><div class="declaration"><h4 class="function" id="forEachInRange"><code><span class="keyword">public func </span><span class="fnname">forEachInRange</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">f</span> : <span class="type">T</span> -&gt; (), <br/>  <span class="parameter">fromInclusive</span> : <span class="type">Nat</span>, <br/>  <span class="parameter">toExclusive</span> : <span class="type">Nat</span><br/>)</code></h4><p><p>Executes the closure over a slice of <code>list</code> starting at <code>fromInclusive</code> up to (but not including) <code>toExclusive</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="forEachInRange"><code><span class="keyword">public func </span><span class="fnname">forEachInRange</span>&lt;<span class="type">T</span>&gt;(<br/>  <span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <br/>  <span class="parameter">f</span> : <span class="type">T</span> -&gt; (), <br/>  <span class="parameter">fromInclusive</span> : <span class="type">Nat</span>, <br/>  <span class="parameter">toExclusive</span> : <span class="type">Nat</span><br/>)</code></h4><p><p>Executes the closure over a slice of <code>list</code> starting at <code>fromInclusive</code> up to (but not including) <code>toExclusive</code>.</p>
 <pre><code>motoko include=import
 import Debug &quot;mo:core/Debug&quot;;
 import Nat &quot;mo:core/Nat&quot;;
@@ -971,7 +971,7 @@ assert List.isEmpty&lt;Nat&gt;(List.empty&lt;Nat&gt;());</code></pre>
 
 <p>Runtime: <code>O(1)</code></p>
 <p>Space: <code>O(1)</code></p>
-</p></div><div class="declaration"><h4 class="function" id="reader"><code><span class="keyword">public func </span><span class="fnname">reader</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">list</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">start</span> : <span class="type">Nat</span>) : () -&gt; <span class="type">T</span></code></h4><p><p>Unsafe iterator starting from <code>start</code>.</p>
+</p></div><div class="declaration"><h4 class="function" id="reader"><code><span class="keyword">public func </span><span class="fnname">reader</span>&lt;<span class="type">T</span>&gt;(<span class="parameter">self</span> : <a href="#type.List"><span class="type">List</span></a>&lt;<span class="type">T</span>&gt;, <span class="parameter">start</span> : <span class="type">Nat</span>) : () -&gt; <span class="type">T</span></code></h4><p><p>Unsafe iterator starting from <code>start</code>.</p>
 <p>Example:</p>
 <pre><code>let list = List.fromArray&lt;Nat&gt;([1, 2, 3, 4, 5]);
 let reader = List.reader&lt;Nat&gt;(list, 2);
