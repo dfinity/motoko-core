@@ -5,8 +5,6 @@
 /// import Random "mo:core/Random";
 /// ```
 
-import Array "Array";
-import VarArray "VarArray";
 import Nat8 "Nat8";
 import Nat64 "Nat64";
 import Int "Int";
@@ -114,17 +112,8 @@ module {
       func() : Blob {
         // Generate 8 bytes directly from a single 64-bit number
         let n = PRNG.next(state.prng);
-        // TODO: optimize using Array.tabulate or even better: a new primitive
-        let bytes = VarArray.repeat<Nat8>(0, 8);
-        bytes[0] := Nat8.fromNat(Nat64.toNat(n & 0xFF));
-        bytes[1] := Nat8.fromNat(Nat64.toNat((n >> 8) & 0xFF));
-        bytes[2] := Nat8.fromNat(Nat64.toNat((n >> 16) & 0xFF));
-        bytes[3] := Nat8.fromNat(Nat64.toNat((n >> 24) & 0xFF));
-        bytes[4] := Nat8.fromNat(Nat64.toNat((n >> 32) & 0xFF));
-        bytes[5] := Nat8.fromNat(Nat64.toNat((n >> 40) & 0xFF));
-        bytes[6] := Nat8.fromNat(Nat64.toNat((n >> 48) & 0xFF));
-        bytes[7] := Nat8.fromNat(Nat64.toNat((n >> 56) & 0xFF));
-        Blob.fromArray(Array.fromVarArray(bytes))
+        let (b7, b6, b5, b4, b3, b2, b1, b0) = Nat64.explode(n);
+        Blob.fromArray([b0, b1, b2, b3, b4, b5, b6, b7])
       }
     )
   };
