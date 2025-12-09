@@ -26,7 +26,7 @@ core = "1.0.0"
 
 ## Contributing
 
-PRs are welcome! Please check out the [contributor guidelines](https://github.com/dfinity/motoko-core/blob/main/.github/CONTRIBUTING.md) for more information.
+This repository is currently closed to external contributions. Please feel free to open an issue if you have a bug report, question, or feature request.
 
 Interface design and code style guidelines for the repository can be found [here](https://github.com/dfinity/motoko-core/blob/main/Styleguide.md).
 
