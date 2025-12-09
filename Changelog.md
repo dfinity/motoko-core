@@ -1,5 +1,6 @@
 ## Next
 
+* Simplify `Random.seedFromState` implementation (#438).
 * Add `find` and `findIndex` to `Stack` (#435).
 * Add conversions between any two `Int*` types (#433).
 * Add conversions between any two `Nat*` types (#431).
