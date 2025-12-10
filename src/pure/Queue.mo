@@ -36,6 +36,7 @@ import Array "../Array";
 import Prim "mo:⛔";
 
 module {
+  /// @deprecated M0235
   type List<T> = Types.Pure.List<T>;
 
   /// Double-ended queue data type.
@@ -70,7 +71,7 @@ module {
   /// Runtime: `O(1)`.
   ///
   /// Space: `O(1)`.
-  public func isEmpty<T>(queue : Queue<T>) : Bool = queue.1 == 0;
+  public func isEmpty<T>(self : Queue<T>) : Bool = self.1 == 0;
 
   /// Create a new queue comprising a single element.
   ///
@@ -100,9 +101,9 @@ module {
   /// Runtime: `O(1)` in Release profile (compiled with `--release` flag), `O(size)` otherwise.
   ///
   /// Space: `O(1)`.
-  public func size<T>(queue : Queue<T>) : Nat {
-    debug assert queue.1 == List.size(queue.0) + List.size(queue.2);
-    queue.1
+  public func size<T>(self : Queue<T>) : Nat {
+    debug assert self.1 == List.size(self.0) + List.size(self.2);
+    self.1
   };
 
   /// Check if a queue contains a specific element.
@@ -124,7 +125,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(1)`
-  public func contains<T>(queue : Queue<T>, equal : (T, T) -> Bool, item : T) : Bool = List.contains(queue.0, equal, item) or List.contains(queue.2, equal, item);
+  public func contains<T>(self : Queue<T>, equal : (implicit : (T, T) -> Bool), item : T) : Bool = List.contains(self.0, equal, item) or List.contains(self.2, equal, item);
 
   /// Inspect the optional element on the front end of a queue.
   /// Returns `null` if `queue` is empty. Otherwise, the front element of `queue`.
@@ -140,9 +141,9 @@ module {
   /// Runtime: `O(1)`.
   ///
   /// Space: `O(1)`.
-  public func peekFront<T>(queue : Queue<T>) : ?T = switch queue {
+  public func peekFront<T>(self : Queue<T>) : ?T = switch self {
     case ((?(x, _), _, _) or (_, _, ?(x, null))) ?x;
-    case _ { debug assert List.isEmpty(queue.2); null }
+    case _ { debug assert List.isEmpty(self.2); null }
   };
 
   /// Inspect the optional element on the back end of a queue.
@@ -159,9 +160,9 @@ module {
   /// Runtime: `O(1)`.
   ///
   /// Space: `O(1)`.
-  public func peekBack<T>(queue : Queue<T>) : ?T = switch queue {
+  public func peekBack<T>(self : Queue<T>) : ?T = switch self {
     case ((_, _, ?(x, _)) or (?(x, null), _, _)) ?x;
-    case _ { debug assert List.isEmpty(queue.0); null }
+    case _ { debug assert List.isEmpty(self.0); null }
   };
 
   // helper to rebalance the queue after getting lopsided
@@ -199,7 +200,7 @@ module {
   /// Space: `O(size)` worst-case, amortized to `O(1)`.
   ///
   /// `n` denotes the number of elements stored in the queue.
-  public func pushFront<T>(queue : Queue<T>, element : T) : Queue<T> = check(?(element, queue.0), queue.1 + 1, queue.2);
+  public func pushFront<T>(self : Queue<T>, element : T) : Queue<T> = check(?(element, self.0), self.1 + 1, self.2);
 
   /// Insert a new element on the back end of a queue.
   /// Returns the new queue with all the elements of `queue`, followed by `element` on the back.
@@ -220,7 +221,7 @@ module {
   /// Space: `O(size)` worst-case, amortized to `O(1)`.
   ///
   /// `n` denotes the number of elements stored in the queue.
-  public func pushBack<T>(queue : Queue<T>, element : T) : Queue<T> = check(queue.0, queue.1 + 1, ?(element, queue.2));
+  public func pushBack<T>(self : Queue<T>, element : T) : Queue<T> = check(self.0, self.1 + 1, ?(element, self.2));
 
   /// Remove the element on the front end of a queue.
   /// Returns `null` if `queue` is empty. Otherwise, it returns a pair of
@@ -250,10 +251,10 @@ module {
   /// Space: `O(size)` worst-case, amortized to `O(1)`.
   ///
   /// `n` denotes the number of elements stored in the queue.
-  public func popFront<T>(queue : Queue<T>) : ?(T, Queue<T>) = if (queue.1 == 0) null else switch queue {
+  public func popFront<T>(self : Queue<T>) : ?(T, Queue<T>) = if (self.1 == 0) null else switch self {
     case (?(i, f), n, b) ?(i, (f, n - 1, b));
     case (null, _, ?(i, null)) ?(i, (null, 0, null));
-    case _ popFront(check queue)
+    case _ popFront(check self)
   };
 
   /// Remove the element on the back end of a queue.
@@ -288,10 +289,10 @@ module {
   /// Space: `O(size)` worst-case, amortized to `O(1)`.
   ///
   /// `n` denotes the number of elements stored in the queue.
-  public func popBack<T>(queue : Queue<T>) : ?(Queue<T>, T) = if (queue.1 == 0) null else switch queue {
+  public func popBack<T>(self : Queue<T>) : ?(Queue<T>, T) = if (self.1 == 0) null else switch self {
     case (f, n, ?(i, b)) ?((f, n - 1, b), i);
     case (?(i, null), _, null) ?((null, 0, null), i);
-    case _ popBack(check queue)
+    case _ popBack(check self)
   };
 
   /// Turn an iterator into a queue, consuming it.
@@ -309,6 +310,24 @@ module {
   public func fromIter<T>(iter : Iter.Iter<T>) : Queue<T> {
     let list = List.fromIter iter;
     check(list, List.size list, null)
+  };
+
+  /// Convert an iterator to a queue, consuming it.
+  /// Example:
+  /// ```motoko include=import
+  /// persistent actor {
+  ///   transient let iter = [0, 1, 2, 3, 4].values();
+  ///
+  ///   let queue = iter.toQeuue();
+  ///   assert Queue.size(queue) == 5;
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(size)
+  public func toQueue<T>(self : Iter.Iter<T>) : Queue<T> {
+    fromIter(self)
   };
 
   /// Create a queue from an array.
@@ -348,10 +367,10 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func toArray<T>(queue : Queue<T>) : [T] {
-    let iter = values(queue);
+  public func toArray<T>(self : Queue<T>) : [T] {
+    let iter = values(self);
     Array.tabulate<T>(
-      queue.1,
+      self.1,
       func(i) {
         switch (iter.next()) {
           case null {
@@ -380,7 +399,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func values<T>(queue : Queue<T>) : Iter.Iter<T> = Iter.concat(List.values(queue.0), List.values(List.reverse(queue.2)));
+  public func values<T>(self : Queue<T>) : Iter.Iter<T> = Iter.concat(List.values(self.0), List.values(List.reverse(self.2)));
 
   /// Compare two queues for equality using the provided equality function.
   ///
@@ -400,11 +419,11 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func equal<T>(queue1 : Queue<T>, queue2 : Queue<T>, equal : (T, T) -> Bool) : Bool {
-    if (queue1.1 != queue2.1) {
+  public func equal<T>(self : Queue<T>, other : Queue<T>, equal : (implicit : (T, T) -> Bool)) : Bool {
+    if (self.1 != other.1) {
       return false
     };
-    let (iter1, iter2) = (values(queue1), values(queue2));
+    let (iter1, iter2) = (values(self), values(other));
     loop {
       switch (iter1.next(), iter2.next()) {
         case (null, null) { return true };
@@ -433,8 +452,8 @@ module {
   /// Space: `O(size)` as the current implementation uses `values` to iterate over the queue.
   ///
   /// *Runtime and space assumes that the `predicate` runs in `O(1)` time and space.
-  public func all<T>(queue : Queue<T>, predicate : T -> Bool) : Bool {
-    for (item in values queue) if (not (predicate item)) return false;
+  public func all<T>(self : Queue<T>, predicate : T -> Bool) : Bool {
+    for (item in values self) if (not (predicate item)) return false;
     return true
   };
 
@@ -455,8 +474,8 @@ module {
   /// Space: `O(size)` as the current implementation uses `values` to iterate over the queue.
   ///
   /// *Runtime and space assumes that the `predicate` runs in `O(1)` time and space.
-  public func any<T>(queue : Queue<T>, predicate : T -> Bool) : Bool {
-    for (item in values queue) if (predicate item) return true;
+  public func any<T>(self : Queue<T>, predicate : T -> Bool) : Bool {
+    for (item in values self) if (predicate item) return true;
     return false
   };
 
@@ -478,7 +497,7 @@ module {
   /// Space: `O(size)`
   ///
   /// *Runtime and space assumes that `f` runs in `O(1)` time and space.
-  public func forEach<T>(queue : Queue<T>, f : T -> ()) = for (item in values queue) f item;
+  public func forEach<T>(self : Queue<T>, f : T -> ()) = for (item in values self) f item;
 
   /// Call the given function `f` on each queue element and collect the results
   /// in a new queue.
@@ -502,8 +521,8 @@ module {
   /// Space: `O(size)`
   ///
   /// *Runtime and space assumes that `f` runs in `O(1)` time and space.
-  public func map<T1, T2>(queue : Queue<T1>, f : T1 -> T2) : Queue<T2> {
-    let (fr, n, b) = queue;
+  public func map<T1, T2>(self : Queue<T1>, f : T1 -> T2) : Queue<T2> {
+    let (fr, n, b) = self;
     (List.map(fr, f), n, List.map(b, f))
   };
 
@@ -526,8 +545,8 @@ module {
   /// Space: `O(size)`
   ///
   /// *Runtime and space assumes that `predicate` runs in `O(1)` time and space.
-  public func filter<T>(queue : Queue<T>, predicate : T -> Bool) : Queue<T> {
-    let (fr, _, b) = queue;
+  public func filter<T>(self : Queue<T>, predicate : T -> Bool) : Queue<T> {
+    let (fr, _, b) = self;
     let front = List.filter(fr, predicate);
     let back = List.filter(b, predicate);
     check(front, List.size front + List.size back, back)
@@ -555,8 +574,8 @@ module {
   /// Space: `O(size)`
   ///
   /// *Runtime and space assumes that `f` runs in `O(1)` time and space.
-  public func filterMap<T, U>(queue : Queue<T>, f : T -> ?U) : Queue<U> {
-    let (fr, _n, b) = queue;
+  public func filterMap<T, U>(self : Queue<T>, f : T -> ?U) : Queue<U> {
+    let (fr, _n, b) = self;
     let front = List.filterMap(fr, f);
     let back = List.filterMap(b, f);
     check(front, List.size front + List.size back, back)
@@ -578,14 +597,14 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(size)`
-  public func toText<T>(queue : Queue<T>, f : T -> Text) : Text {
+  public func toText<T>(self : Queue<T>, f : (implicit : (toText : T -> Text))) : Text {
     var text = "PureQueue[";
     func add(item : T) {
       if (text.size() > 10) text #= ", ";
       text #= f(item)
     };
-    List.forEach(queue.0, add);
-    List.forEach(List.reverse(queue.2), add);
+    List.forEach(self.0, add);
+    List.forEach(List.reverse(self.2), add);
     text # "]"
   };
 
@@ -607,8 +626,8 @@ module {
   /// Space: `O(size)`
   ///
   /// *Runtime and space assumes that argument `compareItem` runs in `O(1)` time and space.
-  public func compare<T>(queue1 : Queue<T>, queue2 : Queue<T>, compareItem : (T, T) -> Order.Order) : Order.Order {
-    let (i1, i2) = (values queue1, values queue2);
+  public func compare<T>(self : Queue<T>, other : Queue<T>, compareItem : (implicit : (compare : (T, T) -> Order.Order))) : Order.Order {
+    let (i1, i2) = (values self, values other);
     loop switch (i1.next(), i2.next()) {
       case (?v1, ?v2) switch (compareItem(v1, v2)) {
         case (#equal) ();
@@ -636,5 +655,5 @@ module {
   /// Runtime: `O(1)`
   ///
   /// Space: `O(1)`
-  public func reverse<T>(queue : Queue<T>) : Queue<T> = (queue.2, queue.1, queue.0)
+  public func reverse<T>(self : Queue<T>) : Queue<T> = (self.2, self.1, self.0)
 }

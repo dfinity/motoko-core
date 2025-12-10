@@ -62,7 +62,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func clone<T>(array : [var T]) : [var T] = Prim.Array_tabulateVar<T>(array.size(), func i = array[i]);
+  public func clone<T>(self : [var T]) : [var T] = Prim.Array_tabulateVar<T>(self.size(), func i = self[i]);
 
   /// Creates a mutable array of size `size`. Each element at index i
   /// is created by applying `generator` to i.
@@ -98,15 +98,15 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func equal<T>(array1 : [var T], array2 : [var T], equal : (T, T) -> Bool) : Bool {
-    let size1 = array1.size();
-    let size2 = array2.size();
+  public func equal<T>(self : [var T], other : [var T], equal : (implicit : (T, T) -> Bool)) : Bool {
+    let size1 = self.size();
+    let size2 = other.size();
     if (size1 != size2) {
       return false
     };
     var i = 0;
     while (i < size1) {
-      if (not equal(array1[i], array2[i])) {
+      if (not equal(self[i], other[i])) {
         return false
       };
       i += 1
@@ -127,8 +127,8 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
-  public func find<T>(array : [var T], predicate : T -> Bool) : ?T {
-    for (element in array.vals()) {
+  public func find<T>(self : [var T], predicate : T -> Bool) : ?T {
+    for (element in self.vals()) {
       if (predicate element) {
         return ?element
       }
@@ -149,8 +149,8 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
-  public func findIndex<T>(array : [var T], predicate : T -> Bool) : ?Nat {
-    for ((index, element) in enumerate(array)) {
+  public func findIndex<T>(self : [var T], predicate : T -> Bool) : ?Nat {
+    for ((index, element) in enumerate(self)) {
       if (predicate element) {
         return ?index
       }
@@ -172,16 +172,16 @@ module {
   /// Runtime: O(size1 + size2)
   ///
   /// Space: O(size1 + size2)
-  public func concat<T>(array1 : [var T], array2 : [var T]) : [var T] {
-    let size1 = array1.size();
-    let size2 = array2.size();
+  public func concat<T>(self : [var T], other : [var T]) : [var T] {
+    let size1 = self.size();
+    let size2 = other.size();
     tabulate<T>(
       size1 + size2,
       func i {
         if (i < size1) {
-          array1[i]
+          self[i]
         } else {
-          array2[i - size1]
+          other[i - size1]
         }
       }
     )
@@ -201,8 +201,8 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sort<T>(array : [var T], compare : (T, T) -> Order.Order) : [var T] {
-    let newArray = clone(array);
+  public func sort<T>(self : [var T], compare : (implicit : (T, T) -> Order.Order)) : [var T] {
+    let newArray = clone(self);
     sortInPlace(newArray, compare);
     newArray
   };
@@ -221,20 +221,20 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func sortInPlace<T>(array : [var T], compare : (T, T) -> Order.Order) : () {
+  public func sortInPlace<T>(self : [var T], compare : (implicit : (T, T) -> Order.Order)) : () {
     // Stable merge sort in a bottom-up iterative style. Same algorithm as the sort in Buffer.
-    let size = array.size();
+    let size = self.size();
     if (size == 0) {
       return
     };
-    let scratchSpace = Prim.Array_init<T>(size, array[0]);
+    let scratchSpace = Prim.Array_init<T>(size, self[0]);
 
     var currSize = 1; // current size of the subarrays being merged
     var oddIteration = false;
 
     // when the current size == size, the array has been merged into a single sorted array
     while (currSize < size) {
-      let (fromArray, toArray) = if (oddIteration) (scratchSpace, array) else (array, scratchSpace);
+      let (fromArray, toArray) = if (oddIteration) (scratchSpace, self) else (self, scratchSpace);
       var leftStart = 0; // selects the current left subarray being merged
 
       while (leftStart < size) {
@@ -280,7 +280,7 @@ module {
     if (oddIteration) {
       var i = 0;
       while (i < size) {
-        array[i] := scratchSpace[i];
+        self[i] := scratchSpace[i];
         i += 1
       }
     }
@@ -300,9 +300,9 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(1)
-  public func reverse<T>(array : [var T]) : [var T] {
-    let size = array.size();
-    tabulate<T>(size, func i = array[size - i - 1])
+  public func reverse<T>(self : [var T]) : [var T] {
+    let size = self.size();
+    tabulate<T>(size, func i = self[size - i - 1])
   };
 
   /// Reverses the order of elements in a mutable array in place.
@@ -319,17 +319,17 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(1)
-  public func reverseInPlace<T>(array : [var T]) : () {
-    let size = array.size();
+  public func reverseInPlace<T>(self : [var T]) : () {
+    let size = self.size();
     if (size == 0) {
       return
     };
     var i = 0;
     var j = (size - 1) : Nat;
     while (i < j) {
-      let temp = array[i];
-      array[i] := array[j];
-      array[j] := temp;
+      let temp = self[i];
+      self[i] := self[j];
+      self[j] := temp;
       i += 1;
       j -= 1
     }
@@ -352,8 +352,8 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func forEach<T>(array : [var T], f : T -> ()) {
-    for (item in array.vals()) {
+  public func forEach<T>(self : [var T], f : T -> ()) {
+    for (item in self.vals()) {
       f(item)
     }
   };
@@ -375,11 +375,11 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func map<T, R>(array : [var T], f : T -> R) : [var R] {
+  public func map<T, R>(self : [var T], f : T -> R) : [var R] {
     tabulate<R>(
-      array.size(),
+      self.size(),
       func(index) {
-        f(array[index])
+        f(self[index])
       }
     )
   };
@@ -401,11 +401,11 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func mapInPlace<T>(array : [var T], f : T -> T) {
+  public func mapInPlace<T>(self : [var T], f : T -> T) {
     var index = 0;
-    let size = array.size();
+    let size = self.size();
     while (index < size) {
-      array[index] := f(array[index]);
+      self[index] := f(self[index]);
       index += 1
     }
   };
@@ -424,12 +424,12 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
-  public func filter<T>(array : [var T], f : T -> Bool) : [var T] {
+  public func filter<T>(self : [var T], f : T -> Bool) : [var T] {
     var count = 0;
     let keep = Prim.Array_tabulate<Bool>(
-      array.size(),
+      self.size(),
       func i {
-        if (f(array[i])) {
+        if (f(self[i])) {
           count += 1;
           true
         } else {
@@ -445,7 +445,7 @@ module {
           nextKeep += 1
         };
         nextKeep += 1;
-        array[nextKeep - 1]
+        self[nextKeep - 1]
       }
     )
   };
@@ -469,12 +469,12 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func filterMap<T, R>(array : [var T], f : T -> ?R) : [var R] {
+  public func filterMap<T, R>(self : [var T], f : T -> ?R) : [var R] {
     var count = 0;
     let options = Prim.Array_tabulate<?R>(
-      array.size(),
+      self.size(),
       func i {
-        let result = f(array[i]);
+        let result = f(self[i]);
         switch (result) {
           case (?element) {
             count += 1;
@@ -529,14 +529,15 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func mapResult<T, R, E>(array : [var T], f : T -> Result.Result<R, E>) : Result.Result<[var R], E> {
-    let size = array.size();
+  /// @deprecated M0235
+  public func mapResult<T, R, E>(self : [var T], f : T -> Result.Result<R, E>) : Result.Result<[var R], E> {
+    let size = self.size();
 
     var error : ?Result.Result<[var R], E> = null;
     let results = tabulate<?R>(
       size,
       func i {
-        switch (f(array[i])) {
+        switch (f(self[i])) {
           case (#ok element) {
             ?element
           };
@@ -595,8 +596,8 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func mapEntries<T, R>(array : [var T], f : (T, Nat) -> R) : [var R] {
-    tabulate<R>(array.size(), func i = f(array[i], i))
+  public func mapEntries<T, R>(self : [var T], f : (T, Nat) -> R) : [var R] {
+    tabulate<R>(self.size(), func i = f(self[i], i))
   };
 
   /// Creates a new mutable array by applying `k` to each element in `array`,
@@ -613,12 +614,12 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `k` runs in O(1) time and space.
-  public func flatMap<T, R>(array : [var T], k : T -> Types.Iter<R>) : [var R] {
+  public func flatMap<T, R>(self : [var T], k : T -> Types.Iter<R>) : [var R] {
     var flatSize = 0;
     let arrays = Prim.Array_tabulate<[var R]>(
-      array.size(),
+      self.size(),
       func i {
-        let subArray = fromIter<R>(k(array[i])); // TODO: optimize
+        let subArray = fromIter<R>(k(self[i])); // TODO: optimize
         flatSize += subArray.size();
         subArray
       }
@@ -664,9 +665,9 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `combine` runs in O(1) time and space.
-  public func foldLeft<T, A>(array : [var T], base : A, combine : (A, T) -> A) : A {
+  public func foldLeft<T, A>(self : [var T], base : A, combine : (A, T) -> A) : A {
     var acc = base;
-    for (element in array.vals()) {
+    for (element in self.vals()) {
       acc := combine(acc, element)
     };
     acc
@@ -689,13 +690,13 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `combine` runs in O(1) time and space.
-  public func foldRight<T, A>(array : [var T], base : A, combine : (T, A) -> A) : A {
+  public func foldRight<T, A>(self : [var T], base : A, combine : (T, A) -> A) : A {
     var acc = base;
-    let size = array.size();
+    let size = self.size();
     var i = size;
     while (i > 0) {
       i -= 1;
-      acc := combine(array[i], acc)
+      acc := combine(self[i], acc)
     };
     acc
   };
@@ -716,8 +717,8 @@ module {
   /// Runtime: O(number of elements in array)
   ///
   /// Space: O(number of elements in array)
-  public func join<T>(arrays : Types.Iter<[var T]>) : [var T] {
-    flatten<T>(fromIter(arrays))
+  public func join<T>(self : Types.Iter<[var T]>) : [var T] {
+    flatten<T>(fromIter(self))
   };
 
   /// Combines a mutable array of mutable arrays into a single mutable array. Retains the original
@@ -736,9 +737,9 @@ module {
   /// Runtime: O(number of elements in array)
   ///
   /// Space: O(number of elements in array)
-  public func flatten<T>(arrays : [var [var T]]) : [var T] {
+  public func flatten<T>(self : [var [var T]]) : [var T] {
     var flatSize = 0;
-    for (subArray in arrays.vals()) {
+    for (subArray in self.vals()) {
       flatSize += subArray.size()
     };
 
@@ -747,11 +748,11 @@ module {
     tabulate<T>(
       flatSize,
       func _ {
-        while (inner == arrays[outer].size()) {
+        while (inner == self[outer].size()) {
           inner := 0;
           outer += 1
         };
-        let element = arrays[outer][inner];
+        let element = self[outer][inner];
         inner += 1;
         element
       }
@@ -773,10 +774,23 @@ module {
   public func singleton<T>(element : T) : [var T] = [var element];
 
   /// Returns the size of a mutable array. Equivalent to `array.size()`.
-  public func size<T>(array : [var T]) : Nat = array.size();
+  public func size<T>(self : [var T]) : Nat = self.size();
 
   /// Returns whether a mutable array is empty, i.e. contains zero elements.
-  public func isEmpty<T>(array : [var T]) : Bool = array.size() == 0;
+  public func isEmpty<T>(self : [var T]) : Bool = self.size() == 0;
+
+  /// Transforms an immutable array into a mutable array.
+  ///
+  /// ```motoko include=import
+  /// let array = [0, 1, 2];
+  /// let varArray = VarArray.fromArray<Nat>(array);
+  /// assert varArray.size() == 3;
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  public func fromArray<T>(array : [T]) : [var T] = Prim.Array_tabulateVar<T>(array.size(), func i = array[i]);
 
   /// Converts an iterator to a mutable array.
   public func fromIter<T>(iter : Types.Iter<T>) : [var T] {
@@ -837,7 +851,7 @@ module {
   /// Runtime: O(1)
   ///
   /// Space: O(1)
-  public func keys<T>(array : [var T]) : Types.Iter<Nat> = array.keys();
+  public func keys<T>(self : [var T]) : Types.Iter<Nat> = self.keys();
 
   /// Iterator provides a single method `next()`, which returns
   /// elements in order, or `null` when out of elements to iterate over.
@@ -858,7 +872,7 @@ module {
   /// Runtime: O(1)
   ///
   /// Space: O(1)
-  public func values<T>(array : [var T]) : Types.Iter<T> = array.vals();
+  public func values<T>(self : [var T]) : Types.Iter<T> = self.vals();
 
   /// Returns an iterator that provides pairs of (index, element) in order, or `null`
   /// when out of elements to iterate over.
@@ -876,8 +890,8 @@ module {
   /// Runtime: O(1)
   ///
   /// Space: O(1)
-  public func enumerate<T>(array : [var T]) : Types.Iter<(Nat, T)> = object {
-    let size = array.size();
+  public func enumerate<T>(self : [var T]) : Types.Iter<(Nat, T)> = object {
+    let size = self.size();
     var index = 0;
     public func next() : ?(Nat, T) {
       if (index >= size) {
@@ -885,7 +899,7 @@ module {
       };
       let i = index;
       index += 1;
-      ?(i, array[i])
+      ?(i, self[i])
     }
   };
 
@@ -901,8 +915,8 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
-  public func all<T>(array : [var T], predicate : T -> Bool) : Bool {
-    for (element in array.vals()) {
+  public func all<T>(self : [var T], predicate : T -> Bool) : Bool {
+    for (element in self.values()) {
       if (not predicate(element)) {
         return false
       }
@@ -922,8 +936,8 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
-  public func any<T>(array : [var T], predicate : T -> Bool) : Bool {
-    for (element in array.vals()) {
+  public func any<T>(self : [var T], predicate : T -> Bool) : Bool {
+    for (element in self.values()) {
       if (predicate(element)) {
         return true
       }
@@ -945,7 +959,7 @@ module {
   /// Runtime: O(array.size())
   ///
   /// Space: O(1)
-  public func indexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T) : ?Nat = nextIndexOf<T>(array, equal, element, 0);
+  public func indexOf<T>(self : [var T], equal : (implicit : (T, T) -> Bool), element : T) : ?Nat = nextIndexOf<T>(self, equal, element, 0);
 
   /// Returns the index of the next occurence of `element` in the `array` starting from the `from` index (inclusive).
   ///
@@ -963,11 +977,11 @@ module {
   /// Runtime: O(array.size())
   ///
   /// Space: O(1)
-  public func nextIndexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T, fromInclusive : Nat) : ?Nat {
+  public func nextIndexOf<T>(self : [var T], equal : (implicit : (T, T) -> Bool), element : T, fromInclusive : Nat) : ?Nat {
     var index = fromInclusive;
-    let size = array.size();
+    let size = self.size();
     while (index < size) {
-      if (equal(array[index], element)) {
+      if (equal(self[index], element)) {
         return ?index
       } else {
         index += 1
@@ -991,7 +1005,7 @@ module {
   /// Runtime: O(array.size())
   ///
   /// Space: O(1)
-  public func lastIndexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T) : ?Nat = prevIndexOf<T>(array, equal, element, array.size());
+  public func lastIndexOf<T>(self : [var T], equal : (implicit : (T, T) -> Bool), element : T) : ?Nat = prevIndexOf<T>(self, equal, element, self.size());
 
   /// Returns the index of the previous occurence of `element` in the `array` starting from the `from` index (exclusive).
   ///
@@ -1006,11 +1020,11 @@ module {
   ///
   /// Runtime: O(array.size());
   /// Space: O(1);
-  public func prevIndexOf<T>(array : [var T], equal : (T, T) -> Bool, element : T, fromExclusive : Nat) : ?Nat {
+  public func prevIndexOf<T>(self : [var T], equal : (implicit : (T, T) -> Bool), element : T, fromExclusive : Nat) : ?Nat {
     var i = fromExclusive;
     while (i > 0) {
       i -= 1;
-      if (equal(array[i], element)) {
+      if (equal(self[i], element)) {
         return ?i
       }
     };
@@ -1042,8 +1056,8 @@ module {
   /// Runtime: O(1)
   ///
   /// Space: O(1)
-  public func range<T>(array : [var T], fromInclusive : Int, toExclusive : Int) : Types.Iter<T> {
-    let size = array.size();
+  public func range<T>(self : [var T], fromInclusive : Int, toExclusive : Int) : Types.Iter<T> {
+    let size = self.size();
     // Convert negative indices to positive and handle bounds
     let startInt = if (fromInclusive < 0) {
       let s = size + fromInclusive;
@@ -1066,7 +1080,7 @@ module {
         if (pos >= end) {
           null
         } else {
-          let elem = array[pos];
+          let elem = self[pos];
           pos += 1;
           ?elem
         }
@@ -1090,8 +1104,8 @@ module {
   /// Runtime: O(toExclusive - fromInclusive)
   ///
   /// Space: O(toExclusive - fromInclusive)
-  public func sliceToArray<T>(array : [var T], fromInclusive : Int, toExclusive : Int) : [T] {
-    let size = array.size();
+  public func sliceToArray<T>(self : [var T], fromInclusive : Int, toExclusive : Int) : [T] {
+    let size = self.size();
     // Convert negative indices to positive and handle bounds
     let startInt = if (fromInclusive < 0) {
       let s = size + fromInclusive;
@@ -1111,7 +1125,7 @@ module {
     if (start >= end) {
       return []
     };
-    Prim.Array_tabulate<T>(end - start, func i = array[start + i])
+    Prim.Array_tabulate<T>(end - start, func i = self[start + i])
   };
 
   /// Returns a new mutable array containing elements from `array` starting at index `fromInclusive` up to (but not including) index `toExclusive`.
@@ -1132,8 +1146,8 @@ module {
   /// Runtime: O(toExclusive - fromInclusive)
   ///
   /// Space: O(toExclusive - fromInclusive)
-  public func sliceToVarArray<T>(array : [var T], fromInclusive : Int, toExclusive : Int) : [var T] {
-    let size = array.size();
+  public func sliceToVarArray<T>(self : [var T], fromInclusive : Int, toExclusive : Int) : [var T] {
+    let size = self.size();
     // Convert negative indices to positive and handle bounds
     let startInt = if (fromInclusive < 0) {
       let s = size + fromInclusive;
@@ -1153,8 +1167,22 @@ module {
     if (start >= end) {
       return [var]
     };
-    Prim.Array_tabulateVar<T>(end - start, func i = array[start + i])
+    Prim.Array_tabulateVar<T>(end - start, func i = self[start + i])
   };
+
+  /// Transforms a mutable array into an immutable array.
+  ///
+  /// ```motoko include=import
+  /// let varArray = [var 0, 1, 2];
+  /// varArray[2] := 3;
+  /// let array = VarArray.toArray<Nat>(varArray);
+  /// assert array == [0, 1, 3];
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(1)
+  public func toArray<T>(self : [var T]) : [T] = Prim.Array_tabulate<T>(self.size(), func i = self[i]);
 
   /// Converts the mutable array to its textual representation using `f` to convert each element to `Text`.
   ///
@@ -1170,8 +1198,8 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func toText<T>(array : [var T], f : T -> Text) : Text {
-    let size = array.size();
+  public func toText<T>(self : [var T], f : (implicit : (toText : T -> Text))) : Text {
+    let size = self.size();
     if (size == 0) { return "[var]" };
     var text = "[var ";
     var i = 0;
@@ -1179,7 +1207,7 @@ module {
       if (i != 0) {
         text #= ", "
       };
-      text #= f(array[i]);
+      text #= f(self[i]);
       i += 1
     };
     text #= "]";
@@ -1209,13 +1237,13 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func compare<T>(array1 : [var T], array2 : [var T], compare : (T, T) -> Order.Order) : Order.Order {
-    let size1 = array1.size();
-    let size2 = array2.size();
+  public func compare<T>(self : [var T], other : [var T], compare : (implicit : (T, T) -> Order.Order)) : Order.Order {
+    let size1 = self.size();
+    let size2 = other.size();
     var i = 0;
     let minSize = if (size1 < size2) { size1 } else { size2 };
     while (i < minSize) {
-      switch (compare(array1[i], array2[i])) {
+      switch (compare(self[i], other[i])) {
         case (#less) { return #less };
         case (#greater) { return #greater };
         case (#equal) { i += 1 }
@@ -1245,15 +1273,15 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func binarySearch<T>(array : [var T], compare : (T, T) -> Order.Order, element : T) : {
+  public func binarySearch<T>(self : [var T], compare : (implicit : (T, T) -> Order.Order), element : T) : {
     #found : Nat;
     #insertionIndex : Nat
   } {
     var left = 0;
-    var right = array.size();
+    var right = self.size();
     while (left < right) {
       let mid = (left + right) / 2;
-      switch (compare(array[mid], element)) {
+      switch (compare(self[mid], element)) {
         case (#less) left := mid + 1;
         case (#greater) right := mid;
         case (#equal) return #found mid
@@ -1276,12 +1304,12 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `compare` runs in O(1) time and space.
-  public func isSorted<T>(array : [var T], compare : (T, T) -> Order.Order) : Bool {
-    let size = array.size();
+  public func isSorted<T>(self : [var T], compare : (implicit : (T, T) -> Order.Order)) : Bool {
+    let size = self.size();
     if (size <= 1) return true;
     var i = 1;
     while (i < size) {
-      switch (compare(array[i - 1], array[i])) {
+      switch (compare(self[i - 1], self[i])) {
         case (#greater) return false;
         case _ { i += 1 }
       }

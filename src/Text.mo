@@ -89,7 +89,7 @@ module {
   /// assert chars.next() == ?'c';
   /// assert chars.next() == null;
   /// ```
-  public func toIter(t : Text) : Iter.Iter<Char> = t.chars();
+  public func toIter(self : Text) : Iter.Iter<Char> = self.chars();
 
   /// Collapses the characters in `text` into a single value by starting with `base`
   /// and progessively combining characters into `base` with `combine`. Iteration runs
@@ -112,9 +112,9 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `combine` runs in O(1) time and space.
-  public func foldLeft<A>(text : Text, base : A, combine : (A, Char) -> A) : A {
+  public func foldLeft<A>(self : Text, base : A, combine : (A, Char) -> A) : A {
     var acc = base;
-    for (c in text.chars()) acc := combine(acc, c);
+    for (c in self.chars()) acc := combine(acc, c);
     acc
   };
 
@@ -128,12 +128,12 @@ module {
   ///
   /// Runtime: O(t.size())
   /// Space: O(t.size())
-  public func toArray(t : Text) : [Char] {
-    let cs = t.chars();
+  public func toArray(self : Text) : [Char] {
+    let cs = self.chars();
     // We rely on Array_tabulate's implementation details: it fills
     // the array from left to right sequentially.
     Prim.Array_tabulate<Char>(
-      t.size(),
+      self.size(),
       func _ {
         switch (cs.next()) {
           case (?c) { c };
@@ -156,14 +156,14 @@ module {
   ///
   /// Runtime: O(t.size())
   /// Space: O(t.size())
-  public func toVarArray(t : Text) : [var Char] {
-    let n = t.size();
+  public func toVarArray(self : Text) : [var Char] {
+    let n = self.size();
     if (n == 0) {
       return [var]
     };
     let array = Prim.Array_init<Char>(n, ' ');
     var i = 0;
-    for (c in t.chars()) {
+    for (c in self.chars()) {
       array[i] := c;
       i += 1
     };
@@ -192,7 +192,7 @@ module {
   /// assert Text.isEmpty(text1);
   /// assert not Text.isEmpty(text2);
   /// ```
-  public func isEmpty(t : Text) : Bool = t == "";
+  public func isEmpty(self : Text) : Bool = self == "";
 
   /// Returns the number of characters in the given `Text`.
   ///
@@ -202,7 +202,7 @@ module {
   /// let size = Text.size("abc");
   /// assert size == 3;
   /// ```
-  public func size(t : Text) : Nat = t.size();
+  public func size(self : Text) : Nat = self.size();
 
   /// Returns `t1 # t2`, where `#` is the `Text` concatenation operator.
   ///
@@ -216,7 +216,7 @@ module {
   /// let togetherAgain = Text.concat(a, b);
   /// assert togetherAgain == "HelloThere";
   /// ```
-  public func concat(t1 : Text, t2 : Text) : Text = t1 # t2;
+  public func concat(self : Text, other : Text) : Text = self # other;
 
   /// Returns a new `Text` with the characters of the input `Text` in reverse order.
   ///
@@ -227,8 +227,8 @@ module {
   ///
   /// Runtime: O(t.size())
   /// Space: O(t.size())
-  public func reverse(t : Text) : Text {
-    fromIter(Iter.reverse(t.chars()))
+  public func reverse(self : Text) : Text {
+    fromIter(Iter.reverse(self.chars()))
   };
 
   /// Returns true if two text values are equal.
@@ -239,7 +239,7 @@ module {
   /// assert Text.equal("hello", "hello");
   /// assert not Text.equal("hello", "world");
   /// ```
-  public func equal(t1 : Text, t2 : Text) : Bool { t1 == t2 };
+  public func equal(self : Text, other : Text) : Bool { self == other };
 
   /// Returns true if two text values are not equal.
   ///
@@ -249,7 +249,7 @@ module {
   /// assert Text.notEqual("hello", "world");
   /// assert not Text.notEqual("hello", "hello");
   /// ```
-  public func notEqual(t1 : Text, t2 : Text) : Bool { t1 != t2 };
+  public func notEqual(self : Text, other : Text) : Bool { self != other };
 
   /// Returns true if the first text value is lexicographically less than the second.
   ///
@@ -259,7 +259,7 @@ module {
   /// assert Text.less("apple", "banana");
   /// assert not Text.less("banana", "apple");
   /// ```
-  public func less(t1 : Text, t2 : Text) : Bool { t1 < t2 };
+  public func less(self : Text, other : Text) : Bool { self < other };
 
   /// Returns true if the first text value is lexicographically less than or equal to the second.
   ///
@@ -270,7 +270,7 @@ module {
   /// assert Text.lessOrEqual("apple", "apple");
   /// assert not Text.lessOrEqual("banana", "apple");
   /// ```
-  public func lessOrEqual(t1 : Text, t2 : Text) : Bool { t1 <= t2 };
+  public func lessOrEqual(self : Text, other : Text) : Bool { self <= other };
 
   /// Returns true if the first text value is lexicographically greater than the second.
   ///
@@ -280,7 +280,7 @@ module {
   /// assert Text.greater("banana", "apple");
   /// assert not Text.greater("apple", "banana");
   /// ```
-  public func greater(t1 : Text, t2 : Text) : Bool { t1 > t2 };
+  public func greater(self : Text, other : Text) : Bool { self > other };
 
   /// Returns true if the first text value is lexicographically greater than or equal to the second.
   ///
@@ -291,7 +291,7 @@ module {
   /// assert Text.greaterOrEqual("apple", "apple");
   /// assert not Text.greaterOrEqual("apple", "banana");
   /// ```
-  public func greaterOrEqual(t1 : Text, t2 : Text) : Bool { t1 >= t2 };
+  public func greaterOrEqual(self : Text, other : Text) : Bool { self >= other };
 
   /// Compares `t1` and `t2` lexicographically.
   ///
@@ -300,16 +300,16 @@ module {
   /// assert Text.compare("abc", "def") == #less;
   /// assert Text.compare("abc", "ABC") == #greater;
   /// ```
-  public func compare(t1 : Text, t2 : Text) : Order.Order {
-    let c = Prim.textCompare(t1, t2);
+  public func compare(self : Text, other : Text) : Order.Order {
+    let c = Prim.textCompare(self, other);
     if (c < 0) #less else if (c == 0) #equal else #greater
   };
 
-  private func extract(t : Text, i : Nat, j : Nat) : Text {
-    let size = t.size();
-    if (i == 0 and j == size) return t;
+  private func extract(self : Text, i : Nat, j : Nat) : Text {
+    let size = self.size();
+    if (i == 0 and j == size) return self;
     assert (j <= size);
-    let cs = t.chars();
+    let cs = self.chars();
     var r = "";
     var n = i;
     while (n > 0) {
@@ -330,18 +330,18 @@ module {
   /// Join an iterator of `Text` values with a given delimiter.
   ///
   /// ```motoko include=import
-  /// let joined = Text.join(", ", ["a", "b", "c"].values());
+  /// let joined = Text.join(["a", "b", "c"].values(), ", ");
   /// assert joined == "a, b, c";
   /// ```
-  public func join(sep : Text, ts : Iter.Iter<Text>) : Text {
+  public func join(self : Iter.Iter<Text>, sep : Text) : Text {
     var r = "";
     if (sep.size() == 0) {
-      for (t in ts) {
+      for (t in self) {
         r #= t
       };
       return r
     };
-    let next = ts.next;
+    let next = self.next;
     switch (next()) {
       case null { return r };
       case (?t) {
@@ -369,9 +369,9 @@ module {
   /// });
   /// assert result == "Motoko!";
   /// ```
-  public func map(t : Text, f : Char -> Char) : Text {
+  public func map(self : Text, f : Char -> Char) : Text {
     var r = "";
-    for (c in t.chars()) {
+    for (c in self.chars()) {
       r #= Prim.charToText(f(c))
     };
     r
@@ -387,9 +387,9 @@ module {
   /// });
   /// assert result == "Motoko!!";
   /// ```
-  public func flatMap(t : Text, f : Char -> Text) : Text {
+  public func flatMap(self : Text, f : Char -> Text) : Text {
     var r = "";
-    for (c in t.chars()) {
+    for (c in self.chars()) {
       r #= f(c)
     };
     r
@@ -538,9 +538,9 @@ module {
   /// let words = Text.split("This is a sentence.", #char ' ');
   /// assert Text.join("|", words) == "This|is|a|sentence.";
   /// ```
-  public func split(t : Text, p : Pattern) : Iter.Iter<Text> {
+  public func split(self : Text, p : Pattern) : Iter.Iter<Text> {
     let match = matchOfPattern(p);
-    let cs = CharBuffer(t.chars());
+    let cs = CharBuffer(self.chars());
     var state = 0;
     var field = "";
     object {
@@ -601,8 +601,8 @@ module {
   /// let tokens = Text.tokens("this needs\n an   example", #predicate (func(c) { c == ' ' or c == '\n' }));
   /// assert Text.join("|", tokens) == "this|needs|an|example";
   /// ```
-  public func tokens(t : Text, p : Pattern) : Iter.Iter<Text> {
-    let fs = split(t, p);
+  public func tokens(self : Text, p : Pattern) : Iter.Iter<Text> {
+    let fs = split(self, p);
     object {
       public func next() : ?Text {
         switch (fs.next()) {
@@ -619,9 +619,9 @@ module {
   /// assert Text.contains("Motoko", #text "oto");
   /// assert not Text.contains("Motoko", #text "xyz");
   /// ```
-  public func contains(t : Text, p : Pattern) : Bool {
+  public func contains(self : Text, p : Pattern) : Bool {
     let match = matchOfPattern(p);
-    let cs = CharBuffer(t.chars());
+    let cs = CharBuffer(self.chars());
     loop {
       switch (match(cs)) {
         case (#success) {
@@ -648,8 +648,8 @@ module {
   /// ```motoko include=import
   /// assert Text.startsWith("Motoko", #text "Mo");
   /// ```
-  public func startsWith(t : Text, p : Pattern) : Bool {
-    var cs = t.chars();
+  public func startsWith(self : Text, p : Pattern) : Bool {
+    var cs = self.chars();
     let match = matchOfPattern(p);
     switch (match(cs)) {
       case (#success) { true };
@@ -662,13 +662,13 @@ module {
   /// ```motoko include=import
   /// assert Text.endsWith("Motoko", #char 'o');
   /// ```
-  public func endsWith(t : Text, p : Pattern) : Bool {
+  public func endsWith(self : Text, p : Pattern) : Bool {
     let s2 = sizeOfPattern(p);
     if (s2 == 0) return true;
-    let s1 = t.size();
+    let s1 = self.size();
     if (s2 > s1) return false;
     let match = matchOfPattern(p);
-    var cs1 = t.chars();
+    var cs1 = self.chars();
     var diff : Nat = s1 - s2;
     while (diff > 0) {
       ignore cs1.next();
@@ -686,10 +686,10 @@ module {
   /// let result = Text.replace("abcabc", #char 'a', "A");
   /// assert result == "AbcAbc";
   /// ```
-  public func replace(t : Text, p : Pattern, r : Text) : Text {
+  public func replace(self : Text, p : Pattern, r : Text) : Text {
     let match = matchOfPattern(p);
     let size = sizeOfPattern(p);
-    let cs = CharBuffer(t.chars());
+    let cs = CharBuffer(self.chars());
     var res = "";
     label l loop {
       switch (match(cs)) {
@@ -732,10 +732,10 @@ module {
   /// let one = Text.stripStart("--abc", #char '-');
   /// assert one == ?"-abc";
   /// ```
-  public func stripStart(t : Text, p : Pattern) : ?Text {
+  public func stripStart(self : Text, p : Pattern) : ?Text {
     let s = sizeOfPattern(p);
-    if (s == 0) return ?t;
-    var cs = t.chars();
+    if (s == 0) return ?self;
+    var cs = self.chars();
     let match = matchOfPattern(p);
     switch (match(cs)) {
       case (#success) return ?fromIter(cs);
@@ -754,20 +754,20 @@ module {
   /// let one = Text.stripEnd("xyz--", #char '-');
   /// assert one == ?"xyz-";
   /// ```
-  public func stripEnd(t : Text, p : Pattern) : ?Text {
+  public func stripEnd(self : Text, p : Pattern) : ?Text {
     let s2 = sizeOfPattern(p);
-    if (s2 == 0) return ?t;
-    let s1 = t.size();
+    if (s2 == 0) return ?self;
+    let s1 = self.size();
     if (s2 > s1) return null;
     let match = matchOfPattern(p);
-    var cs1 = t.chars();
+    var cs1 = self.chars();
     var diff : Nat = s1 - s2;
     while (diff > 0) {
       ignore cs1.next();
       diff -= 1
     };
     switch (match(cs1)) {
-      case (#success) return ?extract(t, 0, s1 - s2);
+      case (#success) return ?extract(self, 0, s1 - s2);
       case _ return null
     }
   };
@@ -779,10 +779,10 @@ module {
   /// let trimmed = Text.trimStart("---abc", #char '-');
   /// assert trimmed == "abc";
   /// ```
-  public func trimStart(t : Text, p : Pattern) : Text {
-    let cs = t.chars();
+  public func trimStart(self : Text, p : Pattern) : Text {
+    let cs = self.chars();
     let size = sizeOfPattern(p);
-    if (size == 0) return t;
+    if (size == 0) return self;
     var matchSize = 0;
     let match = matchOfPattern(p);
     loop {
@@ -792,14 +792,14 @@ module {
         }; // continue
         case (#empty(cs1)) {
           return if (matchSize == 0) {
-            t
+            self
           } else {
             fromIter(cs1)
           }
         };
         case (#fail(cs1, c)) {
           return if (matchSize == 0) {
-            t
+            self
           } else {
             fromIter(cs1) # fromChar(c) # fromIter(cs)
           }
@@ -815,10 +815,10 @@ module {
   /// let trimmed = Text.trimEnd("xyz---", #char '-');
   /// assert trimmed == "xyz";
   /// ```
-  public func trimEnd(t : Text, p : Pattern) : Text {
-    let cs = CharBuffer(t.chars());
+  public func trimEnd(self : Text, p : Pattern) : Text {
+    let cs = CharBuffer(self.chars());
     let size = sizeOfPattern(p);
-    if (size == 0) return t;
+    if (size == 0) return self;
     let match = matchOfPattern(p);
     var matchSize = 0;
     label l loop {
@@ -829,7 +829,7 @@ module {
         case (#empty(cs1)) {
           switch (cs1.next()) {
             case null break l;
-            case (?_) return t
+            case (?_) return self
           }
         };
         case (#fail(cs1, c)) {
@@ -839,7 +839,7 @@ module {
         }
       }
     };
-    extract(t, 0, t.size() - matchSize)
+    extract(self, 0, self.size() - matchSize)
   };
 
   /// Trims the given `Pattern` from both the start and end of the input `Text`.
@@ -848,10 +848,10 @@ module {
   /// let trimmed = Text.trim("---abcxyz---", #char '-');
   /// assert trimmed == "abcxyz";
   /// ```
-  public func trim(t : Text, p : Pattern) : Text {
-    let cs = t.chars();
+  public func trim(self : Text, p : Pattern) : Text {
+    let cs = self.chars();
     let size = sizeOfPattern(p);
-    if (size == 0) return t;
+    if (size == 0) return self;
     var matchSize = 0;
     let match = matchOfPattern(p);
     loop {
@@ -860,7 +860,7 @@ module {
           matchSize += size
         }; // continue
         case (#empty(cs1)) {
-          return if (matchSize == 0) { t } else { fromIter(cs1) }
+          return if (matchSize == 0) { self } else { fromIter(cs1) }
         };
         case (#fail(cs1, c)) {
           let start = matchSize;
@@ -876,7 +876,7 @@ module {
               case (#empty(_cs3)) {
                 switch (cs1.next()) {
                   case null break l;
-                  case (?_) return t
+                  case (?_) return self
                 }
               };
               case (#fail(cs3, c1)) {
@@ -886,7 +886,7 @@ module {
               }
             }
           };
-          return extract(t, start, t.size() - matchSize - start)
+          return extract(self, start, self.size() - matchSize - start)
         }
       }
     }
@@ -900,19 +900,19 @@ module {
   /// assert Text.compareWith("abc", "ABC", func(c1, c2) { Char.compare(c1, c2) }) == #greater;
   /// ```
   public func compareWith(
-    t1 : Text,
-    t2 : Text,
-    cmp : (Char, Char) -> Order.Order
+    self : Text,
+    other : Text,
+    compare : (Char, Char) -> Order.Order
   ) : Order.Order {
-    let cs1 = t1.chars();
-    let cs2 = t2.chars();
+    let cs1 = self.chars();
+    let cs2 = other.chars();
     loop {
       switch (cs1.next(), cs2.next()) {
         case (null, null) { return #equal };
         case (null, ?_) { return #less };
         case (?_, null) { return #greater };
         case (?c1, ?c2) {
-          switch (cmp(c1, c2)) {
+          switch (compare(c1, c2)) {
             case (#equal) {}; // continue
             case other { return other }
           }
@@ -927,7 +927,7 @@ module {
   /// let blob = Text.encodeUtf8("Hello");
   /// assert blob == "\48\65\6C\6C\6F";
   /// ```
-  public let encodeUtf8 : Text -> Blob = Prim.encodeUtf8;
+  public func encodeUtf8(self : Text) : Blob = Prim.encodeUtf8(self);
 
   /// Tries to decode the given `Blob` as UTF-8.
   /// Returns `null` if the blob is not valid UTF-8.
@@ -936,7 +936,7 @@ module {
   /// let text = Text.decodeUtf8("\48\65\6C\6C\6F");
   /// assert text == ?"Hello";
   /// ```
-  public let decodeUtf8 : Blob -> ?Text = Prim.decodeUtf8;
+  public func decodeUtf8(self : Blob) : ?Text = Prim.decodeUtf8(self);
 
   /// Returns the text argument in lowercase.
   /// WARNING: Unicode compliant only when compiled, not interpreted.
@@ -945,7 +945,7 @@ module {
   /// let text = Text.toLower("Good Day");
   /// assert text == "good day";
   /// ```
-  public let toLower : Text -> Text = Prim.textLowercase;
+  public func toLower(self : Text) : Text = Prim.textLowercase(self);
 
   /// Returns the text argument in uppercase. Unicode compliant.
   /// WARNING: Unicode compliant only when compiled, not interpreted.
@@ -954,7 +954,7 @@ module {
   /// let text = Text.toUpper("Good Day");
   /// assert text == "GOOD DAY";
   /// ```
-  public let toUpper : Text -> Text = Prim.textUppercase;
+  public func toUpper(self : Text) : Text = Prim.textUppercase(self);
 
   /// Returns the given text value unchanged.
   /// This function is provided for consistency with other modules.
@@ -962,5 +962,6 @@ module {
   /// ```motoko include=import
   /// assert Text.toText("Hello") == "Hello";
   /// ```
-  public func toText(t : Text) : Text = t
+  public func toText(self : Text) : Text = self
+
 }

@@ -1,5 +1,19 @@
 ## Next
 
+* Context dot syntax and implicit `compare` parameters enabled (#441).
+  Rename 1st parameters to `self` to enable the context dot syntax.
+  Make `compare` parameters implicit to skip them at call sites.
+* **Breaking:** `Text.join`, `Float.format` parameter order swap (#441).
+* Add missing conversion functions like `toArray`, `fromVarArray`, etc. (#441).
+  + `Set` : `toSet`, `fromArray`, `toArray`, `toPure`
+  + `Int` : `toFloat`
+  + `List` : `toArray`
+  + `Map` : `fromArray`, `fromIter`, `fromPure`, `fromVarArray`, `toArray`, `toMap`
+  + `Nat` : `toFloat`, `toInt`
+  + `Nat32` : `toChar`
+  + `Queue` : `fromVarArray`, `reverseValues`, `toArray`, `toPure`, `toQueue`
+  + `Stack` : `fromArray`, `fromVarArray`, `reverseValues`, `toArray`, `toPure`, `toStack`
+  + `VarArray` : `toArray`
 * Simplify `Random.seedFromState` implementation (#438).
 * Add `find` and `findIndex` to `Stack` (#435).
 * Add conversions between any two `Int*` types (#433).
@@ -48,7 +62,7 @@
 * Add `fromArray()` and `toArray()` to `Queue` and `pure/Queue` (#349).
 * Add `explode()` to `Int16`/`32`/`64`, `Nat16`/`32`/`64`, slicing fixed-length numbers into constituent bytes (#346).
 * Fix a typo in the `VarArray` documentation (#338).
-* Fix a bug in `List.last()` (#336). 
+* Fix a bug in `List.last()` (#336).
 * Perf: Uses the new `Array_tabulateVar` primitive to speed up various function in `VarArray` (#334).
 * **Breaking:** Enable persistence of `Random` and `AsyncRandom` state in stable memory (#329).
 

@@ -35,7 +35,7 @@ module {
     /// import Nat "mo:core/Nat";
     /// assert Tuple2.toText((1, "hello"), Nat.toText, func (x: Text): Text = x) == "(1, hello)";
     /// ```
-    public func toText<A, B>(t : (A, B), toTextA : A -> Text, toTextB : B -> Text) : Text = "(" # toTextA(t.0) # ", " # toTextB(t.1) # ")";
+    public func toText<A, B>(self : (A, B), toTextA : A -> Text, toTextB : B -> Text) : Text = "(" # toTextA(self.0) # ", " # toTextB(self.1) # ")";
 
     /// Compares two tuples for equality.
     ///
@@ -46,7 +46,7 @@ module {
     /// import Text "mo:core/Text";
     /// assert Tuple2.equal((1, "hello"), (1, "hello"), Nat.equal, Text.equal);
     /// ```
-    public func equal<A, B>(t1 : (A, B), t2 : (A, B), aEqual : (A, A) -> Bool, bEqual : (B, B) -> Bool) : Bool = aEqual(t1.0, t2.0) and bEqual(t1.1, t2.1);
+    public func equal<A, B>(self : (A, B), other : (A, B), aEqual : (A, A) -> Bool, bEqual : (B, B) -> Bool) : Bool = aEqual(self.0, other.0) and bEqual(self.1, other.1);
 
     /// Compares two tuples lexicographically.
     ///
@@ -61,8 +61,8 @@ module {
     /// assert Tuple2.compare((2, "hello"), (1, "hello"), Nat.compare, Text.compare) == #greater;
     /// assert Tuple2.compare((1, "world"), (1, "hello"), Nat.compare, Text.compare) == #greater;
     /// ```
-    public func compare<A, B>(t1 : (A, B), t2 : (A, B), aCompare : (A, A) -> Types.Order, bCompare : (B, B) -> Types.Order) : Types.Order = switch (aCompare(t1.0, t2.0)) {
-      case (#equal) bCompare(t1.1, t2.1);
+    public func compare<A, B>(self : (A, B), other : (A, B), aCompare : (A, A) -> Types.Order, bCompare : (B, B) -> Types.Order) : Types.Order = switch (aCompare(self.0, other.0)) {
+      case (#equal) bCompare(self.1, other.1);
       case order order
     };
 
@@ -114,7 +114,7 @@ module {
     /// import Nat "mo:core/Nat";
     /// assert Tuple3.toText((1, "hello", 2), Nat.toText, func (x: Text): Text = x, Nat.toText) == "(1, hello, 2)";
     /// ```
-    public func toText<A, B, C>(t : (A, B, C), toTextA : A -> Text, toTextB : B -> Text, toTextC : C -> Text) : Text = "(" # toTextA(t.0) # ", " # toTextB(t.1) # ", " # toTextC(t.2) # ")";
+    public func toText<A, B, C>(self : (A, B, C), toTextA : A -> Text, toTextB : B -> Text, toTextC : C -> Text) : Text = "(" # toTextA(self.0) # ", " # toTextB(self.1) # ", " # toTextC(self.2) # ")";
 
     /// Compares two 3-tuples for equality.
     ///
@@ -125,7 +125,7 @@ module {
     /// import Text "mo:core/Text";
     /// assert Tuple3.equal((1, "hello", 2), (1, "hello", 2), Nat.equal, Text.equal, Nat.equal);
     /// ```
-    public func equal<A, B, C>(t1 : (A, B, C), t2 : (A, B, C), aEqual : (A, A) -> Bool, bEqual : (B, B) -> Bool, cEqual : (C, C) -> Bool) : Bool = aEqual(t1.0, t2.0) and bEqual(t1.1, t2.1) and cEqual(t1.2, t2.2);
+    public func equal<A, B, C>(self : (A, B, C), other : (A, B, C), aEqual : (A, A) -> Bool, bEqual : (B, B) -> Bool, cEqual : (C, C) -> Bool) : Bool = aEqual(self.0, other.0) and bEqual(self.1, other.1) and cEqual(self.2, other.2);
 
     /// Compares two 3-tuples lexicographically.
     ///
@@ -139,10 +139,10 @@ module {
     /// assert Tuple3.compare((1, "hello", 2), (1, "hello", 2), Nat.compare, Text.compare, Nat.compare) == #equal;
     /// assert Tuple3.compare((2, "hello", 2), (1, "hello", 2), Nat.compare, Text.compare, Nat.compare) == #greater;
     /// ```
-    public func compare<A, B, C>(t1 : (A, B, C), t2 : (A, B, C), aCompare : (A, A) -> Types.Order, bCompare : (B, B) -> Types.Order, cCompare : (C, C) -> Types.Order) : Types.Order = switch (aCompare(t1.0, t2.0)) {
+    public func compare<A, B, C>(self : (A, B, C), other : (A, B, C), aCompare : (A, A) -> Types.Order, bCompare : (B, B) -> Types.Order, cCompare : (C, C) -> Types.Order) : Types.Order = switch (aCompare(self.0, other.0)) {
       case (#equal) {
-        switch (bCompare(t1.1, t2.1)) {
-          case (#equal) cCompare(t1.2, t2.2);
+        switch (bCompare(self.1, other.1)) {
+          case (#equal) cCompare(self.2, other.2);
           case order order
         }
       };
@@ -197,7 +197,7 @@ module {
     /// import Nat "mo:core/Nat";
     /// assert Tuple4.toText((1, "hello", 2, 3), Nat.toText, func (x: Text): Text = x, Nat.toText, Nat.toText) == "(1, hello, 2, 3)";
     /// ```
-    public func toText<A, B, C, D>(t : (A, B, C, D), toTextA : A -> Text, toTextB : B -> Text, toTextC : C -> Text, toTextD : D -> Text) : Text = "(" # toTextA(t.0) # ", " # toTextB(t.1) # ", " # toTextC(t.2) # ", " # toTextD(t.3) # ")";
+    public func toText<A, B, C, D>(self : (A, B, C, D), toTextA : A -> Text, toTextB : B -> Text, toTextC : C -> Text, toTextD : D -> Text) : Text = "(" # toTextA(self.0) # ", " # toTextB(self.1) # ", " # toTextC(self.2) # ", " # toTextD(self.3) # ")";
 
     /// Compares two 4-tuples for equality.
     ///
@@ -208,7 +208,7 @@ module {
     /// import Text "mo:core/Text";
     /// assert Tuple4.equal((1, "hello", 2, 3), (1, "hello", 2, 3), Nat.equal, Text.equal, Nat.equal, Nat.equal);
     /// ```
-    public func equal<A, B, C, D>(t1 : (A, B, C, D), t2 : (A, B, C, D), aEqual : (A, A) -> Bool, bEqual : (B, B) -> Bool, cEqual : (C, C) -> Bool, dEqual : (D, D) -> Bool) : Bool = aEqual(t1.0, t2.0) and bEqual(t1.1, t2.1) and cEqual(t1.2, t2.2) and dEqual(t1.3, t2.3);
+    public func equal<A, B, C, D>(self : (A, B, C, D), other : (A, B, C, D), aEqual : (A, A) -> Bool, bEqual : (B, B) -> Bool, cEqual : (C, C) -> Bool, dEqual : (D, D) -> Bool) : Bool = aEqual(self.0, other.0) and bEqual(self.1, other.1) and cEqual(self.2, other.2) and dEqual(self.3, other.3);
 
     /// Compares two 4-tuples lexicographically.
     ///
@@ -222,12 +222,12 @@ module {
     /// assert Tuple4.compare((1, "hello", 2, 3), (1, "hello", 2, 3), Nat.compare, Text.compare, Nat.compare, Nat.compare) == #equal;
     /// assert Tuple4.compare((2, "hello", 2, 3), (1, "hello", 2, 3), Nat.compare, Text.compare, Nat.compare, Nat.compare) == #greater;
     /// ```
-    public func compare<A, B, C, D>(t1 : (A, B, C, D), t2 : (A, B, C, D), aCompare : (A, A) -> Types.Order, bCompare : (B, B) -> Types.Order, cCompare : (C, C) -> Types.Order, dCompare : (D, D) -> Types.Order) : Types.Order = switch (aCompare(t1.0, t2.0)) {
+    public func compare<A, B, C, D>(self : (A, B, C, D), other : (A, B, C, D), aCompare : (A, A) -> Types.Order, bCompare : (B, B) -> Types.Order, cCompare : (C, C) -> Types.Order, dCompare : (D, D) -> Types.Order) : Types.Order = switch (aCompare(self.0, other.0)) {
       case (#equal) {
-        switch (bCompare(t1.1, t2.1)) {
+        switch (bCompare(self.1, other.1)) {
           case (#equal) {
-            switch (cCompare(t1.2, t2.2)) {
-              case (#equal) dCompare(t1.3, t2.3);
+            switch (cCompare(self.2, other.2)) {
+              case (#equal) dCompare(self.3, other.3);
               case order order
             }
           };

@@ -39,7 +39,7 @@ module {
   /// let unicode = Char.toNat32(char);
   /// assert unicode == 65;
   /// ```
-  public let toNat32 : (char : Char) -> Nat32 = Prim.charToNat32;
+  public func toNat32(self : Char) : Nat32 = Prim.charToNat32(self);
 
   /// Convert `w` to a character.
   /// Traps if `w` is not a valid Unicode scalar value.
@@ -51,7 +51,7 @@ module {
   /// let char = Char.fromNat32(unicode);
   /// assert char == 'A';
   /// ```
-  public let fromNat32 : (nat32 : Nat32) -> Char = Prim.nat32ToChar;
+  public func fromNat32(nat32 : Nat32) : Char = Prim.nat32ToChar(nat32);
 
   /// Convert character `char` to single character text.
   ///
@@ -61,7 +61,7 @@ module {
   /// let text = Char.toText(char);
   /// assert text == "漢";
   /// ```
-  public let toText : (char : Char) -> Text = Prim.charToText;
+  public func toText(self : Char) : Text = Prim.charToText(self);
 
   // Not exposed pending multi-char implementation.
   private let _toUpper : (char : Char) -> Char = Prim.charToUpper;
@@ -76,8 +76,8 @@ module {
   /// assert Char.isDigit('5');
   /// assert not Char.isDigit('A');
   /// ```
-  public func isDigit(char : Char) : Bool {
-    Prim.charToNat32(char) -% Prim.charToNat32('0') <= (9 : Nat32)
+  public func isDigit(self : Char) : Bool {
+    Prim.charToNat32(self) -% Prim.charToNat32('0') <= (9 : Nat32)
   };
 
   /// Returns whether `char` is a whitespace character.
@@ -89,7 +89,7 @@ module {
   /// assert Char.isWhitespace('\n');
   /// assert not Char.isWhitespace('A');
   /// ```
-  public let isWhitespace : (char : Char) -> Bool = Prim.charIsWhitespace;
+  public func isWhitespace(self : Char) : Bool = Prim.charIsWhitespace(self);
 
   /// Returns whether `char` is a lowercase character.
   ///
@@ -98,7 +98,7 @@ module {
   /// assert Char.isLower('a');
   /// assert not Char.isLower('A');
   /// ```
-  public let isLower : (char : Char) -> Bool = Prim.charIsLowercase;
+  public func isLower(self : Char) : Bool = Prim.charIsLowercase(self);
 
   /// Returns whether `char` is an uppercase character.
   ///
@@ -107,7 +107,7 @@ module {
   /// assert Char.isUpper('A');
   /// assert not Char.isUpper('a');
   /// ```
-  public let isUpper : (char : Char) -> Bool = Prim.charIsUppercase;
+  public func isUpper(self : Char) : Bool = Prim.charIsUppercase(self);
 
   /// Returns whether `char` is an alphabetic character.
   ///
@@ -117,7 +117,7 @@ module {
   /// assert Char.isAlphabetic('漢');
   /// assert not Char.isAlphabetic('1');
   /// ```
-  public let isAlphabetic : (char : Char) -> Bool = Prim.charIsAlphabetic;
+  public func isAlphabetic(self : Char) : Bool = Prim.charIsAlphabetic(self);
 
   /// Returns `a == b`.
   ///
@@ -130,7 +130,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `==` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func equal(a : Char, b : Char) : Bool { a == b };
+  public func equal(self : Char, other : Char) : Bool { self == other };
 
   /// Returns `a != b`.
   ///
@@ -143,7 +143,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `!=` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func notEqual(a : Char, b : Char) : Bool { a != b };
+  public func notEqual(self : Char, other : Char) : Bool { self != other };
 
   /// Returns `a < b`.
   ///
@@ -156,7 +156,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `<` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func less(a : Char, b : Char) : Bool { a < b };
+  public func less(self : Char, other : Char) : Bool { self < other };
 
   /// Returns `a <= b`.
   ///
@@ -170,7 +170,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `<=` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func lessOrEqual(a : Char, b : Char) : Bool { a <= b };
+  public func lessOrEqual(self : Char, other : Char) : Bool { self <= other };
 
   /// Returns `a > b`.
   ///
@@ -183,7 +183,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `>` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func greater(a : Char, b : Char) : Bool { a > b };
+  public func greater(self : Char, other : Char) : Bool { self > other };
 
   /// Returns `a >= b`.
   ///
@@ -197,7 +197,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `>=` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func greaterOrEqual(a : Char, b : Char) : Bool { a >= b };
+  public func greaterOrEqual(self : Char, other : Char) : Bool { self >= other };
 
   /// Returns the order of `a` and `b`.
   ///
@@ -207,8 +207,10 @@ module {
   /// assert Char.compare('B', 'A') == #greater;
   /// assert Char.compare('A', 'A') == #equal;
   /// ```
-  public func compare(a : Char, b : Char) : { #less; #equal; #greater } {
-    if (a < b) { #less } else if (a == b) { #equal } else { #greater }
+  public func compare(self : Char, other : Char) : { #less; #equal; #greater } {
+    if (self < other) { #less } else if (self == other) { #equal } else {
+      #greater
+    }
   };
 
 }

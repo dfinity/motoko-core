@@ -30,7 +30,9 @@ module {
   /// ```motoko include=import
   /// assert Nat32.toNat(123) == (123 : Nat);
   /// ```
-  public let toNat : Nat32 -> Nat = Prim.nat32ToNat;
+  public func toNat(self : Nat32) : Nat {
+    Prim.nat32ToNat(self)
+  };
 
   /// Converts an unsigned integer with infinite precision to a 32-bit unsigned integer.
   ///
@@ -50,8 +52,8 @@ module {
   /// ```motoko include=import
   /// assert Nat32.toNat8(123) == (123 : Nat8);
   /// ```
-  public func toNat8(x : Nat32) : Nat8 {
-    Prim.natToNat8(Prim.nat32ToNat(x))
+  public func toNat8(self : Nat32) : Nat8 {
+    Prim.natToNat8(Prim.nat32ToNat(self))
   };
 
   /// Converts an 8-bit unsigned integer to a 32-bit unsigned integer.
@@ -60,6 +62,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.fromNat8(123) == (123 : Nat32);
   /// ```
+  /// @deprecated M0235
   public func fromNat8(x : Nat8) : Nat32 {
     Prim.natToNat32(Prim.nat8ToNat(x))
   };
@@ -70,6 +73,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.fromNat16(123) == (123 : Nat32);
   /// ```
+  /// @deprecated M0235
   public func fromNat16(x : Nat16) : Nat32 {
     Prim.nat16ToNat32(x)
   };
@@ -82,8 +86,8 @@ module {
   /// ```motoko include=import
   /// assert Nat32.toNat16(123) == (123 : Nat16);
   /// ```
-  public func toNat16(x : Nat32) : Nat16 {
-    Prim.nat32ToNat16(x)
+  public func toNat16(self : Nat32) : Nat16 {
+    Prim.nat32ToNat16(self)
   };
 
   /// Converts a 64-bit unsigned integer to a 32-bit unsigned integer.
@@ -94,6 +98,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.fromNat64(123) == (123 : Nat32);
   /// ```
+  /// @deprecated M0235
   public func fromNat64(x : Nat64) : Nat32 {
     Prim.nat64ToNat32(x)
   };
@@ -104,8 +109,8 @@ module {
   /// ```motoko include=import
   /// assert Nat32.toNat64(123) == (123 : Nat64);
   /// ```
-  public func toNat64(x : Nat32) : Nat64 {
-    Prim.nat32ToNat64(x)
+  public func toNat64(self : Nat32) : Nat64 {
+    Prim.nat32ToNat64(self)
   };
 
   /// Converts a signed integer with infinite precision to a 32-bit unsigned integer.
@@ -118,6 +123,17 @@ module {
   /// ```
   public let fromIntWrap : Int -> Nat32 = Prim.intToNat32Wrap;
 
+  /// Convert a Nat32 `char` to a Char in its Unicode representation.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// let unicode = Nat32.toChar(65);
+  /// assert unicode == 'A';
+  /// ```
+  public func toChar(self : Nat32) : Char {
+    Prim.nat32ToChar(self)
+  };
+
   /// Converts `x` to its textual representation. Textual representation _do not_
   /// contain underscores to represent commas.
   ///
@@ -125,8 +141,8 @@ module {
   /// ```motoko include=import
   /// assert Nat32.toText(1234) == ("1234" : Text);
   /// ```
-  public func toText(x : Nat32) : Text {
-    Nat.toText(toNat(x))
+  public func toText(self : Nat32) : Text {
+    Nat.toText(toNat(self))
   };
 
   /// Returns the minimum of `x` and `y`.
@@ -244,7 +260,9 @@ module {
   /// to the existing `>=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>=`
   /// as a function value at the moment.
-  public func greaterOrEqual(x : Nat32, y : Nat32) : Bool { x >= y };
+  public func greaterOrEqual(x : Nat32, y : Nat32) : Bool {
+    x >= y
+  };
 
   /// General purpose comparison function for `Nat32`. Returns the `Order` (
   /// either `#less`, `#equal`, or `#greater`) of comparing `x` with `y`.
@@ -262,7 +280,9 @@ module {
   /// assert Array.sort([2, 3, 1] : [Nat32], Nat32.compare) == [1, 2, 3];
   /// ```
   public func compare(x : Nat32, y : Nat32) : Order.Order {
-    if (x < y) { #less } else if (x == y) { #equal } else { #greater }
+    if (x < y) { #less } else if (x == y) { #equal } else {
+      #greater
+    }
   };
 
   /// Returns the sum of `x` and `y`, `x + y`.
@@ -440,7 +460,9 @@ module {
   /// to the existing `<<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<`
   /// as a function value at the moment.
-  public func bitshiftLeft(x : Nat32, y : Nat32) : Nat32 { x << y };
+  public func bitshiftLeft(x : Nat32, y : Nat32) : Nat32 {
+    x << y
+  };
 
   /// Returns the bitwise shift right of `x` by `y`, `x >> y`.
   ///
@@ -454,7 +476,9 @@ module {
   /// to the existing `>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>>`
   /// as a function value at the moment.
-  public func bitshiftRight(x : Nat32, y : Nat32) : Nat32 { x >> y };
+  public func bitshiftRight(x : Nat32, y : Nat32) : Nat32 {
+    x >> y
+  };
 
   /// Returns the bitwise rotate left of `x` by `y`, `x <<> y`.
   ///
@@ -482,7 +506,9 @@ module {
   /// to the existing `<>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<>>`
   /// as a function value at the moment.
-  public func bitrotRight(x : Nat32, y : Nat32) : Nat32 { x <>> y };
+  public func bitrotRight(x : Nat32, y : Nat32) : Nat32 {
+    x <>> y
+  };
 
   /// Returns the value of bit `p mod 32` in `x`, `(x & 2^(p mod 32)) == 2^(p mod 32)`.
   /// This is equivalent to checking if the `p`-th bit is set in `x`, using 0 indexing.
@@ -531,7 +557,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.bitcountNonZero(5) == 2;
   /// ```
-  public let bitcountNonZero : (x : Nat32) -> Nat32 = Prim.popcntNat32;
+  public func bitcountNonZero(x : Nat32) : Nat32 = Prim.popcntNat32(x);
 
   /// Returns the count of leading zero bits in `x`.
   ///
@@ -539,7 +565,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.bitcountLeadingZero(5) == 29;
   /// ```
-  public let bitcountLeadingZero : (x : Nat32) -> Nat32 = Prim.clzNat32;
+  public func bitcountLeadingZero(x : Nat32) : Nat32 = Prim.clzNat32(x);
 
   /// Returns the count of trailing zero bits in `x`.
   ///
@@ -547,7 +573,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.bitcountTrailingZero(16) == 4;
   /// ```
-  public let bitcountTrailingZero : (x : Nat32) -> Nat32 = Prim.ctzNat32;
+  public func bitcountTrailingZero(x : Nat32) : Nat32 = Prim.ctzNat32(x);
 
   /// Returns the upper (i.e. most significant), lower (least significant)
   /// and in-between bytes of `x`.
@@ -556,7 +582,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.explode 0xaa885511 == (170, 136, 85, 17);
   /// ```
-  public let explode : (x : Nat32) -> (msb : Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeNat32;
+  public func explode(x : Nat32) : (msb : Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeNat32(x);
 
   /// Returns the sum of `x` and `y`, `x +% y`. Wraps on overflow.
   ///

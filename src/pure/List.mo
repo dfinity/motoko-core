@@ -20,6 +20,7 @@ import Runtime "../Runtime";
 
 module {
 
+  /// @deprecated M0235
   public type List<T> = Types.Pure.List<T>;
 
   /// Create an empty list.
@@ -53,7 +54,7 @@ module {
   /// Runtime: O(1)
   ///
   /// Space: O(1)
-  public func isEmpty<T>(list : List<T>) : Bool = switch list {
+  public func isEmpty<T>(self : List<T>) : Bool = switch self {
     case null true;
     case _ false
   };
@@ -73,12 +74,12 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(1)
-  public func size<T>(list : List<T>) : Nat = (
+  public func size<T>(self : List<T>) : Nat = (
     func go(n : Nat, list : List<T>) : Nat = switch list {
       case (?(_, t)) go(n + 1, t);
       case null n
     }
-  )(0, list);
+  )(0, self);
 
   /// Check whether the list contains a given value. Uses the provided equality function to compare values.
   ///
@@ -98,7 +99,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `equal` runs in O(1) time and space.
-  public func contains<T>(list : List<T>, equal : (T, T) -> Bool, item : T) : Bool = switch list {
+  public func contains<T>(self : List<T>, equal : (implicit : (T, T) -> Bool), item : T) : Bool = switch self {
     case (?(h, t)) equal(h, item) or contains(t, equal, item);
     case _ false
   };
@@ -122,7 +123,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(1)
-  public func get<T>(list : List<T>, n : Nat) : ?T = switch list {
+  public func get<T>(self : List<T>, n : Nat) : ?T = switch self {
     case (?(h, t)) if (n == 0) ?h else get(t, n - 1 : Nat);
     case null null
   };
@@ -141,7 +142,7 @@ module {
   /// Runtime: O(1)
   ///
   /// Space: O(1)
-  public func pushFront<T>(list : List<T>, item : T) : List<T> = ?(item, list);
+  public func pushFront<T>(self : List<T>, item : T) : List<T> = ?(item, self);
 
   /// Return the last element of the list, if present.
   /// Example:
@@ -157,7 +158,7 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(1)
-  public func last<T>(list : List<T>) : ?T = switch list {
+  public func last<T>(self : List<T>) : ?T = switch self {
     case (?(h, null)) ?h;
     case null null;
     case (?(_, t)) last t
@@ -179,7 +180,7 @@ module {
   /// Runtime: O(1)
   ///
   /// Space: O(1)
-  public func popFront<T>(list : List<T>) : (?T, List<T>) = switch list {
+  public func popFront<T>(self : List<T>) : (?T, List<T>) = switch self {
     case null (null, null);
     case (?(h, t)) (?h, t)
   };
@@ -199,12 +200,12 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func reverse<T>(list : List<T>) : List<T> = (
+  public func reverse<T>(self : List<T>) : List<T> = (
     func go(acc : List<T>, list : List<T>) : List<T> = switch list {
       case (?(h, t)) go(?(h, acc), t);
       case null acc
     }
-  )(null, list);
+  )(null, self);
 
   /// Call the given function for its side effect, with each list element in turn.
   ///
@@ -225,7 +226,7 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func forEach<T>(list : List<T>, f : T -> ()) = switch list {
+  public func forEach<T>(self : List<T>, f : T -> ()) = switch self {
     case (?(h, t)) { f h; forEach(t, f) };
     case null ()
   };
@@ -248,12 +249,12 @@ module {
   ///
   /// Space: O(size)
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func map<T1, T2>(list : List<T1>, f : T1 -> T2) : List<T2> = (
+  public func map<T1, T2>(self : List<T1>, f : T1 -> T2) : List<T2> = (
     func go(list : List<T1>, f : T1 -> T2, acc : List<T2>) : List<T2> = switch list {
       case (?(h, t)) go(t, f, ?(f h, acc));
       case null reverse acc
     }
-  )(list, f, null);
+  )(self, f, null);
 
   /// Create a new list with only those elements of the original list for which
   /// the given function (often called the _predicate_) returns true.
@@ -271,12 +272,12 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func filter<T>(list : List<T>, f : T -> Bool) : List<T> = (
+  public func filter<T>(self : List<T>, f : T -> Bool) : List<T> = (
     func go(list : List<T>, f : T -> Bool, acc : List<T>) : List<T> = switch list {
       case (?(h, t)) if (f h) go(t, f, ?(h, acc)) else go(t, f, acc);
       case null reverse acc
     }
-  )(list, f, null);
+  )(self, f, null);
 
   /// Call the given function on each list element, and collect the non-null results
   /// in a new list.
@@ -299,7 +300,7 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func filterMap<T, R>(list : List<T>, f : T -> ?R) : List<R> = (
+  public func filterMap<T, R>(self : List<T>, f : T -> ?R) : List<R> = (
     func go(list : List<T>, f : T -> ?R, acc : List<R>) : List<R> = switch list {
       case (?(h, t)) switch (f h) {
         case null go(t, f, acc);
@@ -307,7 +308,7 @@ module {
       };
       case null reverse acc
     }
-  )(list, f, null);
+  )(self, f, null);
 
   /// Maps a `Result`-returning function `f` over a `List` and returns either
   /// the first error or a list of successful values.
@@ -330,7 +331,7 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func mapResult<T, R, E>(list : List<T>, f : T -> Result.Result<R, E>) : Result.Result<List<R>, E> = (
+  public func mapResult<T, R, E>(self : List<T>, f : T -> Result.Result<R, E>) : Result.Result<List<R>, E> = (
     func rev(acc : List<R>, list : List<T>, f : T -> Result.Result<R, E>) : Result.Result<List<R>, E> = switch list {
       case (?(h, t)) switch (f h) {
         case (#ok fh) rev(?(fh, acc), t, f);
@@ -338,7 +339,7 @@ module {
       };
       case null #ok(reverse acc)
     }
-  )(null, list, f);
+  )(null, self, f);
 
   /// Create two new lists from the results of a given function (`f`).
   /// The first list only includes the elements for which the given
@@ -360,12 +361,12 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func partition<T>(list : List<T>, f : T -> Bool) : (List<T>, List<T>) = (
+  public func partition<T>(self : List<T>, f : T -> Bool) : (List<T>, List<T>) = (
     func go(list : List<T>, f : T -> Bool, acc1 : List<T>, acc2 : List<T>) : (List<T>, List<T>) = switch list {
       case (?(h, t)) if (f h) go(t, f, ?(h, acc1), acc2) else go(t, f, acc1, ?(h, acc2));
       case null (reverse acc1, reverse acc2)
     }
-  )(list, f, null, null);
+  )(self, f, null, null);
 
   /// Append the elements from one list to another list.
   ///
@@ -383,7 +384,7 @@ module {
   /// Runtime: O(size(l))
   ///
   /// Space: O(size(l))
-  public func concat<T>(list1 : List<T>, list2 : List<T>) : List<T> = revAppend(reverse list1, list2);
+  public func concat<T>(self : List<T>, other : List<T>) : List<T> = revAppend(reverse self, other);
 
   /// Flatten, or repatedly concatenate, an iterator of lists as a list.
   ///
@@ -427,12 +428,12 @@ module {
   /// Runtime: O(size*size)
   ///
   /// Space: O(size*size)
-  public func flatten<T>(list : List<List<T>>) : List<T> = (
+  public func flatten<T>(self : List<List<T>>) : List<T> = (
     func go(lists : List<List<T>>, acc : List<T>) : List<T> = switch lists {
       case (?(list, t)) go(t, revAppend(list, acc));
       case null reverse acc
     }
-  )(list, null);
+  )(self, null);
 
   /// Returns the first `n` elements of the given list.
   /// If the given list has fewer than `n` elements, this function returns
@@ -451,12 +452,12 @@ module {
   /// Runtime: O(n)
   ///
   /// Space: O(n)
-  public func take<T>(list : List<T>, n : Nat) : List<T> = (
+  public func take<T>(self : List<T>, n : Nat) : List<T> = (
     func go(n : Nat, list : List<T>, acc : List<T>) : List<T> = if (n == 0) reverse acc else switch list {
       case (?(h, t)) go(n - 1 : Nat, t, ?(h, acc));
       case null reverse acc
     }
-  )(n, list, null);
+  )(n, self, null);
 
   /// Drop the first `n` elements from the given list.
   ///
@@ -473,7 +474,7 @@ module {
   /// Runtime: O(n)
   ///
   /// Space: O(1)
-  public func drop<T>(list : List<T>, n : Nat) : List<T> = if (n == 0) list else switch list {
+  public func drop<T>(self : List<T>, n : Nat) : List<T> = if (n == 0) self else switch self {
     case (?(_, t)) drop(t, n - 1 : Nat);
     case null null
   };
@@ -502,7 +503,7 @@ module {
   /// Space: O(1) heap, O(1) stack
   ///
   /// *Runtime and space assumes that `combine` runs in O(1) time and space.
-  public func foldLeft<T, A>(list : List<T>, base : A, combine : (A, T) -> A) : A = switch list {
+  public func foldLeft<T, A>(self : List<T>, base : A, combine : (A, T) -> A) : A = switch self {
     case null base;
     case (?(h, t)) foldLeft(t, combine(base, h), combine)
   };
@@ -531,12 +532,12 @@ module {
   /// Space: O(1) heap, O(size(list)) stack
   ///
   /// *Runtime and space assumes that `combine` runs in O(1) time and space.
-  public func foldRight<T, A>(list : List<T>, base : A, combine : (T, A) -> A) : A = (
+  public func foldRight<T, A>(self : List<T>, base : A, combine : (T, A) -> A) : A = (
     func go(list : List<T>, base : A, combine : (T, A) -> A) : A = switch list {
       case null base;
       case (?(h, t)) go(t, combine(h, base), combine)
     }
-  )(reverse list, base, combine);
+  )(reverse self, base, combine);
 
   /// Return the first element for which the given predicate `f` is true,
   /// if such an element exists.
@@ -556,7 +557,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func find<T>(list : List<T>, f : T -> Bool) : ?T = switch list {
+  public func find<T>(self : List<T>, f : T -> Bool) : ?T = switch self {
     case null null;
     case (?(h, t)) if (f h) ?h else find(t, f)
   };
@@ -580,11 +581,11 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func findIndex<T>(list : List<T>, f : T -> Bool) : ?Nat {
-    findIndex_(list, 0, f)
+  public func findIndex<T>(self : List<T>, f : T -> Bool) : ?Nat {
+    findIndex_(self, 0, f)
   };
 
-  private func findIndex_<T>(list : List<T>, index : Nat, f : T -> Bool) : ?Nat = switch list {
+  private func findIndex_<T>(self : List<T>, index : Nat, f : T -> Bool) : ?Nat = switch self {
     case null null;
     case (?(h, t)) if (f h) ?index else findIndex_(t, index + 1, f)
   };
@@ -607,7 +608,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func all<T>(list : List<T>, f : T -> Bool) : Bool = switch list {
+  public func all<T>(self : List<T>, f : T -> Bool) : Bool = switch self {
     case null true;
     case (?(h, t)) f h and all(t, f)
   };
@@ -630,7 +631,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func any<T>(list : List<T>, f : T -> Bool) : Bool = switch list {
+  public func any<T>(self : List<T>, f : T -> Bool) : Bool = switch self {
     case null false;
     case (?(h, t)) f h or any(t, f)
   };
@@ -656,7 +657,7 @@ module {
   /// Space: O(size(l1) + size(l2))
   ///
   /// *Runtime and space assumes that `lessThanOrEqual` runs in O(1) time and space.
-  public func merge<T>(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Order.Order) : List<T> = (
+  public func merge<T>(self : List<T>, other : List<T>, compare : (implicit : (T, T) -> Order.Order)) : List<T> = (
     func go(list1 : List<T>, list2 : List<T>, compare : (T, T) -> Order.Order, acc : List<T>) : List<T> = switch (list1, list2) {
       case ((null, l) or (l, null)) reverse(revAppend(l, acc));
       case (?(h1, t1), ?(h2, t2)) switch (compare(h1, h2)) {
@@ -664,7 +665,7 @@ module {
         case (#greater) go(list1, t2, compare, ?(h2, acc))
       }
     }
-  )(list1, list2, compare, null);
+  )(self, other, compare, null);
 
   /// Check if two lists are equal using the given equality function to compare elements.
   ///
@@ -685,7 +686,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `equalItem` runs in O(1) time and space.
-  public func equal<T>(list1 : List<T>, list2 : List<T>, equalItem : (T, T) -> Bool) : Bool = switch (list1, list2) {
+  public func equal<T>(self : List<T>, other : List<T>, equalItem : (implicit : (equal : (T, T) -> Bool))) : Bool = switch (self, other) {
     case (null, null) true;
     case (?(h1, t1), ?(h2, t2)) equalItem(h1, h2) and equal(t1, t2, equalItem);
     case _ false
@@ -710,7 +711,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that argument `compare` runs in O(1) time and space.
-  public func compare<T>(list1 : List<T>, list2 : List<T>, compareItem : (T, T) -> Order.Order) : Order.Order = switch (list1, list2) {
+  public func compare<T>(self : List<T>, other : List<T>, compareItem : (implicit : (compare : (T, T) -> Order.Order))) : Order.Order = switch (self, other) {
     case (?(h1, t1), ?(h2, t2)) switch (compareItem(h1, h2)) {
       case (#equal) compare(t1, t2, compareItem);
       case o o
@@ -808,7 +809,7 @@ module {
   /// Runtime: O(min(size(xs), size(ys)))
   ///
   /// Space: O(min(size(xs), size(ys)))
-  public func zip<T, U>(list1 : List<T>, list2 : List<U>) : List<(T, U)> = zipWith<T, U, (T, U)>(list1, list2, func(x, y) = (x, y));
+  public func zip<T, U>(self : List<T>, other : List<U>) : List<(T, U)> = zipWith<T, U, (T, U)>(self, other, func(x, y) = (x, y));
 
   /// Create a list in which elements are created by applying function `f` to each pair `(x, y)` of elements
   /// occuring at the same position in list `xs` and list `ys`.
@@ -838,12 +839,12 @@ module {
   /// Space: O(min(size(xs), size(ys)))
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
-  public func zipWith<T, U, V>(list1 : List<T>, list2 : List<U>, f : (T, U) -> V) : List<V> = (
+  public func zipWith<T, U, V>(self : List<T>, other : List<U>, f : (T, U) -> V) : List<V> = (
     func go(list1 : List<T>, list2 : List<U>, f : (T, U) -> V, acc : List<V>) : List<V> = switch (list1, list2) {
       case ((null, _) or (_, null)) reverse acc;
       case (?(h1, t1), ?(h2, t2)) go(t1, t2, f, ?(f(h1, h2), acc))
     }
-  )(list1, list2, f, null);
+  )(self, other, f, null);
 
   /// Split the given list at the given zero-based index.
   ///
@@ -860,12 +861,12 @@ module {
   /// Runtime: O(n)
   ///
   /// Space: O(n)
-  public func split<T>(list : List<T>, n : Nat) : (List<T>, List<T>) {
+  public func split<T>(self : List<T>, n : Nat) : (List<T>, List<T>) {
     func go(n : Nat, list : List<T>, acc : List<T>) : (List<T>, List<T>) = if (n == 0) (reverse acc, list) else switch list {
       case (?(h, t)) go(n - 1 : Nat, t, ?(h, acc));
       case null (reverse acc, null)
     };
-    go(n, list, null)
+    go(n, self, null)
   };
 
   /// Split the given list into chunks of length `n`.
@@ -885,14 +886,14 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func chunks<T>(list : List<T>, n : Nat) : List<List<T>> {
+  public func chunks<T>(self : List<T>, n : Nat) : List<List<T>> {
     if (n == 0) trap "pure/List.chunks()";
     func go(list : List<T>, n : Nat, acc : List<List<T>>) : List<List<T>> = switch (split(list, n)) {
       case (null, _) reverse acc;
       case (pre, null) reverse(?(pre, acc));
       case (pre, post) go(post, n, ?(pre, acc))
     };
-    go(list, n, null)
+    go(self, n, null)
   };
 
   /// Returns an iterator to the elements in the list.
@@ -911,8 +912,8 @@ module {
   ///   assert text == "314";
   /// }
   /// ```
-  public func values<T>(list : List<T>) : Iter.Iter<T> = object {
-    var l = list;
+  public func values<T>(self : List<T>) : Iter.Iter<T> = object {
+    var l = self;
     public func next() : ?T = switch l {
       case null null;
       case (?(h, t)) {
@@ -938,9 +939,9 @@ module {
   ///   assert text == "012";
   /// }
   /// ```
-  public func enumerate<T>(list : List<T>) : Iter.Iter<(Nat, T)> = object {
+  public func enumerate<T>(self : List<T>) : Iter.Iter<(Nat, T)> = object {
     var i = 0;
-    var l = list;
+    var l = self;
     public func next() : ?(Nat, T) = switch l {
       case null null;
       case (?(h, t)) {
@@ -1005,9 +1006,9 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func toArray<T>(list : List<T>) : [T] {
-    var l = list;
-    Array_tabulate<T>(size list, func _ { let ?(h, t) = l else Runtime.trap("List.toArray(): unreachable"); l := t; h })
+  public func toArray<T>(self : List<T>) : [T] {
+    var l = self;
+    Array_tabulate<T>(size self, func _ { let ?(h, t) = l else Runtime.trap("List.toArray(): unreachable"); l := t; h })
   };
 
   /// Create a mutable array from a list.
@@ -1026,9 +1027,9 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func toVarArray<T>(list : List<T>) : [var T] = Array.toVarArray<T>(toArray<T>(list));
+  public func toVarArray<T>(self : List<T>) : [var T] = Array.toVarArray<T>(toArray<T>(self));
 
-  /// Turn an iterator into a list, consuming it.
+  /// Create a list from an iterator, consuming the iterator.
   /// Example:
   /// ```motoko
   /// import List "mo:core/pure/List";
@@ -1050,6 +1051,27 @@ module {
     reverse result
   };
 
+  /// Convert an iterator to a list, consuming the iterator.
+  /// Example:
+  /// ```motoko
+  /// import List "mo:core/pure/List";
+  ///
+  /// persistent actor {
+  ///   transient let iter = [0, 1, 2, 3, 4].vals();
+  ///
+  ///   let list = iter.toList();
+  ///
+  ///   assert list == ?(0, ?(1, ?(2, ?(3, ?(4, null)))));
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(size)
+  ///
+  /// Space: O(size)
+  public func toList<T>(self : Iter.Iter<T>) : List<T> {
+    fromIter(self)
+  };
+
   /// Convert a list to a text representation using the provided function to convert each element to text.
   /// The resulting text will be in the format "[element1, element2, ...]".
   ///
@@ -1067,11 +1089,11 @@ module {
   /// Runtime: O(size)
   ///
   /// Space: O(size)
-  public func toText<T>(list : List<T>, f : T -> Text) : Text {
+  public func toText<T>(self : List<T>, f : (implicit : T -> Text)) : Text {
     var text = "PureList[";
     var first = true;
     forEach(
-      list,
+      self,
       func(item : T) {
         if first {
           first := false

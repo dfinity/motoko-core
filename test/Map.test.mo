@@ -43,7 +43,7 @@ run(
         "insert empty",
         do {
           let map = Map.empty<Nat, Text>();
-          assert Map.insert(map, Nat.compare, 0, "0");
+          assert map.insert(0, "0");
           Iter.toArray(Map.entries(map))
         },
         M.equals(T.array(entryTestable, [(0, "0")]))
@@ -52,7 +52,7 @@ run(
         "remove empty",
         do {
           let map = Map.empty<Nat, Text>();
-          Map.remove(map, Nat.compare, 0);
+          map.remove(0);
           Iter.toArray(Map.entries(map))
         },
         M.equals(T.array<(Nat, Text)>(entryTestable, []))
@@ -61,7 +61,7 @@ run(
         "delete empty",
         do {
           let map = Map.empty<Nat, Text>();
-          assert (not Map.delete(map, Nat.compare, 0));
+          assert (not map.delete(0));
           Iter.toArray(Map.entries(map))
         },
         M.equals(T.array<(Nat, Text)>(entryTestable, []))
@@ -70,7 +70,7 @@ run(
         "take absent",
         do {
           let map = Map.empty<Nat, Text>();
-          Map.take(map, Nat.compare, 0)
+          map.take(0)
         },
         M.equals(T.optional(T.textTestable, null : ?Text))
       ),
@@ -88,7 +88,7 @@ run(
         do {
           let original = Map.empty<Nat, Text>();
           let clone = Map.clone(original);
-          Map.add(original, Nat.compare, 0, "0");
+          original.add(0, "0");
           Map.size(clone)
         },
         M.equals(T.nat(0))
@@ -107,7 +107,7 @@ run(
         "contains key",
         do {
           let map = Map.empty<Nat, Text>();
-          Map.containsKey(map, Nat.compare, 0)
+          map.containsKey(0)
         },
         M.equals(T.bool(false))
       ),
@@ -115,7 +115,7 @@ run(
         "get absent",
         do {
           let map = Map.empty<Nat, Text>();
-          Map.get(map, Nat.compare, 0)
+          map.get(0)
         },
         M.equals(T.optional(T.textTestable, null : ?Text))
       ),
@@ -123,7 +123,7 @@ run(
         "update absent",
         do {
           let map = Map.empty<Nat, Text>();
-          Map.swap(map, Nat.compare, 0, "0")
+          map.swap(0, "0")
         },
         M.equals(T.optional(T.textTestable, null : ?Text))
       ),
@@ -131,7 +131,7 @@ run(
         "replace if exists",
         do {
           let map = Map.empty<Nat, Text>();
-          assert (Map.replace(map, Nat.compare, 0, "0") == null);
+          assert (map.replace(0, "0") == null);
           Map.size(map)
         },
         M.equals(T.nat(0))
@@ -150,7 +150,8 @@ run(
         do {
           let map1 = Map.empty<Nat, Text>();
           let map2 = Map.empty<Nat, Text>();
-          Map.equal(map1, map2, Nat.compare, Text.equal)
+          // Note: This is pretty neat, both the comparison for K as well as equals for V are implicit
+          map1.equal(map2)
         },
         M.equals(T.bool(true))
       ),
@@ -183,7 +184,7 @@ run(
       test(
         "from iterator",
         do {
-          let map = Map.fromIter<Nat, Text>(Iter.fromArray<(Nat, Text)>([]), Nat.compare);
+          let map = Map.fromIter<Nat, Text>(Iter.fromArray<(Nat, Text)>([]));
           Map.size(map)
         },
         M.equals(T.nat(0))
@@ -206,9 +207,7 @@ run(
         "filter",
         do {
           let input = Map.empty<Nat, Text>();
-          let output = Map.filter<Nat, Text>(
-            input,
-            Nat.compare,
+          let output = input.filter<Nat, Text>(
             func(_, _) {
               Runtime.trap("test failed")
             }
@@ -235,9 +234,7 @@ run(
         "filter map",
         do {
           let input = Map.empty<Nat, Text>();
-          let output = Map.filterMap<Nat, Text, Int>(
-            input,
-            Nat.compare,
+          let output = input.filterMap<Nat, Text, Int>(
             func(_, _) {
               Runtime.trap("test failed")
             }
@@ -304,7 +301,7 @@ run(
         "to text",
         do {
           let map = Map.empty<Nat, Text>();
-          Map.toText<Nat, Text>(map, Nat.toText, func(value) { value })
+          map.toText()
         },
         M.equals(T.text("Map{}"))
       ),
@@ -313,6 +310,7 @@ run(
         do {
           let map1 = Map.empty<Nat, Text>();
           let map2 = Map.empty<Nat, Text>();
+          // NOTE: Can't make both compare's implicit because of the name overlap
           assert (Map.compare(map1, map2, Nat.compare, Text.compare) == #equal);
           true
         },

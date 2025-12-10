@@ -38,7 +38,7 @@ module {
   /// assert not Bool.logicalAnd(true, false);
   /// assert Bool.logicalAnd(true, true);
   /// ```
-  public func logicalAnd(a : Bool, b : Bool) : Bool = a and b;
+  public func logicalAnd(self : Bool, other : Bool) : Bool = self and other;
 
   /// Returns `a or b`.
   ///
@@ -47,7 +47,7 @@ module {
   /// assert Bool.logicalOr(true, false);
   /// assert Bool.logicalOr(false, true);
   /// ```
-  public func logicalOr(a : Bool, b : Bool) : Bool = a or b;
+  public func logicalOr(self : Bool, other : Bool) : Bool = self or other;
 
   /// Returns exclusive or of `a` and `b`, `a != b`.
   ///
@@ -57,7 +57,7 @@ module {
   /// assert not Bool.logicalXor(true, true);
   /// assert not Bool.logicalXor(false, false);
   /// ```
-  public func logicalXor(a : Bool, b : Bool) : Bool = a != b;
+  public func logicalXor(self : Bool, other : Bool) : Bool = self != other;
 
   /// Returns `not bool`.
   ///
@@ -66,7 +66,7 @@ module {
   /// assert Bool.logicalNot(false);
   /// assert not Bool.logicalNot(true);
   /// ```
-  public func logicalNot(bool : Bool) : Bool = not bool;
+  public func logicalNot(self : Bool) : Bool = not self;
 
   /// Returns `a == b`.
   ///
@@ -75,7 +75,7 @@ module {
   /// assert Bool.equal(true, true);
   /// assert not Bool.equal(true, false);
   /// ```
-  public func equal(a : Bool, b : Bool) : Bool { a == b };
+  public func equal(self : Bool, other : Bool) : Bool { self == other };
 
   /// Returns the ordering of `a` compared to `b`.
   /// Returns `#less` if `a` is `false` and `b` is `true`,
@@ -88,8 +88,8 @@ module {
   /// assert Bool.compare(true, true) == #equal;
   /// assert Bool.compare(false, true) == #less;
   /// ```
-  public func compare(a : Bool, b : Bool) : Order.Order {
-    if (a == b) #equal else if a #greater else #less
+  public func compare(self : Bool, other : Bool) : Order.Order {
+    if (self == other) #equal else if self #greater else #less
   };
 
   /// Returns a text value which is either `"true"` or `"false"` depending on the input value.
@@ -99,8 +99,8 @@ module {
   /// assert Bool.toText(true) == "true";
   /// assert Bool.toText(false) == "false";
   /// ```
-  public func toText(bool : Bool) : Text {
-    if bool "true" else "false"
+  public func toText(self : Bool) : Text {
+    if self "true" else "false"
   };
 
   /// Returns an iterator over all possible boolean values (`true` and `false`).

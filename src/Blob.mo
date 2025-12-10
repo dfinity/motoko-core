@@ -56,7 +56,7 @@ module {
   /// assert Blob.isEmpty(blob1);
   /// assert not Blob.isEmpty(blob2);
   /// ```
-  public func isEmpty(blob : Blob) : Bool = blob == "";
+  public func isEmpty(self : Blob) : Bool = self == "";
 
   /// Returns the number of bytes in the given `Blob`.
   /// This is equivalent to `blob.size()`.
@@ -67,7 +67,7 @@ module {
   /// assert Blob.size(blob) == 3;
   /// assert blob.size() == 3;
   /// ```
-  public func size(blob : Blob) : Nat = blob.size();
+  public func size(self : Blob) : Nat = self.size();
 
   /// Creates a `Blob` from an array of bytes (`[Nat8]`), by copying each element.
   ///
@@ -97,7 +97,7 @@ module {
   /// let bytes = Blob.toArray(blob);
   /// assert bytes == [0, 255, 0];
   /// ```
-  public func toArray(blob : Blob) : [Nat8] = Prim.blobToArray blob;
+  public func toArray(self : Blob) : [Nat8] = Prim.blobToArray(self);
 
   /// Converts a `Blob` to a mutable array of bytes (`[var Nat8]`), by copying each element.
   ///
@@ -110,7 +110,7 @@ module {
   /// let bytes = Blob.toVarArray(blob);
   /// assert VarArray.equal<Nat8>(bytes, [var 0, 255, 0], Nat8.equal);
   /// ```
-  public func toVarArray(blob : Blob) : [var Nat8] = Prim.blobToArrayMut blob;
+  public func toVarArray(self : Blob) : [var Nat8] = Prim.blobToArrayMut(self);
 
   /// Returns the (non-cryptographic) hash of `blob`.
   ///
@@ -120,7 +120,7 @@ module {
   /// let h = Blob.hash(blob);
   /// assert h == 1_818_567_776;
   /// ```
-  public func hash(blob : Blob) : Types.Hash = Prim.hashBlob blob;
+  public func hash(self : Blob) : Types.Hash = Prim.hashBlob(self);
 
   /// General purpose comparison function for `Blob` by comparing the value of
   /// the bytes. Returns the `Order` (either `#less`, `#equal`, or `#greater`)
@@ -133,8 +133,8 @@ module {
   /// let result = Blob.compare(blob1, blob2);
   /// assert result == #less;
   /// ```
-  public func compare(b1 : Blob, b2 : Blob) : Order.Order {
-    let c = Prim.blobCompare(b1, b2);
+  public func compare(self : Blob, other : Blob) : Order.Order {
+    let c = Prim.blobCompare(self, other);
     if (c < 0) #less else if (c == 0) #equal else #greater
   };
 
@@ -160,7 +160,7 @@ module {
   /// let list2 = List.singleton<Blob>("\00\FF\00");
   /// assert List.equal(list1, list2, Blob.equal);
   /// ```
-  public func equal(blob1 : Blob, blob2 : Blob) : Bool { blob1 == blob2 };
+  public func equal(self : Blob, other : Blob) : Bool { self == other };
 
   /// Inequality function for `Blob` types.
   /// This is equivalent to `blob1 != blob2`.
@@ -175,7 +175,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `!=` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func notEqual(blob1 : Blob, blob2 : Blob) : Bool { blob1 != blob2 };
+  public func notEqual(self : Blob, other : Blob) : Bool { self != other };
 
   /// "Less than" function for `Blob` types.
   /// This is equivalent to `blob1 < blob2`.
@@ -190,7 +190,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `<` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func less(blob1 : Blob, blob2 : Blob) : Bool { blob1 < blob2 };
+  public func less(self : Blob, other : Blob) : Bool { self < other };
 
   /// "Less than or equal to" function for `Blob` types.
   /// This is equivalent to `blob1 <= blob2`.
@@ -205,7 +205,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `<=` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func lessOrEqual(blob1 : Blob, blob2 : Blob) : Bool { blob1 <= blob2 };
+  public func lessOrEqual(self : Blob, other : Blob) : Bool { self <= other };
 
   /// "Greater than" function for `Blob` types.
   /// This is equivalent to `blob1 > blob2`.
@@ -220,7 +220,7 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `>` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func greater(blob1 : Blob, blob2 : Blob) : Bool { blob1 > blob2 };
+  public func greater(self : Blob, other : Blob) : Bool { self > other };
 
   /// "Greater than or equal to" function for `Blob` types.
   /// This is equivalent to `blob1 >= blob2`.
@@ -235,8 +235,8 @@ module {
   /// Note: The reason why this function is defined in this library (in addition
   /// to the existing `>=` operator) is so that you can use it as a function value
   /// to pass to a higher order function.
-  public func greaterOrEqual(blob1 : Blob, blob2 : Blob) : Bool {
-    blob1 >= blob2
+  public func greaterOrEqual(self : Blob, other : Blob) : Bool {
+    self >= other
   };
 
 }

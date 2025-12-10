@@ -36,13 +36,13 @@ module {
   /// ```motoko include=import
   /// assert Int.toText(-1234) == "-1234";
   /// ```
-  public func toText(x : Int) : Text {
-    if (x == 0) {
+  public func toText(self : Int) : Text {
+    if (self == 0) {
       return "0"
     };
 
-    let isNegative = x < 0;
-    var int = if isNegative { -x } else { x };
+    let isNegative = self < 0;
+    var int = if isNegative { -self } else { self };
 
     var text = "";
     let base = 10;
@@ -108,6 +108,19 @@ module {
     ?(if (isNegative) { -n } else { n })
   };
 
+  /// Creates a integer from its textual representation. Returns `null`
+  /// if the input is not a valid integer.
+  ///
+  /// This functions is meant to be used with contextual-dot notation.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert "-1234".toInt() == ?-1234;
+  /// ```
+  public func toInt(self : Text) : ?Int {
+    fromText(self)
+  };
+
   /// Converts an integer to a natural number. Traps if the integer is negative.
   ///
   /// Example:
@@ -115,11 +128,11 @@ module {
   /// import Debug "mo:core/Debug";
   /// assert Int.toNat(1234 : Int) == (1234 : Nat);
   /// ```
-  public func toNat(int : Int) : Nat {
-    if (int < 0) {
+  public func toNat(self : Int) : Nat {
+    if (self < 0) {
       Runtime.trap("Int.toNat(): negative input value")
     } else {
-      abs(int)
+      abs(self)
     }
   };
 
@@ -133,6 +146,20 @@ module {
     nat : Int
   };
 
+  /// Conversion to Float. May result in `Inf`.
+  ///
+  /// Note: The floating point number may be imprecise for large or small Int values.
+  /// Returns `inf` if the integer is greater than the maximum floating point number.
+  /// Returns `-inf` if the integer is less than the minimum floating point number.
+  ///
+  /// Example:
+  /// ```motoko include=import
+  /// assert Int.toFloat(-123) == -123.0;
+  /// ```
+  public func toFloat(self : Int) : Float {
+    Prim.intToFloat(self)
+  };
+
   /// Converts a signed integer with infinite precision to an 8-bit signed integer.
   ///
   /// Traps on overflow/underflow.
@@ -141,7 +168,9 @@ module {
   /// ```motoko include=import
   /// assert Int.toInt8(123) == (123 : Int8);
   /// ```
-  public let toInt8 : Int -> Int8 = Prim.intToInt8;
+  public func toInt8(self : Int) : Int8 {
+    Prim.intToInt8(self)
+  };
 
   /// Converts a signed integer with infinite precision to a 16-bit signed integer.
   ///
@@ -151,7 +180,9 @@ module {
   /// ```motoko include=import
   /// assert Int.toInt16(12_345) == (12_345 : Int16);
   /// ```
-  public let toInt16 : Int -> Int16 = Prim.intToInt16;
+  public func toInt16(self : Int) : Int16 {
+    Prim.intToInt16(self)
+  };
 
   /// Converts a signed integer with infinite precision to a 32-bit signed integer.
   ///
@@ -161,7 +192,9 @@ module {
   /// ```motoko include=import
   /// assert Int.toInt32(123_456) == (123_456 : Int32);
   /// ```
-  public let toInt32 : Int -> Int32 = Prim.intToInt32;
+  public func toInt32(self : Int) : Int32 {
+    Prim.intToInt32(self)
+  };
 
   /// Converts a signed integer with infinite precision to a 64-bit signed integer.
   ///
@@ -171,7 +204,9 @@ module {
   /// ```motoko include=import
   /// assert Int.toInt64(123_456_789) == (123_456_789 : Int64);
   /// ```
-  public let toInt64 : Int -> Int64 = Prim.intToInt64;
+  public func toInt64(self : Int) : Int64 {
+    Prim.intToInt64(self)
+  };
 
   /// Converts an 8-bit signed integer to a signed integer with infinite precision.
   ///
@@ -179,7 +214,9 @@ module {
   /// ```motoko include=import
   /// assert Int.fromInt8(123 : Int8) == 123;
   /// ```
-  public let fromInt8 : Int8 -> Int = Prim.int8ToInt;
+  public func fromInt8(x : Int8) : Int {
+    Prim.int8ToInt(x)
+  };
 
   /// Converts a 16-bit signed integer to a signed integer with infinite precision.
   ///
@@ -187,7 +224,9 @@ module {
   /// ```motoko include=import
   /// assert Int.fromInt16(12_345 : Int16) == 12_345;
   /// ```
-  public let fromInt16 : Int16 -> Int = Prim.int16ToInt;
+  public func fromInt16(x : Int16) : Int {
+    Prim.int16ToInt(x)
+  };
 
   /// Converts a 32-bit signed integer to a signed integer with infinite precision.
   ///
@@ -195,7 +234,9 @@ module {
   /// ```motoko include=import
   /// assert Int.fromInt32(123_456 : Int32) == 123_456;
   /// ```
-  public let fromInt32 : Int32 -> Int = Prim.int32ToInt;
+  public func fromInt32(x : Int32) : Int {
+    Prim.int32ToInt(x)
+  };
 
   /// Converts a 64-bit signed integer to a signed integer with infinite precision.
   ///
@@ -203,7 +244,9 @@ module {
   /// ```motoko include=import
   /// assert Int.fromInt64(123_456_789 : Int64) == 123_456_789;
   /// ```
-  public let fromInt64 : Int64 -> Int = Prim.int64ToInt;
+  public func fromInt64(x : Int64) : Int {
+    Prim.int64ToInt(x)
+  };
 
   /// Returns the minimum of `x` and `y`.
   ///
@@ -332,7 +375,9 @@ module {
   /// assert Array.sort([1, -2, -3], Int.compare) == [-3, -2, 1];
   /// ```
   public func compare(x : Int, y : Int) : Order.Order {
-    if (x < y) { #less } else if (x == y) { #equal } else { #greater }
+    if (x < y) { #less } else if (x == y) { #equal } else {
+      #greater
+    }
   };
 
   /// Returns the negation of `x`, `-x` .

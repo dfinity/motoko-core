@@ -30,7 +30,9 @@ module {
   /// ```motoko include=import
   /// assert Nat64.toNat(123) == (123 : Nat);
   /// ```
-  public let toNat : Nat64 -> Nat = Prim.nat64ToNat;
+  public func toNat(self : Nat64) : Nat {
+    Prim.nat64ToNat(self)
+  };
 
   /// Converts an unsigned integer with infinite precision to a 64-bit unsigned integer.
   ///
@@ -50,8 +52,8 @@ module {
   /// ```motoko include=import
   /// assert Nat64.toNat8(123) == (123 : Nat8);
   /// ```
-  public func toNat8(x : Nat64) : Nat8 {
-    Prim.natToNat8(Prim.nat64ToNat(x))
+  public func toNat8(self : Nat64) : Nat8 {
+    Prim.natToNat8(Prim.nat64ToNat(self))
   };
 
   /// Converts a 16-bit unsigned integer to a 64-bit unsigned integer.
@@ -60,6 +62,7 @@ module {
   /// ```motoko include=import
   /// assert Nat64.fromNat16(123) == (123 : Nat64);
   /// ```
+  /// @deprecated M0235
   public func fromNat16(x : Nat16) : Nat64 {
     Prim.natToNat64(Prim.nat16ToNat(x))
   };
@@ -72,8 +75,8 @@ module {
   /// ```motoko include=import
   /// assert Nat64.toNat16(123) == (123 : Nat16);
   /// ```
-  public func toNat16(x : Nat64) : Nat16 {
-    Prim.natToNat16(Prim.nat64ToNat(x))
+  public func toNat16(self : Nat64) : Nat16 {
+    Prim.natToNat16(Prim.nat64ToNat(self))
   };
 
   /// Converts an 8-bit unsigned integer to a 64-bit unsigned integer.
@@ -82,6 +85,7 @@ module {
   /// ```motoko include=import
   /// assert Nat64.fromNat8(123) == (123 : Nat64);
   /// ```
+  /// @deprecated M0235
   public func fromNat8(x : Nat8) : Nat64 {
     Prim.natToNat64(Prim.nat8ToNat(x))
   };
@@ -92,6 +96,7 @@ module {
   /// ```motoko include=import
   /// assert Nat64.fromNat32(123) == (123 : Nat64);
   /// ```
+  /// @deprecated M0235
   public func fromNat32(x : Nat32) : Nat64 {
     Prim.nat32ToNat64(x)
   };
@@ -104,8 +109,8 @@ module {
   /// ```motoko include=import
   /// assert Nat64.toNat32(123) == (123 : Nat32);
   /// ```
-  public func toNat32(x : Nat64) : Nat32 {
-    Prim.nat64ToNat32(x)
+  public func toNat32(self : Nat64) : Nat32 {
+    Prim.nat64ToNat32(self)
   };
 
   /// Converts a signed integer with infinite precision to a 64-bit unsigned integer.
@@ -125,8 +130,8 @@ module {
   /// ```motoko include=import
   /// assert Nat64.toText(1234) == ("1234" : Text);
   /// ```
-  public func toText(x : Nat64) : Text {
-    Nat.toText(toNat(x))
+  public func toText(self : Nat64) : Text {
+    Nat.toText(toNat(self))
   };
 
   /// Returns the minimum of `x` and `y`.
@@ -244,7 +249,9 @@ module {
   /// to the existing `>=` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>=`
   /// as a function value at the moment.
-  public func greaterOrEqual(x : Nat64, y : Nat64) : Bool { x >= y };
+  public func greaterOrEqual(x : Nat64, y : Nat64) : Bool {
+    x >= y
+  };
 
   /// General purpose comparison function for `Nat64`. Returns the `Order` (
   /// either `#less`, `#equal`, or `#greater`) of comparing `x` with `y`.
@@ -262,7 +269,9 @@ module {
   /// assert Array.sort([2, 3, 1] : [Nat64], Nat64.compare) == [1, 2, 3];
   /// ```
   public func compare(x : Nat64, y : Nat64) : Order.Order {
-    if (x < y) { #less } else if (x == y) { #equal } else { #greater }
+    if (x < y) { #less } else if (x == y) { #equal } else {
+      #greater
+    }
   };
 
   /// Returns the sum of `x` and `y`, `x + y`.
@@ -440,7 +449,9 @@ module {
   /// to the existing `<<` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<<`
   /// as a function value at the moment.
-  public func bitshiftLeft(x : Nat64, y : Nat64) : Nat64 { x << y };
+  public func bitshiftLeft(x : Nat64, y : Nat64) : Nat64 {
+    x << y
+  };
 
   /// Returns the bitwise shift right of `x` by `y`, `x >> y`.
   ///
@@ -454,7 +465,9 @@ module {
   /// to the existing `>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `>>`
   /// as a function value at the moment.
-  public func bitshiftRight(x : Nat64, y : Nat64) : Nat64 { x >> y };
+  public func bitshiftRight(x : Nat64, y : Nat64) : Nat64 {
+    x >> y
+  };
 
   /// Returns the bitwise rotate left of `x` by `y`, `x <<> y`.
   ///
@@ -482,7 +495,9 @@ module {
   /// to the existing `<>>` operator) is so that you can use it as a function
   /// value to pass to a higher order function. It is not possible to use `<>>`
   /// as a function value at the moment.
-  public func bitrotRight(x : Nat64, y : Nat64) : Nat64 { x <>> y };
+  public func bitrotRight(x : Nat64, y : Nat64) : Nat64 {
+    x <>> y
+  };
 
   /// Returns the value of bit `p mod 64` in `x`, `(x & 2^(p mod 64)) == 2^(p mod 64)`.
   /// This is equivalent to checking if the `p`-th bit is set in `x`, using 0 indexing.
@@ -531,7 +546,7 @@ module {
   /// ```motoko include=import
   /// assert Nat64.bitcountNonZero(5) == 2;
   /// ```
-  public let bitcountNonZero : (x : Nat64) -> Nat64 = Prim.popcntNat64;
+  public func bitcountNonZero(x : Nat64) : Nat64 = Prim.popcntNat64(x);
 
   /// Returns the count of leading zero bits in `x`.
   ///
@@ -539,7 +554,7 @@ module {
   /// ```motoko include=import
   /// assert Nat64.bitcountLeadingZero(5) == 61;
   /// ```
-  public let bitcountLeadingZero : (x : Nat64) -> Nat64 = Prim.clzNat64;
+  public func bitcountLeadingZero(x : Nat64) : Nat64 = Prim.clzNat64(x);
 
   /// Returns the count of trailing zero bits in `x`.
   ///
@@ -547,7 +562,7 @@ module {
   /// ```motoko include=import
   /// assert Nat64.bitcountTrailingZero(16) == 4;
   /// ```
-  public let bitcountTrailingZero : (x : Nat64) -> Nat64 = Prim.ctzNat64;
+  public func bitcountTrailingZero(x : Nat64) : Nat64 = Prim.ctzNat64(x);
 
   /// Returns the upper (i.e. most significant), lower (least significant)
   /// and in-between bytes of `x`.
@@ -556,7 +571,7 @@ module {
   /// ```motoko include=import
   /// assert Nat64.explode 0xbb772266aa885511 == (187, 119, 34, 102, 170, 136, 85, 17);
   /// ```
-  public let explode : (x : Nat64) -> (msb : Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeNat64;
+  public func explode(x : Nat64) : (msb : Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, Nat8, lsb : Nat8) = Prim.explodeNat64(x);
 
   /// Returns the sum of `x` and `y`, `x +% y`. Wraps on overflow.
   ///

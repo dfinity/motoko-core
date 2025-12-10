@@ -29,6 +29,7 @@
 // TODO: optimize or re-use pure/List operations (e.g. for `any` etc)
 
 import Order "Order";
+import Iter "Iter";
 import Types "Types";
 import PureList "pure/List";
 
@@ -58,8 +59,17 @@ module {
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
   /// where `n` denotes the number of elements stored in the stack.
-  public func toPure<T>(stack : Stack<T>) : PureList.List<T> {
-    stack.top
+  /// @deprecated M0235
+  public func toPure<T>(self : Stack<T>) : PureList.List<T> {
+    self.top
+  };
+
+  public func toArray<T>(self : Stack<T>) : [T] {
+    Iter.toArray(values(self))
+  };
+
+  public func toVarArray<T>(self : Stack<T>) : [var T] {
+    Iter.toVarArray(values(self))
   };
 
   /// Convert an immutable, purely functional list to a mutable stack.
@@ -81,6 +91,7 @@ module {
   /// Runtime: `O(n)`.
   /// Space: `O(n)`.
   /// where `n` denotes the number of elements stored in the queue.
+  /// @deprecated M0235
   public func fromPure<T>(list : PureList.List<T>) : Stack<T> {
     var size = 0;
     var cur = list;
@@ -95,6 +106,14 @@ module {
         }
       }
     }
+  };
+
+  public func fromVarArray<T>(array : [var T]) : Stack<T> {
+    fromIter(array.values())
+  };
+
+  public func fromArray<T>(array : [T]) : Stack<T> {
+    fromIter(array.values())
   };
 
   /// Create a new empty mutable stack.
@@ -184,9 +203,9 @@ module {
   ///
   /// Runtime: O(1)
   /// Space: O(1)
-  public func clear<T>(stack : Stack<T>) {
-    stack.top := null;
-    stack.size := 0
+  public func clear<T>(self : Stack<T>) {
+    self.top := null;
+    self.size := 0
   };
 
   /// Creates a deep copy of the stack with the same elements in the same order.
@@ -206,9 +225,9 @@ module {
   /// Runtime: O(n)
   /// Space: O(n)
   /// where `n` denotes the number of elements stored on the stack.
-  public func clone<T>(stack : Stack<T>) : Stack<T> {
+  public func clone<T>(self : Stack<T>) : Stack<T> {
     let copy = empty<T>();
-    for (element in values(stack)) {
+    for (element in values(self)) {
       push(copy, element)
     };
     reverse(copy);
@@ -229,8 +248,8 @@ module {
   ///
   /// Runtime: O(1)
   /// Space: O(1)
-  public func isEmpty<T>(stack : Stack<T>) : Bool {
-    stack.size == 0
+  public func isEmpty<T>(self : Stack<T>) : Bool {
+    self.size == 0
   };
 
   /// Returns the number of elements on the stack.
@@ -247,8 +266,8 @@ module {
   ///
   /// Runtime: O(1)
   /// Space: O(1)
-  public func size<T>(stack : Stack<T>) : Nat {
-    stack.size
+  public func size<T>(self : Stack<T>) : Nat {
+    self.size
   };
 
   /// Returns true if the stack contains the specified element.
@@ -269,13 +288,17 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and assuming
   /// that `equal` has O(1) costs.
-  public func contains<T>(stack : Stack<T>, equal : (T, T) -> Bool, element : T) : Bool {
-    for (existing in values(stack)) {
+  public func contains<T>(self : Stack<T>, equal : (implicit : (T, T) -> Bool), element : T) : Bool {
+    for (existing in values(self)) {
       if (equal(existing, element)) {
         return true
       }
     };
     false
+  };
+
+  public func reverseValues<T>(self : Stack<T>) : Iter.Iter<T> {
+    Iter.reverse(values(self))
   };
 
   /// Pushes a new element onto the top of the stack.
@@ -293,9 +316,9 @@ module {
   ///
   /// Runtime: O(1)
   /// Space: O(1)
-  public func push<T>(stack : Stack<T>, value : T) {
-    stack.top := ?(value, stack.top);
-    stack.size += 1
+  public func push<T>(self : Stack<T>, value : T) {
+    self.top := ?(value, self.top);
+    self.size += 1
   };
 
   /// Returns the top element of the stack without removing it.
@@ -316,8 +339,8 @@ module {
   ///
   /// Runtime: O(1)
   /// Space: O(1)
-  public func peek<T>(stack : Stack<T>) : ?T {
-    switch (stack.top) {
+  public func peek<T>(self : Stack<T>) : ?T {
+    switch (self.top) {
       case null null;
       case (?(value, _)) ?value
     }
@@ -344,12 +367,12 @@ module {
   ///
   /// Runtime: O(1)
   /// Space: O(1)
-  public func pop<T>(stack : Stack<T>) : ?T {
-    switch (stack.top) {
+  public func pop<T>(self : Stack<T>) : ?T {
+    switch (self.top) {
       case null null;
       case (?(value, next)) {
-        stack.top := next;
-        stack.size -= 1;
+        self.top := next;
+        self.size -= 1;
         ?value
       }
     }
@@ -378,9 +401,9 @@ module {
   /// Runtime: O(n)
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack.
-  public func get<T>(stack : Stack<T>, position : Nat) : ?T {
+  public func get<T>(self : Stack<T>, position : Nat) : ?T {
     var index = 0;
-    var current = stack.top;
+    var current = self.top;
     while (index < position) {
       switch (current) {
         case null return null;
@@ -418,12 +441,12 @@ module {
   /// Runtime: O(n)
   /// Space: O(n)
   /// where `n` denotes the number of elements stored on the stack.
-  public func reverse<T>(stack : Stack<T>) {
+  public func reverse<T>(self : Stack<T>) {
     var last : List<T> = null;
-    for (element in values(stack)) {
+    for (element in values(self)) {
       last := ?(element, last)
     };
-    stack.top := last
+    self.top := last
   };
 
   /// Returns an iterator over the elements in the stack, from top to bottom.
@@ -446,9 +469,9 @@ module {
   /// Runtime: O(1) for iterator creation, O(n) for full traversal
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack.
-  public func values<T>(stack : Stack<T>) : Types.Iter<T> {
+  public func values<T>(self : Stack<T>) : Types.Iter<T> {
     object {
-      var current = stack.top;
+      var current = self.top;
 
       public func next() : ?T {
         switch (current) {
@@ -478,8 +501,8 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `predicate` has O(1) costs.
-  public func all<T>(stack : Stack<T>, predicate : T -> Bool) : Bool {
-    for (element in values(stack)) {
+  public func all<T>(self : Stack<T>, predicate : T -> Bool) : Bool {
+    for (element in values(self)) {
       if (not predicate(element)) {
         return false
       }
@@ -503,8 +526,8 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming `predicate` has O(1) costs.
-  public func any<T>(stack : Stack<T>, predicate : T -> Bool) : Bool {
-    for (element in values(stack)) {
+  public func any<T>(self : Stack<T>, predicate : T -> Bool) : Bool {
+    for (element in values(self)) {
       if (predicate(element)) {
         return true
       }
@@ -535,8 +558,8 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `operation` has O(1) costs.
-  public func forEach<T>(stack : Stack<T>, operation : T -> ()) {
-    for (element in values(stack)) {
+  public func forEach<T>(self : Stack<T>, operation : T -> ()) {
+    for (element in values(self)) {
       operation(element)
     }
   };
@@ -566,9 +589,9 @@ module {
   /// Space: O(n)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `project` has O(1) costs.
-  public func map<T, U>(stack : Stack<T>, project : T -> U) : Stack<U> {
+  public func map<T, U>(self : Stack<T>, project : T -> U) : Stack<U> {
     let result = empty<U>();
-    for (element in values(stack)) {
+    for (element in values(self)) {
       push(result, project(element))
     };
     reverse(result);
@@ -599,9 +622,9 @@ module {
   /// Space: O(n)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming `predicate` has O(1) costs.
-  public func filter<T>(stack : Stack<T>, predicate : T -> Bool) : Stack<T> {
+  public func filter<T>(self : Stack<T>, predicate : T -> Bool) : Stack<T> {
     let result = empty<T>();
-    for (element in values(stack)) {
+    for (element in values(self)) {
       if (predicate(element)) {
         push(result, element)
       }
@@ -641,9 +664,9 @@ module {
   /// Space: O(n)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `project` has O(1) costs.
-  public func filterMap<T, U>(stack : Stack<T>, project : T -> ?U) : Stack<U> {
+  public func filterMap<T, U>(self : Stack<T>, project : T -> ?U) : Stack<U> {
     let result = empty<U>();
-    for (element in values(stack)) {
+    for (element in values(self)) {
       switch (project(element)) {
         case null {};
         case (?newElement) {
@@ -674,7 +697,7 @@ module {
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
 
-  public func find<T>(stack : Stack<T>, predicate : T -> Bool) : ?T = PureList.find(stack.top, predicate);
+  public func find<T>(self : Stack<T>, predicate : T -> Bool) : ?T = PureList.find(self.top, predicate);
 
   /// Return the first index for which the given `predicate` is true.
   /// If no element satisfies the predicate, returns null.
@@ -695,7 +718,7 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
-  public func findIndex<T>(stack : Stack<T>, predicate : T -> Bool) : ?Nat = PureList.findIndex(stack.top, predicate);
+  public func findIndex<T>(self : Stack<T>, predicate : T -> Bool) : ?Nat = PureList.findIndex(self.top, predicate);
 
   /// Compares two stacks for equality using the provided equality function.
   ///
@@ -715,12 +738,12 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `equal` has O(1) costs.
-  public func equal<T>(stack1 : Stack<T>, stack2 : Stack<T>, equal : (T, T) -> Bool) : Bool {
-    if (size(stack1) != size(stack2)) {
+  public func equal<T>(self : Stack<T>, other : Stack<T>, equal : (implicit : (T, T) -> Bool)) : Bool {
+    if (size(self) != size(other)) {
       return false
     };
-    let iterator1 = values(stack1);
-    let iterator2 = values(stack2);
+    let iterator1 = values(self);
+    let iterator2 = values(other);
     loop {
       let element1 = iterator1.next();
       let element2 = iterator2.next();
@@ -764,6 +787,31 @@ module {
     stack
   };
 
+  /// Convert an iterator into a stack.
+  /// Elements are pushed in iteration order. Which means that the last element
+  /// of the iterator will be the first element on top of the stack.
+  ///
+  /// Example:
+  /// ```motoko
+  /// import Stack "mo:core/Stack";
+  /// import Iter "mo:core/Iter";
+  ///
+  /// persistent actor {
+  ///   transient let iter = [3, 2, 1].values();
+  ///
+  ///   let stack = iter.toStack();
+  ///
+  ///   assert Iter.toArray(Stack.values(stack)) == [1, 2, 3];
+  /// }
+  /// ```
+  ///
+  /// Runtime: O(n)
+  /// Space: O(n)
+  /// where `n` denotes the number of iterated elements.
+  public func toStack<T>(self : Types.Iter<T>) : Stack<T> {
+    fromIter(self)
+  };
+
   /// Converts the stack to its string representation using the provided
   /// element formatting function.
   ///
@@ -782,10 +830,10 @@ module {
   /// Space: O(n)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `format` has O(1) costs.
-  public func toText<T>(stack : Stack<T>, format : T -> Text) : Text {
+  public func toText<T>(self : Stack<T>, format : (implicit : (toText : T -> Text))) : Text {
     var text = "Stack[";
     var sep = "";
-    for (element in values(stack)) {
+    for (element in values(self)) {
       text #= sep # format(element);
       sep := ", "
     };
@@ -811,9 +859,9 @@ module {
   /// Space: O(1)
   /// where `n` denotes the number of elements stored on the stack and
   /// assuming that `compare` has O(1) costs.
-  public func compare<T>(stack1 : Stack<T>, stack2 : Stack<T>, compare : (T, T) -> Order.Order) : Order.Order {
-    let iterator1 = values(stack1);
-    let iterator2 = values(stack2);
+  public func compare<T>(self : Stack<T>, other : Stack<T>, compare : (implicit : (T, T) -> Order.Order)) : Order.Order {
+    let iterator1 = values(self);
+    let iterator2 = values(other);
     loop {
       switch (iterator1.next(), iterator2.next()) {
         case (null, null) return #equal;

@@ -30,7 +30,7 @@ run(
         "add empty",
         do {
           let set = Set.empty<Nat>();
-          Set.add(set, Nat.compare, 0);
+          set.add(0);
           Iter.toArray(Set.values(set))
         },
         M.equals(T.array<Nat>(T.natTestable, [0]))
@@ -39,7 +39,7 @@ run(
         "insert empty",
         do {
           let set = Set.empty<Nat>();
-          assert Set.insert(set, Nat.compare, 0);
+          assert set.insert(0);
           Iter.toArray(Set.values(set))
         },
         M.equals(T.array<Nat>(T.natTestable, [0]))
@@ -48,7 +48,7 @@ run(
         "remove empty",
         do {
           let set = Set.empty<Nat>();
-          Set.remove(set, Nat.compare, 0);
+          set.remove(0);
           Iter.toArray(Set.values(set))
         },
         M.equals(T.array<Nat>(T.natTestable, []))
@@ -57,7 +57,7 @@ run(
         "delete empty",
         do {
           let set = Set.empty<Nat>();
-          assert (not Set.delete(set, Nat.compare, 0));
+          assert (not set.delete(0));
           Iter.toArray(Set.values(set))
         },
         M.equals(T.array<Nat>(T.natTestable, []))
@@ -97,7 +97,7 @@ run(
         do {
           let set = Set.empty<Nat>();
           Set.add(set, Nat.compare, 0);
-          Set.contains(set, Nat.compare, 0)
+          set.contains(0)
         },
         M.equals(T.bool(true))
       ),
@@ -105,7 +105,7 @@ run(
         "contains absent",
         do {
           let set = Set.empty<Nat>();
-          Set.contains(set, Nat.compare, 0)
+          set.contains(0)
         },
         M.equals(T.bool(false))
       ),
@@ -123,7 +123,7 @@ run(
         do {
           let set1 = Set.empty<Nat>();
           let set2 = Set.empty<Nat>();
-          Set.equal(set1, set2, Nat.compare)
+          set1.equal(set2)
         },
         M.equals(T.bool(true))
       ),
@@ -146,7 +146,7 @@ run(
       test(
         "from iterator",
         do {
-          let set = Set.fromIter<Nat>(Iter.fromArray<Nat>([]), Nat.compare);
+          let set = Set.fromIter<Nat>(Iter.fromArray<Nat>([]));
           Set.size(set)
         },
         M.equals(T.nat(0))
@@ -169,9 +169,7 @@ run(
         "filter",
         do {
           let input = Set.empty<Nat>();
-          let output = Set.filter<Nat>(
-            input,
-            Nat.compare,
+          let output = input.filter<Nat>(
             func(_) {
               Runtime.trap("test failed")
             }
@@ -184,9 +182,7 @@ run(
         "map",
         do {
           let input = Set.empty<Nat>();
-          let output = Set.map<Nat, Int>(
-            input,
-            Int.compare,
+          let output = input.map<Nat, Int>(
             func(_) {
               Runtime.trap("test failed")
             }
@@ -199,9 +195,7 @@ run(
         "filter map",
         do {
           let input = Set.empty<Nat>();
-          let output = Set.filterMap<Nat, Int>(
-            input,
-            Int.compare,
+          let output = input.filterMap<Nat, Int>(
             func(_) {
               Runtime.trap("test failed")
             }
@@ -268,7 +262,7 @@ run(
         "to text",
         do {
           let set = Set.empty<Nat>();
-          Set.toText<Nat>(set, Nat.toText)
+          set.toText()
         },
         M.equals(T.text("Set{}"))
       ),
@@ -277,7 +271,7 @@ run(
         do {
           let set1 = Set.empty<Nat>();
           let set2 = Set.empty<Nat>();
-          assert (Set.compare(set1, set2, Nat.compare) == #equal);
+          assert (set1.compare(set2) == #equal);
           true
         },
         M.equals(T.bool(true))
@@ -287,7 +281,7 @@ run(
         do {
           let set1 = Set.fromIter<Nat>(Iter.fromArray<Nat>([]), Nat.compare);
           let set2 = Set.clone(set1);
-          Set.isSubset(set1, set2, Nat.compare)
+          set1.isSubset(set2)
         },
         M.equals(T.bool(true))
       ),
@@ -297,7 +291,7 @@ run(
           let set1 = Set.fromIter<Nat>(Iter.fromArray<Nat>([]), Nat.compare);
           let set2 = Set.clone(set1);
           let set3 = Set.clone(set2);
-          let combined = Set.join(Iter.fromArray([set1, set2, set3]), Nat.compare);
+          let combined = Set.join(Iter.fromArray([set1, set2, set3]));
           Set.size(combined)
         },
         M.equals(T.nat(0))
@@ -309,8 +303,8 @@ run(
           let subSet2 = Set.clone(subSet1);
           let subSet3 = Set.clone(subSet2);
           let iterator = Iter.fromArray([subSet1, subSet2, subSet3]);
-          let setOfSets = Set.fromIter<Set.Set<Nat>>(iterator, func(first, second) { Set.compare(first, second, Nat.compare) });
-          let combined = Set.flatten(setOfSets, Nat.compare);
+          let setOfSets = Set.fromIter<Set.Set<Nat>>(iterator, func(first, second) { first.compare(second) });
+          let combined = Set.flatten(setOfSets);
           Set.size(combined)
         },
         M.equals(T.nat(0))

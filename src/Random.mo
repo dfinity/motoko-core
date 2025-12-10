@@ -30,6 +30,25 @@ module {
 
   public let blob : shared () -> async Blob = rawRand;
 
+  public func bool() : async Bool {
+    await* crypto().bool()
+  };
+  public func nat8() : async Nat8 {
+    await* crypto().nat8()
+  };
+  public func nat64() : async Nat64 {
+    await* crypto().nat64()
+  };
+  public func nat64Range(fromInclusive : Nat64, toExclusive : Nat64) : async Nat64 {
+    await* crypto().nat64Range(fromInclusive, toExclusive)
+  };
+  public func natRange(fromInclusive : Nat, toExclusive : Nat) : async Nat {
+    await* crypto().natRange(fromInclusive, toExclusive)
+  };
+  public func intRange(fromInclusive : Int, toExclusive : Int) : async Int {
+    await* crypto().intRange(fromInclusive, toExclusive)
+  };
+
   /// Initializes a random number generator state. This is used
   /// to create a `Random` or `AsyncRandom` instance with a specific state.
   /// The state is empty, but it can be reused after upgrading the canister.
@@ -47,6 +66,7 @@ module {
   ///   }
   /// }
   /// ```
+  /// @deprecated M0235
   public func emptyState() : State = {
     var bytes = [];
     var index = 0;
@@ -71,6 +91,7 @@ module {
   ///   }
   /// }
   /// ```
+  /// @deprecated M0235
   public func seedState(seed : Nat64) : SeedState = {
     random = emptyState();
     prng = PRNG.init(seed)
@@ -85,6 +106,7 @@ module {
   /// let random = Random.seed(123);
   /// let coin = random.bool(); // true or false
   /// ```
+  /// @deprecated M0235
   public func seed(seed : Nat64) : Random {
     seedFromState(seedState(seed))
   };
@@ -106,6 +128,7 @@ module {
   ///   }
   /// }
   /// ```
+  /// @deprecated M0235
   public func seedFromState(state : SeedState) : Random {
     Random(
       state.random,
@@ -133,6 +156,7 @@ module {
   ///   }
   /// }
   /// ```
+  /// @deprecated M0235
   public func crypto() : AsyncRandom {
     cryptoFromState(emptyState())
   };
@@ -155,10 +179,12 @@ module {
   ///   }
   /// }
   /// ```
+  /// @deprecated M0235
   public func cryptoFromState(state : State) : AsyncRandom {
     AsyncRandom(state, func() : async* Blob { await rawRand() })
   };
 
+  /// @deprecated M0235
   public class Random(state : State, generator : () -> Blob) {
 
     func nextBit() : Bool {
@@ -180,6 +206,7 @@ module {
     /// let random = Random.seed(42);
     /// let coin = random.bool(); // true or false
     /// ```
+    /// @deprecated M0235
     public func bool() : Bool {
       nextBit()
     };
@@ -191,6 +218,7 @@ module {
     /// let random = Random.seed(42);
     /// let byte = random.nat8(); // 0 to 255
     /// ```
+    /// @deprecated M0235
     public func nat8() : Nat8 {
       if (state.index >= state.bytes.size()) {
         let newBytes = Blob.toArray(generator());
@@ -246,6 +274,7 @@ module {
     /// let random = Random.seed(42);
     /// let number = random.nat64(); // 0 to 18446744073709551615
     /// ```
+    /// @deprecated M0235
     public func nat64() : Nat64 {
       (Nat64.fromNat(Nat8.toNat(nat8())) << 56) | (Nat64.fromNat(Nat8.toNat(nat8())) << 48) | (Nat64.fromNat(Nat8.toNat(nat8())) << 40) | (Nat64.fromNat(Nat8.toNat(nat8())) << 32) | (Nat64.fromNat(Nat8.toNat(nat8())) << 24) | (Nat64.fromNat(Nat8.toNat(nat8())) << 16) | (Nat64.fromNat(Nat8.toNat(nat8())) << 8) | Nat64.fromNat(Nat8.toNat(nat8()))
     };
@@ -257,6 +286,7 @@ module {
     /// let random = Random.seed(42);
     /// let dice = random.nat64Range(1, 7); // 1 to 6
     /// ```
+    /// @deprecated M0235
     public func nat64Range(fromInclusive : Nat64, toExclusive : Nat64) : Nat64 {
       if (fromInclusive >= toExclusive) {
         Runtime.trap("Random.nat64Range(): fromInclusive >= toExclusive")
@@ -271,6 +301,7 @@ module {
     /// let random = Random.seed(42);
     /// let index = random.natRange(0, 10); // 0 to 9
     /// ```
+    /// @deprecated M0235
     public func natRange(fromInclusive : Nat, toExclusive : Nat) : Nat {
       if (fromInclusive >= toExclusive) {
         Runtime.trap("Random.natRange(): fromInclusive >= toExclusive")
@@ -278,6 +309,7 @@ module {
       Nat64.toNat(uniform64(Nat64.fromNat(toExclusive - fromInclusive - 1))) + fromInclusive
     };
 
+    /// @deprecated M0235
     public func intRange(fromInclusive : Int, toExclusive : Int) : Int {
       let range = Nat.fromInt(toExclusive - fromInclusive - 1);
       Nat64.toNat(uniform64(Nat64.fromNat(range))) + fromInclusive
@@ -285,6 +317,7 @@ module {
 
   };
 
+  /// @deprecated M0235
   public class AsyncRandom(state : State, generator : () -> async* Blob) {
 
     func nextBit() : async* Bool {
@@ -300,11 +333,13 @@ module {
     };
 
     /// Random choice between `true` and `false`.
+    /// @deprecated M0235
     public func bool() : async* Bool {
       await* nextBit()
     };
 
     /// Random `Nat8` value in the range [0, 256).
+    /// @deprecated M0235
     public func nat8() : async* Nat8 {
       if (state.index >= state.bytes.size()) {
         let newBytes = Blob.toArray(await* generator());
@@ -348,11 +383,13 @@ module {
     };
 
     /// Random `Nat64` value in the range [0, 2^64).
+    /// @deprecated M0235
     public func nat64() : async* Nat64 {
       (Nat64.fromNat(Nat8.toNat(await* nat8())) << 56) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 48) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 40) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 32) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 24) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 16) | (Nat64.fromNat(Nat8.toNat(await* nat8())) << 8) | Nat64.fromNat(Nat8.toNat(await* nat8()))
     };
 
     /// Random `Nat64` value in the range [fromInclusive, toExclusive).
+    /// @deprecated M0235
     public func nat64Range(fromInclusive : Nat64, toExclusive : Nat64) : async* Nat64 {
       if (fromInclusive >= toExclusive) {
         Runtime.trap("AsyncRandom.nat64Range(): fromInclusive >= toExclusive")
@@ -361,6 +398,7 @@ module {
     };
 
     /// Random `Nat` value in the range [fromInclusive, toExclusive).
+    /// @deprecated M0235
     public func natRange(fromInclusive : Nat, toExclusive : Nat) : async* Nat {
       if (fromInclusive >= toExclusive) {
         Runtime.trap("AsyncRandom.natRange(): fromInclusive >= toExclusive")
@@ -369,6 +407,7 @@ module {
     };
 
     /// Random `Int` value in the range [fromInclusive, toExclusive).
+    /// @deprecated M0235
     public func intRange(fromInclusive : Int, toExclusive : Int) : async* Int {
       let range = Nat.fromInt(toExclusive - fromInclusive - 1);
       Nat64.toNat(await* uniform64(Nat64.fromNat(range))) + fromInclusive

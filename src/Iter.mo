@@ -103,11 +103,11 @@ module {
   /// assert sum == 6;
   /// ```
   public func forEach<T>(
-    iter : Iter<T>,
+    self : Iter<T>,
     f : (T) -> ()
   ) {
     label l loop {
-      switch (iter.next()) {
+      switch (self.next()) {
         case (?next) {
           f(next)
         };
@@ -127,11 +127,11 @@ module {
   /// let result = Iter.toArray(enumerated);
   /// assert result == [(0, "A"), (1, "B"), (2, "C")];
   /// ```
-  public func enumerate<T>(iter : Iter<T>) : Iter<(Nat, T)> {
+  public func enumerate<T>(self : Iter<T>) : Iter<(Nat, T)> {
     object {
       var i = 0;
       public func next() : ?(Nat, T) {
-        switch (iter.next()) {
+        switch (self.next()) {
           case (?x) {
             let current = (i, x);
             i += 1;
@@ -155,18 +155,18 @@ module {
   /// assert ?5 == steppedIter.next();
   /// assert null == steppedIter.next();
   /// ```
-  public func step<T>(iter : Iter<T>, n : Nat) : Iter<T> {
+  public func step<T>(self : Iter<T>, n : Nat) : Iter<T> {
     if (n == 0) {
       empty()
     } else if (n == 1) {
-      iter
+      self
     } else {
       object {
         public func next() : ?T {
-          let item = iter.next();
+          let item = self.next();
           var i = 1;
           while (i < n) {
-            ignore iter.next();
+            ignore self.next();
             i += 1
           };
           item
@@ -180,9 +180,9 @@ module {
   /// let iter = [1, 2, 3].values();
   /// assert 3 == Iter.size(iter);
   /// ```
-  public func size<T>(iter : Iter<T>) : Nat {
+  public func size<T>(self : Iter<T>) : Nat {
     var len = 0;
-    forEach<T>(iter, func(x) { len += 1 });
+    forEach<T>(self, func(x) { len += 1 });
     len
   };
 
@@ -194,9 +194,9 @@ module {
   /// let result = Iter.toArray(mappedIter);
   /// assert result == [2, 4, 6];
   /// ```
-  public func map<T, R>(iter : Iter<T>, f : T -> R) : Iter<R> = object {
+  public func map<T, R>(self : Iter<T>, f : T -> R) : Iter<R> = object {
     public func next() : ?R {
-      switch (iter.next()) {
+      switch (self.next()) {
         case (?next) {
           ?f(next)
         };
@@ -216,10 +216,10 @@ module {
   /// let result = Iter.toArray(evenNumbers);
   /// assert result == [2, 4];
   /// ```
-  public func filter<T>(iter : Iter<T>, f : T -> Bool) : Iter<T> = object {
+  public func filter<T>(self : Iter<T>, f : T -> Bool) : Iter<T> = object {
     public func next() : ?T {
       loop {
-        let ?x = iter.next() else return null;
+        let ?x = self.next() else return null;
         if (f x) return ?x
       };
       null
@@ -236,10 +236,10 @@ module {
   /// let result = Iter.toArray(evenNumbers);
   /// assert result == [2];
   /// ```
-  public func filterMap<T, R>(iter : Iter<T>, f : T -> ?R) : Iter<R> = object {
+  public func filterMap<T, R>(self : Iter<T>, f : T -> ?R) : Iter<R> = object {
     public func next() : ?R {
       loop {
-        let ?x = iter.next() else return null;
+        let ?x = self.next() else return null;
         switch (f x) {
           case (?r) return ?r;
           case null {} // continue
@@ -256,14 +256,14 @@ module {
   /// let result = Iter.toArray(iter);
   /// assert result == [1, 2, 3, 4, 5, 6];
   /// ```
-  public func flatten<T>(iter : Iter<Iter<T>>) : Iter<T> = object {
+  public func flatten<T>(self : Iter<Iter<T>>) : Iter<T> = object {
     var current : Iter<T> = empty();
     public func next() : ?T {
       loop {
         switch (current.next()) {
           case (?x) return ?x;
           case null {
-            let ?next = iter.next() else return null;
+            let ?next = self.next() else return null;
             current := next
           }
         }
@@ -277,14 +277,14 @@ module {
   /// let result = Iter.toArray(iter);
   /// assert result == [1, 2, 3, 4, 5, 6];
   /// ```
-  public func flatMap<T, R>(iter : Iter<T>, f : T -> Iter<R>) : Iter<R> = object {
+  public func flatMap<T, R>(self : Iter<T>, f : T -> Iter<R>) : Iter<R> = object {
     var current : Iter<R> = empty();
     public func next() : ?R {
       loop {
         switch (current.next()) {
           case (?x) return ?x;
           case null {
-            let ?next = iter.next() else return null;
+            let ?next = self.next() else return null;
             current := f(next)
           }
         }
@@ -309,12 +309,12 @@ module {
   /// let result = Iter.toArray(first5);
   /// assert result == [1, 2, 3]; // only 3 elements in the original iterator
   /// ```
-  public func take<T>(iter : Iter<T>, n : Nat) : Iter<T> = object {
+  public func take<T>(self : Iter<T>, n : Nat) : Iter<T> = object {
     var remaining = n;
     public func next() : ?T {
       if (remaining == 0) return null;
       remaining -= 1;
-      iter.next()
+      self.next()
     }
   };
 
@@ -327,11 +327,11 @@ module {
   /// let array = Iter.toArray(result);
   /// assert array == [1, 2, 3]; // note the difference between `takeWhile` and `filter`
   /// ```
-  public func takeWhile<T>(iter : Iter<T>, f : T -> Bool) : Iter<T> = object {
+  public func takeWhile<T>(self : Iter<T>, f : T -> Bool) : Iter<T> = object {
     var done = false;
     public func next() : ?T {
       if done return null;
-      let ?x = iter.next() else return null;
+      let ?x = self.next() else return null;
       if (f x) return ?x;
       done := true;
       null
@@ -347,14 +347,14 @@ module {
   /// let result = Iter.toArray(skipped);
   /// assert result == [4, 5];
   /// ```
-  public func drop<T>(iter : Iter<T>, n : Nat) : Iter<T> = object {
+  public func drop<T>(self : Iter<T>, n : Nat) : Iter<T> = object {
     var remaining = n;
     public func next() : ?T {
       while (remaining > 0) {
-        let ?_ = iter.next() else return null;
+        let ?_ = self.next() else return null;
         remaining -= 1
       };
-      iter.next()
+      self.next()
     }
   };
 
@@ -367,17 +367,17 @@ module {
   /// let array = Iter.toArray(result);
   /// assert array == [4, 5, 4, 3, 2, 1]; // notice that `takeWhile` and `dropWhile` are complementary
   /// ```
-  public func dropWhile<T>(iter : Iter<T>, f : T -> Bool) : Iter<T> = object {
+  public func dropWhile<T>(self : Iter<T>, f : T -> Bool) : Iter<T> = object {
     var dropping = true;
     public func next() : ?T {
       while dropping {
-        let ?x = iter.next() else return null;
+        let ?x = self.next() else return null;
         if (not f x) {
           dropping := false;
           return ?x
         }
       };
-      iter.next()
+      self.next()
     }
   };
 
@@ -391,10 +391,10 @@ module {
   /// let result = Iter.toArray(zipped);
   /// assert result == [(1, "A"), (2, "B")]; // note that the third element from iter1 is not included, because iter2 is exhausted
   /// ```
-  public func zip<A, B>(a : Iter<A>, b : Iter<B>) : Iter<(A, B)> = object {
+  public func zip<A, B>(self : Iter<A>, other : Iter<B>) : Iter<(A, B)> = object {
     public func next() : ?(A, B) {
-      let ?x = a.next() else return null;
-      let ?y = b.next() else return null;
+      let ?x = self.next() else return null;
+      let ?y = other.next() else return null;
       ?(x, y)
     }
   };
@@ -410,11 +410,11 @@ module {
   /// let result = Iter.toArray(zipped);
   /// assert result == [("A", "1", "x"), ("B", "2", "y")]; // note that the unmatched elements from iter2 and iter3 are not included
   /// ```
-  public func zip3<A, B, C>(a : Iter<A>, b : Iter<B>, c : Iter<C>) : Iter<(A, B, C)> = object {
+  public func zip3<A, B, C>(self : Iter<A>, other1 : Iter<B>, other2 : Iter<C>) : Iter<(A, B, C)> = object {
     public func next() : ?(A, B, C) {
-      let ?x = a.next() else return null;
-      let ?y = b.next() else return null;
-      let ?z = c.next() else return null;
+      let ?x = self.next() else return null;
+      let ?y = other1.next() else return null;
+      let ?z = other2.next() else return null;
       ?(x, y, z)
     }
   };
@@ -429,10 +429,10 @@ module {
   /// let result = Iter.toArray(zipped);
   /// assert result == ["A1", "B2"]; // note that the third element from iter2 is not included, because iter1 is exhausted
   /// ```
-  public func zipWith<A, B, R>(a : Iter<A>, b : Iter<B>, f : (A, B) -> R) : Iter<R> = object {
+  public func zipWith<A, B, R>(self : Iter<A>, other : Iter<B>, f : (A, B) -> R) : Iter<R> = object {
     public func next() : ?R {
-      let ?x = a.next() else return null;
-      let ?y = b.next() else return null;
+      let ?x = self.next() else return null;
+      let ?y = other.next() else return null;
       ?f(x, y)
     }
   };
@@ -448,11 +448,11 @@ module {
   /// let result = Iter.toArray(zipped);
   /// assert result == ["A1x", "B2y"]; // note that the unmatched elements from iter2 and iter3 are not included
   /// ```
-  public func zipWith3<A, B, C, R>(a : Iter<A>, b : Iter<B>, c : Iter<C>, f : (A, B, C) -> R) : Iter<R> = object {
+  public func zipWith3<A, B, C, R>(self : Iter<A>, other1 : Iter<B>, other2 : Iter<C>, f : (A, B, C) -> R) : Iter<R> = object {
     public func next() : ?R {
-      let ?x = a.next() else return null;
-      let ?y = b.next() else return null;
-      let ?z = c.next() else return null;
+      let ?x = self.next() else return null;
+      let ?y = other1.next() else return null;
+      let ?z = other2.next() else return null;
       ?f(x, y, z)
     }
   };
@@ -464,8 +464,8 @@ module {
   /// assert Iter.all<Nat>([1, 2, 3].values(), func (x) = x < 4);
   /// assert not Iter.all<Nat>([1, 2, 3].values(), func (x) = x < 3);
   /// ```
-  public func all<T>(iter : Iter<T>, f : T -> Bool) : Bool {
-    for (x in iter) {
+  public func all<T>(self : Iter<T>, f : T -> Bool) : Bool {
+    for (x in self) {
       if (not f x) return false
     };
     true
@@ -478,8 +478,8 @@ module {
   /// assert Iter.any<Nat>([1, 2, 3].values(), func (x) = x == 2);
   /// assert not Iter.any<Nat>([1, 2, 3].values(), func (x) = x == 4);
   /// ```
-  public func any<T>(iter : Iter<T>, f : T -> Bool) : Bool {
-    for (x in iter) {
+  public func any<T>(self : Iter<T>, f : T -> Bool) : Bool {
+    for (x in self) {
       if (f x) return true
     };
     false
@@ -493,8 +493,8 @@ module {
   /// let iter = [1, 2, 3, 4].values();
   /// assert ?2 == Iter.find<Nat>(iter, func (x) = x % 2 == 0);
   /// ```
-  public func find<T>(iter : Iter<T>, f : T -> Bool) : ?T {
-    for (x in iter) {
+  public func find<T>(self : Iter<T>, f : T -> Bool) : ?T {
+    for (x in self) {
       if (f x) return ?x
     };
     null
@@ -513,8 +513,8 @@ module {
   /// Space: O(1)
   ///
   /// *Runtime and space assumes that `predicate` runs in O(1) time and space.
-  public func findIndex<T>(iter : Iter<T>, predicate : T -> Bool) : ?Nat {
-    for ((index, element) in enumerate(iter)) {
+  public func findIndex<T>(self : Iter<T>, predicate : T -> Bool) : ?Nat {
+    for ((index, element) in enumerate(self)) {
       if (predicate element) {
         return ?index
       }
@@ -531,8 +531,8 @@ module {
   /// let iter = [1, 2, 3, 4].values();
   /// assert Iter.contains<Nat>(iter, Nat.equal, 2);
   /// ```
-  public func contains<T>(iter : Iter<T>, equal : (T, T) -> Bool, value : T) : Bool {
-    for (x in iter) {
+  public func contains<T>(self : Iter<T>, equal : (implicit : (T, T) -> Bool), value : T) : Bool {
+    for (x in self) {
       if (equal(x, value)) return true
     };
     false
@@ -547,9 +547,9 @@ module {
   /// let result = Iter.foldLeft<Text, Text>(iter, "S", func (acc, x) = "(" # acc # x # ")");
   /// assert result == "(((SA)B)C)";
   /// ```
-  public func foldLeft<T, R>(iter : Iter<T>, initial : R, combine : (R, T) -> R) : R {
+  public func foldLeft<T, R>(self : Iter<T>, initial : R, combine : (R, T) -> R) : R {
     var acc = initial;
-    for (x in iter) {
+    for (x in self) {
       acc := combine(acc, x)
     };
     acc
@@ -568,8 +568,8 @@ module {
   /// let result = Iter.foldRight<Text, Text>(iter, "S", func (x, acc) = "(" # x # acc # ")");
   /// assert result == "(A(B(CS)))";
   /// ```
-  public func foldRight<T, R>(iter : Iter<T>, initial : R, combine : (T, R) -> R) : R {
-    foldLeft<T, R>(reverse(iter), initial, func(acc, x) = combine(x, acc))
+  public func foldRight<T, R>(self : Iter<T>, initial : R, combine : (T, R) -> R) : R {
+    foldLeft<T, R>(reverse(self), initial, func(acc, x) = combine(x, acc))
   };
 
   /// Reduces an iterator to a single value by applying a function to each element, starting with the first elements.
@@ -582,9 +582,9 @@ module {
   /// let iter = [1, 2, 3].values();
   /// assert ?6 == Iter.reduce<Nat>(iter, Nat.add);
   /// ```
-  public func reduce<T>(iter : Iter<T>, combine : (T, T) -> T) : ?T {
-    let ?first = iter.next() else return null;
-    ?foldLeft(iter, first, combine)
+  public func reduce<T>(self : Iter<T>, combine : (T, T) -> T) : ?T {
+    let ?first = self.next() else return null;
+    ?foldLeft(self, first, combine)
   };
 
   /// Produces an iterator containing cumulative results of applying the `combine` operator going left to right, including the `initial` value.
@@ -597,7 +597,7 @@ module {
   /// let result = Iter.toArray(scanned);
   /// assert result == [0, 1, 3, 6];
   /// ```
-  public func scanLeft<T, R>(iter : Iter<T>, initial : R, combine : (R, T) -> R) : Iter<R> = object {
+  public func scanLeft<T, R>(self : Iter<T>, initial : R, combine : (R, T) -> R) : Iter<R> = object {
     var acc = initial;
     var isInitial = true;
     public func next() : ?R {
@@ -605,7 +605,7 @@ module {
         isInitial := false;
         return ?acc
       };
-      switch (iter.next()) {
+      switch (self.next()) {
         case (?x) {
           acc := combine(acc, x);
           ?acc
@@ -629,8 +629,8 @@ module {
   /// let result = Iter.toArray(scanned);
   /// assert result == [0, 3, 5, 6];
   /// ```
-  public func scanRight<T, R>(iter : Iter<T>, initial : R, combine : (T, R) -> R) : Iter<R> {
-    scanLeft<T, R>(reverse(iter), initial, func(x, acc) = combine(acc, x))
+  public func scanRight<T, R>(self : Iter<T>, initial : R, combine : (T, R) -> R) : Iter<R> {
+    scanLeft<T, R>(reverse(self), initial, func(x, acc) = combine(acc, x))
   };
 
   /// Creates an iterator that produces elements using the `step` function starting from the `initial` value.
@@ -661,9 +661,9 @@ module {
   /// let iter = [1, 2, 3].values();
   /// assert ?3 == Iter.max<Nat>(iter, Nat.compare);
   /// ```
-  public func max<T>(iter : Iter<T>, compare : (T, T) -> Order.Order) : ?T {
+  public func max<T>(self : Iter<T>, compare : (implicit : (T, T) -> Order.Order)) : ?T {
     reduce<T>(
-      iter,
+      self,
       func(a, b) {
         switch (compare(a, b)) {
           case (#less) b;
@@ -682,9 +682,9 @@ module {
   /// let iter = [1, 2, 3].values();
   /// assert ?1 == Iter.min<Nat>(iter, Nat.compare);
   /// ```
-  public func min<T>(iter : Iter<T>, compare : (T, T) -> Order.Order) : ?T {
+  public func min<T>(self : Iter<T>, compare : (implicit : (T, T) -> Order.Order)) : ?T {
     reduce<T>(
-      iter,
+      self,
       func(a, b) {
         switch (compare(a, b)) {
           case (#greater) b;
@@ -717,18 +717,18 @@ module {
   /// let result = Iter.toArray(concatenatedIter);
   /// assert result == [1, 2, 5, 6, 7];
   /// ```
-  public func concat<T>(a : Iter<T>, b : Iter<T>) : Iter<T> {
+  public func concat<T>(self : Iter<T>, other : Iter<T>) : Iter<T> {
     var aEnded : Bool = false;
     object {
       public func next() : ?T {
         if (aEnded) {
-          return b.next()
+          return other.next()
         };
-        switch (a.next()) {
+        switch (self.next()) {
           case (?x) ?x;
           case (null) {
             aEnded := true;
-            b.next()
+            other.next()
           }
         }
       }
@@ -755,7 +755,7 @@ module {
   /// let iter = [1, 2, 3].values();
   /// assert [1, 2, 3] == Iter.toArray(iter);
   /// ```
-  public func toArray<T>(iter : Iter<T>) : [T] {
+  public func toArray<T>(self : Iter<T>) : [T] {
     // TODO: Replace implementation. This is just temporay.
     type Node<T> = { value : T; var next : ?Node<T> };
     var first : ?Node<T> = null;
@@ -776,7 +776,7 @@ module {
       count += 1
     };
 
-    for (value in iter) {
+    for (value in self) {
       add(value)
     };
     if (count == 0) {
@@ -798,13 +798,13 @@ module {
   };
 
   /// Like `toArray` but for Arrays with mutable elements.
-  public func toVarArray<T>(iter : Iter<T>) : [var T] {
-    Array.toVarArray<T>(toArray<T>(iter))
+  public func toVarArray<T>(self : Iter<T>) : [var T] {
+    Array.toVarArray<T>(toArray<T>(self))
   };
 
   /// Sorted iterator.  Will iterate over *all* elements to sort them, necessarily.
-  public func sort<T>(iter : Iter<T>, compare : (T, T) -> Order.Order) : Iter<T> {
-    let array = toVarArray<T>(iter);
+  public func sort<T>(self : Iter<T>, compare : (implicit : (T, T) -> Order.Order)) : Iter<T> {
+    let array = toVarArray<T>(self);
     VarArray.sortInPlace<T>(array, compare);
     fromVarArray<T>(array)
   };
@@ -846,9 +846,9 @@ module {
   /// Runtime: O(n) where n is the number of elements in the iterator
   ///
   /// Space: O(n) where n is the number of elements in the iterator
-  public func reverse<T>(iter : Iter<T>) : Iter<T> {
+  public func reverse<T>(self : Iter<T>) : Iter<T> {
     var acc : Types.Pure.List<T> = null;
-    for (x in iter) {
+    for (x in self) {
       acc := ?(x, acc)
     };
     object {
