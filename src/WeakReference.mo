@@ -32,6 +32,8 @@ module {
   /// @param self The weak reference to get the value from.
   /// @return The value that the weak reference is pointing to, or `null` if the value has been collected by the garbage collector.
   /// ```motoko include=import
+  /// let obj = { x = 1 };
+  /// let weakRef = WeakReference.allocate(obj);
   /// let value = weakRef.get();
   /// ```
   public func get<T>(self : WeakReference<T>) : ?T {
@@ -44,6 +46,8 @@ module {
   /// @return `true` if the weak reference is still alive, `false` otherwise.
   /// False means that the value has been collected by the garbage collector.
   /// ```motoko include=import
+  /// let obj = { x = 1 };
+  /// let weakRef = WeakReference.allocate(obj);
   /// let isLive = weakRef.isLive();
   /// assert isLive == true;
   /// ```
