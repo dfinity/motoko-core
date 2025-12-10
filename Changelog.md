@@ -1,5 +1,6 @@
 ## Next
 
+* Adds documentation for `WeakReference` module (#444).
 * Context dot syntax and implicit `compare` parameters enabled (#441).
   Rename 1st parameters to `self` to enable the context dot syntax.
   Make `compare` parameters implicit to skip them at call sites.
