@@ -1953,7 +1953,7 @@ module {
   /// let array = [1, 1, 1];
   /// let iter = array.vals();
   ///
-  /// let list = iter.toList();
+  /// let list = iter.toList<Nat>();
   /// assert Iter.toArray(List.values(list)) == [1, 1, 1];
   /// ```
   ///
