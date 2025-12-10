@@ -30,7 +30,7 @@ module {
   /// Get the value that the weak reference is pointing to.
   ///
   /// The `self` parameter is the weak reference pointing to the value the function returns.
-  /// The function returns the value that the weak reference is pointing to, 
+  /// The function returns the value that the weak reference is pointing to,
   /// or `null` if the value has been collected by the garbage collector.
   /// ```motoko include=import
   /// let obj = { x = 1 };
