@@ -59,6 +59,7 @@ module {
   /// Runtime: `O(1)`.
   /// Space: `O(1)`.
   /// where `n` denotes the number of elements stored in the stack.
+  /// @deprecated M0235
   public func toPure<T>(self : Stack<T>) : PureList.List<T> {
     self.top
   };
@@ -90,6 +91,7 @@ module {
   /// Runtime: `O(n)`.
   /// Space: `O(n)`.
   /// where `n` denotes the number of elements stored in the queue.
+  /// @deprecated M0235
   public func fromPure<T>(list : PureList.List<T>) : Stack<T> {
     var size = 0;
     var cur = list;

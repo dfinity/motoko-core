@@ -529,6 +529,7 @@ module {
   /// Space: O(size)
   ///
   /// *Runtime and space assumes that `f` runs in O(1) time and space.
+  /// @deprecated M0235
   public func mapResult<T, R, E>(self : [var T], f : T -> Result.Result<R, E>) : Result.Result<[var R], E> {
     let size = self.size();
 

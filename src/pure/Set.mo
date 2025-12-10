@@ -46,6 +46,8 @@ module {
   /// If type `T` is stable then `Set<T>` is also stable.
   /// To ensure that property the `Set<T>` does not have any methods,
   /// instead they are gathered in the functor-like class `Operations` (see example there).
+
+  /// @deprecated M0235
   public type Set<T> = Types.Pure.Set<T>;
 
   /// Red-black tree of nodes with ordered set elements.

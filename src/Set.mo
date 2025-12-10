@@ -71,6 +71,7 @@ module {
   /// assuming that the `compare` function implements an `O(1)` comparison.
   ///
   /// Note: Creates `O(n * log(n))` temporary objects that will be collected as garbage.
+  /// @deprecated M0235
   public func toPure<T>(self : Set<T>, compare : (implicit : (T, T) -> Order.Order)) : PureSet.Set<T> {
     PureSet.fromIter(values(self), compare)
   };
@@ -95,6 +96,7 @@ module {
   /// Space: `O(n)`.
   /// where `n` denotes the number of elements stored in the set and
   /// assuming that the `compare` function implements an `O(1)` comparison.
+  /// @deprecated M0235
   public func fromPure<T>(set : PureSet.Set<T>, compare : (implicit : (T, T) -> Order.Order)) : Set<T> {
     fromIter(PureSet.values(set), compare)
   };
@@ -375,6 +377,7 @@ module {
   /// Space: `O(log(n))`.
   /// where `n` denotes the number of elements stored in the set and
   /// assuming that the `compare` function implements an `O(1)` comparison.
+  /// @deprecated M0235
   public func insert<T>(self : Set<T>, compare : (implicit : (T, T) -> Order.Order), element : T) : Bool {
     let insertResult = switch (self.root) {
       case (#leaf(leafNode)) {
@@ -469,6 +472,7 @@ module {
   /// assuming that the `compare` function implements an `O(1)` comparison.
   ///
   /// Note: Creates `O(log(n))` objects that will be collected as garbage.
+  /// @deprecated M0235
   public func delete<T>(self : Set<T>, compare : (implicit : (T, T) -> Order.Order), element : T) : Bool {
     let deleted = switch (self.root) {
       case (#leaf(leafNode)) {
@@ -923,6 +927,7 @@ module {
   /// Space: `O(1)` retained memory plus garbage, see the note below.
   /// where `m` and `n` denote the number of elements in `set` and `iter`, respectively,
   /// and assuming that the `compare` function implements an `O(1)` comparison.
+  /// @deprecated M0235
   public func deleteAll<T>(self : Set<T>, compare : (implicit : (T, T) -> Order.Order), iter : Types.Iter<T>) : Bool {
     var deleted = false;
     for (element in iter) {
@@ -953,6 +958,7 @@ module {
   /// Space: `O(1)` retained memory plus garbage, see the note below.
   /// where `m` and `n` denote the number of elements in `set` and `iter`, respectively,
   /// and assuming that the `compare` function implements an `O(1)` comparison.
+  /// @deprecated M0235
   public func insertAll<T>(self : Set<T>, compare : (implicit : (T, T) -> Order.Order), iter : Types.Iter<T>) : Bool {
     var inserted = false;
     for (element in iter) {
@@ -1356,6 +1362,7 @@ module {
   /// Internal sanity check function.
   /// Can be used to check that elements have been inserted with a consistent comparison function.
   /// Traps if the internal set structure is invalid.
+  /// @deprecated M0235
   public func assertValid<T>(self : Set<T>, compare : (implicit : (T, T) -> Order.Order)) {
     func checkIteration(iterator : Types.Iter<T>, order : Order.Order) {
       switch (iterator.next()) {

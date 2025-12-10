@@ -151,6 +151,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(size)`
+  /// @deprecated M0235
   public func toPure<T>(self : List<T>) : PureList.List<T> {
     var result : PureList.List<T> = null;
 
@@ -191,6 +192,7 @@ module {
   /// Runtime: `O(size)`
   ///
   /// Space: `O(size)`
+  /// @deprecated M0235
   public func fromPure<T>(pure : PureList.List<T>) : List<T> {
     var p = pure;
     var list = empty<T>();
@@ -1097,6 +1099,7 @@ module {
   /// Runtime: `O(1)`
   ///
   /// Space: `O(1)`
+  /// @deprecated M0235
   public func get<T>(self : List<T>, index : Nat) : ?T {
     // inlined version of locate
     let (a, b) = do {

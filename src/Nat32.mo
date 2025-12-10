@@ -62,6 +62,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.fromNat8(123) == (123 : Nat32);
   /// ```
+  /// @deprecated M0235
   public func fromNat8(x : Nat8) : Nat32 {
     Prim.natToNat32(Prim.nat8ToNat(x))
   };
@@ -72,6 +73,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.fromNat16(123) == (123 : Nat32);
   /// ```
+  /// @deprecated M0235
   public func fromNat16(x : Nat16) : Nat32 {
     Prim.nat16ToNat32(x)
   };
@@ -96,6 +98,7 @@ module {
   /// ```motoko include=import
   /// assert Nat32.fromNat64(123) == (123 : Nat32);
   /// ```
+  /// @deprecated M0235
   public func fromNat64(x : Nat64) : Nat32 {
     Prim.nat64ToNat32(x)
   };
