@@ -17,8 +17,8 @@ module {
 
   /// Allocate a new weak reference to the given object.
   ///
-  /// @param obj The object to allocate a weak reference to.
-  /// @return A new weak reference to the given object.
+  /// The `obj` parameter is the object to allocate a weak reference for.
+  /// Returns a new weak reference pointingto the given object.
   /// ```motoko include=import
   /// let obj = { x = 1 };
   /// let weakRef = WeakReference.allocate(obj);
@@ -29,8 +29,9 @@ module {
 
   /// Get the value that the weak reference is pointing to.
   ///
-  /// @param self The weak reference to get the value from.
-  /// @return The value that the weak reference is pointing to, or `null` if the value has been collected by the garbage collector.
+  /// The `self` parameter is the weak reference pointing to the value the function returns.
+  /// The function returns the value that the weak reference is pointing to, 
+  /// or `null` if the value has been collected by the garbage collector.
   /// ```motoko include=import
   /// let obj = { x = 1 };
   /// let weakRef = WeakReference.allocate(obj);
@@ -42,8 +43,8 @@ module {
 
   /// Check if the weak reference is still alive.
   ///
-  /// @param self The weak reference to check if it is alive.
-  /// @return `true` if the weak reference is still alive, `false` otherwise.
+  /// The `self` parameter is the weak reference to check whether it is still alive.
+  /// Returns `true` if the weak reference is still alive, `false` otherwise.
   /// False means that the value has been collected by the garbage collector.
   /// ```motoko include=import
   /// let obj = { x = 1 };
