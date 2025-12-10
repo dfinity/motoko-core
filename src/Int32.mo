@@ -287,7 +287,7 @@ module {
   /// import Array "mo:core/Array";
   /// assert Array.sort([1, -2, -3] : [Int32], Int32.compare) == [-3, -2, 1];
   /// ```
-  public func compare(x : Int32, y : Int32) : Order.Order {
+  public persistent func compare(x : Int32, y : Int32) : Order.Order {
     if (x < y) { #less } else if (x == y) { #equal } else { #greater }
   };
 

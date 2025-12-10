@@ -88,7 +88,7 @@ module {
   /// assert Bool.compare(true, true) == #equal;
   /// assert Bool.compare(false, true) == #less;
   /// ```
-  public func compare(a : Bool, b : Bool) : Order.Order {
+  public persistent func compare(a : Bool, b : Bool) : Order.Order {
     if (a == b) #equal else if a #greater else #less
   };
 

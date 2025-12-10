@@ -130,7 +130,7 @@ module {
   /// - `#less` if the first value is `null` and the second is not,
   /// - `#greater` if the first value is not `null` and the second is,
   /// - the result of the comparison function when both values are not `null`.
-  public func compare<A>(x : ?A, y : ?A, cmp : (A, A) -> Types.Order) : Types.Order = switch (x, y) {
+  public persistent func compare<A>(x : ?A, y : ?A, cmp : (A, A) -> Types.Order) : Types.Order = switch (x, y) {
     case (null, null) #equal;
     case (null, _) #less;
     case (_, null) #greater;

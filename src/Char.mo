@@ -207,7 +207,7 @@ module {
   /// assert Char.compare('B', 'A') == #greater;
   /// assert Char.compare('A', 'A') == #equal;
   /// ```
-  public func compare(a : Char, b : Char) : { #less; #equal; #greater } {
+  public persistent func compare(a : Char, b : Char) : { #less; #equal; #greater } {
     if (a < b) { #less } else if (a == b) { #equal } else { #greater }
   };
 
