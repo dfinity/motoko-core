@@ -1,4 +1,6 @@
-## Next
+## Next 
+
+## 2.0.0
 
 * Adds documentation for `WeakReference` module (#444).
 * Context dot syntax and implicit `compare` parameters enabled (#441).
